@@ -1,6 +1,6 @@
 ![alt text](https://github.com/Bo0tStr4p/TravelMate/blob/master/Logo/logo.png)
 
-Travel Appication
+Travel Application
 
 Google Workshop 2018/2019
 #
