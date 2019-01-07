@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">TravelMate</string>
+    <string name="action_settings">Settings</string>
+    <string name="search">Search</string>
+    <string name="viaggi">Viaggi</string>
+    <string name="home">Home</string>
+    <string name="profilo">Profilo</string>
+    <string name="opzioni">Opzioni</string>
+</resources>
