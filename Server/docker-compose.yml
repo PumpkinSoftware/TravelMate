@@ -10,7 +10,7 @@ services:
     environment:
       - NODE_ENV=production
     volumes:
-      - /home/romeo/Desktop/back-end/node:/home/node/app
+      - /home/romeo/Desktop/TravelMate/Server/node:/home/node/app
     ports:
       - "8095:8095"
     expose:

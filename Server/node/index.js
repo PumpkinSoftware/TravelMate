@@ -8,7 +8,7 @@ app.set('port', PORT);
 var server = http.createServer(app);
 
 server.listen(PORT,function(){
-	console.log('Server listen on port'+PORT);
+	console.log('Server listen on port '+PORT);
 });
        
 
