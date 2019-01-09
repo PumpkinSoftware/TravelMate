@@ -7,6 +7,7 @@ green=`tput setaf 2`
 reset=`tput sgr0`
 
 echo -e ""
+
 #---------------------------------------------------------------
 
 #Test One: root app_router.js 
@@ -21,6 +22,7 @@ echo -e " ${reset}"
 echo -e "${green}Expected:"
 echo -e "Mi trovo in app_router.js ${reset}"
 echo -e "-------------------------------------\n"
+
 #---------------------------------------------------------------
 
 #Test Two: root user_api.js 
@@ -35,6 +37,7 @@ echo -e " ${reset}"
 echo -e "${green}Expected:"
 echo -e "Mi trovo in user_api.js ${reset}"
 echo -e "-------------------------------------\n"
+
 #---------------------------------------------------------------
 
 #Test Three: root trip_api.js 
@@ -49,4 +52,6 @@ echo -e " ${reset}"
 echo -e "${green}Expected:"
 echo -e "Mi trovo in trip_api.js ${reset}"
 echo -e "-------------------------------------\n"
+
 #---------------------------------------------------------------
+
