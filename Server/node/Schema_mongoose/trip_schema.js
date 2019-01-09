@@ -2,7 +2,9 @@ var mongoose = require('mongoose');
 
 var TripSchema = new mongoose.Schema({
         name: String,
-        description: String}
+        description: String,
+	partecipant: [{email:String}]
+	}
 
 );
 
