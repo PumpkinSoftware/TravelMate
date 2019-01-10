@@ -1,4 +1,4 @@
-## How to testing server and database :computer:
+## How to testing Server and Database :computer:
 
 #### Software Used
 - [X] [Docker](https://docs.docker.com/) ([Installation](https://docs.docker.com/install/linux/docker-ce/ubuntu/))
@@ -14,14 +14,14 @@
 2. ``` sudo docker-compose -f docker-compose-database.yml up -d ```
 3. Go to Server/Node/
 4. ``` npm start ```
-5. now you can test all api implemented (use http://localhost:8095 or go to Server/ and use ``` ./test-api.sh ```)
+5. now you can test all api implemented (use http://localhost:8095 or go to Server/ and use ``` ./test_api.sh ```)
 6. When you have finished, use ```sudo docker-compose -f docker-compose-database.yml stop``` to stop all containers or use ```sudo docker-compose -f docker-compose-database.yml down``` to stop and remove containers
 
 #### Production Mode
 
 1. Go to Server/
 2. ``` sudo docker-compose up -d ```
-3. now you can test all api implemented (use http://localhost:8095 or go to Server/ and use ``` ./test-api.sh ```)
+3. now you can test all api implemented (use http://localhost:8095 or go to Server/ and use ``` ./test_api.sh ```)
 4. When you have finished, use ```sudo docker-compose stop``` to stop all containers or use ```sudo docker-compose down``` to stop and remove containers
 
 ***
