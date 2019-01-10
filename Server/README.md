@@ -33,16 +33,28 @@
 
   <table style="width:100%">
   <tr>
+    <td></td>
+    <td>TYPE</td>
+    <td>API</td>
+    <td>ARGUMENTS (BY CLIENT)</td>
+  </tr>
+  <tr>
     <td>app_router.js</td>
+    <td>Get</td>
     <td><code>http://localhost:8095/</code></td> 
+    <td></td>
   </tr>
   <tr>
     <td>trip_api.js</td>
+    <td>Get</td>
     <td><code>http://localhost:8095/trip/</code></td> 
+    <td></td>
   </tr>
    <tr>
     <td>user_api.js</td>
+     <td>Get</td>
      <td><code>http://localhost:8095/user/</code></td> 
+     <td></td>
   </tr>
 </table>
 
