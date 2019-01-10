@@ -8,4 +8,5 @@ var TripSchema = new mongoose.Schema({
 
 );
 
-module.exports = mongoose.model("Trip", TripSchema);
+var Trip = mongoose.model("Trip", TripSchema);
+module.exports = Trip;
