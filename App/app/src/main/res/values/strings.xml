@@ -1,9 +1,22 @@
 <resources>
     <string name="app_name">TravelMate</string>
+    <!-- Bottom Navbar -->
     <string name="action_settings">Settings</string>
     <string name="search">Search</string>
-    <string name="viaggi">Viaggi</string>
+    <string name="journey">Journey</string>
     <string name="home">Home</string>
-    <string name="profilo">Profilo</string>
-    <string name="opzioni">Opzioni</string>
+    <string name="user">User</string>
+    <string name="settings">Settings</string>
+    <!-- Login -->
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="forgot_password">Forgot password?</string>
+    <string name="create_account">CREATE AN ACCOUNT</string>
+    <!-- Home -->
+    <string name="user_logged">LeBron James</string>
+    <string name="MORE">MORE</string>
+    <string name="n500">500</string>
+    <string name="n58">5/8</string>
+    <string name="NYTrip">NY Trip</string>
 </resources>
