@@ -6,6 +6,12 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.widget.ImageView;
+import android.net.Uri;
+import java.io.File;
+
+import com.example.pumpkinsoftware.travelmate.R;
+
 
 public class MainActivity extends AppCompatActivity {
 
