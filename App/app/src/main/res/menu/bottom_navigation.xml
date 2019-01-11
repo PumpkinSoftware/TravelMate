@@ -9,7 +9,7 @@
     <item
         android:id="@+id/nav_viaggi"
         android:icon="@drawable/ic_flight_black_24dp"
-        android:title="@string/viaggi" />
+        android:title="@string/journey" />
 
     <item
         android:id="@+id/nav_search"
@@ -19,11 +19,11 @@
     <item
         android:id="@+id/nav_profile"
         android:icon="@drawable/ic_account_circle_black_24dp"
-        android:title="@string/profilo" />
+        android:title="@string/user" />
 
     <item
         android:id="@+id/nav_opzioni"
         android:icon="@drawable/ic_settings_black_24dp"
-        android:title="@string/opzioni" />
+        android:title="@string/settings" />
 
 </menu>
