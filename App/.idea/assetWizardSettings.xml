@@ -34,7 +34,8 @@
                                           <PersistentState>
                                             <option name="values">
                                               <map>
-                                                <entry key="scalingPercent" value="93" />
+                                                <entry key="scalingPercent" value="76" />
+                                                <entry key="trimmed" value="true" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -44,8 +45,10 @@
                                   </option>
                                   <option name="values">
                                     <map>
-                                      <entry key="backgroundImage" value="C:\Users\andre\Desktop\logo_final_no_background.png" />
-                                      <entry key="foregroundImage" value="C:\Users\andre\Desktop\logo_final_no_background.png" />
+                                      <entry key="backgroundAssetType" value="COLOR" />
+                                      <entry key="backgroundColor" value="eaf4ff" />
+                                      <entry key="backgroundImage" value="$PROJECT_DIR$/../../back.png" />
+                                      <entry key="foregroundImage" value="$PROJECT_DIR$/../../1.png" />
                                       <entry key="legacyIconShape" value="CIRCLE" />
                                       <entry key="webIconShape" value="CIRCLE" />
                                     </map>
@@ -53,6 +56,39 @@
                                 </PersistentState>
                               </value>
                             </entry>
+                            <entry key="launcherLegacy">
+                              <value>
+                                <PersistentState>
+                                  <option name="children">
+                                    <map>
+                                      <entry key="image">
+                                        <value>
+                                          <PersistentState>
+                                            <option name="values">
+                                              <map>
+                                                <entry key="trimmed" value="true" />
+                                              </map>
+                                            </option>
+                                          </PersistentState>
+                                        </value>
+                                      </entry>
+                                    </map>
+                                  </option>
+                                  <option name="values">
+                                    <map>
+                                      <entry key="assetType" value="IMAGE" />
+                                      <entry key="iconShape" value="NONE" />
+                                      <entry key="imageAsset" value="$PROJECT_DIR$/../../ic_launcher-web.png" />
+                                    </map>
+                                  </option>
+                                </PersistentState>
+                              </value>
+                            </entry>
+                          </map>
+                        </option>
+                        <option name="values">
+                          <map>
+                            <entry key="outputIconType" value="LAUNCHER_LEGACY" />
                           </map>
                         </option>
                       </PersistentState>

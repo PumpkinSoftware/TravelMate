@@ -43,6 +43,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+
         /* Hide logo on input */
         final ImageView logo = (ImageView) findViewById(R.id.imageView);
 
@@ -63,8 +64,12 @@ public class LoginActivity extends AppCompatActivity {
             public void onFocusChange(View v, boolean hasFocus) {
                 if(hasFocus)
                     logo.setVisibility(View.GONE);
+                else
+                    logo.setVisibility(View.VISIBLE);
             }
         });
+
+
 
     }
 
