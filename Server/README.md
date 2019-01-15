@@ -15,7 +15,9 @@
 3. Go to Server/Node/
 4. ``` npm start ```
 5. now you can test all api implemented (use http://localhost:8095 or go to Server/ and use ``` ./test_api.sh ```)
-6. When you have finished, use ```sudo docker-compose -f docker-compose-database.yml stop``` to stop all containers or use ```sudo docker-compose -f docker-compose-database.yml down``` to stop and remove containers
+6. (optional) use ```./populate_database_trip.js``` to populate database with trips example 
+7. When you have finished, use ```sudo docker-compose -f docker-compose-database.yml stop``` to stop all containers or use ```sudo docker-compose -f docker-compose-database.yml down``` to stop and remove containers
+
 
 #### Production Mode
 
@@ -36,7 +38,7 @@
     <td></td>
     <td>TYPE</td>
     <td>API</td>
-    <td>ARGUMENTS (BY CLIENT)</td>
+    <td>ARGUMENTS (BY CLIENT JSON)</td>
   </tr>
   <tr>
     <td>app_router.js</td>
@@ -61,3 +63,18 @@
 ##### User
 
 ##### Trip
+
+<table style="width:100%">
+  <tr>
+    <td></td>
+    <td>TYPE</td>
+    <td>API</td>
+    <td>ARGUMENTS (BY CLIENT JSON)</td>
+  </tr>
+  <tr>
+    <td>add new trip</td>
+    <td>Post</td>
+    <td><code>http://localhost:8095/trip/new_trip</code></td> 
+    <td>{"name":"<String","description":"String","departure":"String","destination":"String",budget:"Number","date":"Date"}</td>
+  </tr>
+</table>
