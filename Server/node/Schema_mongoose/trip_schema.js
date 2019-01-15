@@ -6,7 +6,8 @@ var TripSchema = new mongoose.Schema({
         departure: String,
         destination: String,
         budget: Number,
-        date: Date,
+        startDate: Date,
+        endDate: Date,
 		partecipant: [{email:String}]
 	}
 

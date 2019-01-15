@@ -62,7 +62,8 @@ router.post('/new_trip', function(req,res){
         departure: clientInput.departure,
         destination: clientInput.destination,
         budget: clientInput.budget,
-        date: clientInput.date,
+        startDate: clientInput.startDate,
+        endDate: clientInput.endDate,
 		partecipant: []
 	});
 
