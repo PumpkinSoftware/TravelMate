@@ -39,11 +39,13 @@
     <td>TYPE</td>
     <td>API</td>
     <td>ARGUMENTS (BY CLIENT JSON)</td>
+    <td>RESPONSE (BY SERVER JSON)</td>
   </tr>
   <tr>
     <td>app_router.js</td>
     <td>Get</td>
     <td><code>http://localhost:8095/</code></td> 
+    <td></td>
     <td></td>
   </tr>
   <tr>
@@ -51,11 +53,13 @@
     <td>Get</td>
     <td><code>http://localhost:8095/trip/</code></td> 
     <td></td>
+    <td></td>
   </tr>
    <tr>
     <td>user_api.js</td>
      <td>Get</td>
      <td><code>http://localhost:8095/user/</code></td> 
+     <td></td>
      <td></td>
   </tr>
 </table>
@@ -70,11 +74,13 @@
     <td>TYPE</td>
     <td>API</td>
     <td>ARGUMENTS (BY CLIENT JSON)</td>
+    <td>RESPONSE (BY SERVER JSON)</td>
   </tr>
   <tr>
     <td>add new trip</td>
     <td>Post</td>
     <td><code>http://localhost:8095/trip/new_trip</code></td> 
-    <td>name:String, description:String, departure:String, destination:String, budget:Number, date:Date</td>
+    <td>name:String, description:String, departure:String, destination:String, budget:Number, startDate:Date, endDate:Date</td>
+    <td></td>
   </tr>
 </table>
