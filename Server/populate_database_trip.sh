@@ -22,7 +22,7 @@ curl -H "Content-Type: application/json" -X POST -d '{"name":"road to milan","de
 
 echo -e ""
 
-curl -H "Content-Type: application/json" -X POST -d '{"name":"bourem is bourem","description":"who is bourem","departure":"milan","destination":"bourem","budget":"450.20","startDate":"10/12/2018","endDate":"17/24/2018"}' http://localhost:8095/trip/new_trip
+curl -H "Content-Type: application/json" -X POST -d '{"name":"bourem is bourem","description":"who is bourem","departure":"milan","destination":"bourem","budget":"450.20","startDate":"10/12/2018","endDate":"10/24/2018"}' http://localhost:8095/trip/new_trip
 
 echo -e ""
 
