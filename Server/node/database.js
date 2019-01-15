@@ -13,14 +13,14 @@ exports.connect = function(url){
 
   		databaseObject = db.db("TravelMate");
 
- 		databaseObject.createCollection("trip", function(err, res) {
+ 		databaseObject.createCollection("trips", function(err, res) {
     		if (err) throw err;
-    		console.log("Collection trip created!");
+    		console.log("Collection trips created!");
   		});
 
-  		databaseObject.createCollection("user", function(err, res) {
+  		databaseObject.createCollection("users", function(err, res) {
     		if (err) throw err;
-    		console.log("Collection user created!");
+    		console.log("Collection users created!");
   		});
 	});
 }
