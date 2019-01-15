@@ -75,6 +75,6 @@
     <td>add new trip</td>
     <td>Post</td>
     <td><code>http://localhost:8095/trip/new_trip</code></td> 
-    <td>{"name":"<String","description":"String","departure":"String","destination":"String",budget:"Number","date":"Date"}</td>
+    <td>name:String, description:String, departure:String, destination:String, budget:Number, date:Date</td>
   </tr>
 </table>
