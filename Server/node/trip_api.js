@@ -27,6 +27,8 @@ router.get('/', function (req, res) {
 /*****************************************/
 //Api per inserire un nuovo viaggio
 
+
+/*
 router.get('/new_trip', function(req,res){
 
 	var toInsert = new TripSchema({
@@ -39,6 +41,36 @@ router.get('/new_trip', function(req,res){
         if (err){ 
         	res.send("Error to add"+toInsert.name+"on the database.");
         	console.log("Error to add"+toInsert.name+"on the database.");
+        }
+        else {
+        	res.send("Trip " + toInsert.name + " created!");
+        	console.log("Trip " + toInsert.name + " created!");
+        }
+    });
+
+});
+
+*/
+
+router.post('/new_trip', function(req,res){
+
+	var clientInput = req.body;
+
+	var toInsert = new TripSchema({
+		name : clientInput.name,
+        description: clientInput.description,
+        departure: clientInput.departure,
+        destination: clientInput.destination,
+        budget: clientInput.budget,
+        date: clientInput.date,
+		partecipant: []
+	});
+
+	toInsert.save(function (err) {
+        if (err){ 
+            console.log(err);
+        	res.send("Error to add "+toInsert.name+" on the database.");
+        	console.log("Error to add "+toInsert.name+" on the database.");
         }
         else {
         	res.send("Trip " + toInsert.name + " created!");
