@@ -81,4 +81,18 @@ router.post('/new_trip', function(req,res){
 
 });
 
+/*****************************************/
+//Api per ottenere tutti i viaggi
+
+router.get('/all_trips', function(req, res){
+	TripSchema.find({}, function(err, trips){
+		if(err){
+			console.log(err);
+		}else{
+			res.send(trips);
+			console.log('retrieved list of trips', trips.length);
+		}
+	});
+});
+
 module.exports = router;
