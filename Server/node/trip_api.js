@@ -95,4 +95,24 @@ router.get('/all_trips', function(req, res){
 	});
 });
 
+/*****************************************/
+//Api per ottenere i viaggi con filtri
+
+// example use /getTrips?destination=rome&budget=300
+
+router.get('/getTrips', function(req, res){
+	var destination = req.query.destination;
+	var budget = req.query.budget;
+	
+	TripSchema.find({destination:destination,budget:budget }, function(err, trips){
+		if(err){
+			console.log(err);
+		}else{
+			res.send(trips);
+			console.log(destination + budget);
+			console.log('retrieved list of trips', trips.length);
+		}
+	});
+});
+
 module.exports = router;
