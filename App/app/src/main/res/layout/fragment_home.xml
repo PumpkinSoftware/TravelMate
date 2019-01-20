@@ -87,6 +87,7 @@
                         android:layout_alignParentStart="true"
                         android:layout_alignParentTop="true"
                         android:layout_marginStart="0dp"
+                        android:scaleType="centerCrop"
                         android:background="@android:color/white"
                         android:clickable="true"
                         android:src="@drawable/new_york" />
@@ -191,6 +192,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="150dp"
                         android:layout_marginStart="0dp"
+                        android:scaleType="centerCrop"
                         android:background="@android:color/white"
                         android:clickable="true"
                         android:src="@drawable/amsterdam" />
@@ -295,6 +297,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="150dp"
                         android:layout_marginStart="0dp"
+                        android:scaleType="centerCrop"
                         android:background="@android:color/white"
                         android:clickable="true"
                         android:src="@drawable/dubai" />
