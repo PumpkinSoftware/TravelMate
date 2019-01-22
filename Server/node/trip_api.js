@@ -27,6 +27,8 @@ router.get('/', function (req, res) {
 /*****************************************/
 //Api per inserire un nuovo viaggio
 
+
+/*
 router.get('/new_trip', function(req,res){
 
 	var toInsert = new TripSchema({
@@ -46,6 +48,71 @@ router.get('/new_trip', function(req,res){
         }
     });
 
+});
+
+*/
+
+router.post('/new_trip', function(req,res){
+
+	var clientInput = req.body;
+
+	var toInsert = new TripSchema({
+		name : clientInput.name,
+        description: clientInput.description,
+        departure: clientInput.departure,
+        destination: clientInput.destination,
+        budget: clientInput.budget,
+        startDate: clientInput.startDate,
+        endDate: clientInput.endDate,
+		partecipant: []
+	});
+
+	toInsert.save(function (err) {
+        if (err){ 
+            console.log(err);
+        	res.send("Error to add "+toInsert.name+" on the database.");
+        	console.log("Error to add "+toInsert.name+" on the database.");
+        }
+        else {
+        	res.send("Trip " + toInsert.name + " created!");
+        	console.log("Trip " + toInsert.name + " created!");
+        }
+    });
+
+});
+
+/*****************************************/
+//Api per ottenere tutti i viaggi
+
+router.get('/all_trips', function(req, res){
+	TripSchema.find({}, function(err, trips){
+		if(err){
+			console.log(err);
+		}else{
+			res.send(trips);
+			console.log('retrieved list of trips', trips.length);
+		}
+	});
+});
+
+/*****************************************/
+//Api per ottenere i viaggi con filtri
+
+// example use /getTrips?destination=rome&budget=300
+
+router.get('/getTrips', function(req, res){
+	var destination = req.query.destination;
+	var budget = req.query.budget;
+	
+	TripSchema.find({destination:destination,budget:budget }, function(err, trips){
+		if(err){
+			console.log(err);
+		}else{
+			res.send(trips);
+			console.log(destination + budget);
+			console.log('retrieved list of trips', trips.length);
+		}
+	});
 });
 
 module.exports = router;
