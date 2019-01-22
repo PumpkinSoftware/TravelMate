@@ -12,8 +12,11 @@ Organizing a journey has never been so easy, so, what are you waiting for? World
 
 Google Workshop 2018/2019
 #
+### Download
 
+Try our app [nightly build 20-1-19](https://ufile.io/ucfd9)
 
+#
 ### First Presentation - December 2018
 
 [Presentation](https://drive.google.com/open?id=1UHNNODF-Y_rYOl4WYEt9Oyyozr4RMVMK3-D2caoFovk)
