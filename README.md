@@ -2,7 +2,7 @@
 
 Travel Application
 
-Do you wanna travel but you
+Do you wanna travel but you 
 - don't have enough money to go away alone?
 - cannot find anyone to take a trip with?
 - don't have any idea about destination?
@@ -18,6 +18,12 @@ Google Workshop 2018/2019
 
 [Presentation](https://drive.google.com/open?id=1UHNNODF-Y_rYOl4WYEt9Oyyozr4RMVMK3-D2caoFovk)
 
+We asked some [questions](https://docs.google.com/forms/d/12SJLFvOuqYqkm8Sa0f7khN3Dbr0Fd_Lbr7N4usXacR4/edit) online. There are their answers [here](https://docs.google.com/spreadsheets/d/1Mj46nVhd1yihtB_okm_Ev94nAZ465J9QAuHAcH_y2KM/edit#gid=2085859047) 
 
 #
-### Milestone 1
+### Milestone 1 - January 2019
+
+[Presentation-Proof of Concept]()
+
+#
+
