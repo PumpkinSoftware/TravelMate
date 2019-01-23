@@ -29,7 +29,7 @@ We asked some [questions](https://docs.google.com/forms/d/12SJLFvOuqYqkm8Sa0f7kh
 #
 ### Milestone 1 - January 2019
 
-[Presentation-Proof of Concept]()
+[Presentation-Proof of Concept](https://docs.google.com/presentation/d/1V3NEngYWi-IVNm8uyA-6jAlhKxV82ZXCWahTvfVvlZM/edit?usp=sharing)
 
 #
 
