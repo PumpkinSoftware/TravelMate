@@ -6,7 +6,7 @@ var url = process.env.DATA || "mongodb://127.0.0.1:27017/TravelMate";
 //Faccio collegare mongoose al database
 mongoose.connect(url);
 
-var router = express.Router();  
+var router = express.Router(); 
 
 /******************************************
 			  Inizio API

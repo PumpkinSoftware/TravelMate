@@ -8,6 +8,8 @@ var TripSchema = new mongoose.Schema({
         budget: Number,
         startDate: Date,
         endDate: Date,
+        pets: Boolean,
+        maxPartecipant: Number,
 		partecipant: [{email:String}]
 	}
 
