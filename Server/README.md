@@ -71,6 +71,11 @@ This is a simple list, for more information read the [documentation]()
   <tr>
     <td>add new trip</td>
     <td>Post</td>
-    <td><code>http://localhost:8095/trip/new_trip</code></td> 
+    <td><code>http://localhost:8095/trip/newTrip</code></td> 
+  </tr>
+  <tr>
+    <td>get all trips</td>
+    <td>Get</td>
+    <td><code>http://localhost:8095/trip/allTrips</code></td> 
   </tr>
 </table>
