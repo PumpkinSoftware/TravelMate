@@ -1,16 +1,17 @@
 package com.example.pumpkinsoftware.travelmate;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
-import android.widget.ImageView;
+import android.view.View;
+
 import android.net.Uri;
 import java.io.File;
 
-import com.example.pumpkinsoftware.travelmate.R;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -28,7 +29,8 @@ public class MainActivity extends AppCompatActivity {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                     new HomeFragment()).commit();
         }
-        
+
+
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener navListener =
@@ -61,4 +63,8 @@ public class MainActivity extends AppCompatActivity {
                     return true;
                 }
             };
+    public void runThis(View v) {
+        Intent intent = new Intent(this, CreationTrip.class);
+        startActivity(intent);
+    }
 }

@@ -2,13 +2,32 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@android:color/white">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:text="Viaggi Fragment"
         android:textSize="30sp" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/floatbutton"
+        android:layout_width="62dp"
+        android:layout_height="62dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="37dp"
+        android:layout_marginBottom="37dp"
+        android:clickable="true"
+        android:elevation="8dp"
+        android:onClick="runThis"
+        app:fabSize="normal"
+        android:src="@drawable/ic_add_black_24dp"
+        android:backgroundTint="@color/colorPrimary"
+
+
+        />
 
 </RelativeLayout>
