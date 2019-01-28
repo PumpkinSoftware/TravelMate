@@ -18,12 +18,12 @@ echo -e "Starting to update a trip"
 
 echo -e "${green}"
                                                             
-curl -H "Content-Type: application/json" -X POST -d '{"_id":"5c4f78c2aaba0c1be572db73", "name":"brazil, i want you!"}' http://localhost:8095/trip/updateTrip
+curl -H "Content-Type: application/json" -X POST -d '{"_id":"5c4f7592905848234cb02ac3", "name":"brazil, i want you!"}' http://localhost:8095/trip/updateTrip
 
 echo -e ""
 echo -e ""
 
-curl -H "Content-Type: application/json" -X POST -d '{"_id":"5c4f7ef9683d0037cfb064e0", "name":"pakistan, seriouslyyyy?", "budget":"2344"}' http://localhost:8095/trip/updateTrip
+curl -H "Content-Type: application/json" -X POST -d '{"_id":"5c4f7592905848234cb02ac6", "name":"pakistan, seriouslyyyy?", "budget":"2344"}' http://localhost:8095/trip/updateTrip
 
 echo -e ""
 
