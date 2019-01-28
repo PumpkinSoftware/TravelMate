@@ -78,4 +78,14 @@ This is a simple list, for more information read the [documentation]()
     <td>Get</td>
     <td><code>http://localhost:8095/trip/allTrips</code></td> 
   </tr>
+  <tr>
+    <td>get trips with filter</td>
+    <td>Get</td>
+    <td><code>http://localhost:8095/trip/getTripsWithFilter</code></td> 
+  </tr>
+  <tr>
+    <td>update trip</td>
+    <td>Post</td>
+    <td><code>http://localhost:8095/trip/updateTrip</code></td> 
+  </tr>
 </table>
