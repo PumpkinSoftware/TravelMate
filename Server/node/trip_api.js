@@ -115,4 +115,25 @@ router.get('/getTrips', function(req, res){
 	});
 });
 
+/******************************************/
+//Api per aggiornare un viaggio
+
+router.post('/updateTrip', function(req, res){
+
+	var JsonObject = req.body;
+
+	TripSchema.findById(JsonObject._id, function(err, trip){
+		
+		if (err) 
+			throw err;
+
+		trip.set(JsonObject);
+		
+		trip.save(function(err, updatetrip){
+			if (err) throw err;
+			res.send(updatetrip);
+		});
+	});
+});
+
 module.exports = router;
