@@ -28,30 +28,6 @@ router.get('/', function (req, res) {
 //Api per inserire un nuovo viaggio
 
 
-/*
-router.get('/new_trip', function(req,res){
-
-	var toInsert = new TripSchema({
-		'name' : 'Road to Rome',
-        'description': 'Best travel to Rome',
-		'partecipant': [{'email':'roma@rome.it'},{'email':'nino@nino.it'}]
-	});
-
-	toInsert.save(function (err) {
-        if (err){ 
-        	res.send("Error to add"+toInsert.name+"on the database.");
-        	console.log("Error to add"+toInsert.name+"on the database.");
-        }
-        else {
-        	res.send("Trip " + toInsert.name + " created!");
-        	console.log("Trip " + toInsert.name + " created!");
-        }
-    });
-
-});
-
-*/
-
 router.post('/newTrip', function(req,res){
 
 	var clientInput = req.body;
@@ -64,18 +40,20 @@ router.post('/newTrip', function(req,res){
         budget: clientInput.budget,
         startDate: clientInput.startDate,
         endDate: clientInput.endDate,
+        pets: clientInput.pets,
+        maxPartecipant: clientInput.maxPartecipant,
 		partecipant: []
 	});
 
 	toInsert.save(function (err) {
         if (err){ 
             console.log(err);
-        	res.send("Error to add "+toInsert.name+" on the database.");
-        	console.log("Error to add "+toInsert.name+" on the database.");
+        	res.send(JSON.stringify({ status: "error", message: "Error to add "+toInsert.name+" on database." }));
+        	console.log(JSON.stringify({ status: "error", message: "Error to add "+toInsert.name+" on database." }));
         }
         else {
-        	res.send("Trip " + toInsert.name + " created!");
-        	console.log("Trip " + toInsert.name + " created!");
+        	res.send(JSON.stringify({ status: "success", message: "Trip " + toInsert.name + " created!" }));
+        	console.log(JSON.stringify({ status: "success", message: "Trip " + toInsert.name + " created!" }));
         }
     });
 
@@ -88,6 +66,7 @@ router.get('/allTrips', function(req, res){
 	TripSchema.find({}, function(err, trips){
 		if(err){
 			console.log(err);
+			res.send(JSON.stringify({ status: "error", message: "Error to send all trips." }));
 		}else{
 			res.send(trips);
 			console.log('retrieved list of trips', trips.length);
@@ -98,18 +77,44 @@ router.get('/allTrips', function(req, res){
 /*****************************************/
 //Api per ottenere i viaggi con filtri
 
-// example use /getTrips?destination=rome&budget=300
+// example use /getTrips?destination=rome&departure=milan&minBudget=430&maxBudget=730&startDate=12/31/2018&endDate=01/02/2019&maxPartecipant=12
+// &pets = true
 
-router.get('/getTrips', function(req, res){
+router.get('/getTripsWithFilter', function(req, res){
+	var query = {};
+	var departure = req.query.departure;
 	var destination = req.query.destination;
-	var budget = req.query.budget;
-	
-	TripSchema.find({destination:destination,budget:budget }, function(err, trips){
+	var pets = req.query.pets;
+	var minBudget = 0;
+	var maxBudget = 100000;
+	var minDate = new Date("1/1/1970");
+	var maxDate = new Date("1/1/4000");
+	var maxPartecipant = 1000000
+
+	if(departure != undefined)
+		query.departure = departure;
+	if(destination != undefined)
+		query.destination = destination;
+	if(pets != undefined)
+		query.pets = pets;
+	if(req.query.minBudget != undefined)
+		minBudget = req.query.minBudget;
+	if(req.query.maxBudget != undefined)
+		maxBudget = req.query.maxBudget;
+	if(req.query.minDate != undefined)
+		minDate = new Date(req.query.minDate);
+	if(req.query.maxDate != undefined)
+		maxDate = new Date(req.query.maxDate);
+	if(req.query.maxPartecipant != undefined)
+		maxPartecipant = req.query.maxPartecipant;
+
+
+	TripSchema.find(query).where('budget').gte(minBudget).lte(maxBudget).where('startDate').gte(minDate).where('endDate').lte(maxDate).where('maxPartecipant').lte(maxPartecipant).exec( function(err, trips){
 		if(err){
+			res.send(JSON.stringify({ status: "error", message: "Error parameters type." }));
 			console.log(err);
 		}else{
 			res.send(trips);
-			console.log(destination + budget);
 			console.log('retrieved list of trips', trips.length);
 		}
 	});
@@ -122,15 +127,20 @@ router.post('/updateTrip', function(req, res){
 
 	var JsonObject = req.body;
 
-	TripSchema.findById(JsonObject._id, function(err, trip){
+	TripSchema.findById(JsonObject._id).exec(function(err, trip){
 		
-		if (err) 
-			throw err;
+		if (err){
+			res.send(JSON.stringify({ status: "error", message: "Error with ObjectId" }));
+			console.log(err);
+		}
 
 		trip.set(JsonObject);
 		
 		trip.save(function(err, updatetrip){
-			if (err) throw err;
+			if (err){
+				res.send(JSON.stringify({ status: "error", message: "Error on update your trip" }));
+				console.log(err);
+			} 
 			res.send(updatetrip);
 		});
 	});
