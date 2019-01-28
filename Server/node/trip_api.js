@@ -52,15 +52,15 @@ router.get('/new_trip', function(req,res){
 
 */
 
-router.post('/new_trip', function(req,res){
+router.post('/newTrip', function(req,res){
 
 	var clientInput = req.body;
 
 	var toInsert = new TripSchema({
-		name : clientInput.name,
-        description: clientInput.description,
-        departure: clientInput.departure,
-        destination: clientInput.destination,
+		name : clientInput.name.toLowerCase(),
+        description: clientInput.description.toLowerCase(),
+        departure: clientInput.departure.toLowerCase(),
+        destination: clientInput.destination.toLowerCase(),
         budget: clientInput.budget,
         startDate: clientInput.startDate,
         endDate: clientInput.endDate,
@@ -84,7 +84,7 @@ router.post('/new_trip', function(req,res){
 /*****************************************/
 //Api per ottenere tutti i viaggi
 
-router.get('/all_trips', function(req, res){
+router.get('/allTrips', function(req, res){
 	TripSchema.find({}, function(err, trips){
 		if(err){
 			console.log(err);
