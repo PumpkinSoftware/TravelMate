@@ -55,3 +55,20 @@ echo -e "-------------------------------------\n"
 
 #---------------------------------------------------------------
 
+#Test four: new trip in trip_api.js 
+
+echo -e "Test Three: localhost:8095/trip/new_trip \n"
+ 
+echo -e "${yellow}Result:"
+
+curl -H "Content-Type: application/json" -X POST -d '{"name":"road to milan","description":"best travel to milan","departure":"rome","destination":"milan","budget":"123.50","startDate":"12/12/2018","endDate":"01/01/2019"}' http://localhost:8095/trip/new_trip
+
+echo -e " ${reset}"
+echo -e "${green}Expected:"
+echo -e "Trip road to milan created! ${reset}"
+echo -e "-------------------------------------\n"
+
+#---------------------------------------------------------------
+
+
+

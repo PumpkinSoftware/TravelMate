@@ -7,5 +7,8 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
-
+    <!-- tema per toolbar-->
+    <style name="toolbar"  parent="ThemeOverlay.AppCompat.Light">
+        <item name="colorControlNormal"> @color/toolbar</item>
+    </style>
 </resources>
