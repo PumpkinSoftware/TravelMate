@@ -28,4 +28,22 @@
     <string name="n58">5/8</string>
     <string name="NYTrip">NY Trip</string>
 
+    <!-- Search -->
+    <string name="place">Place</string>
+    <string name="from">From</string>
+    <string name="to">To</string>
+    <string name="date">Date</string>
+    <string name="departure">Departure</string>
+    <string name="ret">Return</string>
+    <string name="pets">Pets?</string>
+    <string name="pets_text">Find trips in which travellers can have pets</string>
+    <string name="budget">Budget</string>
+    <string name="budget_text">Select your min and max budget that you\'d spend for your trip</string>
+    <string name="n0">0</string>
+    <string name="n2">2</string>
+    <string name="n2000">2000</string>
+    <string name="euro">€</string>
+
+
+
 </resources>
