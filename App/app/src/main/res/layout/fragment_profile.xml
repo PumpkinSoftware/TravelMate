@@ -69,7 +69,7 @@
 
         <TextView
             android:id="@+id/name"
-            android:layout_width="112dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/header_cover_image"
             android:layout_centerHorizontal="true"
@@ -123,117 +123,113 @@
             android:layout_below="@+id/profile_layout"
             -->
 
+            <!-- Info section -->
             <TextView
                 android:id="@+id/age"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="5dp"
-                android:clickable="true"
-                android:text="Age: "
-                android:textStyle="bold"
+                android:layout_margin="5dp"
+                android:layout_marginLeft="25dp"
+                android:layout_marginTop="8dp"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/rel" />
+                app:layout_constraintTop_toTopOf="parent"
+                android:text="Age: "
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/age2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginStart="8dp"
                 android:clickable="true"
                 android:text="25"
+                app:layout_constraintBottom_toBottomOf="@+id/age"
                 app:layout_constraintLeft_toRightOf="@+id/age"
-                app:layout_constraintTop_toBottomOf="@+id/rel2" />
+                app:layout_constraintStart_toEndOf="@+id/age"
+                app:layout_constraintTop_toTopOf="@+id/age" />
 
             <TextView
                 android:id="@+id/gender"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:layout_marginLeft="10dp"
                 android:layout_marginTop="8dp"
                 android:clickable="true"
                 android:text="Gender: "
                 android:textStyle="bold"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/mobile" />
+                app:layout_constraintStart_toStartOf="@+id/age"
+                app:layout_constraintTop_toBottomOf="@+id/age" />
 
             <TextView
                 android:id="@+id/gender2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
                 android:layout_marginLeft="5dp"
-                android:layout_marginTop="8dp"
                 android:clickable="true"
                 android:text="Female"
+                app:layout_constraintBottom_toBottomOf="@+id/gender"
                 app:layout_constraintLeft_toRightOf="@+id/gender"
-                app:layout_constraintTop_toBottomOf="@+id/mobileNumber" />
-
-            <TextView
-                android:id="@+id/edu"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:layout_marginLeft="25dp"
-                android:layout_marginTop="8dp"
-                android:clickable="true"
-                android:text="Education: "
-                android:textStyle="bold"
-                app:layout_constraintLeft_toLeftOf="parent" />
-
-            <TextView
-                android:id="@+id/education"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                android:clickable="true"
-                android:text="B.Tech"
-                app:layout_constraintBottom_toTopOf="@+id/occupation"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.253"
-                app:layout_constraintStart_toStartOf="parent" />
-
-            <TextView
-                android:id="@+id/work"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="8dp"
-                android:clickable="true"
-                android:text="Work: "
-                android:textStyle="bold"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/edu" />
+                app:layout_constraintTop_toTopOf="@+id/gender" />
 
             <TextView
                 android:id="@+id/occupation"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:layout_marginLeft="5dp"
                 android:layout_marginTop="8dp"
                 android:clickable="true"
+                android:text="Occupation: "
+                android:textStyle="bold"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/gender"
+                app:layout_constraintTop_toBottomOf="@+id/gender" />
+
+            <TextView
+                android:id="@+id/occupation2"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_margin="5dp"
+                android:layout_marginLeft="5dp"
+                android:clickable="true"
                 android:text="Business"
-                app:layout_constraintLeft_toRightOf="@+id/work"
-                app:layout_constraintTop_toBottomOf="@+id/edu" />
+                app:layout_constraintBottom_toBottomOf="@+id/occupation"
+                app:layout_constraintLeft_toRightOf="@+id/occupation"
+                app:layout_constraintTop_toTopOf="@+id/occupation" />
+
+            <TextView
+                android:id="@+id/education"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:clickable="true"
+                android:text="Education: "
+                android:textStyle="bold"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/occupation"
+                app:layout_constraintTop_toBottomOf="@+id/occupation" />
+
+            <TextView
+                android:id="@+id/education2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_marginLeft="5dp"
+                android:clickable="true"
+                android:text="B. Tech"
+                app:layout_constraintBottom_toBottomOf="@+id/education"
+                app:layout_constraintLeft_toRightOf="@+id/education"
+                app:layout_constraintTop_toTopOf="@+id/education" />
 
             <TextView
                 android:id="@+id/rel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="8dp"
                 android:clickable="true"
                 android:text="Relationship status:"
                 android:textStyle="bold"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/gender" />
+                app:layout_constraintStart_toStartOf="@+id/gender"
+                app:layout_constraintTop_toBottomOf="@+id/education" />
 
 
             <TextView
@@ -241,23 +237,46 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
-                android:layout_marginTop="5dp"
                 android:clickable="true"
                 android:text="Single"
+                app:layout_constraintBottom_toBottomOf="@+id/rel"
                 app:layout_constraintLeft_toRightOf="@+id/rel"
-                app:layout_constraintTop_toBottomOf="@+id/gender" />
+                app:layout_constraintTop_toTopOf="@+id/rel" />
+
+            <TextView
+                android:id="@+id/mobile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:clickable="true"
+                android:text="Mobile: "
+                android:textStyle="bold"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/rel"
+                app:layout_constraintTop_toBottomOf="@+id/rel" />
+
+            <TextView
+                android:id="@+id/mobile2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
+                android:clickable="true"
+                android:text="0123456789"
+                app:layout_constraintBottom_toBottomOf="@+id/mobile"
+                app:layout_constraintLeft_toRightOf="@+id/mobile"
+                app:layout_constraintTop_toTopOf="@+id/mobile" />
 
             <TextView
                 android:id="@+id/email"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="8dp"
                 android:clickable="true"
                 android:text="Email: "
                 android:textStyle="bold"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/age" />
+                app:layout_constraintStart_toStartOf="@+id/mobile"
+                app:layout_constraintTop_toBottomOf="@+id/mobile" />
 
             <TextView
                 android:id="@+id/email2"
@@ -267,33 +286,10 @@
                 android:clickable="true"
                 android:text="marothiatechs@gmail.com"
                 app:layout_constraintBottom_toBottomOf="@+id/email"
-                app:layout_constraintLeft_toRightOf="@+id/email" />
+                app:layout_constraintLeft_toRightOf="@+id/email"
+                app:layout_constraintTop_toTopOf="@+id/email" />
 
-            <TextView
-                android:id="@+id/mobile"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="5dp"
-                android:clickable="true"
-                android:text="Mobile: "
-                android:textStyle="bold"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/work" />
-
-            <TextView
-                android:id="@+id/mobileNumber"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="8dp"
-                android:clickable="true"
-                android:text="9876543210"
-                app:layout_constraintLeft_toRightOf="@+id/mobile"
-                app:layout_constraintTop_toBottomOf="@+id/occupation" />
-
+            <!-- Rating section -->
             <RatingBar
                 android:id="@+id/ratingBar"
                 style="@style/Widget.AppCompat.RatingBar.Indicator"
@@ -301,27 +297,27 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="184dp"
+                android:layout_marginTop="28dp"
                 android:layout_marginEnd="8dp"
                 android:progressTint="@color/gold"
                 android:rating="3.3"
                 android:secondaryProgressTint="@color/gold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@+id/email2" />
 
             <TextView
                 android:id="@+id/n_review"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="192dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 android:text="(12)"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.346"
                 app:layout_constraintStart_toEndOf="@+id/ratingBar"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="@+id/ratingBar" />
 
             <TextView
                 android:id="@+id/rating"
@@ -333,7 +329,8 @@
                 app:layout_constraintBottom_toBottomOf="@+id/n_review"
                 app:layout_constraintEnd_toStartOf="@+id/ratingBar"
                 app:layout_constraintHorizontal_bias="0.524"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/n_review" />
 
             <!--<TextView
                 android:id="@+id/approved_by"
