@@ -5,7 +5,8 @@
     android:id="@+id/search_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white">
+    android:background="@android:color/white"
+    android:focusableInTouchMode="true">
 
     <SearchView
         android:id="@+id/search_bar"
@@ -53,13 +54,13 @@
 
             <ImageView
                 android:id="@+id/swap1"
-                android:layout_width="31dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignTop="@+id/from"
                 android:layout_alignBottom="@+id/from"
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="6dp"
-                android:layout_marginEnd="32dp"
+                android:layout_marginEnd="24dp"
                 android:layout_marginBottom="6dp"
                 android:layout_toStartOf="@+id/to"
                 android:layout_toEndOf="@+id/from"
@@ -103,7 +104,8 @@
                 android:ems="10"
                 android:hint="@string/departure"
                 android:inputType="date"
-                android:maxLength="10" />
+                android:maxLength="10"
+                android:focusable="false"/>
 
             <EditText
                 android:id="@+id/ret"
@@ -115,7 +117,8 @@
                 android:ems="10"
                 android:hint="@string/ret"
                 android:inputType="date"
-                android:maxLength="10" />
+                android:maxLength="10"
+                android:focusable="false" />
 
             <View
                 android:id="@+id/line_pets"
@@ -136,10 +139,8 @@
                 android:layout_height="wrap_content"
                 android:layout_alignEnd="@+id/budget_max_value"
                 android:layout_alignBottom="@+id/pets"
-                android:layout_marginStart="248dp"
                 android:layout_marginEnd="0dp"
-                android:layout_marginBottom="-14dp"
-                android:layout_toEndOf="@+id/pets" />
+                android:layout_marginBottom="-14dp" />
 
             <TextView
                 android:id="@+id/pets"
@@ -352,7 +353,6 @@
                 </Button>
 
             </android.support.v7.widget.CardView>
-
 
         </RelativeLayout>
 
