@@ -56,6 +56,11 @@ This is a simple list, for more information read the [documentation]()
      <td>Get</td>
      <td><code>http://localhost:8095/user/</code></td> 
   </tr>
+  <tr>
+    <td>15.000 trips for testing</td>
+     <td>Get</td>
+     <td><code>http://localhost:8095/trip/loadExample</code></td> 
+  </tr>
 </table>
 
 ##### User
@@ -87,5 +92,10 @@ This is a simple list, for more information read the [documentation]()
     <td>update trip</td>
     <td>Post</td>
     <td><code>http://localhost:8095/trip/updateTrip</code></td> 
+  </tr>
+  <tr>
+    <td>get one trip by id</td>
+    <td>Get</td>
+    <td><code>http://localhost:8095/trip/getTripById</code></td> 
   </tr>
 </table>
