@@ -93,9 +93,9 @@ router.get('/getTripsWithFilter', function(req, res){
 	var maxPartecipant = 1000000
 
 	if(departure != undefined)
-		query.departure = departure;
+		query.departure = departure.toLowerCase();
 	if(destination != undefined)
-		query.destination = destination;
+		query.destination = destination.toLowerCase();
 	if(pets != undefined)
 		query.pets = pets;
 	if(req.query.minBudget != undefined)
