@@ -6,13 +6,41 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+
+import com.example.pumpkinsoftware.travelmate.glide.GlideApp;
 
 public class HomeFragment extends Fragment {
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_home, container, false);
+        View view = inflater.inflate(R.layout.fragment_home, container, false);
+
+        /*Loading images with glide */
+        /*ImageView img = view.findViewById(R.id.travel_image);
+
+        GlideApp.with(view)
+                .load(R.drawable.new_york)
+                .placeholder(R.drawable.placeholder_image)
+                .into(img);
+
+        img = getView().findViewById(R.id.travel_image2);
+
+        GlideApp.with(this)
+                .load(R.drawable.amsterdam)
+                .placeholder(R.drawable.placeholder_image)
+                .into(img);
+
+        img = getView().findViewById(R.id.travel_image3);
+
+        GlideApp.with(this)
+                .load(R.drawable.dubai)
+                .placeholder(R.drawable.placeholder_image)
+                .into(img);*/
+
+
+        return view;
     }
 }
 
