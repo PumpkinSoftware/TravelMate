@@ -15,8 +15,9 @@
 3. Go to Server/Node/
 4. ``` npm start ```
 5. now you can test all api implemented (use http://localhost:8095 or go to Server/ and use ``` ./test_api.sh ```)
-6. (optional) use ```./populate_database_trip.js``` to populate database with trips example 
-7. When you have finished, use ```sudo docker-compose -f docker-compose-database.yml stop``` to stop all containers or use ```sudo docker-compose -f docker-compose-database.yml down``` to stop and remove containers
+6. (optional) use ```./populate_database_trip.js``` to populate database with trips example
+7. (optional) if you want more trip for testing, you can use api ```http://localhost:8095/trip/loadExample``` for 15000 trips!
+8. When you have finished, use ```sudo docker-compose -f docker-compose-database.yml stop``` to stop all containers or use ```sudo docker-compose -f docker-compose-database.yml down``` to stop and remove containers
 
 
 #### Production Mode
