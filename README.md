@@ -24,7 +24,7 @@ Android Nougat (7.0) or lower: Ensure enabling 'Unknown Sources' to install it (
 
 [Presentation](https://drive.google.com/open?id=1UHNNODF-Y_rYOl4WYEt9Oyyozr4RMVMK3-D2caoFovk)
 
-We asked some [questions](https://docs.google.com/forms/d/12SJLFvOuqYqkm8Sa0f7khN3Dbr0Fd_Lbr7N4usXacR4/edit) online. There are their answers [here](https://drive.google.com/open?id=1VIWYZW6EjvkthMA22XVCKrNiC7RAtoaY) more detailed [here](https://docs.google.com/spreadsheets/d/1Mj46nVhd1yihtB_okm_Ev94nAZ465J9QAuHAcH_y2KM/edit#gid=2085859047) 
+We asked some [questions](https://docs.google.com/forms/d/12SJLFvOuqYqkm8Sa0f7khN3Dbr0Fd_Lbr7N4usXacR4/edit) online. There are their answers [here](https://drive.google.com/open?id=1VIWYZW6EjvkthMA22XVCKrNiC7RAtoaY)and more detailed [here](https://docs.google.com/spreadsheets/d/1Mj46nVhd1yihtB_okm_Ev94nAZ465J9QAuHAcH_y2KM/edit#gid=2085859047) 
 
 #
 ### Milestone 1 - January 2019
