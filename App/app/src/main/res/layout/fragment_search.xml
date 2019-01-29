@@ -1,14 +1,361 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/search_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white">
 
     <SearchView
+        android:id="@+id/search_bar"
         android:layout_width="match_parent"
         android:layout_height="61dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="0dp" />
+        android:queryHint="Search" />
+
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/search_bar">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <!-- Places section -->
+            <TextView
+                android:id="@+id/places"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignStart="@+id/from"
+                android:layout_marginTop="9dp"
+                android:text="@string/place"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5" />
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/from"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/places"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="13dp"
+                android:layout_marginTop="5dp">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/from_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ' "
+                    android:hint="@string/from" />
+            </android.support.design.widget.TextInputLayout>
+
+            <ImageView
+                android:id="@+id/swap1"
+                android:layout_width="31dp"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/from"
+                android:layout_alignBottom="@+id/from"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginEnd="32dp"
+                android:layout_marginBottom="6dp"
+                android:layout_toStartOf="@+id/to"
+                android:layout_toEndOf="@+id/from"
+                app:srcCompat="@drawable/baseline_swap_horiz_black_24dp" />
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/to"
+                android:layout_width="141dp"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/from"
+                android:layout_alignEnd="@+id/ret"
+                android:layout_alignBottom="@+id/from">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/to_text"
+                    android:layout_width="138dp"
+                    android:layout_height="match_parent"
+                    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ' "
+                    android:hint="@string/to" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <!-- Date section -->
+            <TextView
+                android:id="@+id/date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/to"
+                android:layout_alignStart="@+id/pets"
+                android:layout_marginTop="9dp"
+                android:text="@string/date"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5" />
+
+            <EditText
+                android:id="@+id/departure"
+                android:layout_width="123dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/date"
+                android:layout_alignStart="@+id/from"
+                android:layout_marginTop="5dp"
+                android:ems="10"
+                android:hint="@string/departure"
+                android:inputType="date"
+                android:maxLength="10" />
+
+            <EditText
+                android:id="@+id/ret"
+                android:layout_width="143dp"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/departure"
+                android:layout_alignEnd="@+id/budget_max_value"
+                android:layout_alignBottom="@+id/departure"
+                android:ems="10"
+                android:hint="@string/ret"
+                android:inputType="date"
+                android:maxLength="10" />
+
+            <View
+                android:id="@+id/line_pets"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_above="@+id/pets"
+                android:layout_below="@+id/departure"
+                android:layout_marginStart="13dp"
+                android:layout_marginTop="13dp"
+                android:layout_marginEnd="13dp"
+                android:layout_marginBottom="13dp"
+                android:background="@android:color/darker_gray" />
+
+            <!-- Pets section-->
+            <Switch
+                android:id="@+id/switch1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignEnd="@+id/budget_max_value"
+                android:layout_alignBottom="@+id/pets"
+                android:layout_marginStart="248dp"
+                android:layout_marginEnd="0dp"
+                android:layout_marginBottom="-14dp"
+                android:layout_toEndOf="@+id/pets" />
+
+            <TextView
+                android:id="@+id/pets"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/departure"
+                android:layout_alignStart="@+id/departure"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="28dp"
+                android:text="@string/pets"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5" />
+
+            <TextView
+                android:id="@+id/pets_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/pets"
+                android:layout_alignStart="@+id/pets"
+                android:layout_marginTop="5dp"
+                android:text="@string/pets_text"
+                android:textAppearance="@style/TextAppearance.Design.HelperText" />
+
+            <!-- Budget section -->
+            <TextView
+                android:id="@+id/budget"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/pets_text"
+                android:layout_alignStart="@+id/pets"
+                android:layout_marginTop="9dp"
+                android:text="@string/budget"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5" />
+
+            <TextView
+                android:id="@+id/budget_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/budget"
+                android:layout_alignStart="@+id/pets_text"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="0dp"
+                android:text="@string/budget_text"
+                android:textAppearance="@style/TextAppearance.Design.HelperText" />
+
+            <EditText
+                android:id="@+id/budget_min_value"
+                android:layout_width="48dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/budget_text"
+                android:layout_alignStart="@+id/euro1"
+                android:layout_marginStart="23dp"
+                android:layout_marginTop="12dp"
+                android:ems="10"
+                android:inputType="number"
+                android:maxLength="4"
+                android:text="@string/n0" />
+
+            <TextView
+                android:id="@+id/euro1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignStart="@+id/budget"
+                android:layout_alignTop="@+id/euro2"
+                android:layout_alignBottom="@+id/euro2"
+                android:layout_marginStart="2dp"
+                android:layout_marginEnd="261dp"
+                android:layout_marginBottom="4dp"
+                android:layout_toStartOf="@+id/euro2"
+                android:text="@string/euro"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5" />
+
+            <TextView
+                android:id="@+id/euro2"
+                android:layout_width="wrap_content"
+                android:layout_height="33dp"
+                android:layout_alignTop="@+id/budget_max_value"
+                android:layout_alignBottom="@+id/budget_max_value"
+                android:layout_marginTop="7dp"
+                android:layout_marginEnd="5dp"
+                android:layout_toStartOf="@+id/budget_max_value"
+                android:text="@string/euro"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5" />
+
+            <io.apptik.widget.MultiSlider
+                android:id="@+id/budget_range_slider"
+                android:layout_width="316dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/budget_min_value"
+                android:layout_alignParentStart="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginStart="55dp"
+                android:layout_marginTop="9dp"
+                android:layout_marginEnd="55dp"
+                app:drawThumbsApart="true"
+                app:scaleMax="2000"
+                app:scaleMin="0"
+                app:stepsThumbsApart="5"
+                app:thumbNumber="2" />
+
+            <EditText
+                android:id="@+id/budget_max_value"
+                android:layout_width="48dp"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/budget_min_value"
+                android:layout_alignEnd="@+id/budget_range_slider"
+                android:layout_alignBottom="@+id/budget_min_value"
+                android:layout_marginTop="-1dp"
+                android:layout_marginEnd="-32dp"
+                android:layout_marginBottom="0dp"
+                android:ems="10"
+                android:inputType="number"
+                android:maxLength="4"
+                android:text="@string/n2000" />
+
+            <!-- Group section -->
+
+            <TextView
+                android:id="@+id/group"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/budget_range_slider"
+                android:layout_alignStart="@+id/budget"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="28dp"
+                android:text="Group"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5" />
+
+            <TextView
+                android:id="@+id/group_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/group"
+                android:layout_alignStart="@+id/pets_text"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="5dp"
+                android:text="Select your min and max number of travel buddies with which you'd travel"
+                android:textAppearance="@style/TextAppearance.Design.HelperText" />
+
+            <EditText
+                android:id="@+id/group_min_value"
+                android:layout_width="48dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/group_text"
+                android:layout_alignStart="@+id/budget_min_value"
+                android:layout_alignEnd="@+id/budget_min_value"
+                android:layout_marginTop="12dp"
+                android:ems="10"
+                android:inputType="number"
+                android:maxLength="4" />
+
+            <io.apptik.widget.MultiSlider
+                android:id="@+id/group_range_slider"
+                android:layout_width="316dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/group_min_value"
+                android:layout_alignParentStart="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginStart="55dp"
+                android:layout_marginTop="9dp"
+                android:layout_marginEnd="55dp"
+                app:drawThumbsApart="true"
+                app:scaleMax="20"
+                app:scaleMin="1"
+                app:stepsThumbsApart="1"
+                app:thumbNumber="2" />
+
+            <EditText
+                android:id="@+id/group_max_value"
+                android:layout_width="48dp"
+                android:layout_height="wrap_content"
+                android:layout_alignStart="@+id/budget_max_value"
+                android:layout_alignTop="@+id/group_min_value"
+                android:layout_alignEnd="@+id/group_range_slider"
+                android:layout_alignBottom="@+id/group_min_value"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="-1dp"
+                android:layout_marginEnd="-32dp"
+                android:layout_marginBottom="0dp"
+                android:ems="10"
+                android:inputType="number"
+                android:maxLength="4" />
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/cardView"
+                android:layout_width="300dp"
+                android:layout_height="50dp"
+                android:layout_below="@+id/group_range_slider"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="28dp"
+                android:layout_marginBottom="28dp"
+                app:cardBackgroundColor="@color/colorAccent"
+                app:cardCornerRadius="25dp"
+                app:cardElevation="10dp">
+
+                <Button
+                    android:id="@+id/search_button"
+                    android:layout_width="327dp"
+                    android:layout_height="match_parent"
+                    android:layout_alignStart="@+id/cardView"
+                    android:layout_centerInParent="true"
+                    android:background="@android:color/transparent"
+                    android:paddingEnd="30sp"
+                    android:text="@string/search"
+                    android:textColor="#fff"
+                    android:textSize="18sp">
+
+                </Button>
+
+            </android.support.v7.widget.CardView>
+
+
+        </RelativeLayout>
+
+    </ScrollView>
+
 </RelativeLayout>
