@@ -174,9 +174,22 @@ router.get('/getTripById', function(req, res){
 
 router.get('/loadExample', function(req, res){
 	var laptopData = tripExample;
-	for(var laptopItem in laptopData){
-    new TripSchema(laptopData[laptopItem])
-      .save()
+	for(var i=0; i<laptopData.length;i++){
+
+		var toInsert = new TripSchema({
+		name : laptopData[i].name.toLowerCase(),
+        description: laptopData[i].description.toLowerCase(),
+        departure: laptopData[i].departure.toLowerCase(),
+        destination: laptopData[i].destination.toLowerCase(),
+        budget: laptopData[i].budget,
+        startDate: laptopData[i].startDate,
+        endDate: laptopData[i].endDate,
+        pets: laptopData[i].pets,
+        maxPartecipant: laptopData[i].maxPartecipant,
+		partecipant: []
+	});
+
+      toInsert.save()
       .catch((err)=>{
       	res.send("Error");
         console.log(err.message);
