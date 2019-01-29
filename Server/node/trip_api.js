@@ -1,6 +1,7 @@
 var express = require('express');
 var mongoose = require('mongoose');
 var TripSchema = require('./Schema_mongoose/trip_schema');
+var tripExample = require('./Schema_mongoose/trip_example.json'); //Trip Example
 //var database = require('./database');
 var url = process.env.DATA || "mongodb://127.0.0.1:27017/TravelMate";
 
@@ -145,5 +146,45 @@ router.post('/updateTrip', function(req, res){
 		});
 	});
 });
+
+/******************************************/
+//Api per ottenere un viaggio da Id
+//?id=
+
+router.get('/getTripById', function(req, res){
+
+	var id = req.query.id;
+
+	TripSchema.findById(id).exec(function(err, trip){
+		
+		if (err){
+			res.send(JSON.stringify({ status: "error", message: "Error get with ObjectId" }));
+			console.log(err);
+		}
+		else{
+			res.send(trip);
+			console.log(trip);
+		}
+
+	});
+});
+
+/******************************************/
+//Api per inserire 15.000 viaggi esempio
+
+router.get('/loadExample', function(req, res){
+	var laptopData = tripExample;
+	for(var laptopItem in laptopData){
+    new TripSchema(laptopData[laptopItem])
+      .save()
+      .catch((err)=>{
+      	res.send("Error");
+        console.log(err.message);
+      });
+	}
+	res.send("Ok");
+});
+
+
 
 module.exports = router;

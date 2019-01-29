@@ -54,5 +54,4 @@ router.post('/new_user', function(req,res){
 
 });
 
-
 module.exports = router;
