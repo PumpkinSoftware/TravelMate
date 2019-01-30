@@ -14,6 +14,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.SearchView;
@@ -44,8 +45,9 @@ public class SearchFragment extends Fragment {
         final EditText  return_date = (EditText) view.findViewById(R.id.ret);
 
 
-
+        // tolti a causa della nuova toolbar
         // If click on bg, focus is deleted (Da sistemare)
+        /*
         view.findViewById(R.id.search_layout).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -54,15 +56,15 @@ public class SearchFragment extends Fragment {
                 imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
                 v.clearFocus();
             }
-        });
+        });*/
 
         /* It extends searchview clickable area */
-        searchView.setOnClickListener(new View.OnClickListener() {
+       /* searchView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 searchView.setIconified(false);
             }
-        });
+        });*/
 
         // If click on swap button, values of editexts are swapped
         view.findViewById(R.id.swap1).setOnClickListener(new View.OnClickListener() {
@@ -270,7 +272,30 @@ public class SearchFragment extends Fragment {
 
             }*/
         });
+        Button bottAnn = (Button) view.findViewById(R.id.search_button);
+        bottAnn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+               /* SecondFragement frag = new SecondFragement();
+
+                getActivity().getFragmentManager().beginTransaction().replace(R.id, frag).commit();*/
+                SearchResults nextFrag= new SearchResults();
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.search_layout, nextFrag)
+                        .addToBackStack(null)
+                        .commit();
+
+            }
+
+        });
+
 
         return view;
+
     }
+
+
+
+
 }
