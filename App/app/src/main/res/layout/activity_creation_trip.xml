@@ -7,19 +7,23 @@
     tools:context=".CreationTrip">
 
     <android.support.v7.widget.Toolbar
-
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
+        android:layout_marginBottom="675dp"
         android:background="@color/colorPrimary"
-        app:navigationIcon="?attr/homeAsUpIndicator"
-        android:theme="@style/toolbar" />
+        android:theme="@style/toolbar"
+
+        app:navigationIcon="?attr/homeAsUpIndicator">
+
+    </android.support.v7.widget.Toolbar>
+
 
     <TextView
         android:id="@+id/textView5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Tasto Premuto"
+        android:text="Oh no! This page is still in working :("
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
