@@ -8,18 +8,25 @@
     android:background="@android:color/white"
     android:focusableInTouchMode="true">
 
-    <SearchView
-        android:id="@+id/search_bar"
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="61dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:queryHint="Search" />
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary"
+        android:theme="@style/toolbar">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/title"
+            android:text="No idea? Look for other trips here"
+            android:textColor="@color/white"
+            android:textSize="22dp"/>
+    </android.support.v7.widget.Toolbar>
 
     <ScrollView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/search_bar">
+        android:layout_below="@+id/toolbar">
 
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -31,6 +38,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignStart="@+id/from"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="9dp"
                 android:text="@string/place"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5" />
@@ -348,7 +356,8 @@
                     android:paddingEnd="30sp"
                     android:text="@string/search"
                     android:textColor="#fff"
-                    android:textSize="18sp">
+                    android:textSize="18sp"
+                    android:clickable="true">
 
                 </Button>
 
