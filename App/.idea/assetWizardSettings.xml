@@ -72,7 +72,7 @@
                                           <PersistentState>
                                             <option name="values">
                                               <map>
-                                                <entry key="scalingPercent" value="76" />
+                                                <entry key="scalingPercent" value="102" />
                                                 <entry key="trimmed" value="true" />
                                               </map>
                                             </option>
@@ -86,7 +86,7 @@
                                       <entry key="backgroundAssetType" value="COLOR" />
                                       <entry key="backgroundColor" value="eaf4ff" />
                                       <entry key="backgroundImage" value="C:\Users\andre\Desktop\back.png" />
-                                      <entry key="foregroundImage" value="C:\Users\andre\Desktop\1.png" />
+                                      <entry key="foregroundImage" value="C:\Users\andre\Desktop\logo.png" />
                                       <entry key="legacyIconShape" value="CIRCLE" />
                                       <entry key="webIconShape" value="CIRCLE" />
                                     </map>
@@ -155,11 +155,6 @@
                                 </PersistentState>
                               </value>
                             </entry>
-                          </map>
-                        </option>
-                        <option name="values">
-                          <map>
-                            <entry key="outputIconType" value="ACTIONBAR" />
                           </map>
                         </option>
                       </PersistentState>
