@@ -14,20 +14,15 @@ public class ProfileFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_profile, container, false);
 
         /*Loading images with glide */
-        /*ImageView img = getView().findViewById(R.id.profile);
+        ImageView img = (ImageView) view.findViewById(R.id.profile);
 
-        GlideApp.with(getView().getContext())
+        GlideApp.with(getContext())
                 .load(R.drawable.girl)
                 .into(img);
 
-        img = getView().findViewById(R.id.header_cover_image);
-
-        GlideApp.with(this)
-                .load(R.drawable.amsterdam)
-                .into(img);*/
-
-        return inflater.inflate(R.layout.fragment_profile, container, false);
+        return view;
     }
 }
