@@ -72,7 +72,8 @@
                         android:scaleType="centerCrop"
                         android:background="@android:color/white"
                         android:clickable="true"
-                        android:src="@drawable/new_york" />
+                         />
+                    <!-- android:src="@drawable/new_york" -->
 
                     <TextView
                         android:id="@+id/travel_name"
@@ -177,7 +178,8 @@
                         android:scaleType="centerCrop"
                         android:background="@android:color/white"
                         android:clickable="true"
-                        android:src="@drawable/amsterdam" />
+                         />
+                    <!-- android:src="@drawable/amsterdam" -->
 
                     <TextView
                         android:id="@+id/travel_name2"
@@ -282,7 +284,8 @@
                         android:scaleType="centerCrop"
                         android:background="@android:color/white"
                         android:clickable="true"
-                        android:src="@drawable/dubai" />
+                         />
+                    <!-- android:src="@drawable/dubai" -->
 
                     <TextView
                         android:id="@+id/travel_name3"
