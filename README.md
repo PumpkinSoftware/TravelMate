@@ -14,7 +14,8 @@ Google Workshop 2018/2019
 #
 ### Download
 
-Try our app on an Android device (required 4.4+)    
+Try our app on an Android device (required 4.4+)
+[nightly build 31-1-19](https://ufile.io/9psmi)
 [nightly build 20-1-19](https://ufile.io/ucfd9)
 
 Android Nougat (7.0) or lower: Ensure enabling 'Unknown Sources' to install it (Settings -> Security -> Unknown Sources)
