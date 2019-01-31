@@ -1,5 +1,6 @@
 package com.example.pumpkinsoftware.travelmate;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -16,29 +17,29 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
+        Context context = getContext();
 
         /*Loading images with glide */
-        /*ImageView img = view.findViewById(R.id.travel_image);
+        ImageView img = (ImageView) view.findViewById(R.id.travel_image);
 
-        GlideApp.with(view)
+        GlideApp.with(context)
                 .load(R.drawable.new_york)
                 .placeholder(R.drawable.placeholder_image)
                 .into(img);
 
-        img = getView().findViewById(R.id.travel_image2);
+        img = (ImageView) view.findViewById(R.id.travel_image2);
 
-        GlideApp.with(this)
+        GlideApp.with(context)
                 .load(R.drawable.amsterdam)
                 .placeholder(R.drawable.placeholder_image)
                 .into(img);
 
-        img = getView().findViewById(R.id.travel_image3);
+        img = (ImageView) view.findViewById(R.id.travel_image3);
 
-        GlideApp.with(this)
+        GlideApp.with(context)
                 .load(R.drawable.dubai)
                 .placeholder(R.drawable.placeholder_image)
-                .into(img);*/
-
+                .into(img);
 
         return view;
     }
