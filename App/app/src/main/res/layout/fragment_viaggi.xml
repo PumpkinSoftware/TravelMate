@@ -36,14 +36,14 @@
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="37dp"
         android:layout_marginBottom="37dp"
+        android:backgroundTint="@color/colorPrimary"
         android:clickable="true"
         android:elevation="8dp"
         android:onClick="runThis"
-        app:fabSize="normal"
         android:src="@drawable/ic_add_black_24dp"
-        android:backgroundTint="@color/colorPrimary"
+        app:backgroundTint="@color/colorPrimary"
 
 
-        />
+        app:fabSize="normal" />
 
 </RelativeLayout>
