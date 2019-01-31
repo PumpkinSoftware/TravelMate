@@ -198,6 +198,30 @@ router.get('/loadExample', function(req, res){
 	res.send("Ok");
 });
 
+/****************************************/
+//Api per inserire un nuovo partecipante in un viaggio
+
+router.post('/addPartecipant', function(req,res){
+	
+	var JsonObject = req.body;
+
+	var buddy = {"email": JsonObject.email};
+	TripSchema.findByIdAndUpdate(JsonObject._id, 
+		{
+			$push: {partecipant: buddy}
+		}
+		{ new: true, upsert:true }, 
+		function (err, trip) {
+			if (err){
+			res.send(JSON.stringify({ status: "error", message: "Error with ObjectId" }));
+			console.log(err);
+			}
+			res.send(trip);
+			
+		});
+});
+
+/****************************************/
 
 
 module.exports = router;
