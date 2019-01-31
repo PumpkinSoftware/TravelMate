@@ -1,26 +1,25 @@
 package com.example.pumpkinsoftware.travelmate;
 
-import android.app.DatePickerDialog;
-import android.content.Context;
+
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.Fragment;
-import android.text.Editable;
 import android.text.InputFilter;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
-import android.widget.DatePicker;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.SearchView;
+import android.widget.Switch;
 import android.widget.Toast;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 
+import com.example.pumpkinsoftware.travelmate.edit_text_date_picker.EditTextDatePicker;
 import com.example.pumpkinsoftware.travelmate.min_max_filter.MinMaxFilter;
+import com.example.pumpkinsoftware.travelmate.my_on_checked_change_listener.MyOnCheckedChangeListener;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -43,6 +42,7 @@ public class SearchFragment extends Fragment {
         final TextInputEditText  to = (TextInputEditText ) view.findViewById(R.id.to_text);
         final EditText  departure_date = (EditText) view.findViewById(R.id.departure);
         final EditText  return_date = (EditText) view.findViewById(R.id.ret);
+        final Switch pets_switch = (Switch) view.findViewById(R.id.switch1);
 
 
         // tolti a causa della nuova toolbar
@@ -59,12 +59,12 @@ public class SearchFragment extends Fragment {
         });*/
 
         /* It extends searchview clickable area */
-       /* searchView.setOnClickListener(new View.OnClickListener() {
+        searchView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 searchView.setIconified(false);
             }
-        });*/
+        });
 
         // If click on swap button, values of editexts are swapped
         view.findViewById(R.id.swap1).setOnClickListener(new View.OnClickListener() {
@@ -80,13 +80,18 @@ public class SearchFragment extends Fragment {
 
         /* Utilities for Date Picker Dialog */
         final Calendar calendar = Calendar.getInstance();
-        final int year = calendar.get(Calendar.YEAR);
+        EditTextDatePicker departure = new EditTextDatePicker(getContext(), departure_date, calendar);
+        EditTextDatePicker ret = new EditTextDatePicker(getContext(), return_date, calendar, departure);
+        departure.setOther(ret);
+
+        // PRIMA DI CANCELLARE TESTIAMO!!
+        /*final int year = calendar.get(Calendar.YEAR);
 
         final int month = calendar.get(Calendar.MONTH);
-        final int day = calendar.get(Calendar.DAY_OF_MONTH);
+        final int day = calendar.get(Calendar.DAY_OF_MONTH);*/
 
         /* Date Picker Dialog listener for data_departure, when a date is set, write it on editText and change focus */
-        final DatePickerDialog.OnDateSetListener datePickerListener1 = new DatePickerDialog.OnDateSetListener() {
+        /*final DatePickerDialog.OnDateSetListener datePickerListener1 = new DatePickerDialog.OnDateSetListener() {
 
             public void onDateSet(DatePicker view, int selectedYear,
                                   int selectedMonth, int selectedDay) {
@@ -105,10 +110,10 @@ public class SearchFragment extends Fragment {
                 }
                 return false;
             }
-        });
+        });*/
 
         /* Same for return_date */
-        final DatePickerDialog.OnDateSetListener datePickerListener2 = new DatePickerDialog.OnDateSetListener() {
+        /*final DatePickerDialog.OnDateSetListener datePickerListener2 = new DatePickerDialog.OnDateSetListener() {
 
             public void onDateSet(DatePicker view, int selectedYear,
                                   int selectedMonth, int selectedDay) {
@@ -127,7 +132,7 @@ public class SearchFragment extends Fragment {
                 }
                 return false;
             }
-        });
+        });*/
 
         /* Extracting dates (SI POSSONO INVECE FARE LE CLASSI DEI LISTENER E USARE DELLE GET) */
         /*String date = departure_date.getText().toString();
@@ -154,7 +159,6 @@ public class SearchFragment extends Fragment {
 
         String d_year = date.substring(i);
         Toast.makeText(getActivity(), d_day+"/"+d_month+"/"+d_year, Toast.LENGTH_SHORT).show();*/
-
 
         /* NON PIU' UTILE MA PER IL MOMENTO NON LO CANCELLIAMO!!
         // Check if departure_date is correct
@@ -272,6 +276,11 @@ public class SearchFragment extends Fragment {
 
             }*/
         });
+
+
+        MyOnCheckedChangeListener switch_listener = new MyOnCheckedChangeListener();
+        pets_switch.setOnCheckedChangeListener(switch_listener);
+
         Button bottAnn = (Button) view.findViewById(R.id.search_button);
         bottAnn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -290,12 +299,43 @@ public class SearchFragment extends Fragment {
 
         });
 
-
         return view;
 
+        /* =======================
+                    QUERY
+           ======================= */
+
+        /* Get places */
+        /*String from_q = (from.getText()).toString().toLowerCase();
+        String to_q = (to.getText()).toString().toLowerCase();*/
+
+        /* Get dates */
+        /*StringBuilder departure_q =  new StringBuilder().append(departure.getSetMonth()).append("/")
+                .append(departure.getSetDay()).append("/").append(departure.getSetYear());
+
+        StringBuilder return_q =  new StringBuilder().append(ret.getSetMonth()).append("/")
+                .append(ret.getSetDay()).append("/").append(ret.getSetYear());*/
+
+        /* Get switch value */
+        /*String pets_value = "false";
+        pets_value = switch_listener.getValue();*/
+
+        /* Get budget */
+        /*String min1_q = (min1.getText()).toString();
+        String max1_q = (max1.getText()).toString();*/
+
+        /* Get group */
+        /*String min2_q = (min2.getText()).toString();
+        String max2_q = (max2.getText()).toString();
+
+        // Cycle to obtain n different queries in group range, n = ma2 - mi2
+        for(int i=mi2; i<=ma2; i++) {
+            String query = "http://localhost:8095/trip/getTripsWithFilter?destination=" + to_q + "&departure=" + from_q +
+                    "&minBudget=" + min1_q + "&maxBudget=" + max1_q + "&startDate=" + departure_q + "&endDate=" + return_q +
+                    "&maxPartecipant=" + i + "&pets=" + pets_value;
+            Toast.makeText(getContext(), query, Toast.LENGTH_SHORT).show();
+        }*/
+
     }
-
-
-
 
 }
