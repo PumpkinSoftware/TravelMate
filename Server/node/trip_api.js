@@ -209,7 +209,7 @@ router.post('/addPartecipant', function(req,res){
 	TripSchema.findByIdAndUpdate(JsonObject._id, 
 		{
 			$push: {partecipant: buddy}
-		}
+		},
 		{ new: true, upsert:true }, 
 		function (err, trip) {
 			if (err){
