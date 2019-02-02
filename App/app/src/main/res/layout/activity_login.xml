@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.pumpkinsoftware.travelmate.MainActivity">
+
+    <include
+        layout="@layout/background_video" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/logo"
+                android:layout_width="280dp"
+                android:layout_height="150dp"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="18dp"
+                app:srcCompat="@drawable/home" />
+
+            <EditText
+                android:id="@+id/username"
+                android:layout_width="250dp"
+                android:layout_height="40dp"
+                android:layout_below="@+id/logo"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginStart="67dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="67dp"
+                android:layout_marginBottom="137dp"
+                android:backgroundTint="@android:color/white"
+                android:drawableLeft="@drawable/ic_baseline_person_24px"
+                android:ems="10"
+                android:hint="@string/username"
+                android:inputType="textPersonName"
+                android:nextFocusForward="@+id/password"
+                android:textColor="@android:color/white"
+                android:textColorHint="@android:color/white"
+                android:textSize="16dp" />
+
+            <EditText
+                android:id="@+id/password"
+                android:layout_width="250dp"
+                android:layout_height="40dp"
+                android:layout_alignStart="@+id/username"
+                android:layout_alignTop="@+id/username"
+                android:layout_alignEnd="@+id/username"
+                android:layout_marginTop="59dp"
+                android:backgroundTint="@android:color/white"
+                android:drawableLeft="@drawable/ic_baseline_lock_24px"
+                android:ems="10"
+                android:hint="@string/password"
+                android:inputType="textPassword"
+                android:textColor="@android:color/white"
+                android:textColorHint="@android:color/white"
+                android:textSize="16dp" />
+                    <!--
+                android:background="#11000000" -->
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/cardView"
+                android:layout_width="300dp"
+                android:layout_height="50dp"
+                android:layout_below="@+id/password"
+                android:layout_alignStart="@+id/password"
+                android:layout_alignEnd="@+id/password"
+                android:layout_marginStart="-15dp"
+                android:layout_marginTop="28dp"
+                android:layout_marginEnd="-16dp"
+                app:cardBackgroundColor="@color/colorAccent"
+                app:cardCornerRadius="25dp"
+                app:cardElevation="10dp">
+
+                <Button
+                    android:id="@+id/buttonLogin"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignStart="@+id/cardView"
+                    android:layout_alignEnd="@+id/cardView"
+                    android:layout_centerInParent="true"
+                    android:background="@android:color/transparent"
+                    android:text="@string/login"
+                    android:textColor="#fff"
+                    android:textSize="18sp">
+                    <!--
+                    android:layout_marginStart="95dp"
+                    android:layout_marginEnd="85dp"-->
+                </Button>
+
+            </android.support.v7.widget.CardView>
+
+            <TextView
+                android:id="@+id/create"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/cardView"
+                android:layout_centerHorizontal="true"
+                android:layout_marginStart="-35dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="114dp"
+                android:text="@string/create_account"
+                android:textColor="@android:color/white" />
+
+            <View
+                android:id="@+id/line2"
+                android:layout_width="146dp"
+                android:layout_height="1dp"
+                android:layout_alignTop="@+id/or"
+                android:layout_alignBottom="@+id/or"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="36dp"
+                android:layout_marginEnd="14dp"
+                android:layout_marginTop="9dp"
+                android:layout_marginBottom="9dp"
+                android:layout_toEndOf="@+id/or"
+                android:background="@android:color/white" />
+
+            <TextView
+                android:id="@+id/or"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/create"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="47dp"
+                android:text="@string/or"
+                android:textColor="@android:color/white" />
+
+            <View
+                android:id="@+id/line1"
+                android:layout_width="122dp"
+                android:layout_height="1dp"
+                android:layout_alignTop="@+id/line2"
+                android:layout_alignBottom="@+id/line2"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="14dp"
+                android:layout_marginEnd="36dp"
+                android:layout_toStartOf="@+id/or"
+                android:background="@android:color/white" />
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+</RelativeLayout>
