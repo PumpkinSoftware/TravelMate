@@ -23,22 +23,22 @@ public class HomeFragment extends Fragment {
         ImageView img = (ImageView) view.findViewById(R.id.travel_image);
 
         GlideApp.with(context)
-                .load(R.drawable.new_york)
-                .placeholder(R.drawable.placeholder_image)
+                .load(R.mipmap.new_york)
+                .placeholder(R.mipmap.placeholder_image)
                 .into(img);
 
         img = (ImageView) view.findViewById(R.id.travel_image2);
 
         GlideApp.with(context)
-                .load(R.drawable.amsterdam)
-                .placeholder(R.drawable.placeholder_image)
+                .load(R.mipmap.amsterdam)
+                .placeholder(R.mipmap.placeholder_image)
                 .into(img);
 
         img = (ImageView) view.findViewById(R.id.travel_image3);
 
         GlideApp.with(context)
-                .load(R.drawable.dubai)
-                .placeholder(R.drawable.placeholder_image)
+                .load(R.mipmap.dubai)
+                .placeholder(R.mipmap.placeholder_image)
                 .into(img);
 
         return view;
