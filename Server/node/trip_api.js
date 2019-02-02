@@ -130,24 +130,40 @@ router.get('/getTripsWithFilter', function(req, res){
 router.post('/updateTrip', function(req, res){
 
 	var JsonObject = req.body;
+
+	var query = {};
 	
 	if (JsonObject.name != undefined)
-		JsonObject.name = JsonObject.name.toLowerCase();
+		query.name = JsonObject.name.toLowerCase();
 	if (JsonObject.description != undefined)
-		JsonObject.description = JsonObject.description.toLowerCase();
-	if (JsonObject.departure != undefined)
-		JsonObject.departure = JsonObject.departure.toLowerCase();
-	if (JsonObject.destination != undefined)
-		JsonObject.destination = JsonObject.destination.toLowerCase();
+		query.description = JsonObject.description.toLowerCase();
+	if(JsonObject.departure != undefined)
+		query.departure = JsonObject.departure.toLowerCase();
+	if(JsonObject.destination != undefined)
+		query.destination = JsonObject.destination.toLowerCase();
+	if(JsonObject.pets != undefined)
+		query.pets = JsonObject.pets;
+	if(JsonObject.minBudget != undefined)
+		minBudget = JsonObject.minBudget;
+	if(JsonObject.maxBudget != undefined)
+		maxBudget = JsonObject.maxBudget;
+	if(JsonObject.minDate != undefined)
+		minDate = new Date(JsonObject.minDate);
+	if(JsonObject.maxDate != undefined)
+		maxDate = new Date(JsonObject.maxDate);
+	if(JsonObject.maxPartecipant != undefined)
+		maxPartecipant = JsonObject.maxPartecipant;
+	if(JsonObject.minPartecipant != undefined)
+		minPartecipant = JsonObject.minPartecipant;
 	
-	TripSchema.findById(JsonObject._id).exec(function(err, trip){
+	TripSchema.findById(JsonObject.tripId).exec(function(err, trip){
 		
 		if (err){
-			res.send(JSON.stringify({ status: "error", message: "Error with ObjectId" }));
+			res.send(JSON.stringify({ status: "error", message: "Cannot find trip by tripId" }));
 			console.log(err);
 		}
 
-		trip.set(JsonObject);
+		trip.set(query);
 		
 		trip.save(function(err, updatetrip){
 			if (err){
@@ -161,11 +177,11 @@ router.post('/updateTrip', function(req, res){
 
 /******************************************/
 //Api per cancellare un viaggio
-//example use: /deleteTrip?id=5c537f4bbd73113cd71d1384
+//example use: /deleteTrip?tripId=5c537f4bbd73113cd71d1384
 
 router.get('/deleteTrip', function(req, res){
 
-	var id = req.query.id;    
+	var id = req.query.tripId;    
 
 	TripSchema.remove({_id : id }, function(err){
 		if(err){
@@ -231,18 +247,17 @@ router.get('/loadExample', function(req, res){
 
 /****************************************/
 //Api per inserire un nuovo partecipante in un viaggio
-//example use: /addParticipant?trip_id=5c537f4bbd73113cd71d1384&email=example@email.com
 
 router.post('/addParticipant', function(req,res){
 	
 	var JsonObject = req.body;
 
 	var buddy = {
-		"email": JsonObject.email
+		"userId": JsonObject.userId
 	};	
 	var conditions = {							
-		_id: JsonObject.trip_id,
-		'partecipant.email': { $ne: JsonObject.email }		
+		_id: JsonObject.tripId,
+		'partecipant.userId': { $ne: JsonObject.userId }		
 	};
 	var update = {
 		$addToSet: {partecipant: buddy}
@@ -260,17 +275,16 @@ router.post('/addParticipant', function(req,res){
 
 /****************************************/
 //Api per rimuovere un utente da un viaggio
-//example use: /removeParticipant?trip_id=5c537f4bbd73113cd71d1384&email=example@email.com
 
 router.post('/removeParticipant', function(req,res){
 	
 	var JsonObject = req.body;
 
 	var buddy = {
-		"email": JsonObject.email
+		"userId": JsonObject.userId
 	};	
 	var conditions = {							
-		_id: JsonObject.trip_id	
+		_id: JsonObject.tripId	
 	};
 	var update = {
 		$pull: {partecipant: buddy}

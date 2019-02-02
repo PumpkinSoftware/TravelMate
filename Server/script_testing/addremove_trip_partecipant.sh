@@ -18,11 +18,22 @@ echo -e "Starting mio_prova.sh"
 
 echo -e "${green}"
                                                            
-curl -H "Content-Type: application/json" -X POST -d '{"trip_id":"5c54e1140b884752a7b8af6a", "email":"example@gmail.com"}' http://localhost:8095/trip/addParticipant
-
-curl -H "Content-Type: application/json" -X POST -d '{"trip_id":"5c54e1140b884752a7b8af69", "email":"example@gmail.com"}' http://localhost:8095/trip/removeParticipant
+curl -H "Content-Type: application/json" -X POST -d '{"tripId":"5c561612c22be2586a57ee75", "userId":"xxxxxxxxxx"}' http://localhost:8095/trip/addParticipant
 
 echo -e ""
+
+curl -H "Content-Type: application/json" -X POST -d '{"tripId":"5c561612c22be2586a57ee75", "userId":"xxxxxxxxxx"}' http://localhost:8095/trip/addParticipant
+
+echo -e ""
+
+curl -H "Content-Type: application/json" -X POST -d '{"tripId":"5c561612c22be2586a57ee75", "userId":"xxxxxxxxxx"}' http://localhost:8095/trip/removeParticipant
+
+echo -e ""
+
+curl -H "Content-Type: application/json" -X POST -d '{"tripId":"5c561612c22be2586a57ee75", "userId":"xxxxxxxxxx"}' http://localhost:8095/trip/removeParticipant
+
+echo -e ""
+
 
 echo -e " ${reset}"
 

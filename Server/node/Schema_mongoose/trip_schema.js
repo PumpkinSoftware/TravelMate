@@ -10,7 +10,7 @@ var TripSchema = new mongoose.Schema({
         endDate: Date,
         pets: Boolean,
         maxPartecipant: Number,
-		partecipant: [{email:String}]
+		partecipant: [{userId:String}]
 	}
 
 );
