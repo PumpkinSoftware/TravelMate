@@ -79,7 +79,7 @@ router.get('/allTrips', function(req, res){
 //Api per ottenere i viaggi con filtri
 
 // example use /getTrips?destination=rome&departure=milan&minBudget=430&maxBudget=730&startDate=12/31/2018&endDate=01/02/2019&maxPartecipant=12
-// &pets = true
+// &pets=true&minPartecipant=1
 
 router.get('/getTripsWithFilter', function(req, res){
 	var query = {};
@@ -90,7 +90,8 @@ router.get('/getTripsWithFilter', function(req, res){
 	var maxBudget = 100000;
 	var minDate = new Date("1/1/1970");
 	var maxDate = new Date("1/1/4000");
-	var maxPartecipant = 1000000
+	var maxPartecipant = 1000000;
+	var minPartecipant = 1;
 
 	if(departure != undefined)
 		query.departure = departure.toLowerCase();
@@ -108,9 +109,11 @@ router.get('/getTripsWithFilter', function(req, res){
 		maxDate = new Date(req.query.maxDate);
 	if(req.query.maxPartecipant != undefined)
 		maxPartecipant = req.query.maxPartecipant;
+	if(req.query.minPartecipant != undefined)
+		minPartecipant = req.query.minPartecipant;
 
 
-	TripSchema.find(query).where('budget').gte(minBudget).lte(maxBudget).where('startDate').gte(minDate).where('endDate').lte(maxDate).where('maxPartecipant').lte(maxPartecipant).exec( function(err, trips){
+	TripSchema.find(query).where('budget').gte(minBudget).lte(maxBudget).where('startDate').gte(minDate).where('endDate').lte(maxDate).where('maxPartecipant').lte(maxPartecipant).gte(minPartecipant).exec( function(err, trips){
 		if(err){
 			res.send(JSON.stringify({ status: "error", message: "Error parameters type." }));
 			console.log(err);
