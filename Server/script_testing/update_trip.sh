@@ -18,7 +18,7 @@ echo -e "Starting to update a trip"
 
 echo -e "${green}"
                                                             
-curl -H "Content-Type: application/json" -X POST -d '{"_id":"5c3e6044db391f1ab001d100", "name":"road to Milan", "budget":125}' http://localhost:8095/trip/updateTrip
+curl -H "Content-Type: application/json" -X POST -d '{"tripId":"5c561612c22be2586a57ee74", "name":"road to Milanaaaaaaaaa", "budget":3432,"destination":"Cazzun"}' http://localhost:8095/trip/updateTrip
 
 echo -e ""
 echo -e ""
