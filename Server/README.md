@@ -80,6 +80,27 @@ This is a simple list, for more information read the [documentation]()
     <td><code>http://localhost:8095/trip/newTrip</code></td> 
   </tr>
   <tr>
+    <td>update trip</td>
+    <td>Post</td>
+    <td><code>http://localhost:8095/trip/updateTrip</code></td> 
+  </tr>
+  <tr>
+    <td>delete trip</td>
+    <td>get</td>
+    <td><code>http://localhost:8095/trip/deleteTrip</code></td> 
+  </tr>
+  <tr>
+    <tr>
+    <td>add partecipant to trip</td>
+    <td>Post</td>
+    <td><code>http://localhost:8095/trip/addPartecipant</code></td> 
+  </tr>
+  <tr>
+    <td>remove partecipant to trip</td>
+    <td>Post</td>
+    <td><code>http://localhost:8095/trip/removePartecipant</code></td> 
+  </tr>
+  <tr>
     <td>get all trips</td>
     <td>Get</td>
     <td><code>http://localhost:8095/trip/allTrips</code></td> 
@@ -88,11 +109,6 @@ This is a simple list, for more information read the [documentation]()
     <td>get trips with filter</td>
     <td>Get</td>
     <td><code>http://localhost:8095/trip/getTripsWithFilter</code></td> 
-  </tr>
-  <tr>
-    <td>update trip</td>
-    <td>Post</td>
-    <td><code>http://localhost:8095/trip/updateTrip</code></td> 
   </tr>
   <tr>
     <td>get one trip by id</td>
