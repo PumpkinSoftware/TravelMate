@@ -20,6 +20,7 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import com.example.pumpkinsoftware.travelmate.edit_text_date_picker.EditTextDatePicker;
 import com.example.pumpkinsoftware.travelmate.min_max_filter.MinMaxFilter;
 import com.example.pumpkinsoftware.travelmate.my_on_checked_change_listener.MyOnCheckedChangeListener;
+import com.example.pumpkinsoftware.travelmate.search_on_click_listener.SearchOnClickListener;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -281,15 +282,18 @@ public class SearchFragment extends Fragment {
         MyOnCheckedChangeListener switch_listener = new MyOnCheckedChangeListener();
         pets_switch.setOnCheckedChangeListener(switch_listener);
 
-        Button bottAnn = (Button) view.findViewById(R.id.search_button);
-        bottAnn.setOnClickListener(new View.OnClickListener() {
+        Button b_search = (Button) view.findViewById(R.id.search_button);
+        b_search.setOnClickListener(new SearchOnClickListener(getContext(), getActivity().getSupportFragmentManager(), from, to, departure, ret,
+                                                              switch_listener, min1, max1, min2, max2));
+
+        /*b_search.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v) {*/
 
                /* SecondFragement frag = new SecondFragement();
 
                 getActivity().getFragmentManager().beginTransaction().replace(R.id, frag).commit();*/
-                SearchResults nextFrag= new SearchResults();
+                /*SearchResults nextFrag= new SearchResults();
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.search_layout, nextFrag)
                         .addToBackStack(null)
@@ -297,45 +301,9 @@ public class SearchFragment extends Fragment {
 
             }
 
-        });
+        });*/
 
         return view;
-
-        /* =======================
-                    QUERY
-           ======================= */
-
-        /* Get places */
-        /*String from_q = (from.getText()).toString().toLowerCase();
-        String to_q = (to.getText()).toString().toLowerCase();*/
-
-        /* Get dates */
-        /*StringBuilder departure_q =  new StringBuilder().append(departure.getSetMonth()).append("/")
-                .append(departure.getSetDay()).append("/").append(departure.getSetYear());
-
-        StringBuilder return_q =  new StringBuilder().append(ret.getSetMonth()).append("/")
-                .append(ret.getSetDay()).append("/").append(ret.getSetYear());*/
-
-        /* Get switch value */
-        /*String pets_value = "false";
-        pets_value = switch_listener.getValue();*/
-
-        /* Get budget */
-        /*String min1_q = (min1.getText()).toString();
-        String max1_q = (max1.getText()).toString();*/
-
-        /* Get group */
-        /*String min2_q = (min2.getText()).toString();
-        String max2_q = (max2.getText()).toString();
-
-        // Cycle to obtain n different queries in group range, n = ma2 - mi2
-        for(int i=mi2; i<=ma2; i++) {
-            String query = "http://localhost:8095/trip/getTripsWithFilter?destination=" + to_q + "&departure=" + from_q +
-                    "&minBudget=" + min1_q + "&maxBudget=" + max1_q + "&startDate=" + departure_q + "&endDate=" + return_q +
-                    "&maxPartecipant=" + i + "&pets=" + pets_value;
-            Toast.makeText(getContext(), query, Toast.LENGTH_SHORT).show();
-        }*/
-
     }
 
 }
