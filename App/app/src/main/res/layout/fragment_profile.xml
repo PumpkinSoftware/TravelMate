@@ -17,7 +17,7 @@
             android:id="@+id/header_cover_image"
             android:layout_width="match_parent"
             android:layout_height="210dp"
-            android:background="@drawable/amsterdam"
+            android:background="@mipmap/amsterdam"
             android:scaleType="centerCrop"
             android:src="@drawable/white_gradient"
             tools:ignore="ContentDescription" />
