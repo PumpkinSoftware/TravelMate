@@ -80,28 +80,9 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         /* Hide logo on input */
-        final ImageView logo = (ImageView) findViewById(R.id.imageView);
+        final ImageView logo = (ImageView) findViewById(R.id.logo);
 
-        EditText edit_text = (EditText) findViewById(R.id.editText);
-
-        edit_text.setOnFocusChangeListener(new OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                /*if(hasFocus)
-                    logo.setVisibility(View.GONE);*/
-                /*else
-                    logo.setVisibility(View.VISIBLE);*/
-            }
-        });
-
-        edit_text.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //logo.setVisibility(View.GONE);
-            }
-        });
-
-        edit_text = (EditText) findViewById(R.id.editText2);
+        EditText edit_text = (EditText) findViewById(R.id.username);
 
         edit_text.setOnFocusChangeListener(new OnFocusChangeListener() {
             @Override
@@ -120,7 +101,26 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        // If click on bg, focus is deleted, so logo is restored
+        edit_text = (EditText) findViewById(R.id.password);
+
+        edit_text.setOnFocusChangeListener(new OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                /*if(hasFocus)
+                    logo.setVisibility(View.GONE);*/
+                /*else
+                    logo.setVisibility(View.VISIBLE);*/
+            }
+        });
+
+        edit_text.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //logo.setVisibility(View.GONE);
+            }
+        });
+
+        // If click on bg, focus is deleted, so logo is restored (Ora non funziona con scrollview)
         findViewById(R.id.root_layout).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -145,14 +145,14 @@ public class LoginActivity extends AppCompatActivity {
 
                 if (keypadHeight > screenHeight * 0.15) {
                     // keyboard is opened
-                    ImageView imageView = (ImageView)findViewById(R.id.imageView);
+                    ImageView imageView = (ImageView)findViewById(R.id.logo);
                     Animation fadeOutAnimation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fadeout);
                     imageView.startAnimation(fadeOutAnimation);
                     logo.setVisibility(View.GONE);
                 } else {
                     // keyboard is closed
                     logo.setVisibility(View.VISIBLE);
-                    ImageView imageView = (ImageView)findViewById(R.id.imageView);
+                    ImageView imageView = (ImageView)findViewById(R.id.logo);
                     Animation fadeInAnimation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fadein);
                     imageView.startAnimation(fadeInAnimation);
                 }
