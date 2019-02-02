@@ -228,24 +228,24 @@ router.get('/loadExample', function(req, res){
 
 /****************************************/
 //Api per inserire un nuovo partecipante in un viaggio
-//example use: /addParticipant?trip_id=5c537f4bbd73113cd71d1384&user_id=5c538a1c33751c407b4b4122&email=example@email.com
+//example use: /addParticipant?trip_id=5c537f4bbd73113cd71d1384&email=example@email.com
 
 router.post('/addParticipant', function(req,res){
 	
 	var JsonObject = req.body;
 
 	var buddy = {
-		"_id": JsonObject.user_id,
 		"email": JsonObject.email
 	};	
 	var conditions = {							
-		_id: JsonObject.trip_id		
+		_id: JsonObject.trip_id,
+		'partecipant.email': { $ne: JsonObject.email }		
 	};
 	var update = {
 		$addToSet: {partecipant: buddy}
 	};
 	
-	TripSchema.findByIdAndUpdate(conditions, update, {new: true}, function (err, trip) {
+	TripSchema.findOneAndUpdate(conditions, update, {new: true}, function (err, trip) {
 		if (err){
 			res.send(JSON.stringify({ status: "error", message: "Error with ObjectId" }));
 			console.log(err);
@@ -257,24 +257,23 @@ router.post('/addParticipant', function(req,res){
 
 /****************************************/
 //Api per rimuovere un utente da un viaggio
-//example use: /removeParticipant?trip_id=5c537f4bbd73113cd71d1384&user_id=5c538a1c33751c407b4b4122&email=example@email.com
+//example use: /removeParticipant?trip_id=5c537f4bbd73113cd71d1384&email=example@email.com
 
 router.post('/removeParticipant', function(req,res){
 	
 	var JsonObject = req.body;
 
 	var buddy = {
-		"_id": JsonObject.user_id,
 		"email": JsonObject.email
 	};	
 	var conditions = {							
-		_id: JsonObject.trip_id		
+		_id: JsonObject.trip_id	
 	};
 	var update = {
 		$pull: {partecipant: buddy}
 	};
 	
-	TripSchema.findByIdAndUpdate(conditions, update, {new: true}, function (err, trip) {
+	TripSchema.findOneAndUpdate(conditions, update, {new: true}, function (err, trip) {
 		if (err){
 			res.send(JSON.stringify({ status: "error", message: "Error with ObjectId" }));
 			console.log(err);
