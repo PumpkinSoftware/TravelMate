@@ -127,7 +127,16 @@ router.get('/getTripsWithFilter', function(req, res){
 router.post('/updateTrip', function(req, res){
 
 	var JsonObject = req.body;
-
+	
+	if (JsonObject.name != undefined)
+		JsonObject.name = JsonObject.name.toLowerCase();
+	if (JsonObject.description != undefined)
+		JsonObject.description = JsonObject.description.toLowerCase();
+	if (JsonObject.departure != undefined)
+		JsonObject.departure = JsonObject.departure.toLowerCase();
+	if (JsonObject.destination != undefined)
+		JsonObject.destination = JsonObject.destination.toLowerCase();
+	
 	TripSchema.findById(JsonObject._id).exec(function(err, trip){
 		
 		if (err){
@@ -144,6 +153,25 @@ router.post('/updateTrip', function(req, res){
 			} 
 			res.send(updatetrip);
 		});
+	});
+});
+
+/******************************************/
+//Api per cancellare un viaggio
+//example use: /deleteTrip?id=5c537f4bbd73113cd71d1384
+
+router.get('/deleteTrip', function(req, res){
+
+	var id = req.query.id;    
+
+	TripSchema.remove({_id : id }, function(err){
+		if(err){
+			res.send(JSON.stringify({ status: "error", message: "Error on delete your trip" }));
+			console.log(err);
+		}
+		else{
+			res.send(JSON.stringify({ status: "ok", message: "Your trip is deleted" }));
+		}
 	});
 });
 
@@ -198,6 +226,61 @@ router.get('/loadExample', function(req, res){
 	res.send("Ok");
 });
 
+/****************************************/
+//Api per inserire un nuovo partecipante in un viaggio
+//example use: /addParticipant?trip_id=5c537f4bbd73113cd71d1384&email=example@email.com
 
+router.post('/addParticipant', function(req,res){
+	
+	var JsonObject = req.body;
+
+	var buddy = {
+		"email": JsonObject.email
+	};	
+	var conditions = {							
+		_id: JsonObject.trip_id,
+		'partecipant.email': { $ne: JsonObject.email }		
+	};
+	var update = {
+		$addToSet: {partecipant: buddy}
+	};
+	
+	TripSchema.findOneAndUpdate(conditions, update, {new: true}, function (err, trip) {
+		if (err){
+			res.send(JSON.stringify({ status: "error", message: "Error with ObjectId" }));
+			console.log(err);
+		}			
+		res.send(trip);
+			
+	});
+});
+
+/****************************************/
+//Api per rimuovere un utente da un viaggio
+//example use: /removeParticipant?trip_id=5c537f4bbd73113cd71d1384&email=example@email.com
+
+router.post('/removeParticipant', function(req,res){
+	
+	var JsonObject = req.body;
+
+	var buddy = {
+		"email": JsonObject.email
+	};	
+	var conditions = {							
+		_id: JsonObject.trip_id	
+	};
+	var update = {
+		$pull: {partecipant: buddy}
+	};
+	
+	TripSchema.findOneAndUpdate(conditions, update, {new: true}, function (err, trip) {
+		if (err){
+			res.send(JSON.stringify({ status: "error", message: "Error with ObjectId" }));
+			console.log(err);
+		}			
+		res.send(trip);
+			
+	});
+});
 
 module.exports = router;
