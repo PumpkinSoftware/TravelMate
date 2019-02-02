@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <color name="colorPrimary">#1D5D9C</color>
-    <color name="colorPrimaryDark">#000</color> <!-- 002EB8 -->
-    <color name="colorAccent">#D81A60</color>
-    <color name="gold">#FFD700</color>
-    <color name="toolbar">#FFFFFF</color>
-</resources>
