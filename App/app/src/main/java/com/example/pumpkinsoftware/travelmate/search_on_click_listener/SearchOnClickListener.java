@@ -1,8 +1,12 @@
 package com.example.pumpkinsoftware.travelmate.search_on_click_listener;
 
+import com.example.pumpkinsoftware.travelmate.SearchResults;
+
 import android.content.Context;
+import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -12,17 +16,17 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-import com.example.pumpkinsoftware.travelmate.SearchResults;
 import com.example.pumpkinsoftware.travelmate.edit_text_date_picker.EditTextDatePicker;
 import com.example.pumpkinsoftware.travelmate.my_on_checked_change_listener.MyOnCheckedChangeListener;
 import com.example.pumpkinsoftware.travelmate.R;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 
 public class SearchOnClickListener implements View.OnClickListener {
+    private static final  String URL="https://api.myjson.com/bins/97vf0";
     private Context context;
     private FragmentManager frag_manager;
     private TextInputEditText from;
@@ -35,9 +39,11 @@ public class SearchOnClickListener implements View.OnClickListener {
     private EditText min2;
     private EditText max2;
 
+    private RequestQueue mQueue;
+    private String stringaResult="";
     public SearchOnClickListener(Context c, FragmentManager fm, TextInputEditText f, TextInputEditText t,
                                  EditTextDatePicker d, EditTextDatePicker r, MyOnCheckedChangeListener s,
-                                 EditText m1, EditText m2, EditText m3, EditText m4) {
+                                 EditText m1, EditText m2, EditText m3, EditText m4,RequestQueue m) {
         context = c;
         frag_manager = fm;
         from = f;
@@ -49,6 +55,7 @@ public class SearchOnClickListener implements View.OnClickListener {
         max1 = m2;
         min2 = m3;
         max2 = m4;
+        mQueue=m;
     }
 
     @Override
@@ -57,11 +64,7 @@ public class SearchOnClickListener implements View.OnClickListener {
         /* SecondFragement frag = new SecondFragement();
 
         getActivity().getFragmentManager().beginTransaction().replace(R.id, frag).commit();*/
-        SearchResults nextFrag= new SearchResults();
-        frag_manager.beginTransaction()
-                .replace(R.id.search_layout, nextFrag)
-                .addToBackStack(null)
-                .commit();
+
 
         /* =======================
                     QUERY
@@ -91,6 +94,7 @@ public class SearchOnClickListener implements View.OnClickListener {
         String max2_q = (max2.getText()).toString();
 
         // Cycle to obtain n different queries in group range, n = ma2 - mi2
+        /*
         for(int i=Integer.parseInt(min2_q); i<=Integer.parseInt(max2_q); i++) {
 
             String query = "http://localhost:8095/trip/getTripsWithFilter?destination=" + to_q + "&departure=" + from_q +
@@ -100,32 +104,50 @@ public class SearchOnClickListener implements View.OnClickListener {
             Toast.makeText(context, "Request: " + query, Toast.LENGTH_SHORT).show();
 
 
-            // Instantiate the RequestQueue.
-            RequestQueue queue = Volley.newRequestQueue(context);
 
-            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
-                    (Request.Method.GET, query, null, new Response.Listener<JSONObject>() {
+        }*/
+       jsonParse();
+      // Log.i("ciao",stringaResult);
+       SearchResults nextFrag=new SearchResults();
+       //si può fare direttamente nextFrag=serArguments(stringaResult);
+       Bundle args = new Bundle();
+       args.putString("Key", stringaResult);
+       nextFrag.setArguments(args);
+       frag_manager.beginTransaction()
+                .replace(R.id.search_layout, nextFrag)
+                .addToBackStack(null)
+                .commit();
+       stringaResult="";
+    }
+    private void jsonParse(){
 
-                        @Override
-                        public void onResponse(JSONObject response) {
-                            // TODO: Handle response
-                            Toast.makeText(context, "Response: " + response.toString(), Toast.LENGTH_SHORT).show();
-                        }
-                    }, new Response.ErrorListener() {
+        //Log.i("ciao","Ciao1");
+        JsonObjectRequest request= new JsonObjectRequest(Request.Method.GET, URL, null, new Response.Listener<JSONObject>() {
+            public void onResponse(JSONObject response) {
 
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            // TODO: Handle error
-                            Toast.makeText(context, "Error: connection with server failed", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-
-            // Add the request to the RequestQueue.
-            queue.add(jsonObjectRequest);
-
-        }
-
-
+                try {
+                    JSONArray jsonArray=response.getJSONArray("employees");
+                    // Log.i("ciao","Ciao2");
+                    for(int i=0;i<jsonArray.length();i++){
+                        JSONObject employee= jsonArray.getJSONObject(i);
+                        String name =employee.getString("firstname");
+                       // Log.i("ciao","Ciao3");
+                      //  Toast.makeText(context, "Response: " + name, Toast.LENGTH_SHORT).show();
+                        stringaResult+=name+System.getProperty("line.separator");
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Toast.makeText(context, "Error: connection with server failed", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+                Toast.makeText(context, "Error: connection with server failed", Toast.LENGTH_SHORT).show();
+            }
+        });
+        mQueue.add(request);
     }
 
 
