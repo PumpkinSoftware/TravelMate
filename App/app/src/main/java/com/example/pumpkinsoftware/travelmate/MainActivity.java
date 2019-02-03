@@ -9,12 +9,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
 
-import android.net.Uri;
-import java.io.File;
 
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity  {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,4 +65,6 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, CreationTrip.class);
         startActivity(intent);
     }
+
+
 }
