@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.Fragment;
 import android.text.InputFilter;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,10 +18,20 @@ import android.widget.Switch;
 import android.widget.Toast;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.pumpkinsoftware.travelmate.edit_text_date_picker.EditTextDatePicker;
 import com.example.pumpkinsoftware.travelmate.min_max_filter.MinMaxFilter;
 import com.example.pumpkinsoftware.travelmate.my_on_checked_change_listener.MyOnCheckedChangeListener;
 import com.example.pumpkinsoftware.travelmate.search_on_click_listener.SearchOnClickListener;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -29,7 +40,7 @@ import java.util.Calendar;
 import io.apptik.widget.MultiSlider;
 
 public class SearchFragment extends Fragment {
-
+    private RequestQueue mQueue;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -44,20 +55,8 @@ public class SearchFragment extends Fragment {
         final EditText  departure_date = (EditText) view.findViewById(R.id.departure);
         final EditText  return_date = (EditText) view.findViewById(R.id.ret);
         final Switch pets_switch = (Switch) view.findViewById(R.id.switch1);
+        mQueue=Volley.newRequestQueue(getActivity().getApplicationContext());
 
-
-        // tolti a causa della nuova toolbar
-        // If click on bg, focus is deleted (Da sistemare)
-        /*
-        view.findViewById(R.id.search_layout).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getActivity(), v.toString(), Toast.LENGTH_SHORT).show();
-                InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
-                v.clearFocus();
-            }
-        });*/
 
         /* It extends searchview clickable area */
         searchView.setOnClickListener(new View.OnClickListener() {
@@ -283,25 +282,9 @@ public class SearchFragment extends Fragment {
         pets_switch.setOnCheckedChangeListener(switch_listener);
 
         Button b_search = (Button) view.findViewById(R.id.search_button);
-        b_search.setOnClickListener(new SearchOnClickListener(getContext(), getActivity().getSupportFragmentManager(), from, to, departure, ret,
-                                                              switch_listener, min1, max1, min2, max2));
+        b_search.setOnClickListener(new SearchOnClickListener(getContext(), getActivity().getSupportFragmentManager(), from, to, departure, ret,switch_listener, min1, max1, min2, max2,mQueue));
 
-        /*b_search.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {*/
 
-               /* SecondFragement frag = new SecondFragement();
-
-                getActivity().getFragmentManager().beginTransaction().replace(R.id, frag).commit();*/
-                /*SearchResults nextFrag= new SearchResults();
-                getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.search_layout, nextFrag)
-                        .addToBackStack(null)
-                        .commit();
-
-            }
-
-        });*/
 
         return view;
     }
