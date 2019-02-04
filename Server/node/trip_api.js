@@ -266,7 +266,7 @@ router.post('/addParticipant', function(req,res){
 	TripSchema.findOne(conditions, function (err, trip) {
 		if (err){
 			res.send(JSON.stringify({ status: "error", message: "Error with ObjectId" }));
-			console.error("error in conditions", err);
+			console.log(err);
 		}
 		else if (trip == null){
 			res.send(JSON.stringify({ status: "error", message: "User is already in this trip" }));
@@ -276,11 +276,11 @@ router.post('/addParticipant', function(req,res){
 			trip.updateOne(update, function(err, tripupdate){
 				if (err){
 					res.send(JSON.stringify({ status: "error", message: "Error on adding user" }));
-					console.error("error in adding user", err);
+					console.log(err);
 				}
 				else{
 					res.send(JSON.stringify({ status: "ok", message: "User: " + JsonObject.userId + " added to trip: " + trip._id }));
-					console.log(tripupdate);
+					console.log(JSON.stringify({ status: "ok", message: "User: " + JsonObject.userId + " added to trip: " + trip._id }));
 				};
 			});
 		};
@@ -308,7 +308,7 @@ router.post('/removeParticipant', function(req,res){
 	TripSchema.findOne(conditions, function (err, trip) {
 		if (err){
 			res.send(JSON.stringify({ status: "error", message: "Error with ObjectId" }));
-			console.error("error in conditions", err);
+			console.log(err);
 		}
 		else if (trip == null){
 			res.send(JSON.stringify({ status: "error", message: "User is not in this trip" }));
@@ -318,11 +318,11 @@ router.post('/removeParticipant', function(req,res){
 			trip.updateOne(update, function(err, tripupdate){
 				if (err){
 					res.send(JSON.stringify({ status: "error", message: "Error on removing user" }));
-					console.error("error in removing user", err);
+					console.log(err);
 				}
 				else{
 					res.send(JSON.stringify({ status: "ok", message: "User: " + JsonObject.userId + " removed from trip: " + trip._id }));
-					console.log(tripupdate);
+					console.log(JSON.stringify({ status: "ok", message: "User: " + JsonObject.userId + " removed from trip: " + trip._id }));
 				};
 			});
 		};
