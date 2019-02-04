@@ -263,13 +263,27 @@ router.post('/addParticipant', function(req,res){
 		$addToSet: {partecipant: buddy}
 	};
 	
-	TripSchema.findOneAndUpdate(conditions, update, {new: true}, function (err, trip) {
+	TripSchema.findOne(conditions, function (err, trip) {
 		if (err){
 			res.send(JSON.stringify({ status: "error", message: "Error with ObjectId" }));
-			console.log(err);
+			console.error("error in conditions", err);
+		}
+		else if (trip == null){
+			res.send(JSON.stringify({ status: "error", message: "User is already in this trip" }));
+			console.log(JSON.stringify({ status: "error", message: "User is already in this trip" }));
 		}			
-		res.send(trip);
-			
+		else{
+			trip.updateOne(update, function(err, tripupdate){
+				if (err){
+					res.send(JSON.stringify({ status: "error", message: "Error on adding user" }));
+					console.error("error in adding user", err);
+				}
+				else{
+					res.send(JSON.stringify({ status: "ok", message: "User: " + JsonObject.userId + " added to trip: " + trip._id }));
+					console.log(tripupdate);
+				};
+			});
+		};
 	});
 });
 
@@ -284,20 +298,36 @@ router.post('/removeParticipant', function(req,res){
 		"userId": JsonObject.userId
 	};	
 	var conditions = {							
-		_id: JsonObject.tripId	
+		_id: JsonObject.tripId,
+		partecipant: {$elemMatch: {userId: JsonObject.userId} } 	
 	};
 	var update = {
 		$pull: {partecipant: buddy}
 	};
 	
-	TripSchema.findOneAndUpdate(conditions, update, {new: true}, function (err, trip) {
+	TripSchema.findOne(conditions, function (err, trip) {
 		if (err){
 			res.send(JSON.stringify({ status: "error", message: "Error with ObjectId" }));
-			console.log(err);
+			console.error("error in conditions", err);
+		}
+		else if (trip == null){
+			res.send(JSON.stringify({ status: "error", message: "User is not in this trip" }));
+			console.log(JSON.stringify({ status: "error", message: "User is not in this trip" }));
 		}			
-		res.send(trip);
-			
+		else{
+			trip.updateOne(update, function(err, tripupdate){
+				if (err){
+					res.send(JSON.stringify({ status: "error", message: "Error on removing user" }));
+					console.error("error in removing user", err);
+				}
+				else{
+					res.send(JSON.stringify({ status: "ok", message: "User: " + JsonObject.userId + " removed from trip: " + trip._id }));
+					console.log(tripupdate);
+				};
+			});
+		};
 	});
 });
 
 module.exports = router;
+

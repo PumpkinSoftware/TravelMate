@@ -18,7 +18,7 @@ echo -e "Starting mio_prova.sh"
 
 echo -e "${green}"
                                                            
-curl -H "Content-Type: application/json" -X POST -d '{"tripId":"5c561612c22be2586a57ee75", "userId":"xxxxxxxxxx"}' http://localhost:8095/trip/addParticipant
+curl -H "Content-Type: application/json" -X POST -d '{"tripId":"5c577f51255a911d5292319f", "userId":"xxxxxxxxxx"}' http://localhost:8095/trip/addParticipant
 
 echo -e ""
 
@@ -26,7 +26,7 @@ curl -H "Content-Type: application/json" -X POST -d '{"tripId":"5c561612c22be258
 
 echo -e ""
 
-curl -H "Content-Type: application/json" -X POST -d '{"tripId":"5c561612c22be2586a57ee75", "userId":"xxxxxxxxxx"}' http://localhost:8095/trip/removeParticipant
+curl -H "Content-Type: application/json" -X POST -d '{"tripId":"5c577f51255a911d5292319f", "userId":"xxxxxxxxxx"}' http://localhost:8095/trip/removeParticipant
 
 echo -e ""
 
