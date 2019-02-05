@@ -1,5 +1,6 @@
 package com.example.pumpkinsoftware.travelmate.search_on_click_listener;
 
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.example.pumpkinsoftware.travelmate.SearchResults;
 
 import android.content.Context;
@@ -26,21 +27,17 @@ import org.json.JSONObject;
 
 
 public class SearchOnClickListener implements View.OnClickListener {
-    private static final  String URL="https://api.myjson.com/bins/97vf0";
+    private static   String URL="http://192.168.1.107:8095/trip/getTripsWithFilter?";
     private Context context;
     private FragmentManager frag_manager;
-    private TextInputEditText from;
-    private TextInputEditText to;
-    private EditTextDatePicker departure;
-    private EditTextDatePicker ret;
+    private TextInputEditText from, to;
+    private EditTextDatePicker departure, ret;
     private MyOnCheckedChangeListener switch_listener;
-    private EditText min1;
-    private EditText max1;
-    private EditText min2;
-    private EditText max2;
+    private EditText budgetMin,budgetMax, gruppoMin,gruppoMax;
 
     private RequestQueue mQueue;
-    private String stringaResult="";
+    private String stringaResult="",query="";
+
     public SearchOnClickListener(Context c, FragmentManager fm, TextInputEditText f, TextInputEditText t,
                                  EditTextDatePicker d, EditTextDatePicker r, MyOnCheckedChangeListener s,
                                  EditText m1, EditText m2, EditText m3, EditText m4,RequestQueue m) {
@@ -51,63 +48,61 @@ public class SearchOnClickListener implements View.OnClickListener {
         departure = d;
         ret = r;
         switch_listener = s;
-        min1 = m1;
-        max1 = m2;
-        min2 = m3;
-        max2 = m4;
+        budgetMin = m1;
+        budgetMax = m2;
+        gruppoMin = m3;
+        gruppoMax = m4;
         mQueue=m;
     }
 
+
+
     @Override
     public void onClick(View v) {
-
-        /* SecondFragement frag = new SecondFragement();
-
-        getActivity().getFragmentManager().beginTransaction().replace(R.id, frag).commit();*/
-
-
-        /* =======================
-                    QUERY
-           ======================= */
+        String from_q,to_q,min1_q,min2_q,max1_q,max2_q,pets_value="",departure_q,return_q;
 
         /* Get places */
-        String from_q = (from.getText()).toString().toLowerCase();
-        String to_q = (to.getText()).toString().toLowerCase();
+         from_q = (from.getText()).toString().toLowerCase();
+         to_q = (to.getText()).toString().toLowerCase();
 
         /* Get dates */
-        StringBuilder departure_q =  new StringBuilder().append(departure.getSetMonth()).append("/")
-                .append(departure.getSetDay()).append("/").append(departure.getSetYear());
+        departure_q =  (new StringBuilder().append(departure.getSetMonth()).append("/")
+                .append(departure.getSetDay()).append("/").append(departure.getSetYear())).toString();
 
-        StringBuilder return_q =  new StringBuilder().append(ret.getSetMonth()).append("/")
-                .append(ret.getSetDay()).append("/").append(ret.getSetYear());
+        return_q =  (new StringBuilder().append(ret.getSetMonth()).append("/")
+                .append(ret.getSetDay()).append("/").append(ret.getSetYear())).toString();
 
         /* Get switch value */
-        String pets_value = "false";
+
         pets_value = switch_listener.getValue();
 
         /* Get budget */
-        String min1_q = (min1.getText()).toString();
-        String max1_q = (max1.getText()).toString();
+        min1_q = (budgetMin.getText()).toString();
+        max1_q = (budgetMax.getText()).toString();
 
         /* Get group */
-        String min2_q = (min2.getText()).toString();
-        String max2_q = (max2.getText()).toString();
+        min2_q = (gruppoMin.getText()).toString();
+        max2_q = (gruppoMax.getText()).toString();
 
-        // Cycle to obtain n different queries in group range, n = ma2 - mi2
-        /*
-        for(int i=Integer.parseInt(min2_q); i<=Integer.parseInt(max2_q); i++) {
+        //Log.i("valori",max2_q);
+       // Log.i("valori",max1_q);
 
-            String query = "http://localhost:8095/trip/getTripsWithFilter?destination=" + to_q + "&departure=" + from_q +
-                    "&minBudget=" + min1_q + "&maxBudget=" + max1_q + "&startDate=" + departure_q + "&endDate=" + return_q +
-                    "&maxPartecipant=" + i + "&pets=" + pets_value;
+       //costruzione della query
+        query=URL;
+       if(!to_q.isEmpty()) filter("destination",to_q.toLowerCase());
+       if(!from_q.isEmpty()) filter("departure",from_q.toLowerCase());
+       if(!departure_q.equals("-1/-1/-1")) filter("startDate",departure_q.toLowerCase());
+       if(!return_q.equals("-1/-1/-1")) filter("endDate",return_q.toLowerCase());
+       if(pets_value.equals("true")) filter("pets","true");
+       if(!min1_q.equals("1")&&!min1_q.equals("0"))filter("minBudget",min1_q);
+       if(!max1_q.equals("2000"))filter("maxBudget",max1_q);
+       if(!min2_q.equals("1")&&!min2_q.equals("0"))filter("minPartecipant",min2_q);
+       if(!max2_q.equals("20"))filter("maxPartecipant",max2_q);
 
-            Toast.makeText(context, "Request: " + query, Toast.LENGTH_SHORT).show();
-
-
-
-        }*/
+        //chiamata del server
        jsonParse();
-      // Log.i("ciao",stringaResult);
+
+
        SearchResults nextFrag=new SearchResults();
        //si può fare direttamente nextFrag=serArguments(stringaResult);
        Bundle args = new Bundle();
@@ -119,36 +114,43 @@ public class SearchOnClickListener implements View.OnClickListener {
                 .commit();
        stringaResult="";
     }
-    private void jsonParse(){
 
-        //Log.i("ciao","Ciao1");
-        JsonObjectRequest request= new JsonObjectRequest(Request.Method.GET, URL, null, new Response.Listener<JSONObject>() {
-            public void onResponse(JSONObject response) {
+    //altre funzioni
+
+    private void jsonParse(){
+        //Log.i("query",query);
+        JsonArrayRequest request= new JsonArrayRequest(Request.Method.GET, query, null, new Response.Listener<JSONArray>() {
+            public void onResponse(JSONArray response) {
 
                 try {
-                    JSONArray jsonArray=response.getJSONArray("employees");
-                    // Log.i("ciao","Ciao2");
-                    for(int i=0;i<jsonArray.length();i++){
-                        JSONObject employee= jsonArray.getJSONObject(i);
-                        String name =employee.getString("firstname");
-                       // Log.i("ciao","Ciao3");
-                      //  Toast.makeText(context, "Response: " + name, Toast.LENGTH_SHORT).show();
+                    //JSONArray jsonArray=response.getJSONArray("viaggi")
+                    for(int i=0;i<response.length();i++){
+                        JSONObject viaggio= response.getJSONObject(i);
+                        String name =viaggio.getString("name");
+                       // Log.i("viaggio",name);
                         stringaResult+=name+System.getProperty("line.separator");
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    Toast.makeText(context, "Error: connection with server failed", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "Error: data reception failed", Toast.LENGTH_SHORT).show();
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 error.printStackTrace();
-                Toast.makeText(context, "Error: connection with server failed", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Error: connection with server failed ", Toast.LENGTH_SHORT).show();
             }
         });
         mQueue.add(request);
     }
 
+    private String filter(String categoria,String filtro){
+        //il primo valore non deve avere il simbolo "&"
+        if(query==URL)
+            return query+=categoria+"="+filtro;
+        else
+            return query+="&"+categoria+"="+filtro;
+    }
 
 }
