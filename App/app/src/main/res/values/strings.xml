@@ -29,6 +29,7 @@
     <string name="NYTrip">NY Trip</string>
 
     <!-- Search -->
+    <string name="search_hint">Search</string>
     <string name="place">Place</string>
     <string name="from">From</string>
     <string name="to">To</string>
