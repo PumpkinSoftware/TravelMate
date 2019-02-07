@@ -7,7 +7,6 @@ import android.media.AudioManager;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnFocusChangeListener;
 import android.view.ViewTreeObserver;
@@ -21,12 +20,7 @@ import android.widget.VideoView;
 import android.media.MediaPlayer;
 import android.net.Uri;
 
-import com.firebase.ui.auth.AuthUI;
-
-import java.util.Arrays;
-import java.util.List;
-
-import muted_video_view.MutedVideoView;
+import com.example.pumpkinsoftware.travelmate.muted_video_view.MutedVideoView;
 
 public class LoginActivity extends AppCompatActivity {
     private Button button;
@@ -120,8 +114,8 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        // If click on bg, focus is deleted, so logo is restored (Ora non funziona con scrollview)
-        findViewById(R.id.root_layout).setOnClickListener(new View.OnClickListener() {
+        // If click on bg, focus is deleted, so logo is restored
+        findViewById(R.id.login_layout).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (v != null) {

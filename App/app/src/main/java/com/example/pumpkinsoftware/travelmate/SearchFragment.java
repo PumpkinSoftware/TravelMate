@@ -1,15 +1,21 @@
 package com.example.pumpkinsoftware.travelmate;
 
 
+import android.app.Activity;
+import android.app.SearchManager;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
 import android.text.InputFilter;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -41,6 +47,7 @@ import io.apptik.widget.MultiSlider;
 
 public class SearchFragment extends Fragment {
     private RequestQueue mQueue;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -50,13 +57,30 @@ public class SearchFragment extends Fragment {
         final EditText min2 = (EditText) view.findViewById(R.id.group_min_value);
         final EditText max2 = (EditText) view.findViewById(R.id.group_max_value);
         final SearchView searchView = (SearchView) view.findViewById(R.id.search_bar);
-        final TextInputEditText  from = (TextInputEditText ) view.findViewById(R.id.from_text);
-        final TextInputEditText  to = (TextInputEditText ) view.findViewById(R.id.to_text);
-        final EditText  departure_date = (EditText) view.findViewById(R.id.departure);
-        final EditText  return_date = (EditText) view.findViewById(R.id.ret);
+        final TextInputEditText from = (TextInputEditText ) view.findViewById(R.id.from_text);
+        final TextInputEditText to = (TextInputEditText ) view.findViewById(R.id.to_text);
+        final EditText departure_date = (EditText) view.findViewById(R.id.departure);
+        final EditText return_date = (EditText) view.findViewById(R.id.ret);
         final Switch pets_switch = (Switch) view.findViewById(R.id.switch1);
-        mQueue=Volley.newRequestQueue(getActivity().getApplicationContext());
+        mQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
 
+        // If click on bg, focus is deleted
+        view.findViewById(R.id.scroll_child).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Toast.makeText(getActivity(), v.toString(), Toast.LENGTH_SHORT).show();
+                if (v != null) {
+                    InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                    v.clearFocus();
+                }
+            }
+        });
+
+        // Set the searchable configuration for key-words
+        Activity activity = getActivity();
+        SearchManager searchManager = (SearchManager) activity.getSystemService(Context.SEARCH_SERVICE);
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(activity.getComponentName()));
 
         /* It extends searchview clickable area */
         searchView.setOnClickListener(new View.OnClickListener() {
@@ -212,8 +236,8 @@ public class SearchFragment extends Fragment {
         // Verificare che la data di ritorno sia successiva a quella di partenza
 
         /* Multi Slider */
-        MultiSlider b_multiSlider = (MultiSlider) view.findViewById(R.id.budget_range_slider);
-        MultiSlider g_multiSlider = (MultiSlider) view.findViewById(R.id.group_range_slider);
+        final MultiSlider b_multiSlider = (MultiSlider) view.findViewById(R.id.budget_range_slider);
+        final MultiSlider g_multiSlider = (MultiSlider) view.findViewById(R.id.group_range_slider);
 
         /* Set text & filters for EditText linked to multi slider */
         int mi1 = b_multiSlider.getThumb(0).getValue();
@@ -239,9 +263,11 @@ public class SearchFragment extends Fragment {
                                        int value)
             {
                 if (thumbIndex == 0) {
-                    min1.setText(String.valueOf(value));
+                    if(Integer.parseInt(min1.getText().toString()) != value)
+                        min1.setText(String.valueOf(value));
                 } else {
-                    max1.setText(String.valueOf(value));
+                    if(Integer.parseInt(max1.getText().toString()) != value)
+                        max1.setText(String.valueOf(value));
                 }
             }
 
@@ -260,9 +286,11 @@ public class SearchFragment extends Fragment {
             @Override
             public void onValueChanged(MultiSlider multiSlider, MultiSlider.Thumb thumb, int thumbIndex, int value) {
                 if (thumbIndex == 0) {
-                    min2.setText(String.valueOf(value));
+                    if(Integer.parseInt(min2.getText().toString()) != value)
+                        min2.setText(String.valueOf(value));
                 } else {
-                    max2.setText(String.valueOf(value));
+                    if(Integer.parseInt(max2.getText().toString()) != value)
+                        max2.setText(String.valueOf(value));
                 }
             }
 
@@ -277,14 +305,114 @@ public class SearchFragment extends Fragment {
             }*/
         });
 
+        // Listener for editText, when min is setted, relative thumb position is changed
+        min1.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                try{
+                    int v = Integer.parseInt(s.toString());
+                    MultiSlider.Thumb t = b_multiSlider.getThumb(0);
+                    if(t.getValue() != v)
+                        t.setValue(v);
+                }
+                catch (Exception e) {
+                    Toast.makeText(getContext(), "Insert a integer", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        // Listener for editText, when max is setted, relative thumb position is changed
+        max1.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                try{
+                    int v = Integer.parseInt(s.toString());
+                    MultiSlider.Thumb t = b_multiSlider.getThumb(1);
+                    if(t.getValue() != v)
+                        t.setValue(v);
+                }
+                catch (Exception e) {
+                    Toast.makeText(getContext(), "Insert a integer", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        // Same for Group
+        // Listener for editText, when min is setted, relative thumb position is changed
+        min2.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                try{
+                    int v = Integer.parseInt(s.toString());
+                    MultiSlider.Thumb t = g_multiSlider.getThumb(0);
+                    if(t.getValue() != v)
+                        t.setValue(v);
+                }
+                catch (Exception e) {
+                    Toast.makeText(getContext(), "Insert a integer", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        // Listener for editText, when max is setted, relative thumb position is changed
+        max2.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                try{
+                    int v = Integer.parseInt(s.toString());
+                    MultiSlider.Thumb t = g_multiSlider.getThumb(1);
+                    if(t.getValue() != v)
+                        t.setValue(v);
+                }
+                catch (Exception e) {
+                    Toast.makeText(getContext(), "Insert a integer", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
 
         MyOnCheckedChangeListener switch_listener = new MyOnCheckedChangeListener();
         pets_switch.setOnCheckedChangeListener(switch_listener);
 
         Button b_search = (Button) view.findViewById(R.id.search_button);
-        b_search.setOnClickListener(new SearchOnClickListener(getContext(), getActivity().getSupportFragmentManager(), from, to, departure, ret,switch_listener, min1, max1, min2, max2,mQueue));
-
-
+        b_search.setOnClickListener(new SearchOnClickListener(getContext(), getActivity().getSupportFragmentManager(),
+                                    from, to, departure, ret,switch_listener, min1, max1, min2, max2, mQueue));
 
         return view;
     }
