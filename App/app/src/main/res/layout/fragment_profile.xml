@@ -111,7 +111,7 @@
             android:layout_height="match_parent"
             android:layout_below="@+id/designation"
             android:layout_margin="5dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="10dp"
             android:background="#fff"
             android:elevation="4dp"
             android:orientation="vertical"
@@ -172,6 +172,54 @@
                 app:layout_constraintTop_toTopOf="@+id/gender" />
 
             <TextView
+                android:id="@+id/nationality"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:clickable="true"
+                android:text="Nationality: "
+                android:textStyle="bold"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/gender"
+                app:layout_constraintTop_toBottomOf="@+id/gender" />
+
+            <TextView
+                android:id="@+id/nationality2"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_margin="5dp"
+                android:layout_marginLeft="5dp"
+                android:clickable="true"
+                android:text="Ita"
+                app:layout_constraintBottom_toBottomOf="@+id/nationality"
+                app:layout_constraintLeft_toRightOf="@+id/nationality"
+                app:layout_constraintTop_toTopOf="@+id/nationality" />
+
+            <TextView
+                android:id="@+id/lang"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:clickable="true"
+                android:text="Languages: "
+                android:textStyle="bold"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/nationality"
+                app:layout_constraintTop_toBottomOf="@+id/nationality" />
+
+            <TextView
+                android:id="@+id/lang2"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_margin="5dp"
+                android:layout_marginLeft="5dp"
+                android:clickable="true"
+                android:text="Italian, English, French"
+                app:layout_constraintBottom_toBottomOf="@+id/lang"
+                app:layout_constraintLeft_toRightOf="@+id/lang"
+                app:layout_constraintTop_toTopOf="@+id/lang" />
+
+            <TextView
                 android:id="@+id/occupation"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -180,8 +228,8 @@
                 android:text="Occupation: "
                 android:textStyle="bold"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/gender"
-                app:layout_constraintTop_toBottomOf="@+id/gender" />
+                app:layout_constraintStart_toStartOf="@+id/lang"
+                app:layout_constraintTop_toBottomOf="@+id/lang" />
 
             <TextView
                 android:id="@+id/occupation2"
