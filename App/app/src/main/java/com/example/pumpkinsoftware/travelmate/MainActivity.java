@@ -13,6 +13,8 @@ import android.view.View;
 
 
 public class MainActivity extends AppCompatActivity  {
+    public static final String FREE_QUERY = "com.example.pumpkinsoftware.travelmate.FREE_QUERY";
+    public static final String FILTERED_QUERY = "com.example.pumpkinsoftware.travelmate.FILTERED_QUERY";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

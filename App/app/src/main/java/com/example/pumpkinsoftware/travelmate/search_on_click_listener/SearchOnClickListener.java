@@ -27,7 +27,11 @@ import org.json.JSONObject;
 
 
 public class SearchOnClickListener implements View.OnClickListener {
-    private static   String URL="http://192.168.1.107:8095/trip/getTripsWithFilter?";
+    private static String URL="http://192.168.1.107:8095/trip/getTripsWithFilter?";
+    private static String MIN_BUDGET = "0";
+    private static String MAX_BUDGET = "2000";
+    private static String MIN_GROUP = "1";
+    private static String MAX_GROUP = "20";
     private Context context;
     private FragmentManager frag_manager;
     private TextInputEditText from, to;
@@ -36,7 +40,7 @@ public class SearchOnClickListener implements View.OnClickListener {
     private EditText budgetMin,budgetMax, gruppoMin,gruppoMax;
 
     private RequestQueue mQueue;
-    private String stringaResult="",query="";
+    private String stringaResult="", query="";
 
     public SearchOnClickListener(Context c, FragmentManager fm, TextInputEditText f, TextInputEditText t,
                                  EditTextDatePicker d, EditTextDatePicker r, MyOnCheckedChangeListener s,
@@ -84,35 +88,39 @@ public class SearchOnClickListener implements View.OnClickListener {
         min2_q = (gruppoMin.getText()).toString();
         max2_q = (gruppoMax.getText()).toString();
 
-        //Log.i("valori",max2_q);
-       // Log.i("valori",max1_q);
-
-       //costruzione della query
+        //costruzione della query
         query=URL;
-       if(!to_q.isEmpty()) filter("destination",to_q.toLowerCase());
-       if(!from_q.isEmpty()) filter("departure",from_q.toLowerCase());
-       if(!departure_q.equals("-1/-1/-1")) filter("startDate",departure_q.toLowerCase());
-       if(!return_q.equals("-1/-1/-1")) filter("endDate",return_q.toLowerCase());
-       if(pets_value.equals("true")) filter("pets","true");
-       if(!min1_q.equals("1")&&!min1_q.equals("0"))filter("minBudget",min1_q);
-       if(!max1_q.equals("2000"))filter("maxBudget",max1_q);
-       if(!min2_q.equals("1")&&!min2_q.equals("0"))filter("minPartecipant",min2_q);
-       if(!max2_q.equals("20"))filter("maxPartecipant",max2_q);
+        if(!to_q.isEmpty())                             filter("destination",to_q.toLowerCase());
+        if(!from_q.isEmpty())                           filter("departure",from_q.toLowerCase());
+        if(!departure_q.equals("-1/-1/-1"))             filter("startDate",departure_q.toLowerCase());
+        if(!return_q.equals("-1/-1/-1"))                filter("endDate",return_q.toLowerCase());
+        if(pets_value.equals("true"))                   filter("pets","true");
+        if(!min1_q.equals("1")&&!min1_q.equals("0"))    filter("minBudget",min1_q);
+        if(!max1_q.equals("2000"))                      filter("maxBudget",max1_q);
+        if(!min2_q.equals("1")&&!min2_q.equals("0"))    filter("minPartecipant",min2_q);
+        if(!max2_q.equals("20"))                        filter("maxPartecipant",max2_q);
+
+        /*
+        // Intent to start search activity
+        Intent intent = new Intent(this, com.example.pumpkinsoftware.travelmate.SearchableActivity.class);
+        intent.putExtra(EXTRA_MESSAGE, message);
+        startActivity(intent);
+        */
+
 
         //chiamata del server
-       jsonParse();
+        jsonParse();
 
-
-       SearchResults nextFrag=new SearchResults();
-       //si può fare direttamente nextFrag=serArguments(stringaResult);
-       Bundle args = new Bundle();
-       args.putString("Key", stringaResult);
-       nextFrag.setArguments(args);
-       frag_manager.beginTransaction()
+        SearchResults nextFrag=new SearchResults();
+        //si può fare direttamente nextFrag=serArguments(stringaResult);
+        Bundle args = new Bundle();
+        args.putString("Key", stringaResult);
+        nextFrag.setArguments(args);
+        frag_manager.beginTransaction()
                 .replace(R.id.search_layout, nextFrag)
                 .addToBackStack(null)
                 .commit();
-       stringaResult="";
+        stringaResult="";
     }
 
     //altre funzioni
@@ -147,7 +155,7 @@ public class SearchOnClickListener implements View.OnClickListener {
 
     private String filter(String categoria,String filtro){
         //il primo valore non deve avere il simbolo "&"
-        if(query==URL)
+        if(query.equals(URL))
             return query+=categoria+"="+filtro;
         else
             return query+="&"+categoria+"="+filtro;

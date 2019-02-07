@@ -2,6 +2,7 @@ package com.example.pumpkinsoftware.travelmate.min_max_filter;
 
 import android.text.InputFilter;
 import android.text.Spanned;
+import android.widget.Toast;
 
 public class MinMaxFilter implements InputFilter {
 
