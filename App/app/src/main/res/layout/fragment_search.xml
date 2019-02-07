@@ -38,6 +38,7 @@
         android:layout_below="@+id/search_bar">
 
         <RelativeLayout
+            android:id="@+id/scroll_child"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
