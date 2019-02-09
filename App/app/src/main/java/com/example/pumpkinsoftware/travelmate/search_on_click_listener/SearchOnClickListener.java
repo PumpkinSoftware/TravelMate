@@ -1,13 +1,13 @@
 package com.example.pumpkinsoftware.travelmate.search_on_click_listener;
 
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.example.pumpkinsoftware.travelmate.SearchResults;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.FragmentManager;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -16,7 +16,11 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
+import com.example.pumpkinsoftware.travelmate.CreationTrip;
+import com.example.pumpkinsoftware.travelmate.MainActivity;
+import com.example.pumpkinsoftware.travelmate.SearchFragment;
+import com.example.pumpkinsoftware.travelmate.SearchResult;
+import com.example.pumpkinsoftware.travelmate.ViaggiFragment;
 import com.example.pumpkinsoftware.travelmate.edit_text_date_picker.EditTextDatePicker;
 import com.example.pumpkinsoftware.travelmate.my_on_checked_change_listener.MyOnCheckedChangeListener;
 import com.example.pumpkinsoftware.travelmate.R;
@@ -111,15 +115,11 @@ public class SearchOnClickListener implements View.OnClickListener {
         //chiamata del server
         jsonParse();
 
-        SearchResults nextFrag=new SearchResults();
-        //si può fare direttamente nextFrag=serArguments(stringaResult);
-        Bundle args = new Bundle();
-        args.putString("Key", stringaResult);
-        nextFrag.setArguments(args);
-        frag_manager.beginTransaction()
-                .replace(R.id.search_layout, nextFrag)
-                .addToBackStack(null)
-                .commit();
+        Intent i = new Intent(this.context,SearchResult.class);
+        i.putExtra("result",stringaResult);
+        context.startActivity(i);
+
+
         stringaResult="";
     }
 
