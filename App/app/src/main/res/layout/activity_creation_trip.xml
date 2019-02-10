@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -10,7 +10,6 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:layout_marginBottom="675dp"
         android:background="@color/colorPrimary"
         android:theme="@style/toolbar"
         app:navigationIcon="?attr/homeAsUpIndicator">
@@ -21,7 +20,9 @@
     <ScrollView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar">
+        android:fillViewport="true"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        android:layout_marginTop="55dp">
 
         <RelativeLayout
             android:id="@+id/scroll_child"
@@ -33,8 +34,9 @@
                 android:id="@+id/places"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignStart="@+id/from"
-                android:layout_marginTop="9dp"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="13dp"
+                android:layout_marginTop="5dp"
                 android:text="@string/place"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5" />
 
@@ -213,9 +215,9 @@
                 android:layout_marginEnd="17dp"
                 android:layout_marginBottom="56dp"
                 android:ems="10"
+                android:hint="@string/n0"
                 android:inputType="number"
-                android:maxLength="4"
-                android:hint="@string/n0" />
+                android:maxLength="4" />
 
             <!-- Group section -->
 
@@ -253,15 +255,77 @@
                 android:layout_marginEnd="-32dp"
                 android:layout_marginBottom="-82dp"
                 android:ems="10"
+                android:hint="@string/n0"
                 android:inputType="number"
-                android:maxLength="4"
-                android:hint="@string/n0"/>
+                android:maxLength="4" />
+
+            <!--programma-->
+
+            <TextView
+                android:id="@+id/plan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/budget_text"
+                android:layout_alignStart="@+id/budget"
+                android:layout_marginStart="3dp"
+                android:layout_marginTop="110dp"
+                android:text="Programma"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5" />
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/plan_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/plan"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="13dp"
+                android:layout_marginTop="5dp">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/plantext"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ' "
+                    android:hint="Scrivi qualche dettaglio in più sul viaggio" />
+            </android.support.design.widget.TextInputLayout>
+
+
+            <!--nome viaggio-->
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/plan_text"
+                android:layout_alignStart="@+id/budget"
+                android:layout_marginStart="3dp"
+                android:layout_marginTop="27dp"
+                android:text="Nome "
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5" />
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/name_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/name"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="13dp"
+                android:layout_marginTop="5dp">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/nametext"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ' "
+                    android:hint="Inserisci il nome del viaggio per concludere" />
+            </android.support.design.widget.TextInputLayout>
+
+            <!--bottone-->
 
             <android.support.v7.widget.CardView
                 android:id="@+id/cardView"
                 android:layout_width="300dp"
                 android:layout_height="50dp"
-                android:layout_below="@+id/group_text"
+                android:layout_below="@+id/name_text"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="28dp"
                 android:layout_marginBottom="28dp"
@@ -270,7 +334,7 @@
                 app:cardElevation="10dp">
 
                 <Button
-                    android:id="@+id/search_button"
+                    android:id="@+id/confirm_button"
                     android:layout_width="327dp"
                     android:layout_height="match_parent"
                     android:layout_alignStart="@+id/cardView"
@@ -289,4 +353,4 @@
         </RelativeLayout>
 
     </ScrollView>
-</android.support.constraint.ConstraintLayout>
+</RelativeLayout>
