@@ -5,6 +5,7 @@ var TripSchema = new mongoose.Schema({
         description: String,
         departure: String,
         destination: String,
+        image: String,
         budget: Number,
         startDate: Date,
         endDate: Date,

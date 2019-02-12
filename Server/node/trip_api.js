@@ -39,6 +39,7 @@ router.post('/newTrip', function(req,res){
         departure: clientInput.departure.toLowerCase(),
         destination: clientInput.destination.toLowerCase(),
         budget: clientInput.budget,
+        image: clientInput.image,
         startDate: clientInput.startDate,
         endDate: clientInput.endDate,
         pets: clientInput.pets,
@@ -155,6 +156,8 @@ router.post('/updateTrip', function(req, res){
 		maxPartecipant = JsonObject.maxPartecipant;
 	if(JsonObject.minPartecipant != undefined)
 		minPartecipant = JsonObject.minPartecipant;
+	if (JsonObject.image != undefined)
+		query.image = JsonObject.image;
 	
 	TripSchema.findById(JsonObject.tripId).exec(function(err, trip){
 		
