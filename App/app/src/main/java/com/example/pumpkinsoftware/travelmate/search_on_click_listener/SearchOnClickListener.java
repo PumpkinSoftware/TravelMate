@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.FragmentManager;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -30,7 +31,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 
-public class SearchOnClickListener implements View.OnClickListener {
+public class SearchOnClickListener implements View.OnTouchListener {
     private static String URL="http://192.168.1.107:8095/trip/getTripsWithFilter?";
     private static String MIN_BUDGET = "0";
     private static String MAX_BUDGET = "2000";
@@ -63,64 +64,65 @@ public class SearchOnClickListener implements View.OnClickListener {
         mQueue=m;
     }
 
-
-
     @Override
-    public void onClick(View v) {
-        String from_q,to_q,min1_q,min2_q,max1_q,max2_q,pets_value="",departure_q,return_q;
+    public boolean onTouch(View v, MotionEvent event){
 
-        /* Get places */
-         from_q = (from.getText()).toString().toLowerCase();
-         to_q = (to.getText()).toString().toLowerCase();
+        if (event.getAction() == MotionEvent.ACTION_UP) {
+            String from_q,to_q,min1_q,min2_q,max1_q,max2_q,pets_value="",departure_q,return_q;
 
-        /* Get dates */
-        departure_q =  (new StringBuilder().append(departure.getSetMonth()).append("/")
-                .append(departure.getSetDay()).append("/").append(departure.getSetYear())).toString();
+            // Get places
+            from_q = (from.getText()).toString().toLowerCase();
+            to_q = (to.getText()).toString().toLowerCase();
 
-        return_q =  (new StringBuilder().append(ret.getSetMonth()).append("/")
-                .append(ret.getSetDay()).append("/").append(ret.getSetYear())).toString();
+            // Get dates
+            departure_q =  (new StringBuilder().append(departure.getSetMonth()).append("/")
+                    .append(departure.getSetDay()).append("/").append(departure.getSetYear())).toString();
 
-        /* Get switch value */
+            return_q =  (new StringBuilder().append(ret.getSetMonth()).append("/")
+                    .append(ret.getSetDay()).append("/").append(ret.getSetYear())).toString();
 
-        pets_value = switch_listener.getValue();
+            // Get switch value
 
-        /* Get budget */
-        min1_q = (budgetMin.getText()).toString();
-        max1_q = (budgetMax.getText()).toString();
+            pets_value = switch_listener.getValue();
 
-        /* Get group */
-        min2_q = (gruppoMin.getText()).toString();
-        max2_q = (gruppoMax.getText()).toString();
+            // Get budget
+            min1_q = (budgetMin.getText()).toString();
+            max1_q = (budgetMax.getText()).toString();
 
-        //costruzione della query
-        query=URL;
-        if(!to_q.isEmpty())                             filter("destination",to_q.toLowerCase());
-        if(!from_q.isEmpty())                           filter("departure",from_q.toLowerCase());
-        if(!departure_q.equals("-1/-1/-1"))             filter("startDate",departure_q.toLowerCase());
-        if(!return_q.equals("-1/-1/-1"))                filter("endDate",return_q.toLowerCase());
-        if(pets_value.equals("true"))                   filter("pets","true");
-        if(!min1_q.equals("1")&&!min1_q.equals("0"))    filter("minBudget",min1_q);
-        if(!max1_q.equals("2000"))                      filter("maxBudget",max1_q);
-        if(!min2_q.equals("1")&&!min2_q.equals("0"))    filter("minPartecipant",min2_q);
-        if(!max2_q.equals("20"))                        filter("maxPartecipant",max2_q);
+            // Get group
+            min2_q = (gruppoMin.getText()).toString();
+            max2_q = (gruppoMax.getText()).toString();
 
-        /*
-        // Intent to start search activity
-        Intent intent = new Intent(this, com.example.pumpkinsoftware.travelmate.SearchableActivity.class);
-        intent.putExtra(EXTRA_MESSAGE, message);
-        startActivity(intent);
-        */
+            //costruzione della query
+            query=URL;
+            if(!to_q.isEmpty())                             filter("destination",to_q.toLowerCase());
+            if(!from_q.isEmpty())                           filter("departure",from_q.toLowerCase());
+            if(!departure_q.equals("-1/-1/-1"))             filter("startDate",departure_q.toLowerCase());
+            if(!return_q.equals("-1/-1/-1"))                filter("endDate",return_q.toLowerCase());
+            if(pets_value.equals("true"))                   filter("pets","true");
+            if(!min1_q.equals("1")&&!min1_q.equals("0"))    filter("minBudget",min1_q);
+            if(!max1_q.equals("2000"))                      filter("maxBudget",max1_q);
+            if(!min2_q.equals("1")&&!min2_q.equals("0"))    filter("minPartecipant",min2_q);
+            if(!max2_q.equals("20"))                        filter("maxPartecipant",max2_q);
 
-
-        //chiamata del server
-        jsonParse();
-
-        Intent i = new Intent(this.context,SearchResult.class);
-        i.putExtra("result",stringaResult);
-        context.startActivity(i);
+            /*
+            // Intent to start search activity
+            Intent intent = new Intent(this, com.example.pumpkinsoftware.travelmate.SearchableActivity.class);
+            intent.putExtra(EXTRA_MESSAGE, message);
+            startActivity(intent);
+            */
 
 
-        stringaResult="";
+                //chiamata del server
+            jsonParse();
+
+            Intent i = new Intent(this.context,SearchResult.class);
+            i.putExtra("result",stringaResult);
+            context.startActivity(i);
+
+            stringaResult="";
+        }
+        return false;
     }
 
     //altre funzioni

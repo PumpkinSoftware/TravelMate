@@ -108,133 +108,6 @@ public class SearchFragment extends Fragment {
         EditTextDatePicker ret = new EditTextDatePicker(getContext(), return_date, calendar, departure);
         departure.setOther(ret);
 
-        // PRIMA DI CANCELLARE TESTIAMO!!
-        /*final int year = calendar.get(Calendar.YEAR);
-
-        final int month = calendar.get(Calendar.MONTH);
-        final int day = calendar.get(Calendar.DAY_OF_MONTH);*/
-
-        /* Date Picker Dialog listener for data_departure, when a date is set, write it on editText and change focus */
-        /*final DatePickerDialog.OnDateSetListener datePickerListener1 = new DatePickerDialog.OnDateSetListener() {
-
-            public void onDateSet(DatePicker view, int selectedYear,
-                                  int selectedMonth, int selectedDay) {
-                departure_date.setText(new StringBuilder().append(selectedDay).append("/")
-                                       .append(selectedMonth+1).append("/").append(selectedYear));
-            }
-        };
-
-        departure_date.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_UP) {
-                    DatePickerDialog d = new DatePickerDialog(getContext(), datePickerListener1, year, month, day);
-                    d.getDatePicker().setMinDate(calendar.getTimeInMillis());
-                    d.show();
-                }
-                return false;
-            }
-        });*/
-
-        /* Same for return_date */
-        /*final DatePickerDialog.OnDateSetListener datePickerListener2 = new DatePickerDialog.OnDateSetListener() {
-
-            public void onDateSet(DatePicker view, int selectedYear,
-                                  int selectedMonth, int selectedDay) {
-                return_date.setText(new StringBuilder().append(selectedDay).append("/")
-                        .append(selectedMonth+1).append("/").append(selectedYear));
-            }
-        };
-
-        return_date.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_UP) {
-                    DatePickerDialog d = new DatePickerDialog(getContext(), datePickerListener2, year, month, day);
-                    d.getDatePicker().setMinDate(calendar.getTimeInMillis());
-                    d.show();
-                }
-                return false;
-            }
-        });*/
-
-        /* Extracting dates (SI POSSONO INVECE FARE LE CLASSI DEI LISTENER E USARE DELLE GET) */
-        /*String date = departure_date.getText().toString();
-        String d_day = "", d_month = "";
-        int i;
-
-        if(date.charAt(1) == '/') {
-            d_day = date.substring(0,1);
-            i = 2;
-        }
-        else {
-            d_day = date.substring(0,2);
-            i = 3;
-        }
-
-        if(date.charAt(i+1) == '/') {
-            d_month = date.substring(i,i+1);
-            i += 2;
-        }
-        else {
-            d_month = date.substring(i,i+2);
-            i += 3;
-        }
-
-        String d_year = date.substring(i);
-        Toast.makeText(getActivity(), d_day+"/"+d_month+"/"+d_year, Toast.LENGTH_SHORT).show();*/
-
-        /* NON PIU' UTILE MA PER IL MOMENTO NON LO CANCELLIAMO!!
-        // Check if departure_date is correct
-        departure_date.addTextChangedListener(new TextWatcher() {
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                Pattern p = Pattern.compile("([1-9]|(0[1-9]|1[0-9]|2[0-9]|3[01]))[^0-9]([1-9]|0[1-9]|1[012])[^0-9](19|20)[0-9]{2}");
-                String str = departure_date.getText().toString();
-                if(str.length()==10){
-                    Matcher m = p.matcher(str);
-                    if(!m.matches())
-                        Toast.makeText(getActivity(), "Insert a valid date", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
-
-        });
-
-        // Check if return_date is correct
-        return_date.addTextChangedListener(new TextWatcher() {
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                Pattern p = Pattern.compile("([1-9]|(0[1-9]|1[0-9]|2[0-9]|3[01]))[^0-9]([1-9]|0[1-9]|1[012])[^0-9](19|20)[0-9]{2}");
-                String str = return_date.getText().toString();
-                if(str.length()==10){
-                    Matcher m = p.matcher(str);
-                    if(!m.matches())
-                        Toast.makeText(getActivity(), "Insert a valid date", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
-
-        });*/
-
-        // Verificare che la data di ritorno sia successiva a quella di partenza
-
         /* Multi Slider */
         final MultiSlider b_multiSlider = (MultiSlider) view.findViewById(R.id.budget_range_slider);
         final MultiSlider g_multiSlider = (MultiSlider) view.findViewById(R.id.group_range_slider);
@@ -411,7 +284,7 @@ public class SearchFragment extends Fragment {
         pets_switch.setOnCheckedChangeListener(switch_listener);
 
         Button b_search = (Button) view.findViewById(R.id.search_button);
-        b_search.setOnClickListener(new SearchOnClickListener(getContext(), getActivity().getSupportFragmentManager(),
+        b_search.setOnTouchListener(new SearchOnClickListener(getContext(), getActivity().getSupportFragmentManager(),
                                     from, to, departure, ret,switch_listener, min1, max1, min2, max2, mQueue));
 
         return view;
