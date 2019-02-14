@@ -113,7 +113,7 @@ public class SearchOnClickListener implements View.OnTouchListener {
             */
 
 
-                //chiamata del server
+            //chiamata del server
             jsonParse();
 
             Intent i = new Intent(this.context,SearchResult.class);
@@ -129,7 +129,7 @@ public class SearchOnClickListener implements View.OnTouchListener {
 
     private void jsonParse(){
         //Log.i("query",query);
-        JsonArrayRequest request= new JsonArrayRequest(Request.Method.GET, query, null, new Response.Listener<JSONArray>() {
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, query, null, new Response.Listener<JSONArray>() {
             public void onResponse(JSONArray response) {
 
                 try {
