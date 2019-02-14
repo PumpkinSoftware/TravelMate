@@ -139,7 +139,7 @@
 
             <!-- Pets section-->
             <Switch
-                android:id="@+id/switch1"
+                android:id="@+id/switch2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignEnd="@+id/budget_max_value"
@@ -216,7 +216,7 @@
                 android:layout_marginBottom="56dp"
                 android:ems="10"
                 android:hint="@string/n0"
-                android:inputType="number"
+                android:inputType="numberDecimal"
                 android:maxLength="4" />
 
             <!-- Group section -->

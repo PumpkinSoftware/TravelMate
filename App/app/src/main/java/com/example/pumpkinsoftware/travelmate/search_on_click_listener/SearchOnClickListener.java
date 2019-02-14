@@ -100,10 +100,10 @@ public class SearchOnClickListener implements View.OnTouchListener {
             if(!departure_q.equals("-1/-1/-1"))             filter("startDate",departure_q.toLowerCase());
             if(!return_q.equals("-1/-1/-1"))                filter("endDate",return_q.toLowerCase());
             if(pets_value.equals("true"))                   filter("pets","true");
-            if(!min1_q.equals("1")&&!min1_q.equals("0"))    filter("minBudget",min1_q);
-            if(!max1_q.equals("2000"))                      filter("maxBudget",max1_q);
-            if(!min2_q.equals("1")&&!min2_q.equals("0"))    filter("minPartecipant",min2_q);
-            if(!max2_q.equals("20"))                        filter("maxPartecipant",max2_q);
+            if(!min1_q.equals("1")&&!min1_q.equals(MIN_BUDGET))    filter("minBudget",min1_q);
+            if(!max1_q.equals(MAX_BUDGET))                      filter("maxBudget",max1_q);
+            if(!min2_q.equals(MIN_GROUP)&&!min2_q.equals("0"))    filter("minPartecipant",min2_q);
+            if(!max2_q.equals(MAX_GROUP))                        filter("maxPartecipant",max2_q);
 
             /*
             // Intent to start search activity
