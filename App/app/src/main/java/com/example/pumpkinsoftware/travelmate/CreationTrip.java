@@ -16,6 +16,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.pumpkinsoftware.travelmate.edit_text_date_picker.EditTextDatePicker;
@@ -114,15 +115,7 @@ public class CreationTrip extends AppCompatActivity {
 
                     budget_q=Double.parseDouble(budget.getText().toString());
                     group_q=Integer.parseInt(group.getText().toString());
-                    /*Log.i("Dato",nome_q);
-                    Log.i("Dato",program_q);
-                    Log.i("Dato",from_q);
-                    Log.i("Dato",to_q);
-                    Log.i("Dato",budget_q.toString());
-                    Log.i("Dato",departure_q);
-                    Log.i("Dato",return_q);
-                    Log.i("Dato",pets_value.toString());
-                    Log.i("Dato", String.valueOf(group_q));*/
+
                     JSONObject viaggio = new JSONObject();
                     try {
                         viaggio.put("name", nome_q);
@@ -138,22 +131,21 @@ public class CreationTrip extends AppCompatActivity {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    jsonParse();
+                    jsonParse(viaggio);
+                    finish();
                 }
             }
         });
 
     }
 
-    private void jsonParse() {
-            final StringRequest stringRequest = new StringRequest(Request.Method.POST, URL,
-                    new Response.Listener<String>() {
-                        @Override
-                        public void onResponse(String response) {
-                            // your response
-                            Toast.makeText(contesto, "Inserito correttamente", Toast.LENGTH_SHORT).show();
-                        }
-                    }, new Response.ErrorListener() {
+    private void jsonParse(JSONObject viaggio) {
+            final JsonObjectRequest JORequest = new JsonObjectRequest(Request.Method.POST,URL,viaggio, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    Toast.makeText(contesto, "Inserito correttamente", Toast.LENGTH_SHORT).show();
+                }
+            }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     // error
@@ -161,7 +153,7 @@ public class CreationTrip extends AppCompatActivity {
                 }
             });
             // Add the request to the RequestQueue.
-        mQueue.add(stringRequest);
+        mQueue.add(JORequest);
         mQueue.start();
     }
 
