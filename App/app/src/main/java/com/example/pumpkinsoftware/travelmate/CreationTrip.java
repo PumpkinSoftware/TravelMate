@@ -67,16 +67,15 @@ public class CreationTrip extends AppCompatActivity {
         final EditText nome= findViewById(R.id.plantext);
         final EditText program= findViewById(R.id.nametext);
 
+        final Calendar calendar = Calendar.getInstance();
+        final EditTextDatePicker departure = new EditTextDatePicker( contesto, departure_date, calendar);
+        final EditTextDatePicker ret = new EditTextDatePicker(contesto, return_date, calendar, departure);
+        departure.setOther(ret);
 
         Button b_confirm = (Button) findViewById(R.id.confirm_button);
         b_confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                final Calendar calendar = Calendar.getInstance();
-                EditTextDatePicker departure = new EditTextDatePicker( contesto, departure_date, calendar);
-                EditTextDatePicker ret = new EditTextDatePicker(contesto, return_date, calendar, departure);
-                departure.setOther(ret);
 
                 // valori da passare
                 from_q=from.getText().toString().toLowerCase();
@@ -84,14 +83,11 @@ public class CreationTrip extends AppCompatActivity {
                 pets_value = (((new MyOnCheckedChangeListener()).getValue()).equals("true"));
                 nome_q=nome.getText().toString().toLowerCase();
                 program_q=program.getText().toString().toLowerCase();
-               /* departure_q=departure.getSetMonth()+"/"+departure.getSetDay()+"/"+departure.getSetYear();
-                return_q=ret.getSetMonth()+"/"+ret.getSetDay()+"/"+ret.getSetYear();*/
                 departure_q =  departure.getSetMonth()+"/"+departure.getSetDay()+"/"+departure.getSetYear();
-
                 return_q =  ret.getSetMonth()+"/"+ret.getSetDay()+"/"+ret.getSetYear();
 
-                Log.i("data",departure_q);
-                Log.i("data",return_q);
+                //Log.i("data",departure_q);
+                //Log.i("data",return_q);
 
                 if(from_q.isEmpty()) {
                    msgErrore("la partenza");
