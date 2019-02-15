@@ -64,13 +64,16 @@ public class CreationTrip extends AppCompatActivity {
         final EditText departure_date = (EditText) findViewById(R.id.departure);
         final EditText return_date = (EditText) findViewById(R.id.ret);
         final Switch pets_switch = (Switch) findViewById(R.id.switch2);
-        final EditText nome= findViewById(R.id.plantext);
-        final EditText program= findViewById(R.id.nametext);
+        final EditText nome= findViewById(R.id.nametext);
+        final EditText program= findViewById(R.id.plantext);
 
         final Calendar calendar = Calendar.getInstance();
         final EditTextDatePicker departure = new EditTextDatePicker( contesto, departure_date, calendar);
         final EditTextDatePicker ret = new EditTextDatePicker(contesto, return_date, calendar, departure);
         departure.setOther(ret);
+
+        final MyOnCheckedChangeListener switch_listener = new MyOnCheckedChangeListener();
+        pets_switch.setOnCheckedChangeListener(switch_listener);
 
         Button b_confirm = (Button) findViewById(R.id.confirm_button);
         b_confirm.setOnClickListener(new View.OnClickListener() {
@@ -80,7 +83,7 @@ public class CreationTrip extends AppCompatActivity {
                 // valori da passare
                 from_q=from.getText().toString().toLowerCase();
                 to_q=to.getText().toString().toLowerCase();
-                pets_value = (((new MyOnCheckedChangeListener()).getValue()).equals("true"));
+                pets_value = Boolean.valueOf(switch_listener.getValue());
                 nome_q=nome.getText().toString().toLowerCase();
                 program_q=program.getText().toString().toLowerCase();
                 departure_q =  departure.getSetMonth()+"/"+departure.getSetDay()+"/"+departure.getSetYear();
@@ -111,6 +114,15 @@ public class CreationTrip extends AppCompatActivity {
 
                     budget_q=Double.parseDouble(budget.getText().toString());
                     group_q=Integer.parseInt(group.getText().toString());
+                    /*Log.i("Dato",nome_q);
+                    Log.i("Dato",program_q);
+                    Log.i("Dato",from_q);
+                    Log.i("Dato",to_q);
+                    Log.i("Dato",budget_q.toString());
+                    Log.i("Dato",departure_q);
+                    Log.i("Dato",return_q);
+                    Log.i("Dato",pets_value.toString());
+                    Log.i("Dato", String.valueOf(group_q));*/
                     JSONObject viaggio = new JSONObject();
                     try {
                         viaggio.put("name", nome_q);
