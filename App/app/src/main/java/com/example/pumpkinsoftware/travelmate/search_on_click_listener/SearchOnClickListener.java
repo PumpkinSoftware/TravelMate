@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
@@ -32,11 +33,11 @@ import org.json.JSONObject;
 
 
 public class SearchOnClickListener implements View.OnTouchListener {
-    private static String URL="http://192.168.1.107:8095/trip/getTripsWithFilter?";
-    private static String MIN_BUDGET = "0";
-    private static String MAX_BUDGET = "2000";
-    private static String MIN_GROUP = "1";
-    private static String MAX_GROUP = "20";
+    private final static String URL="http://192.168.1.107:8095/trip/getTripsWithFilter?";
+    private final static String MIN_BUDGET = "0";
+    private final static String MAX_BUDGET = "2000";
+    private final static String MIN_GROUP = "1";
+    private final static String MAX_GROUP = "20";
     private Context context;
     private FragmentManager frag_manager;
     private TextInputEditText from, to;
@@ -75,11 +76,9 @@ public class SearchOnClickListener implements View.OnTouchListener {
             to_q = (to.getText()).toString().toLowerCase();
 
             // Get dates
-            departure_q =  (new StringBuilder().append(departure.getSetMonth()).append("/")
-                    .append(departure.getSetDay()).append("/").append(departure.getSetYear())).toString();
+            departure_q = departure.getSetMonth()+"/"+departure.getSetDay()+"/"+departure.getSetYear();
 
-            return_q =  (new StringBuilder().append(ret.getSetMonth()).append("/")
-                    .append(ret.getSetDay()).append("/").append(ret.getSetYear())).toString();
+            return_q = ret.getSetMonth()+"/"+ret.getSetDay()+"/"+ret.getSetYear();
 
             // Get switch value
 

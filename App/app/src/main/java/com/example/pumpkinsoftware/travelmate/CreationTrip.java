@@ -27,7 +27,7 @@ import org.json.JSONObject;
 import java.util.Calendar;
 
 public class CreationTrip extends AppCompatActivity {
-    private static String URL="http://192.168.1.107:8095/trip/newTrip/";
+    private final static String URL="http://192.168.1.107:8095/trip/newTrip/";
     protected String from_q,to_q,departure_q,return_q,nome_q,program_q;
     protected Double budget_q;
     protected Boolean pets_value;
@@ -44,11 +44,11 @@ public class CreationTrip extends AppCompatActivity {
 
         //TOOLBAR
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setTitle("New travel ?");
-        toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
+        //setSupportActionBar(toolbar);
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+       // getSupportActionBar().setDisplayShowHomeEnabled(true);
+        //toolbar.setTitle("New travel ?");
+        //toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -81,18 +81,18 @@ public class CreationTrip extends AppCompatActivity {
                 // valori da passare
                 from_q=from.getText().toString().toLowerCase();
                 to_q=to.getText().toString().toLowerCase();
-                pets_value = (((new MyOnCheckedChangeListener()).getValue())=="true")? true : false;
+                pets_value = (((new MyOnCheckedChangeListener()).getValue()).equals("true"));
                 nome_q=nome.getText().toString().toLowerCase();
                 program_q=program.getText().toString().toLowerCase();
                /* departure_q=departure.getSetMonth()+"/"+departure.getSetDay()+"/"+departure.getSetYear();
                 return_q=ret.getSetMonth()+"/"+ret.getSetDay()+"/"+ret.getSetYear();*/
-                departure_q =  (new StringBuilder().append(departure.getSetMonth()).append("/")
-                        .append(departure.getSetDay()).append("/").append(departure.getSetYear())).toString();
+                departure_q =  departure.getSetMonth()+"/"+departure.getSetDay()+"/"+departure.getSetYear();
 
-                return_q =  (new StringBuilder().append(ret.getSetMonth()).append("/")
-                        .append(ret.getSetDay()).append("/").append(ret.getSetYear())).toString();
-                //Log.i("data",departure_date.toString());
-                //Log.i("data",return_date.toString());
+                return_q =  ret.getSetMonth()+"/"+ret.getSetDay()+"/"+ret.getSetYear();
+
+                Log.i("data",departure_q);
+                Log.i("data",return_q);
+
                 if(from_q.isEmpty()) {
                    msgErrore("la partenza");
                 }else if(to_q.isEmpty()){
@@ -130,14 +130,14 @@ public class CreationTrip extends AppCompatActivity {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    jsonParse(viaggio);
+                    jsonParse();
                 }
             }
         });
 
     }
 
-    private void jsonParse(JSONObject viaggio) {
+    private void jsonParse() {
             final StringRequest stringRequest = new StringRequest(Request.Method.POST, URL,
                     new Response.Listener<String>() {
                         @Override
