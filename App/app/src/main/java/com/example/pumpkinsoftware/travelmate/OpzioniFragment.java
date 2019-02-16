@@ -1,4 +1,6 @@
 package com.example.pumpkinsoftware.travelmate;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -7,6 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
+
+import com.google.firebase.auth.FirebaseAuth;
 
 public class OpzioniFragment extends Fragment {
 
@@ -20,9 +24,17 @@ public class OpzioniFragment extends Fragment {
 
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(), "Logout", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Logout effettuato", Toast.LENGTH_SHORT).show();
+                FirebaseAuth.getInstance().signOut();
+                openLogin();
             }
         });
         return inflate;
     }
+
+    public void openLogin(){
+        Intent intent=new Intent(this.getContext(),LoginActivity.class);
+        startActivity(intent);
+    }
 }
+
