@@ -1,13 +1,19 @@
 package com.example.pumpkinsoftware.travelmate.trips_adapter;
 
+import android.animation.AnimatorInflater;
+import android.animation.AnimatorSet;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.support.v7.widget.RecyclerView;
+import android.widget.Toast;
 
 import com.example.pumpkinsoftware.travelmate.glide.GlideApp;
 import com.example.pumpkinsoftware.travelmate.trip.Trip;
@@ -30,7 +36,8 @@ public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.ViewHolder> 
         public ImageView group_image;
         public TextView budget_number;
         public ImageView budget_image;
-        public Button more_button;
+        //public Button more_button;
+        public CheckBox fav_image;
         public ImageView sharing_image;
 
         // We also create a constructor that accepts the entire item row
@@ -41,18 +48,74 @@ public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.ViewHolder> 
             super(v);
 
             trip_image = (ImageView) v.findViewById(R.id.travel_image);
+            // Handling click on a card
+            trip_image.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Trip t = getTrip();
+
+                    if(t != null)
+                       Toast.makeText(context, "Card clicked " + t.getName(), Toast.LENGTH_SHORT).show();
+                }
+            });
+
             trip_name = (TextView) v.findViewById(R.id.travel_name);
             group_number = (TextView) v.findViewById(R.id.group_number);
             group_image = (ImageView) v.findViewById(R.id.group_image);
             budget_number = (TextView) v.findViewById(R.id.budget_number);
             budget_image = (ImageView) v.findViewById(R.id.budget_image);
-            more_button = (Button) v.findViewById(R.id.button);
+            //more_button = (Button) v.findViewById(R.id.button);
+
+            fav_image = (CheckBox) v.findViewById(R.id.fav_image);
+            // Handling animation on click
+            fav_image.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    AnimatorSet set = (AnimatorSet) AnimatorInflater.loadAnimator(context, R.animator.zoom_in);
+                    set.setTarget(buttonView); // set the view you want to animate
+                    set.start();
+                }
+            });
+
             sharing_image = (ImageView) v.findViewById(R.id.sharing_image);
+            // Handling sharing on click with animation
+            sharing_image.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    AnimatorSet set = (AnimatorSet) AnimatorInflater.loadAnimator(context, R.animator.zoom_in);
+                    set.setTarget(v); // set the view you want to animate
+                    set.start();
+                    Trip t = getTrip();
+                    shareText(t.getName());
+                }
+            });
+
         }
+
+        // Returns trip in the list
+        private Trip getTrip(){
+            int pos = getAdapterPosition();
+
+            // check if item still exists
+            if(pos != RecyclerView.NO_POSITION) return trips.get(pos);
+            return                              null;
+        }
+
     }
 
     public TripsAdapter(List<Trip> t) {
         trips = t;
+    }
+
+
+
+    private void shareText(String s) {
+        Intent intent = new Intent(android.content.Intent.ACTION_SEND);
+        intent.setType("text/plain");
+        //String shareBodyText = "Your sharing message goes here";
+        intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject/Title");
+        intent.putExtra(android.content.Intent.EXTRA_TEXT, "Do you want to join "+ s+ "?");
+        context.startActivity(Intent.createChooser(intent, "Condividi"));
     }
 
     // Usually involves inflating a layout from XML and returning the holder
@@ -91,7 +154,7 @@ public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.ViewHolder> 
         TextView g_number = viewHolder.group_number;
         g_number.setText(trip.getGroup());
         ImageView g_image = viewHolder.group_image;
-        Button button = viewHolder.more_button;
+        //Button button = viewHolder.more_button;
         ImageView s_image = viewHolder.sharing_image;
     }
 
