@@ -40,7 +40,7 @@ public class ClientServerInteraction {
                         int group_max = travel.getInt("maxPartecipant");
                         JSONArray part = travel.getJSONArray("partecipant");
                         int partecipants = part.length();
-                        trips.add(new Trip("Trip img", name, partecipants+"/"+group_max, budget));
+                        trips.add(new Trip("Trip id","Trip img", name, partecipants+"/"+group_max, budget));
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
