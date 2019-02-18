@@ -94,9 +94,6 @@
                     android:text="@string/login"
                     android:textColor="#fff"
                     android:textSize="18sp">
-                    <!--
-                    android:layout_marginStart="95dp"
-                    android:layout_marginEnd="85dp"-->
                 </Button>
 
             </android.support.v7.widget.CardView>
