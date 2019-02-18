@@ -196,8 +196,8 @@ public class LoginActivity extends AppCompatActivity {
         String username = ((EditText) findViewById(R.id.username)).getText().toString();
         String password = ((EditText) findViewById(R.id.password)).getText().toString();
 
-        if(username.isEmpty() || password.isEmpty())
-            Toast.makeText(contesto, "Inserire tutti i campi", Toast.LENGTH_SHORT).show();
+        if(username.isEmpty() || password.isEmpty()) openMain(); // CAMBIO PER I TEST
+            //Toast.makeText(contesto, "Inserire tutti i campi", Toast.LENGTH_SHORT).show();
         else
         mAuth.signInWithEmailAndPassword(username, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
