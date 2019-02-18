@@ -1,10 +1,14 @@
 package com.example.pumpkinsoftware.travelmate;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -19,12 +23,14 @@ import com.example.pumpkinsoftware.travelmate.trips_adapter.TripsAdapter;
 import java.util.ArrayList;
 
 public class HomeFragment extends Fragment {
+    private Context context;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
-        Context context = getContext();
+        context = getContext();
+        setHasOptionsMenu(true);
 
         //Loading images with glide
         /*ImageView img = (ImageView) view.findViewById(R.id.travel_image);
@@ -63,6 +69,39 @@ public class HomeFragment extends Fragment {
         // Set layout manager to position the items
         rvContacts.setLayoutManager(new LinearLayoutManager(context));
         return view;
+    }
+
+    /*public static void shareText(View view) {
+        Intent intent = new Intent(android.content.Intent.ACTION_SEND);
+        intent.setType("text/plain");
+        String shareBodyText = "Your sharing message goes here";
+        intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject/Title");
+        intent.putExtra(android.content.Intent.EXTRA_TEXT, shareBodyText);
+        startActivity(Intent.createChooser(intent, "Choose sharing method"));
+    }*/
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.sharing_menu, menu);
+        super.onCreateOptionsMenu(menu,inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.share:
+
+                Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+                sharingIntent.setType("text/plain");
+                String shareBodyText = "Check it out. Your message goes here";
+                sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT,"Subject here");
+                sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBodyText);
+                context.startActivity(Intent.createChooser(sharingIntent, "Sharing Option"));
+                return true;
+
+            default:
+                return false; //super.onOptionsItemSelected(item);
+        }
     }
 }
 

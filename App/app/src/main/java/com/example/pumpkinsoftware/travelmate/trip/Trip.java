@@ -6,32 +6,22 @@ import android.widget.ImageView;
 import java.util.ArrayList;
 
 public class Trip {
+    private String id;
     private String trip_image;
     private String trip_name;
     private String group_number;
-    //private ImageView group_image;
     private String budget_number;
-    /*private ImageView budget_image;
-    private Button more_button;
-    private ImageView sharing_image;*/
 
-    public Trip(String t_image, String n, String g, ImageView g_image, String b,
-                ImageView b_image, Button btn, ImageView s_image) {
+    public Trip(String id, String t_image, String name, String group, int budget) {
+        this.id = id;
         trip_image = t_image;
-        trip_name = n;
-        group_number = g;
-        //group_image = g_image;
-        budget_number = b;
-        //budget_image = b_image;
-        //more_button = btn;
-        //sharing_image = s_image;
+        trip_name = name;
+        group_number = group;
+        budget_number = Integer.toString(budget);
     }
 
-    public Trip(String t_image, String n, String g, int b) {
-        trip_image = t_image;
-        trip_name = n;
-        group_number = g;
-        budget_number = Integer.toString(b);
+    public String getId() {
+        return id;
     }
 
     public String getName() {
@@ -46,6 +36,14 @@ public class Trip {
         return budget_number;
     }
 
+    public void setGroup(String group) {
+        group_number = group;
+    }
+
+    public void setBudget(String budget) {
+        budget_number = budget;
+    }
+
     private static int lastTripId = 0;
 
     // PER PROVA
@@ -55,7 +53,7 @@ public class Trip {
         for (int i = 1; i <= n; i++) {
             double d = (Math.random()*10);
             int max = i + (int) d;
-            trips.add(new Trip("Trip " + ++lastTripId, "Trip " + lastTripId, i+"/"+max, i*10+10*max));
+            trips.add(new Trip("Trip " + ++lastTripId, "Trip " + lastTripId, "Trip " + lastTripId, i+"/"+max, i*10+10*max));
         }
 
         return trips;
