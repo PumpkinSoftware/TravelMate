@@ -12,10 +12,16 @@
         android:layout_height="?attr/actionBarSize"
         android:background="@color/colorPrimary"
         android:theme="@style/toolbar"
-
         app:navigationIcon="?attr/homeAsUpIndicator"
         tools:layout_editor_absoluteX="0dp"
         tools:layout_editor_absoluteY="0dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/title"
+            android:text="@string/result_title"
+            android:textColor="@color/white"
+            android:textSize="22dp"/>
 
     </android.support.v7.widget.Toolbar>
 
@@ -31,7 +37,7 @@
                 android:id="@+id/result"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text=""
+
                 android:textSize="35dp"
                 app:showAsAction="collapseActionView|ifRoom"
                 tools:layout_editor_absoluteX="0dp"

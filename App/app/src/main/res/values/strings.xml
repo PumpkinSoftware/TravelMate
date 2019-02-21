@@ -4,10 +4,10 @@
     <!-- Bottom Navbar -->
     <string name="action_settings">Settings</string>
     <string name="search">Search</string>
-    <string name="journey">Journey</string>
+    <string name="journey">Eventi</string>
     <string name="home">Home</string>
-    <string name="user">User</string>
-    <string name="settings">Settings</string>
+    <string name="user">Profilo</string>
+    <string name="settings">Opzioni</string>
 
     <!-- Login -->
     <string name="username">Username</string>
@@ -22,34 +22,72 @@
     <string name="facebook_login_protocol_scheme" translatable="false">fbYOUR_APP_ID</string>-->
 
     <!-- Home -->
+    <string name="home_title"> 🔥 Tendenze</string>
     <string name="user_logged">LeBron James</string>
     <string name="MORE">MORE</string>
     <string name="n500">500</string>
     <string name="n58">5/8</string>
     <string name="NYTrip">NY Trip</string>
 
-    <!-- Search -->
+    <!-- Travel page-->
+    <string name="travel_title">I tuoi eventi</string>
+
+    <!-- Search and Creation -->
     <string name="search_hint">Search</string>
-    <string name="place">Place</string>
-    <string name="from">From</string>
-    <string name="to">To</string>
-    <string name="date">Date</string>
-    <string name="departure">Departure</string>
-    <string name="ret">Return</string>
-    <string name="pets">Pets?</string>
-    <string name="pets_text">Find trips in which travellers can have pets</string>
+    <string name="place">Luoghi</string>
+    <string name="from">Da</string>
+    <string name="to">A</string>
+    <string name="date">Data</string>
+    <string name="departure">Partenza</string>
+    <string name="ret">Arrivo</string>
+    <string name="pets">Animali?</string>
+    <string name="pets_text">Trasporto animali incluso</string>
     <string name="budget">Budget</string>
-    <string name="budget_text">Select your min and max budget that you\'d spend for your trip</string>
+    <string name="budget_text">Minimo e massimo spendibili nel viaggio</string>
     <string name="n0">0</string>
     <string name="n2">2</string>
     <string name="n2000">2000</string>
     <string name="euro">€</string>
 
+    <!-- Only creation-->
+    <string name="creation_title">Nuovo evento?</string>
+    <string name="group">Gruppo</string>
+    <string name="buddies">Minimo e massimo dei compagni di viaggio</string>
+    <string name="budget_text2">Cifra approssimativa</string>
+    <string name="plan">Programma</string>
+    <string name="plan_text">Scrivi qualche dettaglio in più sul viaggio</string>
+    <string name="name">Nome</string>
+    <string name="name_text">Inserisci il nome dell\evento per concludere</string>
+    <string name="confirm">Conferma</string>
+
+    <!-- Result page-->
+    <string name="result_title">Risultati</string>
+
+    <!-- Profile page-->
+    <string name="bio">Bio</string>
+    <string name="nickname">username</string>
+    <string name="age">Anni: </string>
+    <string name="gender">Sesso: </string>
+    <string name="nazionalità">Nazionalità: </string>
+    <string name="lingua">Lingua: </string>
+    <string name="occupation">Occupazione: </string>
+    <string name="education">Educazione: </string>
+    <string name="relationship">Relazione: </string>
+    <string name="phone">Telefono: </string>
+    <string name="email">Email: </string>
+
     <!-- Settings -->
     <string name="logout">Logout</string>
+    <string name="sofware">PumpkinSoftware</string>
+    <string name="version2">Nightly build 1.0</string>
+    <string name="version">Versione:</string>
+    <string name="language">Lingua</string>
+    <string name="sounds">Suoni</string>
+    <string name="notifications">Notifiche</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
 
 
 </resources>
