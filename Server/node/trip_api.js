@@ -40,9 +40,11 @@ router.post('/newTrip', function(req,res){
         destination: clientInput.destination.toLowerCase(),
         budget: clientInput.budget,
         image: clientInput.image,
+        owner: clientInput.owner,
         startDate: clientInput.startDate,
         endDate: clientInput.endDate,
-        pets: clientInput.pets,
+        vehicle: clientInput.vehicle,
+        tag: clientInput.tag,
         maxPartecipant: clientInput.maxPartecipant,
 		partecipant: []
 	});
@@ -84,9 +86,11 @@ router.get('/allTrips', function(req, res){
 
 router.get('/getTripsWithFilter', function(req, res){
 	var query = {};
+	var name = req.query.name;
 	var departure = req.query.departure;
 	var destination = req.query.destination;
-	var pets = req.query.pets;
+	var tag = req.query.tag;
+	var vehicle = req.query.vehicle;
 	var minBudget = 0;
 	var maxBudget = 100000;
 	var minDate = new Date("1/1/1970");
@@ -94,12 +98,16 @@ router.get('/getTripsWithFilter', function(req, res){
 	var maxPartecipant = 1000000;
 	var minPartecipant = 1;
 
+	if(name != undefined)
+		query.name = name.toLowerCase();
 	if(departure != undefined)
 		query.departure = departure.toLowerCase();
 	if(destination != undefined)
 		query.destination = destination.toLowerCase();
-	if(pets != undefined)
-		query.pets = pets;
+	if(tag != undefined)
+		query.tag = tag;
+	if(vehicle != undefined)
+		query.vehicle = vehicle;
 	if(req.query.minBudget != undefined)
 		minBudget = req.query.minBudget;
 	if(req.query.maxBudget != undefined)
@@ -234,7 +242,10 @@ router.get('/loadExample', function(req, res){
         budget: laptopData[i].budget,
         startDate: laptopData[i].startDate,
         endDate: laptopData[i].endDate,
-        pets: laptopData[i].pets,
+        vehicle: laptopData[i].vehicle,
+        image: laptopData[i].image,
+        tag: laptopData[i].tag,
+        owner: laptopData[i].owner,
         maxPartecipant: laptopData[i].maxPartecipant,
 		partecipant: []
 	});
