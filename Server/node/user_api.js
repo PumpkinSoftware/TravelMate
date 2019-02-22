@@ -12,8 +12,14 @@ var router = express.Router();
 			  Inizio API
 ******************************************/
 
-
 /*****************************************/
+
+//Api per testare il funzionamento di trip_api.js
+
+router.get('/', function (req, res) {
+    res.send("Mi trovo in user_api.js");
+});
+
 
 
 module.exports = router;

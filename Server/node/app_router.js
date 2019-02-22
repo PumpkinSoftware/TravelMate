@@ -2,6 +2,8 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
+var helmet = require('helmet');
+
 
 var user_api = require('./user_api');
 var trip_api = require('./trip_api');
@@ -11,6 +13,8 @@ var app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(helmet());
+
 
 //Logger
 app.use(logger('dev'));
