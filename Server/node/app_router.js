@@ -4,6 +4,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var helmet = require('helmet');
 
+
 var user_api = require('./user_api');
 var trip_api = require('./trip_api');
 
@@ -13,6 +14,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(helmet());
+
 
 //Logger
 app.use(logger('dev'));

@@ -5,9 +5,9 @@ import android.content.Intent;
 import android.graphics.Rect;
 import android.media.AudioManager;
 import android.os.Build;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnFocusChangeListener;
 import android.view.ViewTreeObserver;
@@ -17,34 +17,48 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 import android.widget.VideoView;
 import android.media.MediaPlayer;
 import android.net.Uri;
 
-import com.firebase.ui.auth.AuthUI;
-
-import java.util.Arrays;
-import java.util.List;
-
-import muted_video_view.MutedVideoView;
+import com.example.pumpkinsoftware.travelmate.muted_video_view.MutedVideoView;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AppCompatActivity {
     private Button button;
     private VideoView videoView;
     private MutedVideoView mVideoView;
     private boolean so_prev_oreo = true; // I Don't need call lib func, I use it only for muting video on older version than Oreo
+    Context contesto;
+
+    // [START declare_auth]
+    private FirebaseAuth mAuth;
+    // [END declare_auth]
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        contesto = this;
+
+        // Initialize Firebase Auth
+        mAuth = FirebaseAuth.getInstance();
+        // [END initialize_auth]
+
+
+
         /* Login Button */
         button = (Button) findViewById(R.id.buttonLogin);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openMain();
+                login();
             }
         });
 
@@ -120,8 +134,8 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        // If click on bg, focus is deleted, so logo is restored (Ora non funziona con scrollview)
-        findViewById(R.id.root_layout).setOnClickListener(new View.OnClickListener() {
+        // If click on bg, focus is deleted, so logo is restored
+        findViewById(R.id.login_layout).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (v != null) {
@@ -165,6 +179,40 @@ public class LoginActivity extends AppCompatActivity {
                 new AuthUI.IdpConfig.FacebookBuilder().build());*/
 
     }
+
+    // [START on_start_check_user]
+    @Override
+    public void onStart() {
+        super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if(currentUser != null) {
+            openMain();
+        }
+    }
+    // [END on_start_check_user]
+
+    public void login(){
+        String username = ((EditText) findViewById(R.id.username)).getText().toString();
+        String password = ((EditText) findViewById(R.id.password)).getText().toString();
+
+        if(username.isEmpty() || password.isEmpty()) openMain(); // CAMBIO PER I TEST
+            //Toast.makeText(contesto, "Inserire tutti i campi", Toast.LENGTH_SHORT).show();
+        else
+        mAuth.signInWithEmailAndPassword(username, password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            openMain();
+                        }
+                        else {
+                            Toast.makeText(contesto, "Nome utente o password errati", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
+
 
     public void openMain(){
         Intent intent=new Intent(this,MainActivity.class);

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@android:color/white">
 
-    <!-- Header user -->
+    <!-- Toolbar -->
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
@@ -17,7 +17,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/title"
-            android:text="Trendy trips"
+            android:text="@string/home_title"
             android:textColor="@color/white"
             android:textSize="22dp"/>
     </android.support.v7.widget.Toolbar>
@@ -32,8 +32,14 @@
         android:layout_height="match_parent"
         android:layout_marginTop="55dp">
 
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerview"
+            android:scrollbars="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
     <!-- Contenuto per lo scrolling -->
-    <ScrollView
+    <!--<ScrollView
         android:id="@+id/scrollableContent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -42,10 +48,12 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent">-->
+
+
 
             <!-- Card viaggi -->
-            <android.support.v7.widget.CardView
+            <!--<android.support.v7.widget.CardView
                 style="@style/Widget.MaterialComponents.CardView"
                 android:id="@+id/card1"
                 android:layout_width="match_parent"
@@ -54,10 +62,10 @@
                 android:layout_marginTop="@dimen/mtrl_card_spacing"
                 android:layout_marginRight="@dimen/mtrl_card_spacing"
                 android:background="@android:color/white"
-                android:minHeight="200dp">
+                android:minHeight="200dp">-->
 
                 <!-- Contenuto card -->
-                <RelativeLayout
+                <!--<RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@android:color/white">
@@ -72,10 +80,10 @@
                         android:scaleType="centerCrop"
                         android:background="@android:color/white"
                         android:clickable="true"
-                         />
+                         />-->
                     <!-- android:src="@drawable/new_york" -->
 
-                    <TextView
+                    <!--<TextView
                         android:id="@+id/travel_name"
                         style="@android:style/Widget.Holo.Light.TextView.SpinnerItem"
                         android:layout_width="wrap_content"
@@ -149,10 +157,10 @@
 
                 </RelativeLayout>
 
-            </android.support.v7.widget.CardView>
+            </android.support.v7.widget.CardView>-->
 
             <!-- Card viaggi 2 -->
-            <android.support.v7.widget.CardView
+            <!--<android.support.v7.widget.CardView
                 style="@style/Widget.MaterialComponents.CardView"
                 android:id="@+id/card2"
                 android:layout_width="match_parent"
@@ -162,10 +170,10 @@
                 android:layout_marginRight="@dimen/mtrl_card_spacing"
                 android:layout_below="@+id/card1"
                 android:background="@android:color/white"
-                android:minHeight="200dp">
+                android:minHeight="200dp">-->
 
                 <!-- Contenuto card -->
-                <RelativeLayout
+                <!--<RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@android:color/white">
@@ -178,10 +186,10 @@
                         android:scaleType="centerCrop"
                         android:background="@android:color/white"
                         android:clickable="true"
-                         />
+                         />-->
                     <!-- android:src="@drawable/amsterdam" -->
 
-                    <TextView
+                    <!--<TextView
                         android:id="@+id/travel_name2"
                         style="@android:style/Widget.Holo.Light.TextView.SpinnerItem"
                         android:layout_width="wrap_content"
@@ -255,10 +263,10 @@
 
                 </RelativeLayout>
 
-            </android.support.v7.widget.CardView>
+            </android.support.v7.widget.CardView>-->
 
             <!-- Card viaggi 3 -->
-            <android.support.v7.widget.CardView
+            <!--<android.support.v7.widget.CardView
                 style="@style/Widget.MaterialComponents.CardView"
                 android:id="@+id/card3"
                 android:layout_width="match_parent"
@@ -268,10 +276,10 @@
                 android:layout_marginRight="@dimen/mtrl_card_spacing"
                 android:layout_below="@+id/card2"
                 android:background="@android:color/white"
-                android:minHeight="200dp">
+                android:minHeight="200dp">-->
 
                 <!-- Contenuto card -->
-                <RelativeLayout
+                <!--<RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@android:color/white">
@@ -284,10 +292,10 @@
                         android:scaleType="centerCrop"
                         android:background="@android:color/white"
                         android:clickable="true"
-                         />
+                         />-->
                     <!-- android:src="@drawable/dubai" -->
 
-                    <TextView
+                    <!--<TextView
                         android:id="@+id/travel_name3"
                         style="@android:style/Widget.Holo.Light.TextView.SpinnerItem"
                         android:layout_width="wrap_content"
@@ -361,10 +369,10 @@
 
                 </RelativeLayout>
 
-            </android.support.v7.widget.CardView>
+            </android.support.v7.widget.CardView>-->
 
-        </RelativeLayout>
-    </ScrollView>
+        <!--</RelativeLayout>
+    </ScrollView>-->
 
     </android.support.v4.widget.SwipeRefreshLayout>
 </FrameLayout>

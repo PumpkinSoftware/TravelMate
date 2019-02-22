@@ -12,7 +12,7 @@
         android:layout_alignParentEnd="true"
         android:layout_gravity="center" />
 
-    <muted_video_view.MutedVideoView
+    <com.example.pumpkinsoftware.travelmate.muted_video_view.MutedVideoView
         android:id="@+id/login_bg_mvideo"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

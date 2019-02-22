@@ -38,6 +38,7 @@
         android:layout_below="@+id/search_bar">
 
         <RelativeLayout
+            android:id="@+id/scroll_child"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
@@ -255,7 +256,7 @@
                 app:drawThumbsApart="true"
                 app:scaleMax="2000"
                 app:scaleMin="0"
-                app:stepsThumbsApart="5"
+                app:stepsThumbsApart="0"
                 app:thumbNumber="2" />
 
             <EditText
@@ -283,7 +284,7 @@
                 android:layout_alignStart="@+id/budget"
                 android:layout_marginStart="0dp"
                 android:layout_marginTop="28dp"
-                android:text="Group"
+                android:text="@string/group"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5" />
 
             <TextView
@@ -295,7 +296,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout_marginStart="0dp"
                 android:layout_marginTop="5dp"
-                android:text="Select your min and max number of travel buddies with which you'd travel"
+                android:text="@string/buddies"
                 android:textAppearance="@style/TextAppearance.Design.HelperText" />
 
             <EditText
@@ -323,7 +324,7 @@
                 app:drawThumbsApart="true"
                 app:scaleMax="20"
                 app:scaleMin="1"
-                app:stepsThumbsApart="1"
+                app:stepsThumbsApart="0"
                 app:thumbNumber="2" />
 
             <EditText

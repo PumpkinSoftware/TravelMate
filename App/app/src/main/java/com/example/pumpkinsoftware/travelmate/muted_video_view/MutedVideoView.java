@@ -1,4 +1,4 @@
-package muted_video_view;
+package com.example.pumpkinsoftware.travelmate.muted_video_view;
 
 import android.annotation.TargetApi;
 import android.content.Context;

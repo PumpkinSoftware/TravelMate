@@ -76,7 +76,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="-5dp"
             android:layout_marginEnd="272dp"
-            android:text="Username"
+            android:text="@string/nickname"
             android:textAppearance="@android:style/TextAppearance.Medium"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
@@ -100,7 +100,7 @@
             android:layout_below="@+id/name"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
-            android:text="Bio"
+            android:text="@string/bio"
             android:textColor="@android:color/black"
             android:textSize="18sp" />
         <!--</RelativeLayout>-->
@@ -111,7 +111,7 @@
             android:layout_height="match_parent"
             android:layout_below="@+id/designation"
             android:layout_margin="5dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="10dp"
             android:background="#fff"
             android:elevation="4dp"
             android:orientation="vertical"
@@ -133,7 +133,7 @@
                 android:layout_marginTop="8dp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:text="Age: "
+                android:text="@string/age"
                 android:textStyle="bold" />
 
             <TextView
@@ -155,7 +155,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:clickable="true"
-                android:text="Gender: "
+                android:text="@string/gender"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="@+id/age"
                 app:layout_constraintTop_toBottomOf="@+id/age" />
@@ -172,16 +172,64 @@
                 app:layout_constraintTop_toTopOf="@+id/gender" />
 
             <TextView
+                android:id="@+id/nationality"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:clickable="true"
+                android:text="@string/nazionalità"
+                android:textStyle="bold"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/gender"
+                app:layout_constraintTop_toBottomOf="@+id/gender" />
+
+            <TextView
+                android:id="@+id/nationality2"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_margin="5dp"
+                android:layout_marginLeft="5dp"
+                android:clickable="true"
+                android:text="Ita"
+                app:layout_constraintBottom_toBottomOf="@+id/nationality"
+                app:layout_constraintLeft_toRightOf="@+id/nationality"
+                app:layout_constraintTop_toTopOf="@+id/nationality" />
+
+            <TextView
+                android:id="@+id/lang"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:clickable="true"
+                android:text="@string/lingua"
+                android:textStyle="bold"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/nationality"
+                app:layout_constraintTop_toBottomOf="@+id/nationality" />
+
+            <TextView
+                android:id="@+id/lang2"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_margin="5dp"
+                android:layout_marginLeft="5dp"
+                android:clickable="true"
+                android:text="Italian, English, French"
+                app:layout_constraintBottom_toBottomOf="@+id/lang"
+                app:layout_constraintLeft_toRightOf="@+id/lang"
+                app:layout_constraintTop_toTopOf="@+id/lang" />
+
+            <TextView
                 android:id="@+id/occupation"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:clickable="true"
-                android:text="Occupation: "
+                android:text="@string/occupation"
                 android:textStyle="bold"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/gender"
-                app:layout_constraintTop_toBottomOf="@+id/gender" />
+                app:layout_constraintStart_toStartOf="@+id/lang"
+                app:layout_constraintTop_toBottomOf="@+id/lang" />
 
             <TextView
                 android:id="@+id/occupation2"
@@ -201,7 +249,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:clickable="true"
-                android:text="Education: "
+                android:text="@string/education"
                 android:textStyle="bold"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/occupation"
@@ -225,7 +273,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:clickable="true"
-                android:text="Relationship status:"
+                android:text="@string/relationship"
                 android:textStyle="bold"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/gender"
@@ -249,7 +297,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:clickable="true"
-                android:text="Mobile: "
+                android:text="@string/phone"
                 android:textStyle="bold"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/rel"
@@ -272,7 +320,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:clickable="true"
-                android:text="Email: "
+                android:text="@string/email"
                 android:textStyle="bold"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/mobile"

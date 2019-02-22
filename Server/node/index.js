@@ -19,6 +19,7 @@ console.log("Server Start");
 var server = http.createServer(app);
 var httpsServer = https.createServer(credentials, app);
 
+
 database.connect(url);
 
 server.listen(PORT,function(err){
