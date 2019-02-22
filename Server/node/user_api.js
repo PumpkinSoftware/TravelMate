@@ -118,4 +118,31 @@ router.get('/getUserByEmail', function(req, res){
     });
 });
 
+/****************************************/
+//Api per ottenere un utente tramite id => /getUserById?userId=5c702ddca2c6514f9b18c4ad
+
+router.get('/getUserById', function(req, res){
+
+	var conditions = {
+		_id: req.body.userId
+	};
+	
+	UserSchema.findOne(conditions, function(err, user){
+        
+        if (err){
+			res.send(JSON.stringify({ status: "error", message: "Error get with Id" }));
+			console.log(err);
+		}
+		else if(user != null){
+			res.send(user);
+			console.log(user);
+        }
+        else{
+            res.send(JSON.stringify({ status: "error", message: "User not found" }));
+            console.log(JSON.stringify({ status: "error", message: "User not found" }));
+        }
+    });
+	
+});
+
 module.exports = router;
