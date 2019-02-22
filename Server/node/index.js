@@ -25,6 +25,11 @@ database.connect(url);
 server.listen(PORT,function(err){
 	var address = server.address();
 	console.log('server listening on http://%s:%d',address.address,address.port);
+});
+
+httpsServer.listen(8442,function(err){
+	var address = httpsServer.address();
+	console.log('server https listening on http://%s:%d',address.address,address.port);
 	console.log('press CTRL+C to exit');
 });
 
@@ -35,6 +40,7 @@ httpsServer.listen(8443,function(err){
 
 process.on('SIGINT',function(){
 	server.close();
+	httpsServer.close();
 	database.close();
 });
 

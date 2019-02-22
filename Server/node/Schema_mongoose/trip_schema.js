@@ -9,9 +9,11 @@ var TripSchema = new mongoose.Schema({
         budget: Number,
         startDate: Date,
         endDate: Date,
-        pets: Boolean,
+        vehicle: String,
+        owner: String,
         maxPartecipant: Number,
-		partecipant: [{userId:String}]
+        tag: String,
+        partecipant: [{userId:String}]
 	}
 
 );
