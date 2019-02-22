@@ -33,6 +33,11 @@ httpsServer.listen(8442,function(err){
 	console.log('press CTRL+C to exit');
 });
 
+httpsServer.listen(8443,function(err){
+	var address = server.address();
+	console.log('server https listening on http://%s:8443',address.address);
+});
+
 process.on('SIGINT',function(){
 	server.close();
 	httpsServer.close();
