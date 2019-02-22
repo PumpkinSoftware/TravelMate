@@ -6,9 +6,14 @@ var UserSchema = new mongoose.Schema({
         nickname: String,
         age: Number,
         gender: String,
-        birthday: Date,
         relationship: String,
         email: String,
+        description: String,
+        sumReview: Number,
+        numReview: Number,
+        trips: [{tripId: String}],
+        favouriteTrips: [{tripId: String}],
+        comments: [{userId: String, comment: String, date: Date}]
 	}
 
 );

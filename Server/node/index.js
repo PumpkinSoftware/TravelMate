@@ -11,11 +11,17 @@ console.log("Server Start");
 
 var server = http.createServer(app);
 
-
 database.connect(url);
 
-server.listen(PORT,function(){
-	console.log('Server listen on port '+PORT);
+server.listen(PORT,function(err){
+	var address = server.address();
+	console.log('server listening on http://%s:%d',address.address,address.port);
+	console.log('press CTRL+C to exit');
+});
+
+process.on('SIGINT',function(){
+	server.close();
+	database.close();
 });
 
        
