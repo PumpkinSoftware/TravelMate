@@ -18,24 +18,31 @@ echo -e "Starting to populate database of users"
 
 echo -e "${green}"
 
-curl -H "Content-Type: application/json" -X POST -d '{"name":"Caio","surname":"Rossi","nickname":"cai_ros","age":"20","gender":"Male","birthday":"01/12/1999","relationship":"single", "email":"ciao@gmail.com"}' http://localhost:8095/user/new_user
+curl -H "Content-Type: application/json" -X POST -d '{"name":"Caio","surname":"Rossi","nickname":"cai_ros","age":"20","gender":"Male","birthday":"01/12/1999","relationship":"single", "email":"ciao1@gmail.com", "description":"aaaaaaaaaaaa"}' http://localhost:8095/user/new_user
 
 echo -e ""
 
-curl -H "Content-Type: application/json" -X POST -d '{"name":"Sempronio","surname":"Beta","nickname":"sem_bet","age":"21","gender":"Male","birthday":"01/12/1998","relationship":"single", "email":"ciao@gmail.com"}' http://localhost:8095/user/new_user
+curl -H "Content-Type: application/json" -X POST -d '{"name":"Sempronio","surname":"Beta","nickname":"sem_bet","age":"21","gender":"Male","birthday":"01/12/1998","relationship":"single", "email":"ciao2@gmail.com", "description":"bbbbbbbbbb"}' http://localhost:8095/user/new_user
 
 echo -e ""
 
-curl -H "Content-Type: application/json" -X POST -d '{"name":"Adamo","surname":"Filida","nickname":"ada_fil","age":"22","gender":"Male","birthday":"01/12/1997","relationship":"married", "email":"ciao@gmail.com"}' http://localhost:8095/user/new_user
+curl -H "Content-Type: application/json" -X POST -d '{"name":"Adamo","surname":"Filida","nickname":"ada_fil","age":"22","gender":"Male","birthday":"01/12/1997","relationship":"married", "email":"ciao3@gmail.com", "description":"ccccccccccc"}' http://localhost:8095/user/new_user
 
 echo -e ""
 
-curl -H "Content-Type: application/json" -X POST -d '{"name":"Sofia","surname":"Rossi","nickname":"sof_ros","age":"23","gender":"Female","birthday":"01/12/1996","relationship":"married", "email":"ciao@gmail.com"}' http://localhost:8095/user/new_user
+curl -H "Content-Type: application/json" -X POST -d '{"name":"Sofia","surname":"Rossi","nickname":"sof_ros","age":"23","gender":"Female","birthday":"01/12/1996","relationship":"married", "email":"ciao4@gmail.com", "description":"dddddddddd"}' http://localhost:8095/user/new_user
 
 echo -e ""
 
-curl -H "Content-Type: application/json" -X POST -d '{"name":"Ginevra","surname":"Mela","nickname":"gin_mel","age":"24","gender":"Female","birthday":"01/12/1995","relationship":"single", "email":"ciao@gmail.com"}' http://localhost:8095/user/new_user
+curl -H "Content-Type: application/json" -X POST -d '{"name":"Ginevra","surname":"Mela","nickname":"gin_mel","age":"24","gender":"Female","birthday":"01/12/1995","relationship":"single", "email":"ciao5@gmail.com", "description":"eeeeeeeeee"}' http://localhost:8095/user/new_user
 
+echo -e ""
+
+curl -H "Content-Type: application/json" -X POST -d '{"name":"Steve","surname":"Peroni","nickname":"ste_per","age":"22","gender":"Male","birthday":"15/02/1997","relationship":"single", "email":"ciao6@gmail.com", "description":"ffffffffff"}' http://localhost:8095/user/new_user
+
+echo -e ""
+
+curl -H "Content-Type: application/json" -X POST -d '{"name":"Abdul","surname":"Perone","nickname":"ab_pe","age":"23","gender":"Male","birthday":"15/02/1996","relationship":"married", "email":"ciao7@gmail.com", "description":"gggggggg"}' http://localhost:8095/user/new_user
 
 echo -e " ${reset}"
 
