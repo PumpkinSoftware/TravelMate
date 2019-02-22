@@ -25,12 +25,12 @@ database.connect(url);
 server.listen(PORT,function(err){
 	var address = server.address();
 	console.log('server listening on http://%s:%d',address.address,address.port);
-	console.log('press CTRL+C to exit');
 });
 
 httpsServer.listen(8442,function(err){
-	var address = server.address();
-	console.log('server https listening on http://%s:8442',address.address);
+	var address = httpsServer.address();
+	console.log('server https listening on http://%s:%d',address.address,address.port);
+	console.log('press CTRL+C to exit');
 });
 
 process.on('SIGINT',function(){
