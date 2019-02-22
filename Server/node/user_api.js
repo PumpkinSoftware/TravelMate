@@ -22,7 +22,7 @@ router.get('/', function (req, res) {
 /****************************************/
 //Api per inserire un nuovo utente
 
-router.post('/new_user', function(req, res){
+router.post('/newUser', function(req, res){
 
     var clientInput = req.body;
 
@@ -48,7 +48,6 @@ router.post('/new_user', function(req, res){
             var toInsert = new UserSchema({
                 name: clientInput.name.toLowerCase(),
                 surname: clientInput.surname.toLowerCase(),
-                nickname: clientInput.nickname.toLowerCase(),
                 age: clientInput.age,
                 gender: clientInput.gender.toLowerCase(),
                 relationship: clientInput.relationship.toLowerCase(),
@@ -79,7 +78,7 @@ router.post('/new_user', function(req, res){
 /****************************************/
 //Api per testing che stampa tutti gli utenti registrati
 
-router.get('/all_users', function(req, res){
+router.get('/allUsers', function(req, res){
     
     UserSchema.find({}, function(err, users){
 		if(err){
