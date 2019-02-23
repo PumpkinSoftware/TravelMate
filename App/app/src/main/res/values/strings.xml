@@ -29,9 +29,9 @@
     <string name="n58">5/8</string>
     <string name="NYTrip">NY Trip</string>
 
-    <!-- Travel details -->
+	<!-- Travel details -->
     <string name="join">Unisciti</string>
-
+	
     <!-- Travel page-->
     <string name="travel_title">I tuoi eventi</string>
 
@@ -43,8 +43,8 @@
     <string name="date">Data</string>
     <string name="departure">Partenza</string>
     <string name="ret">Arrivo</string>
-    <string name="pets">Animali?</string>
-    <string name="pets_text">Trasporto animali incluso</string>
+    <string name="car">Treno/auto?</string>
+    <string name="car_text">Mezzo di trasporto</string>
     <string name="budget">Budget</string>
     <string name="budget_text">Minimo e massimo spendibili nel viaggio</string>
     <string name="n0">0</string>
@@ -62,6 +62,17 @@
     <string name="name">Nome</string>
     <string name="name_text">Inserisci il nome dell\evento per concludere</string>
     <string name="confirm">Conferma</string>
+
+    <!-- Mezzi -->
+	<string name="treno">Treno</string>
+    <string name="auto">Auto</string>
+
+    <!-- Tag -->
+    <string name="tag_text">Tipo di evento?</string>
+    <string name="tag1">Cultura</string>
+    <string name="tag2">Intrattenimento</string>
+    <string name="tag3">Musica</string>
+    <string name="tag4">Tecnologia</string>
 
     <!-- Result page-->
     <string name="result_title">Risultati</string>
@@ -87,6 +98,8 @@
     <string name="language">Lingua</string>
     <string name="sounds">Suoni</string>
     <string name="notifications">Notifiche</string>
+
+
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
