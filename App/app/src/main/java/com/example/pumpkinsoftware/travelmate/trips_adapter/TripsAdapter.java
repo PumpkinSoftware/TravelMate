@@ -2,19 +2,30 @@ package com.example.pumpkinsoftware.travelmate.trips_adapter;
 
 import android.animation.AnimatorInflater;
 import android.animation.AnimatorSet;
+import android.animation.ValueAnimator;
+import android.app.Activity;
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
+import android.transition.TransitionManager;
+import android.util.DisplayMetrics;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.CardView;
 import android.widget.Toast;
 
+import com.example.pumpkinsoftware.travelmate.TravelDetailsActivity;
 import com.example.pumpkinsoftware.travelmate.glide.GlideApp;
 import com.example.pumpkinsoftware.travelmate.trip.Trip;
 import com.example.pumpkinsoftware.travelmate.R;
@@ -39,6 +50,8 @@ public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.ViewHolder> 
         //public Button more_button;
         public CheckBox fav_image;
         public ImageView sharing_image;
+        private int minHeight;
+        private CardView cardView;
 
         // We also create a constructor that accepts the entire item row
         // and does the view lookups to find each subview
@@ -55,7 +68,7 @@ public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.ViewHolder> 
                     Trip t = getTrip();
 
                     if(t != null)
-                       Toast.makeText(context, "Card clicked " + t.getName(), Toast.LENGTH_SHORT).show();
+                        openCard(t);
                 }
             });
 
@@ -101,20 +114,42 @@ public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.ViewHolder> 
             return                              null;
         }
 
+        private void openCard(Trip t) {
+            Intent intent = new Intent(context, TravelDetailsActivity.class);
+            intent.putExtra(TravelDetailsActivity.EXTRA_ID, t.getId());
+            intent.putExtra(TravelDetailsActivity.EXTRA_NAME, t.getName());
+            intent.putExtra(TravelDetailsActivity.EXTRA_BUDGET, t.getBudget());
+            intent.putExtra(TravelDetailsActivity.EXTRA_GROUP, t.getGroup());
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                // create the transition animation - the images in the layouts
+                // of both activities are defined with android:transitionName="robot"
+                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation((Activity)context,
+                        Pair.create((View)trip_image, "travel_image"));
+                        //Pair.create((View)trip_name, "travel_name"));
+                // start the new activity
+                context.startActivity(intent, options.toBundle());
+            }
+
+            else {
+                context.startActivity(intent);
+            }
+        }
+
     }
+
+
 
     public TripsAdapter(List<Trip> t) {
         trips = t;
     }
-
-
 
     private void shareText(String s) {
         Intent intent = new Intent(android.content.Intent.ACTION_SEND);
         intent.setType("text/plain");
         //String shareBodyText = "Your sharing message goes here";
         intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject/Title");
-        intent.putExtra(android.content.Intent.EXTRA_TEXT, "Do you want to join "+ s+ "?");
+        intent.putExtra(android.content.Intent.EXTRA_TEXT, "Che ne dici di dare un'occhiata a "+ s + "?");
         context.startActivity(Intent.createChooser(intent, "Condividi"));
     }
 

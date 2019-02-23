@@ -100,7 +100,7 @@ public class HomeFragment extends Fragment {
                 return true;
 
             default:
-                return false; //super.onOptionsItemSelected(item);
+                return false;
         }
     }
 }

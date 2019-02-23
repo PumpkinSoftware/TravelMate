@@ -30,8 +30,26 @@
             android:layout_marginStart="0dp"
             android:scaleType="centerCrop"
             android:background="@android:color/white"
-            android:clickable="true" />
+            android:clickable="true"
+            android:transitionName="travel_image"/>
             <!-- android:src="@drawable/new_york" -->
+
+        <!-- Oblique tag -->
+        <!--<TextView
+            style="@android:style/Widget.Holo.Light.TextView.SpinnerItem"
+            android:layout_width="145dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="-38dp"
+            android:background="@android:color/holo_red_dark"
+            android:text="Sport"
+            android:textColor="@android:color/white"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:textAlignment="center"
+            android:rotation="45" />-->
 
         <TextView
             android:id="@+id/travel_name"
@@ -43,7 +61,8 @@
             android:text="@string/NYTrip"
             android:textColor="@android:color/black"
             android:textSize="30sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:transitionName="travel_name" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -62,7 +81,8 @@
                 android:paddingStart="18dp"
                 android:text="@string/n58"
                 android:textColor="@android:color/black"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                android:transitionName="group_number" />
 
             <ImageView
                 android:id="@+id/group_image"
@@ -90,7 +110,8 @@
                 android:paddingStart="18dp"
                 android:text="@string/n500"
                 android:textColor="@android:color/black"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                android:transitionName="budget_number"/>
 
             <ImageView
                 android:id="@+id/budget_image"
@@ -99,10 +120,9 @@
                 android:layout_alignTop="@+id/budget_number"
                 android:layout_alignBottom="@+id/budget_number"
                 android:layout_marginStart="-1dp"
-                android:layout_marginTop="0dp"
-                android:layout_marginBottom="0dp"
                 android:layout_toEndOf="@+id/budget_number"
-                app:srcCompat="@drawable/baseline_euro_symbol_black_24dp" />
+                app:srcCompat="@drawable/baseline_euro_symbol_black_24dp"
+                android:transitionName="budget_image"/>
 
             <!--<Button
                 android:id="@+id/button"
@@ -120,12 +140,10 @@
 
             <CheckBox
                 android:id="@+id/fav_image"
-                android:layout_width="28dp"
-                android:layout_height="wrap_content"
-                android:layout_alignTop="@+id/group_image"
-                android:layout_alignBottom="@+id/group_image"
-                android:layout_marginTop="7dp"
-                android:layout_marginBottom="7dp"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_alignTop="@+id/sharing_image"
+                android:layout_alignBottom="@+id/sharing_image"
                 android:layout_marginEnd="10dp"
                 android:layout_toStartOf="@+id/sharing_image"
                 android:background="@drawable/fav_icon"
@@ -133,12 +151,12 @@
 
             <ImageView
                 android:id="@+id/sharing_image"
-                android:layout_width="38dp"
-                android:layout_height="wrap_content"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
                 android:layout_alignTop="@+id/group_image"
                 android:layout_alignParentEnd="true"
+                android:layout_marginTop="10dp"
                 android:layout_marginEnd="13dp"
-                android:paddingStart="10dp"
                 app:srcCompat="@drawable/outline_share_black_24dp" />
 
 
