@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.Switch;
 import android.widget.Toast;
 
@@ -28,10 +29,9 @@ import org.json.JSONObject;
 import java.util.Calendar;
 
 public class CreationTrip extends AppCompatActivity {
-    private final static String URL="http://192.168.1.107:8095/trip/newTrip/";
-    protected String from_q,to_q,departure_q,return_q,nome_q,program_q;
+    private final static String URL="https://debugtm.herokuapp.com/trip/newTrip/";
+    protected String from_q,to_q,departure_q,return_q,nome_q,program_q,vehicle="",tag="";
     protected Double budget_q;
-    protected Boolean pets_value;
     protected int group_q;
     private RequestQueue mQueue;
     Context contesto;
@@ -64,7 +64,7 @@ public class CreationTrip extends AppCompatActivity {
         final TextInputEditText to = (TextInputEditText ) findViewById(R.id.to_text);
         final EditText departure_date = (EditText) findViewById(R.id.departure);
         final EditText return_date = (EditText) findViewById(R.id.ret);
-        final Switch pets_switch = (Switch) findViewById(R.id.switch2);
+
         final EditText nome= findViewById(R.id.nametext);
         final EditText program= findViewById(R.id.plantext);
 
@@ -73,8 +73,7 @@ public class CreationTrip extends AppCompatActivity {
         final EditTextDatePicker ret = new EditTextDatePicker(contesto, return_date, calendar, departure);
         departure.setOther(ret);
 
-        final MyOnCheckedChangeListener switch_listener = new MyOnCheckedChangeListener();
-        pets_switch.setOnCheckedChangeListener(switch_listener);
+
 
         Button b_confirm = (Button) findViewById(R.id.confirm_button);
         b_confirm.setOnClickListener(new View.OnClickListener() {
@@ -84,7 +83,7 @@ public class CreationTrip extends AppCompatActivity {
                 // valori da passare
                 from_q=from.getText().toString().toLowerCase();
                 to_q=to.getText().toString().toLowerCase();
-                pets_value = Boolean.valueOf(switch_listener.getValue());
+
                 nome_q=nome.getText().toString().toLowerCase();
                 program_q=program.getText().toString().toLowerCase();
                 departure_q =  departure.getSetMonth()+"/"+departure.getSetDay()+"/"+departure.getSetYear();
@@ -101,6 +100,8 @@ public class CreationTrip extends AppCompatActivity {
                     msgErrore("la data di partenza");
                 }else if(return_q.equals("-1/-1/-1")){
                     msgErrore("la data di arrivo");
+                }else if(vehicle.isEmpty()){
+                    msgErrore("il veicolo");
                 }else if(budget.getText().toString().isEmpty()){
                     msgErrore("il budget");
                 }else if( group.getText().toString().isEmpty()){
@@ -109,8 +110,9 @@ public class CreationTrip extends AppCompatActivity {
                     msgErrore("una sintesi del programma");
                 }else if(nome_q.isEmpty()){
                     msgErrore("il nome del viaggio");
+                }else if(tag.isEmpty()){
+                    msgErrore("il tipo di evento");
                 }
-
                 else{
 
                     budget_q=Double.parseDouble(budget.getText().toString());
@@ -125,9 +127,12 @@ public class CreationTrip extends AppCompatActivity {
                         viaggio.put("budget", budget_q);
                         viaggio.put("startDate", departure_q);
                         viaggio.put("endDate", return_q);
-                        viaggio.put("pets", pets_value);
+                        viaggio.put("vehicle",vehicle);
+                        viaggio.put("tag",tag);
                         viaggio.put("maxPartecipant", group_q);
                         viaggio.put("image", "https://raw.githubusercontent.com/PumpkinSoftware/TravelMate/Back-End/Logo/trip.jpg");
+                        viaggio.put("owner","default");
+
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -161,5 +166,37 @@ public class CreationTrip extends AppCompatActivity {
         Toast.makeText(contesto, "Inserisci " + datoMancante, Toast.LENGTH_SHORT).show();
     }
 
+    public void onRadioButtonClicked(View view) {
+        // Is the button now checked?
+        boolean checked = ((RadioButton) view).isChecked();
+
+        // Check which radio button was clicked
+        switch(view.getId()) {
+            case R.id.auto:
+                if (checked)
+                    vehicle="auto";
+                    break;
+            case R.id.treno:
+                if (checked)
+                    vehicle="treno";
+                    break;
+            case R.id.tag1:
+                if (checked)
+                    tag="cultura";
+                break;
+            case R.id.tag2:
+                if (checked)
+                    tag="intrattenimento";
+                break;
+            case R.id.tag3:
+                if (checked)
+                    tag="musica";
+                break;
+            case R.id.tag4:
+                if (checked)
+                    tag="tecnologia";
+                break;
+        }
+    }
 }
 
