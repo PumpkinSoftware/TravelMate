@@ -16,42 +16,32 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.SearchView;
-import android.widget.Switch;
+import android.widget.Spinner;
 import android.widget.Toast;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 
-import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.pumpkinsoftware.travelmate.edit_text_date_picker.EditTextDatePicker;
 import com.example.pumpkinsoftware.travelmate.min_max_filter.MinMaxFilter;
-import com.example.pumpkinsoftware.travelmate.my_on_checked_change_listener.MyOnCheckedChangeListener;
 import com.example.pumpkinsoftware.travelmate.search_on_click_listener.SearchOnClickListener;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.Calendar;
 
 import io.apptik.widget.MultiSlider;
 
-public class SearchFragment extends Fragment {
+public  class SearchFragment extends Fragment{
     private RequestQueue mQueue;
-
+    String vehicle="",tag="";
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_search, container, false);
+        final View view = inflater.inflate(R.layout.fragment_search, container, false);
         final EditText min1 = (EditText) view.findViewById(R.id.budget_min_value);
         final EditText max1 = (EditText) view.findViewById(R.id.budget_max_value);
         final EditText min2 = (EditText) view.findViewById(R.id.group_min_value);
@@ -61,7 +51,8 @@ public class SearchFragment extends Fragment {
         final TextInputEditText to = (TextInputEditText ) view.findViewById(R.id.to_text);
         final EditText departure_date = (EditText) view.findViewById(R.id.departure);
         final EditText return_date = (EditText) view.findViewById(R.id.ret);
-        final Switch pets_switch = (Switch) view.findViewById(R.id.switch1);
+
+
         mQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
 
         // If click on bg, focus is deleted
@@ -280,15 +271,58 @@ public class SearchFragment extends Fragment {
         });
 
 
-        MyOnCheckedChangeListener switch_listener = new MyOnCheckedChangeListener();
-        pets_switch.setOnCheckedChangeListener(switch_listener);
+        RadioGroup radioGroup = (RadioGroup) view.findViewById(R.id.vehicle_radio);
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
+        {
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch(checkedId) {
+                    case R.id.auto:
+                            vehicle ="auto";
+                            Log.i("Dato",vehicle);
+                            //stampa correntamente
+                        break;
+                    case R.id.treno:
+                            vehicle="treno";
+                            Log.i("Dato",vehicle);
+                        break;
+                }
+            }
+        });
 
+        RadioGroup radioGroup2 = (RadioGroup) view.findViewById(R.id.tag);
+        radioGroup2.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
+        {
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch(checkedId) {
+                    case R.id.tag1:
+                        tag="cultura";
+                        break;
+                    case R.id.tag2:
+                        tag="intrattenimento";
+                        break;
+                    case R.id.tag3:
+                        tag="musica";
+                        break;
+                    case R.id.tag4:
+                        tag="tecnologia";
+                        break;
+                }
+            }
+        });
+
+        /*
+        * vehicle="auto" funziona il problema è che si resetta dopo la funzione
+        * */
+
+
+        // Search button
         Button b_search = (Button) view.findViewById(R.id.search_button);
-        b_search.setOnTouchListener(new SearchOnClickListener(getContext(), getActivity().getSupportFragmentManager(),
-                                    from, to, departure, ret,switch_listener, min1, max1, min2, max2, mQueue));
+        b_search.setOnClickListener(new SearchOnClickListener(getContext(), getActivity().getSupportFragmentManager(),
+                                    from, to, departure, ret,vehicle,tag, min1, max1, min2, max2, mQueue));
 
         return view;
     }
+
 
 
 }
