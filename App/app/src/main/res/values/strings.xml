@@ -29,6 +29,9 @@
     <string name="n58">5/8</string>
     <string name="NYTrip">NY Trip</string>
 
+    <!-- Travel details -->
+    <string name="join">Unisciti</string>
+
     <!-- Travel page-->
     <string name="travel_title">I tuoi eventi</string>
 
