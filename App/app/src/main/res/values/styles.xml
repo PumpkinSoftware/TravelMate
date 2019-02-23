@@ -6,7 +6,23 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+
+        <!-- enable window activity transitions -->
+        <!--<item name="android:windowActivityTransitions">true</item>-->
+        <!-- enable window content transitions -->
+        <item name="android:windowContentTransitions">true</item>
+
+        <!-- specify enter and exit transitions -->
+        <item name="android:windowEnterTransition">@android:transition/fade</item>
+        <item name="android:windowExitTransition">@android:transition/fade</item>
+
+        <!-- specify shared element transitions -->
+        <item name="android:windowSharedElementEnterTransition">
+            @android:transition/move</item>
+        <item name="android:windowSharedElementExitTransition">
+            @android:transition/move</item>
     </style>
+
     <!-- tema per toolbar-->
     <style name="toolbar"  parent="ThemeOverlay.AppCompat.Light">
         <item name="colorControlNormal"> @color/toolbar</item>
