@@ -8,10 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
-
-
-
-
+import android.widget.RadioButton;
 public class MainActivity extends AppCompatActivity  {
     public static final String FREE_QUERY = "com.example.pumpkinsoftware.travelmate.FREE_QUERY";
     public static final String FILTERED_QUERY = "com.example.pumpkinsoftware.travelmate.FILTERED_QUERY";
@@ -24,20 +21,20 @@ public class MainActivity extends AppCompatActivity  {
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
 
+
         //I added this if statement to keep the selected fragment when rotating the device
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                     new HomeFragment()).commit();
         }
 
-
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener navListener =
             new BottomNavigationView.OnNavigationItemSelectedListener() {
+                Fragment selectedFragment = null;
                 @Override
                 public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                    Fragment selectedFragment = null;
 
                     switch (item.getItemId()) {
                         case R.id.nav_home:
@@ -63,9 +60,11 @@ public class MainActivity extends AppCompatActivity  {
                     return true;
                 }
             };
+
     public void runThis(View v) {
         Intent intent = new Intent(this, CreationTrip.class);
         startActivity(intent);
     }
+
 
 }

@@ -11,7 +11,10 @@ import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -26,13 +29,14 @@ import com.example.pumpkinsoftware.travelmate.ViaggiFragment;
 import com.example.pumpkinsoftware.travelmate.edit_text_date_picker.EditTextDatePicker;
 import com.example.pumpkinsoftware.travelmate.my_on_checked_change_listener.MyOnCheckedChangeListener;
 import com.example.pumpkinsoftware.travelmate.R;
+import com.example.pumpkinsoftware.travelmate.spinner_listener.SpinnerListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 
-public class SearchOnClickListener implements View.OnTouchListener {
+public class SearchOnClickListener implements View.OnClickListener  {
     private final static String URL="http://192.168.1.107:8095/trip/getTripsWithFilter?";
     private final static String MIN_BUDGET = "0";
     private final static String MAX_BUDGET = "2000";
@@ -42,47 +46,44 @@ public class SearchOnClickListener implements View.OnTouchListener {
     private FragmentManager frag_manager;
     private TextInputEditText from, to;
     private EditTextDatePicker departure, ret;
-    private MyOnCheckedChangeListener switch_listener;
     private EditText budgetMin,budgetMax, gruppoMin,gruppoMax;
 
+
     private RequestQueue mQueue;
-    private String stringaResult="", query="";
+    private String stringaResult="", query="", vehicle="",tag="";
 
     public SearchOnClickListener(Context c, FragmentManager fm, TextInputEditText f, TextInputEditText t,
-                                 EditTextDatePicker d, EditTextDatePicker r, MyOnCheckedChangeListener s,
-                                 EditText m1, EditText m2, EditText m3, EditText m4,RequestQueue m) {
+                                 EditTextDatePicker d, EditTextDatePicker r,
+                                String vs, String ts, EditText m1, EditText m2, EditText m3, EditText m4, RequestQueue m) {
         context = c;
         frag_manager = fm;
         from = f;
         to = t;
         departure = d;
         ret = r;
-        switch_listener = s;
+        vehicle=vs;
+        tag=ts;
         budgetMin = m1;
         budgetMax = m2;
         gruppoMin = m3;
         gruppoMax = m4;
         mQueue=m;
+
     }
 
+
     @Override
-    public boolean onTouch(View v, MotionEvent event){
-
-        if (event.getAction() == MotionEvent.ACTION_UP) {
-            String from_q,to_q,min1_q,min2_q,max1_q,max2_q,pets_value="",departure_q,return_q;
-
+    public void onClick(View v){
+        String from_q,to_q,min1_q,min2_q,max1_q,max2_q,departure_q,return_q;
+            Log.i("Dato",vehicle);
+            Log.i("Dato",tag);
             // Get places
             from_q = (from.getText()).toString().toLowerCase();
             to_q = (to.getText()).toString().toLowerCase();
 
             // Get dates
             departure_q = departure.getSetMonth()+"/"+departure.getSetDay()+"/"+departure.getSetYear();
-
             return_q = ret.getSetMonth()+"/"+ret.getSetDay()+"/"+ret.getSetYear();
-
-            // Get switch value
-
-            pets_value = switch_listener.getValue();
 
             // Get budget
             min1_q = (budgetMin.getText()).toString();
@@ -98,7 +99,7 @@ public class SearchOnClickListener implements View.OnTouchListener {
             if(!from_q.isEmpty())                           filter("departure",from_q.toLowerCase());
             if(!departure_q.equals("-1/-1/-1"))             filter("startDate",departure_q.toLowerCase());
             if(!return_q.equals("-1/-1/-1"))                filter("endDate",return_q.toLowerCase());
-            if(pets_value.equals("true"))                   filter("pets","true");
+            if(!vehicle.isEmpty())                   filter("vehicle",vehicle.toLowerCase());
             if(!min1_q.equals("1")&&!min1_q.equals(MIN_BUDGET))    filter("minBudget",min1_q);
             if(!max1_q.equals(MAX_BUDGET))                      filter("maxBudget",max1_q);
             if(!min2_q.equals(MIN_GROUP)&&!min2_q.equals("0"))    filter("minPartecipant",min2_q);
@@ -121,8 +122,7 @@ public class SearchOnClickListener implements View.OnTouchListener {
 
             stringaResult="";
         }
-        return false;
-    }
+
 
     //altre funzioni
 
@@ -154,12 +154,13 @@ public class SearchOnClickListener implements View.OnTouchListener {
         mQueue.add(request);
     }
 
-    private String filter(String categoria,String filtro){
+    private void filter(String categoria,String filtro){
         //il primo valore non deve avere il simbolo "&"
         if(query.equals(URL))
-            return query+=categoria+"="+filtro;
+             query+=categoria+"="+filtro;
         else
-            return query+="&"+categoria+"="+filtro;
+            query+="&"+categoria+"="+filtro;
     }
+
 
 }
