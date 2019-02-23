@@ -100,7 +100,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/to"
-                android:layout_alignStart="@+id/pets"
+                android:layout_alignStart="@+id/vehicle"
                 android:layout_marginTop="9dp"
                 android:text="@string/date"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5" />
@@ -135,7 +135,7 @@
                 android:id="@+id/line_pets"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_above="@+id/pets"
+                android:layout_above="@+id/vehicle"
                 android:layout_below="@+id/departure"
                 android:layout_marginStart="13dp"
                 android:layout_marginTop="13dp"
@@ -144,34 +144,49 @@
                 android:background="@android:color/darker_gray" />
 
             <!-- Pets section-->
-            <Switch
-                android:id="@+id/switch2"
-                android:layout_width="wrap_content"
+            <RadioGroup
+
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignEnd="@+id/budget_max_value"
-                android:layout_alignBottom="@+id/pets"
-                android:layout_marginEnd="0dp"
-                android:layout_marginBottom="-14dp" />
+                android:layout_below="@+id/ret"
+                android:layout_alignStart="@+id/ret"
+                android:layout_marginTop="28dp"
+                android:orientation="vertical">
+
+                <RadioButton
+                    android:id="@+id/treno"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/treno"
+                    android:onClick="onRadioButtonClicked"/>
+
+                <RadioButton
+                    android:id="@+id/auto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/auto"
+                    android:onClick="onRadioButtonClicked"/>
+            </RadioGroup>
 
             <TextView
-                android:id="@+id/pets"
+                android:id="@+id/vehicle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/departure"
                 android:layout_alignStart="@+id/departure"
                 android:layout_marginStart="0dp"
                 android:layout_marginTop="28dp"
-                android:text="@string/pets"
+                android:text="@string/car"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5" />
 
             <TextView
-                android:id="@+id/pets_text"
+                android:id="@+id/vehicle_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/pets"
-                android:layout_alignStart="@+id/pets"
+                android:layout_below="@+id/vehicle"
+                android:layout_alignStart="@+id/vehicle"
                 android:layout_marginTop="5dp"
-                android:text="@string/pets_text"
+                android:text="@string/car_text"
                 android:textAppearance="@style/TextAppearance.Design.HelperText" />
 
             <!-- Budget section -->
@@ -179,8 +194,8 @@
                 android:id="@+id/budget"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/pets_text"
-                android:layout_alignStart="@+id/pets"
+                android:layout_below="@+id/vehicle_text"
+                android:layout_alignStart="@+id/vehicle"
                 android:layout_marginStart="-2dp"
                 android:layout_marginTop="27dp"
                 android:text="@string/budget"
@@ -191,7 +206,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/budget"
-                android:layout_alignStart="@+id/pets_text"
+                android:layout_alignStart="@+id/vehicle_text"
                 android:layout_alignParentEnd="true"
                 android:layout_marginStart="0dp"
                 android:layout_marginTop="5dp"
@@ -243,7 +258,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/group"
-                android:layout_alignStart="@+id/pets_text"
+                android:layout_alignStart="@+id/vehicle_text"
                 android:layout_alignParentEnd="true"
                 android:layout_marginStart="0dp"
                 android:layout_marginTop="5dp"
@@ -325,13 +340,64 @@
                     android:hint="@string/name_text" />
             </android.support.design.widget.TextInputLayout>
 
+
+            <!-- Tag -->
+            <TextView
+                android:id="@+id/tag_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignStart="@+id/vehicle_text"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="28dp"
+                android:text="@string/tag_text"
+                android:layout_below="@+id/name_text"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5" />
+
+            <RadioGroup
+                android:id="@id/tag"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tag_text"
+                android:layout_alignStart="@+id/tag_text"
+                android:layout_marginTop="28dp"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/tag1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tag1"
+                    android:onClick="onRadioButtonClicked"/>
+                <RadioButton
+                    android:id="@+id/tag2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tag2"
+                    android:onClick="onRadioButtonClicked"/>
+                <RadioButton
+                    android:id="@+id/tag3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tag3"
+                    android:onClick="onRadioButtonClicked"/>
+                <RadioButton
+                    android:id="@+id/tag4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tag4"
+                    android:onClick="onRadioButtonClicked"/>
+            </RadioGroup>
+
+
+
+
             <!--bottone-->
 
             <android.support.v7.widget.CardView
                 android:id="@+id/cardView"
                 android:layout_width="300dp"
                 android:layout_height="50dp"
-                android:layout_below="@+id/name_text"
+                android:layout_below="@+id/tag"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="28dp"
                 android:layout_marginBottom="28dp"
