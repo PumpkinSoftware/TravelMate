@@ -8,6 +8,8 @@ var UserSchema = new mongoose.Schema({
         relationship: String,
         email: String,
         description: String,
+        avatar: String,
+        cover: String,
         sumReview: Number,
         numReview: Number,
         trips: [{tripId: String}],

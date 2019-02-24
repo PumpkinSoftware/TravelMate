@@ -118,7 +118,7 @@ router.get('/getUserByEmail', function(req, res){
 });
 
 /****************************************/
-//Api per ottenere un utente tramite id => /getUserById?userId=5c702ddca2c6514f9b18c4ad
+//Api per ottenere un utente tramite id => /getUserById?userId=...
 
 router.get('/getUserById', function(req, res){
 
@@ -268,6 +268,90 @@ router.get('/getUsersByTrip', function(req, res){
         }
 
     });
+});
+
+/******************************************/
+//Api per inserire l'id di un viaggio all'interno dell'array Trips => /addTrip?tripId=....&userId=....
+
+router.post('/addTrip', function(req,res){
+	
+	var JsonObject = req.body;
+
+	var trip = {
+		"tripId": JsonObject.tripId
+	};	
+	var conditions = {							
+		_id: JsonObject.userId,
+		'trips.tripId': { $ne: JsonObject.tripId }		
+	};
+	var update = {
+		$addToSet: {trips: trip}
+	};
+	
+	UserSchema.findOne(conditions, function (err, user) {
+		if (err){
+			res.send(JSON.stringify({ status: "error", message: "Error with ObjectId" }));
+			console.log(err);
+		}
+		else if (user == null){
+			res.send(JSON.stringify({ status: "error", message: "Trip is already added" }));
+			console.log(JSON.stringify({ status: "error", message: "Trip is already added" }));
+		}			
+		else{
+			user.updateOne(update, function(err, tripupdate){
+				if (err){
+					res.send(JSON.stringify({ status: "error", message: "Error on adding trip" }));
+					console.log(err);
+				}
+				else{
+					res.send(JSON.stringify({ status: "ok", message: "Trip: " + JsonObject.tripId + " added to user: " + user._id }));
+					console.log(JSON.stringify({ status: "ok", message: "Trip: " + JsonObject.tripId + " added to user: " + user._id }));
+				};
+			});
+		};
+	});
+});
+
+/******************************************/
+//Api per rimuovere l'id di un viaggio all'interno dell'array Trips => /removeTrip?tripId=....&userId=....
+
+router.post('/removeTrip', function(req,res){
+	
+	var JsonObject = req.body;
+
+	var trip = {
+		"tripId": JsonObject.tripId
+	};	
+	var conditions = {							
+		_id: JsonObject.userId,
+		'trips.tripId': { $eq: JsonObject.tripId }		
+	};
+	var update = {
+		$pull: {trips: trip}
+	};
+	
+	UserSchema.findOne(conditions, function (err, user) {
+		if (err){
+			res.send(JSON.stringify({ status: "error", message: "Error with ObjectId" }));
+			console.log(err);
+		}
+		else if (user == null){
+			res.send(JSON.stringify({ status: "error", message: "Trip is not in this list" }));
+			console.log(JSON.stringify({ status: "error", message: "Trip is not in this list" }));
+		}			
+		else{
+			user.updateOne(update, function(err, tripupdate){
+				if (err){
+					res.send(JSON.stringify({ status: "error", message: "Error on removing trip" }));
+					console.log(err);
+				}
+				else{
+					res.send(JSON.stringify({ status: "ok", message: "Trip: " + JsonObject.tripId + " removed from user: " + user._id }));
+					console.log(JSON.stringify({ status: "ok", message: "Trip: " + JsonObject.tripId + " removed from user: " + user._id }));
+				};
+			});
+		};
+	});
 });
 
 module.exports = router;
