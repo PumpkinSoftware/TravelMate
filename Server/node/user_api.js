@@ -199,7 +199,7 @@ router.post('/updateUser', function(req, res){
 });
 
 /******************************************/
-//Api per inserire l'id di un viaggio all'interno dell'array favouriteTrips => /addFavourTrip?tripId=....
+//Api per inserire l'id di un viaggio all'interno dell'array favouriteTrips => /addFavourTrip?tripId=....&usersId=....
 
 router.get('/addFavourTrip', function(req, res){
 
@@ -226,7 +226,7 @@ router.get('/addFavourTrip', function(req, res){
         if (user != null){
             user.updateOne(update, function(err, userupdate){
 				if (err){
-					res.send(JSON.stringify({ status: "error", message: "Error in adding trip" }));
+					res.send(JSON.stringify({ status: "error", message: "Trip already added" }));
 					console.log(err);
 				}
 				else{
@@ -236,9 +236,37 @@ router.get('/addFavourTrip', function(req, res){
 			});
         }
         else{
-            res.send(JSON.stringify({ status: "error", message: "Trip already added" }));
-            console.log(JSON.stringify({ status: "error", message: "Trip already added" }));
+            res.send(JSON.stringify({ status: "error", message: "User not found" }));
+            console.log(JSON.stringify({ status: "error", message: "User not found" }));
         }
+    });
+});
+
+/******************************************/
+//Api per ottenere tutti gli utenti che abbiano tripId all'interno di trips => /GetUsersByTrip?tripId=...
+
+router.get('/getUsersByTrip', function(req, res){
+
+    var conditions = {
+        "trips.tripId": { $eq: req.query.tripId }
+    }
+
+    UserSchema.find(conditions, function(err, users){
+        
+        if (err){
+            res.send(JSON.stringify({ status: "error", message: "Error in finding users" }));
+            console.log(err);
+        }
+        
+        if (users.length > 0){
+            res.send(users);
+            console.log(users);
+        }
+        else{
+            res.send(JSON.stringify({ status: "error", message: "Users not found" }));
+            console.log(JSON.stringify({ status: "error", message: "Users not found" }));
+        }
+
     });
 });
 
