@@ -369,17 +369,17 @@
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5" />
 
             <RadioGroup
-                android:id="@id/tag"
+                android:id="@id/tag_radio"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tag_text"
                 android:layout_alignStart="@+id/tag_text"
                 android:layout_marginTop="28dp">
-                <LinearLayout
+                <!--<LinearLayout
                     android:id="@+id/row1"
                     android:orientation="horizontal"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content">-->
                 <RadioButton
                     android:id="@+id/tag1"
                     android:layout_width="wrap_content"
@@ -390,12 +390,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/tag2"/>
-                </LinearLayout>
+               <!-- </LinearLayout>
                 <LinearLayout
                     android:id="@+id/row2"
                     android:orientation="horizontal"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content">-->
                 <RadioButton
                     android:id="@+id/tag3"
                     android:layout_width="wrap_content"
@@ -406,7 +406,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/tag4"/>
-                </LinearLayout>
+                <!--</LinearLayout>-->
             </RadioGroup>
 
             <!-- Button -->
@@ -414,7 +414,7 @@
                 android:id="@+id/cardView"
                 android:layout_width="300dp"
                 android:layout_height="50dp"
-                android:layout_below="@+id/tag"
+                android:layout_below="@+id/tag_radio"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="28dp"
                 android:layout_marginBottom="28dp"

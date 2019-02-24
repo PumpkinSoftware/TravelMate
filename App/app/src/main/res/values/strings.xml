@@ -14,7 +14,7 @@
     <string name="password">Password</string>
     <string name="login">Login</string>
     <string name="forgot_password">Forgot password?</string>
-    <string name="create_account">CREATE AN ACCOUNT</string>
+    <string name="create_account">Create an account</string>
     <string name="or">Or</string>
 
     <!-- Facebook application ID and custom URL scheme (app ID prefixed by 'fb'). -->
