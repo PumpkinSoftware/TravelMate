@@ -374,9 +374,12 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tag_text"
                 android:layout_alignStart="@+id/tag_text"
-                android:layout_marginTop="28dp"
-                android:orientation="horizontal">
-
+                android:layout_marginTop="28dp">
+                <LinearLayout
+                    android:id="@+id/row1"
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
                 <RadioButton
                     android:id="@+id/tag1"
                     android:layout_width="wrap_content"
@@ -387,6 +390,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/tag2"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/row2"
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
                 <RadioButton
                     android:id="@+id/tag3"
                     android:layout_width="wrap_content"
@@ -397,6 +406,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/tag4"/>
+                </LinearLayout>
             </RadioGroup>
 
             <!-- Button -->
