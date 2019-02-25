@@ -36,6 +36,10 @@ public class Trip {
         return budget_number;
     }
 
+    public String getImage(){
+        return trip_image;
+    }
+
     public void setGroup(String group) {
         group_number = group;
     }
@@ -46,7 +50,8 @@ public class Trip {
 
     private static int lastTripId = 0;
 
-    // PER PROVA
+    //PER PROVA
+    // Non posso togliere causa una dipendenza con ContentFragmentTravels
     public static ArrayList<Trip> createTripsList(int n) {
         ArrayList<Trip> trips = new ArrayList<Trip>();
 

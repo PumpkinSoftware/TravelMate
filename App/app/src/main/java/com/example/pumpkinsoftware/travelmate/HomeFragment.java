@@ -3,8 +3,10 @@ package com.example.pumpkinsoftware.travelmate;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -14,17 +16,30 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.LinearLayoutManager;
+import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.pumpkinsoftware.travelmate.client_server_interaction.ClientServerInteraction;
 import com.example.pumpkinsoftware.travelmate.glide.GlideApp;
 import com.example.pumpkinsoftware.travelmate.trip.Trip;
 import com.example.pumpkinsoftware.travelmate.trips_adapter.TripsAdapter;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 public class HomeFragment extends Fragment {
     private Context context;
-
+    private RequestQueue mRequestQueue;
+    private String URL="https://debugtm.herokuapp.com/trip/allTrips/";
+    private ArrayList<Trip> trips;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -61,13 +76,33 @@ public class HomeFragment extends Fragment {
         cs.getTripsFromServer("http://localhost:8095/trip/allTrips/", );*/
 
         // Initialize trips
-        ArrayList<Trip> trips = Trip.createTripsList(20);
+        //ArrayList<Trip> trips = Trip.createTripsList(20);
+
         // Create adapter passing in the sample user data
-        TripsAdapter adapter = new TripsAdapter(trips);
+        // TripsAdapter adapter = new TripsAdapter(trips);
         // Attach the adapter to the recyclerview to populate items
-        rvContacts.setAdapter(adapter);
+        // rvContacts.setAdapter(adapter);
         // Set layout manager to position the items
         rvContacts.setLayoutManager(new LinearLayoutManager(context));
+        trips=new ArrayList<Trip>();
+
+        mRequestQueue= Volley.newRequestQueue(context);
+        new ClientServerInteraction(context,rvContacts).getTripsFromServer(URL,mRequestQueue,trips);
+        //swipe da finire
+        final SwipeRefreshLayout swipe = (SwipeRefreshLayout) view.findViewById(R.id.swiperefresh);
+        swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                swipe.setRefreshing(true);
+                (new Handler()).postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        swipe.setRefreshing(false);
+
+                    }
+                },3000);
+            }
+        });
         return view;
     }
 

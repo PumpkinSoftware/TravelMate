@@ -175,10 +175,11 @@ public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.ViewHolder> 
 
         // Set item views based on your views and data model
         ImageView t_image = viewHolder.trip_image;
+        ;
         // To prevent crash, it wait until context is setted
         while(context == null){}
         GlideApp.with(context)
-                .load(R.mipmap.new_york)
+                .load(trip.getImage())
                 .placeholder(R.mipmap.placeholder_image)
                 .into(t_image);
         TextView t_name = viewHolder.trip_name;

@@ -306,7 +306,7 @@
                     android:id="@+id/plantext"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456879' "
+                    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456879àèéùòì'()., "
                     android:hint="@string/plan_text" />
             </android.support.design.widget.TextInputLayout>
 
@@ -336,7 +336,7 @@
                     android:id="@+id/nametext"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!' "
+                    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!àèéùòì' "
                     android:hint="@string/name_text" />
             </android.support.design.widget.TextInputLayout>
 
@@ -360,11 +360,11 @@
                 android:layout_below="@+id/tag_text"
                 android:layout_alignStart="@+id/tag_text"
                 android:layout_marginTop="28dp">
-                <LinearLayout
+                <!--<LinearLayout
                     android:id="@+id/row1"
                     android:orientation="horizontal"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content">-->
                     <RadioButton
                         android:id="@+id/tag1"
                         android:layout_width="wrap_content"
@@ -377,12 +377,12 @@
                         android:layout_height="wrap_content"
                         android:text="@string/tag2"
                         android:onClick="onRadioButtonClicked"/>
-                </LinearLayout>
+                <!--</LinearLayout>
                 <LinearLayout
                     android:id="@+id/row2"
                     android:orientation="horizontal"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content">-->
                     <RadioButton
                         android:id="@+id/tag3"
                         android:layout_width="wrap_content"
@@ -395,7 +395,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/tag4"
                         android:onClick="onRadioButtonClicked"/>
-                </LinearLayout>
+                <!--</LinearLayout>-->
             </RadioGroup>
 
             <!--bottone-->
