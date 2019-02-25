@@ -51,11 +51,12 @@
     <string name="n2">2</string>
     <string name="n2000">2000</string>
     <string name="euro">€</string>
+    <string name="buddies">Minimo e massimo dei compagni di viaggio</string>
 
     <!-- Only creation-->
     <string name="creation_title">Nuovo evento?</string>
     <string name="group">Gruppo</string>
-    <string name="buddies">Minimo e massimo dei compagni di viaggio</string>
+    <string name="buddies2">Persone necessarie per partire</string>
     <string name="budget_text2">Cifra approssimativa</string>
     <string name="plan">Programma</string>
     <string name="plan_text">Scrivi qualche dettaglio in più sul viaggio</string>

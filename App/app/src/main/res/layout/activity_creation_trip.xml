@@ -59,7 +59,7 @@
                     android:id="@+id/from_text"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ' "
+                    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZàèéùòì' "
                     android:hint="@string/from" />
             </android.support.design.widget.TextInputLayout>
 
@@ -89,7 +89,7 @@
                     android:id="@+id/to_text"
                     android:layout_width="138dp"
                     android:layout_height="match_parent"
-                    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ' "
+                    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZàèéùòì' "
                     android:hint="@string/to" />
 
             </android.support.design.widget.TextInputLayout>
@@ -143,7 +143,7 @@
                 android:layout_marginBottom="13dp"
                 android:background="@android:color/darker_gray" />
 
-            <!-- Pets section-->
+            <!-- Vehicle section-->
             <RadioGroup
 
                 android:layout_width="match_parent"
@@ -262,7 +262,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout_marginStart="0dp"
                 android:layout_marginTop="5dp"
-                android:text="@string/buddies"
+                android:text="@string/buddies2"
                 android:textAppearance="@style/TextAppearance.Design.HelperText" />
 
             <EditText
@@ -306,7 +306,7 @@
                     android:id="@+id/plantext"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ' "
+                    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456879' "
                     android:hint="@string/plan_text" />
             </android.support.design.widget.TextInputLayout>
 
@@ -336,7 +336,7 @@
                     android:id="@+id/nametext"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ' "
+                    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!' "
                     android:hint="@string/name_text" />
             </android.support.design.widget.TextInputLayout>
 
@@ -398,11 +398,7 @@
                 </LinearLayout>
             </RadioGroup>
 
-
-
-
             <!--bottone-->
-
             <android.support.v7.widget.CardView
                 android:id="@+id/cardView"
                 android:layout_width="300dp"

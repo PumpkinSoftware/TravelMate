@@ -65,7 +65,7 @@
                     android:id="@+id/from_text"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ' "
+                    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZàèéùòì' "
                     android:hint="@string/from" />
             </android.support.design.widget.TextInputLayout>
 
@@ -95,7 +95,7 @@
                     android:id="@+id/to_text"
                     android:layout_width="138dp"
                     android:layout_height="match_parent"
-                    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ' "
+                    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZàèéùòì' "
                     android:hint="@string/to" />
 
             </android.support.design.widget.TextInputLayout>

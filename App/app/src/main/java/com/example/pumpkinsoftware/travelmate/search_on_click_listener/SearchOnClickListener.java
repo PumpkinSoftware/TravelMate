@@ -139,9 +139,7 @@ public class SearchOnClickListener implements View.OnClickListener {
         //chiamata del server
         jsonParse();
 
-        Intent i = new Intent(this.context, SearchResult.class);
-        i.putExtra("result", stringaResult);
-        context.startActivity(i);
+        context.startActivity(new Intent(this.context, SearchResult.class).putExtra("result", stringaResult));
 
         stringaResult = "";
     }
