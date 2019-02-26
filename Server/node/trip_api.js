@@ -43,6 +43,7 @@ router.post('/newTrip', function(req,res){
         owner: clientInput.owner,
         startDate: clientInput.startDate,
         endDate: clientInput.endDate,
+        createDate: new Date(),
         vehicle: clientInput.vehicle,
         tag: clientInput.tag,
         maxPartecipant: clientInput.maxPartecipant,
@@ -68,6 +69,29 @@ router.post('/newTrip', function(req,res){
 
 router.get('/allTrips', function(req, res){
 	TripSchema.find({}, function(err, trips){
+		if(err){
+			console.log(err);
+			res.send(JSON.stringify({ status: "error", message: "Error to send all trips." }));
+		}else{
+			res.send(trips);
+			console.log('retrieved list of trips', trips.length);
+		}
+	});
+});
+
+/*****************************************/
+//Api per ottenere gli ultimi 200 viaggi inseriti
+
+//example use /lastTripsCreated?limit=200
+
+router.get('/lastTripsCreated', function(req, res){
+
+	var limit = 200;
+
+	if(req.query.limit != undefined) 
+		limit = parseInt(req.query.limit);
+
+	TripSchema.find( {tag : {$exists:true}, $where:'this.partecipant.length<this.maxPartecipant'}).sort({"createDate": 'desc'}).limit(limit).exec(function(err, trips){
 		if(err){
 			console.log(err);
 			res.send(JSON.stringify({ status: "error", message: "Error to send all trips." }));
@@ -121,8 +145,10 @@ router.get('/getTripsWithFilter', function(req, res){
 	if(req.query.minPartecipant != undefined)
 		minPartecipant = req.query.minPartecipant;
 
+	var condition={tag : {$exists:true}, $where:'this.partecipant.length<this.maxPartecipant'};
 
-	TripSchema.find(query).where('budget').gte(minBudget).lte(maxBudget).where('startDate').gte(minDate).where('endDate').lte(maxDate).where('maxPartecipant').lte(maxPartecipant).gte(minPartecipant).exec( function(err, trips){
+
+	TripSchema.find(condition).find(query).where('budget').gte(minBudget).lte(maxBudget).where('startDate').gte(minDate).where('endDate').lte(maxDate).where('maxPartecipant').lte(maxPartecipant).gte(minPartecipant).exec( function(err, trips){
 		if(err){
 			res.send(JSON.stringify({ status: "error", message: "Error parameters type." }));
 			console.log(err);
