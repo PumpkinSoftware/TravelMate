@@ -201,7 +201,7 @@ router.post('/updateUser', function(req, res){
 /******************************************/
 //Api per inserire l'id di un viaggio all'interno dell'array favouriteTrips => /addFavourTrip?tripId=....&usersId=....
 
-router.get('/addFavourTrip', function(req, res){
+router.get('/addFavouriteTrip', function(req, res){
 
     var trip = {
         "tripId": req.query.tripId
