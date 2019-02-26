@@ -179,7 +179,7 @@ public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.ViewHolder> 
         // To prevent crash, it wait until context is setted
         while(context == null){}
         GlideApp.with(context)
-                .load(trip.getImage())
+                .load((trip.getImage().isEmpty())?(R.mipmap.default_trip):(trip.getImage()))
                 .placeholder(R.mipmap.placeholder_image)
                 .into(t_image);
         TextView t_name = viewHolder.trip_name;

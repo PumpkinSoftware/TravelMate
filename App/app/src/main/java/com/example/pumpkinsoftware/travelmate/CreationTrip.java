@@ -54,6 +54,7 @@ public class CreationTrip extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 onBackPressed();
+                finish();
             }
         });
         //FINE
@@ -130,7 +131,7 @@ public class CreationTrip extends AppCompatActivity {
                         viaggio.put("vehicle",vehicle);
                         viaggio.put("tag",tag);
                         viaggio.put("maxPartecipant", group_q);
-                        viaggio.put("image", "https://raw.githubusercontent.com/PumpkinSoftware/TravelMate/Back-End/Logo/trip.jpg");
+                        viaggio.put("image", "");
                         viaggio.put("owner","default");
 
                     } catch (JSONException e) {

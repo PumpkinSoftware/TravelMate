@@ -38,7 +38,7 @@ import java.util.ArrayList;
 public class HomeFragment extends Fragment {
     private Context context;
     private RequestQueue mRequestQueue;
-    private String URL="https://debugtm.herokuapp.com/trip/allTrips/";
+    private String URL="https://debugtm.herokuapp.com/trip/lastTripsCreated?limit=50";
     private ArrayList<Trip> trips;
     @Nullable
     @Override
