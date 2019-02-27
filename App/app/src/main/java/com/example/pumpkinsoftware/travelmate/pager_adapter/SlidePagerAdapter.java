@@ -30,7 +30,7 @@ public class SlidePagerAdapter extends FragmentPagerAdapter {
     @Override
     public CharSequence getPageTitle(int index) {
         String title = null;
-        if (index == 0)         title = "Futuri";
+        if (index == 0)         title = "In attesa";
         else if (index == 1)    title = "Preferiti";
         else                    title = "Passati";
         return title;

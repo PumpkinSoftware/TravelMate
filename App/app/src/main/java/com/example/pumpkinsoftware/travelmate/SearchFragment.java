@@ -38,6 +38,8 @@ import io.apptik.widget.MultiSlider;
 
 public class SearchFragment extends Fragment {
     private RequestQueue mQueue;
+    private int id_radio_vehicle = -1;
+    private int id_radio_tag = -1;
 
     @Nullable
     @Override
@@ -54,7 +56,7 @@ public class SearchFragment extends Fragment {
         final EditText return_date = (EditText) view.findViewById(R.id.ret);
 
 
-        mQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
+        //mQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
 
         // If click on bg, focus is deleted
         view.findViewById(R.id.scroll_child).setOnClickListener(new View.OnClickListener() {
@@ -188,7 +190,7 @@ public class SearchFragment extends Fragment {
                     if (t.getValue() != v)
                         t.setValue(v);
                 } catch (Exception e) {
-                    Toast.makeText(getContext(), "Insert a integer", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Inserisci un intero", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -212,7 +214,7 @@ public class SearchFragment extends Fragment {
                     if (t.getValue() != v)
                         t.setValue(v);
                 } catch (Exception e) {
-                    Toast.makeText(getContext(), "Insert a integer", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Inserisci un intero", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -237,7 +239,7 @@ public class SearchFragment extends Fragment {
                     if (t.getValue() != v)
                         t.setValue(v);
                 } catch (Exception e) {
-                    Toast.makeText(getContext(), "Insert a integer", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Inserisci un intero", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -261,22 +263,57 @@ public class SearchFragment extends Fragment {
                     if (t.getValue() != v)
                         t.setValue(v);
                 } catch (Exception e) {
-                    Toast.makeText(getContext(), "Insert a integer", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Inserisci un intero", Toast.LENGTH_SHORT).show();
                 }
             }
         });
 
-        //radio
-        RadioGroup radioGroup = (RadioGroup) view.findViewById(R.id.vehicle_radio);
-        RadioGroup radioGroup2 = (RadioGroup) view.findViewById(R.id.tag_radio);
+        // Radio vehicle
+        final RadioGroup radioGroup = (RadioGroup) view.findViewById(R.id.vehicle_radio);
+        final RadioButton train = (RadioButton) view.findViewById(R.id.treno);
+        final RadioButton auto = (RadioButton) view.findViewById(R.id.auto);
+
+        // Method to deselect with a click a selected button
+        View.OnClickListener rlis = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int id = v.getId();
+                if(id_radio_vehicle == id)   radioGroup.clearCheck();
+                else                         id_radio_vehicle = id;
+            }
+        };
+
+        train.setOnClickListener(rlis);
+        auto.setOnClickListener(rlis);
+
+        // Radio tag
+        final RadioGroup radioGroup2 = (RadioGroup) view.findViewById(R.id.tag_radio);
+        final RadioButton tag1 = (RadioButton) view.findViewById(R.id.tag1);
+        final RadioButton tag2 = (RadioButton) view.findViewById(R.id.tag2);
+        final RadioButton tag3 = (RadioButton) view.findViewById(R.id.tag3);
+        final RadioButton tag4 = (RadioButton) view.findViewById(R.id.tag4);
+
+        View.OnClickListener rlis2 = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int id = v.getId();
+                if(id_radio_tag == id)   radioGroup2.clearCheck();
+                else                     id_radio_tag = id;
+            }
+        };
+
+        tag1.setOnClickListener(rlis2);
+        tag2.setOnClickListener(rlis2);
+        tag3.setOnClickListener(rlis2);
+        tag4.setOnClickListener(rlis2);
+
 
         //Button search
         Button b_search = (Button) view.findViewById(R.id.search_button);
         b_search.setOnClickListener(new SearchOnClickListener(getContext(), getActivity().getSupportFragmentManager(),
-                from, to, departure, ret, radioGroup, radioGroup2, min1, max1, min2, max2, mQueue));
+                from, to, departure, ret, radioGroup, radioGroup2, min1, max1, min2, max2));//, mQueue));
 
         return view;
     }
-
 
 }
