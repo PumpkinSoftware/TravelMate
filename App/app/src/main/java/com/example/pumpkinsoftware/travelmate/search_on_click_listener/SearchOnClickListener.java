@@ -56,7 +56,7 @@ public class SearchOnClickListener implements View.OnClickListener {
 
     public SearchOnClickListener(Context c, FragmentManager fm, TextInputEditText f, TextInputEditText t,
                                  EditTextDatePicker d, EditTextDatePicker r,
-                                 RadioGroup vr, RadioGroup tr, EditText m1, EditText m2, EditText m3, EditText m4, RequestQueue m) {
+                                 RadioGroup vr, RadioGroup tr, EditText m1, EditText m2, EditText m3, EditText m4) {//, RequestQueue m) {
         context = c;
         frag_manager = fm;
         from = f;
@@ -69,7 +69,7 @@ public class SearchOnClickListener implements View.OnClickListener {
         budgetMax = m2;
         gruppoMin = m3;
         gruppoMax = m4;
-        mQueue = m;
+        //mQueue = m;
 
     }
 
@@ -135,45 +135,10 @@ public class SearchOnClickListener implements View.OnClickListener {
             startActivity(intent);
             */
 
-
-        //chiamata del server
-        jsonParse();
-
-        context.startActivity(new Intent(this.context, SearchResult.class).putExtra("result", stringaResult));
-
-        stringaResult = "";
+        context.startActivity(new Intent(this.context, SearchResult.class).putExtra(SearchResult.EXTRA_QUERY, query));
     }
-
 
     //altre funzioni
-
-    private void jsonParse() {
-        //Log.i("query",query);
-        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, query, null, new Response.Listener<JSONArray>() {
-            public void onResponse(JSONArray response) {
-
-                try {
-                    //JSONArray jsonArray=response.getJSONArray("viaggi")
-                    for (int i = 0; i < response.length(); i++) {
-                        JSONObject viaggio = response.getJSONObject(i);
-                        String name = viaggio.getString("name");
-                        // Log.i("viaggio",name);
-                        stringaResult += name + System.getProperty("line.separator");
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    Toast.makeText(context, "Error: data reception failed", Toast.LENGTH_SHORT).show();
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                error.printStackTrace();
-                Toast.makeText(context, "Error: connection with server failed ", Toast.LENGTH_SHORT).show();
-            }
-        });
-        mQueue.add(request);
-    }
 
     private void filter(String categoria, String filtro) {
         //il primo valore non deve avere il simbolo "&"

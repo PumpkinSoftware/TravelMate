@@ -38,8 +38,9 @@ import java.util.ArrayList;
 public class HomeFragment extends Fragment {
     private Context context;
     private RequestQueue mRequestQueue;
-    private String URL="https://debugtm.herokuapp.com/trip/lastTripsCreated?limit=50";
+    private String URL="https://debugtm.herokuapp.com/trip/lastTripsCreated?limit=50";;
     private ArrayList<Trip> trips;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -47,31 +48,7 @@ public class HomeFragment extends Fragment {
         context = getContext();
         setHasOptionsMenu(true);
 
-        //Loading images with glide
-        /*ImageView img = (ImageView) view.findViewById(R.id.travel_image);
-
-        GlideApp.with(context)
-                .load(R.mipmap.new_york)
-                .placeholder(R.mipmap.placeholder_image)
-                .into(img);
-
-        img = (ImageView) view.findViewById(R.id.travel_image2);
-
-        GlideApp.with(context)
-                .load(R.mipmap.amsterdam)
-                .placeholder(R.mipmap.placeholder_image)
-                .into(img);
-
-        img = (ImageView) view.findViewById(R.id.travel_image3);
-
-        GlideApp.with(context)
-                .load(R.mipmap.dubai)
-                .placeholder(R.mipmap.placeholder_image)
-                .into(img);
-
-        return view;*/
-
-        RecyclerView rvContacts = (RecyclerView) view.findViewById(R.id.recyclerview);
+        RecyclerView rvTrips = (RecyclerView) view.findViewById(R.id.recyclerview);
         /*ClientServerInteraction cs = new ClientServerInteraction(context);
         cs.getTripsFromServer("http://localhost:8095/trip/allTrips/", );*/
 
@@ -82,12 +59,14 @@ public class HomeFragment extends Fragment {
         // TripsAdapter adapter = new TripsAdapter(trips);
         // Attach the adapter to the recyclerview to populate items
         // rvContacts.setAdapter(adapter);
+
         // Set layout manager to position the items
-        rvContacts.setLayoutManager(new LinearLayoutManager(context));
+        rvTrips.setLayoutManager(new LinearLayoutManager(context));
         trips=new ArrayList<Trip>();
 
         mRequestQueue= Volley.newRequestQueue(context);
-        new ClientServerInteraction(context,rvContacts).getTripsFromServer(URL,mRequestQueue,trips);
+        new ClientServerInteraction(context,rvTrips).getTripsFromServer(URL,mRequestQueue,trips);
+
         //swipe da finire
         final SwipeRefreshLayout swipe = (SwipeRefreshLayout) view.findViewById(R.id.swiperefresh);
         swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -105,15 +84,6 @@ public class HomeFragment extends Fragment {
         });
         return view;
     }
-
-    /*public static void shareText(View view) {
-        Intent intent = new Intent(android.content.Intent.ACTION_SEND);
-        intent.setType("text/plain");
-        String shareBodyText = "Your sharing message goes here";
-        intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject/Title");
-        intent.putExtra(android.content.Intent.EXTRA_TEXT, shareBodyText);
-        startActivity(Intent.createChooser(intent, "Choose sharing method"));
-    }*/
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
