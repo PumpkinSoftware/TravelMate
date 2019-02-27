@@ -22,7 +22,7 @@
     <string name="facebook_login_protocol_scheme" translatable="false">fbYOUR_APP_ID</string>-->
 
     <!-- Home -->
-    <string name="home_title"> 🔥 Tendenze</string>
+    <string name="home_title"> 😎 Ultimi aggiunti</string>
     <string name="user_logged">LeBron James</string>
     <string name="MORE">MORE</string>
     <string name="n500">500</string>
@@ -61,8 +61,10 @@
     <string name="plan">Programma</string>
     <string name="plan_text">Scrivi qualche dettaglio in più sul viaggio</string>
     <string name="name">Nome</string>
-    <string name="name_text">Inserisci il nome dell\evento per concludere</string>
+    <string name="name_text">Inserisci il nome dell\' evento per concludere</string>
     <string name="confirm">Conferma</string>
+    <string name="photo_upload">scegli</string>
+    <string name="photo_name">Carica una foto (facoltativo)</string>
 
     <!-- Mezzi -->
 	<string name="treno">Treno</string>

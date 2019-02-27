@@ -398,13 +398,42 @@
                 <!--</LinearLayout>-->
             </RadioGroup>
 
+            <!-- photo -->
+            <TextView
+                android:id="@+id/photo_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tag"
+                android:layout_alignStart="@+id/budget"
+                android:layout_marginStart="3dp"
+                android:layout_marginTop="27dp"
+                android:text="@string/photo_name"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5" />
+
+            <Button
+                android:id="@+id/photo_upload"
+                android:layout_width="100dp"
+                android:layout_height="40dp"
+                android:layout_below="@+id/photo_name"
+                android:layout_alignStart="@+id/photo_name"
+                android:text="@string/photo_upload"
+                android:textSize="23dp"
+                style="@style/Widget.MaterialComponents.Button.Icon"/>
+
+            <TextView
+                android:id="@+id/photo_text"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_below="@+id/photo_name"
+                android:layout_alignStart="@+id/swap1"
+                android:layout_marginTop="10dp"/>
 
             <!--bottone-->
             <android.support.v7.widget.CardView
                 android:id="@+id/cardView"
                 android:layout_width="300dp"
                 android:layout_height="50dp"
-                android:layout_below="@+id/tag"
+                android:layout_below="@+id/photo_upload"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="28dp"
                 android:layout_marginBottom="28dp"

@@ -48,7 +48,7 @@ public class HomeFragment extends Fragment {
         context = getContext();
         setHasOptionsMenu(true);
 
-        RecyclerView rvTrips = (RecyclerView) view.findViewById(R.id.recyclerview);
+        final RecyclerView rvTrips = (RecyclerView) view.findViewById(R.id.recyclerview);
         /*ClientServerInteraction cs = new ClientServerInteraction(context);
         cs.getTripsFromServer("http://localhost:8095/trip/allTrips/", );*/
 
@@ -76,6 +76,12 @@ public class HomeFragment extends Fragment {
                 (new Handler()).postDelayed(new Runnable() {
                     @Override
                     public void run() {
+                        //temporaneo
+                        rvTrips.setLayoutManager(new LinearLayoutManager(context));
+                        trips=new ArrayList<Trip>();
+
+                        mRequestQueue= Volley.newRequestQueue(context);
+                        new ClientServerInteraction(context,rvTrips).getTripsFromServer(URL,mRequestQueue,trips);
                         swipe.setRefreshing(false);
 
                     }

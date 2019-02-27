@@ -1,7 +1,13 @@
 package com.example.pumpkinsoftware.travelmate;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -11,6 +17,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -22,11 +29,20 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.pumpkinsoftware.travelmate.edit_text_date_picker.EditTextDatePicker;
 import com.example.pumpkinsoftware.travelmate.my_on_checked_change_listener.MyOnCheckedChangeListener;
+import com.gc.materialdesign.widgets.ProgressDialog;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.Calendar;
+import java.util.UUID;
 
 public class CreationTrip extends AppCompatActivity {
     private final static String URL="https://debugtm.herokuapp.com/trip/newTrip/";
@@ -35,6 +51,16 @@ public class CreationTrip extends AppCompatActivity {
     protected int group_q;
     private RequestQueue mQueue;
     Context contesto;
+
+    //foto
+    private Button b_upload;
+    private Uri filePath;
+    private final int PICK_IMAGE_REQUEST = 71;
+
+    //Firebase
+    FirebaseStorage storage;
+    StorageReference storageReference;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,6 +85,11 @@ public class CreationTrip extends AppCompatActivity {
         });
         //FINE
 
+        // file per firebase
+        storage = FirebaseStorage.getInstance();
+        storageReference = storage.getReference();
+
+        // campi
         final EditText budget =  findViewById(R.id.budget_max_value);
         final EditText group =  findViewById(R.id.group_max_value);
         final TextInputEditText from = (TextInputEditText )findViewById(R.id.from_text);
@@ -74,6 +105,14 @@ public class CreationTrip extends AppCompatActivity {
         final EditTextDatePicker ret = new EditTextDatePicker(contesto, return_date, calendar, departure);
         departure.setOther(ret);
 
+
+        b_upload = (Button) findViewById(R.id.photo_upload);
+        b_upload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                chooseImage();
+            }
+        });
 
 
         Button b_confirm = (Button) findViewById(R.id.confirm_button);
@@ -131,18 +170,93 @@ public class CreationTrip extends AppCompatActivity {
                         viaggio.put("vehicle",vehicle);
                         viaggio.put("tag",tag);
                         viaggio.put("maxPartecipant", group_q);
-                        viaggio.put("image", "");
                         viaggio.put("owner","default");
 
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    jsonParse(viaggio);
+                    uploadImage(viaggio);
                     finish();
                 }
             }
         });
 
+    }
+
+    private void chooseImage() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK
+                && data != null && data.getData() != null )
+        {
+            //codice per mostrare l'anteprima
+            filePath = data.getData();
+            try {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
+                //imageView.setImageBitmap(bitmap);
+                TextView path=findViewById(R.id.photo_text);
+                path.setText(filePath.getLastPathSegment());
+            }
+            catch (IOException e){
+                e.printStackTrace(); }
+        }
+    }
+
+    private void uploadImage(final JSONObject viaggio) {
+
+        if(filePath != null)
+        {
+
+            //final ProgressDialog progressDialog = new ProgressDialog(this.contesto);
+           // progressDialog.setTitle("Creazione viaggio in corso...");
+           // progressDialog.show();
+
+            final StorageReference ref = storageReference.child("tripImage/"+ UUID.randomUUID().toString());
+            ref.putFile(filePath)
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(Uri uri) {
+                                    try {
+                                        viaggio.put("image", uri.toString());
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                    //Qui richiami mongoDB per creare il trip
+                                    jsonParse(viaggio);
+                                    //Ricorda di lasciare un commento qui per ricordarci di gestire l'errore lato MongoDB
+
+                                    // progressDialog.dismiss();
+                                    Toast.makeText(contesto, "Viaggio creato correttamente.", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            //progressDialog.dismiss();
+                            Toast.makeText(contesto, "Failed "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                            double progress = (100.0*taskSnapshot.getBytesTransferred()/taskSnapshot
+                                    .getTotalByteCount());
+                           // progressDialog.setMessage("Uploaded "+(int)progress+"%");
+                        }
+                    });
+        }
     }
 
     private void jsonParse(JSONObject viaggio) {
