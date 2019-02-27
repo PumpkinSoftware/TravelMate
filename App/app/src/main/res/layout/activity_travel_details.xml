@@ -74,7 +74,6 @@
             android:transitionName="travel_name"
             android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
-
         <TextView
             android:id="@+id/descr"
             android:layout_width="wrap_content"
@@ -83,11 +82,20 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
             android:text="Description"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
+
+        <!-- Descr alignment for sdk<26 -->
+        <WebView
+            android:id="@+id/descr_for_older_versions"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/name"
+            android:visibility="gone"/>
         <!--</RelativeLayout>-->
 
 
         <android.support.constraint.ConstraintLayout
+            android:id="@+id/layout2"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/descr"

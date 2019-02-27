@@ -2,26 +2,42 @@ package com.example.pumpkinsoftware.travelmate;
 
 import android.animation.AnimatorInflater;
 import android.animation.AnimatorSet;
+import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Layout;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.example.pumpkinsoftware.travelmate.glide.GlideApp;
 import com.example.pumpkinsoftware.travelmate.trip.Trip;
 import com.example.pumpkinsoftware.travelmate.trips_adapter.TripsAdapter;
 
 public class TravelDetailsActivity extends AppCompatActivity {
-    public final static String EXTRA_ID = "TRIP_ID";
-    public final static String EXTRA_NAME = "TRIP_NAME";
-    public final static String EXTRA_BUDGET = "TRIP_BUDGET";
-    public final static String EXTRA_GROUP = "TRIP_GROUP";
+    public final static String EXTRA_ID = "travelmate_extra_tda_TRIP_ID";
+    public final static String EXTRA_IMG = "travelmate_extra_tda_TRIP_IMG";
+    public final static String EXTRA_NAME = "travelmate_extra_tda_TRIP_NAME";
+    public final static String EXTRA_DESCR = "travelmate_extra_tda_TRIP_DESCR";
+    public final static String EXTRA_DEPARTURE = "travelmate_extra_tda_TRIP_DEP";
+    public final static String EXTRA_DEST = "travelmate_extra_tda_TRIP_DEST";
+    public final static String EXTRA_BUDGET = "travelmate_extra_tda_TRIP_BUDGET";
+    public final static String EXTRA_START = "travelmate_extra_tda_TRIP_START";
+    public final static String EXTRA_END = "travelmate_extra_tda_TRIP_END";
+    public final static String EXTRA_GROUP = "travelmate_extra_tda_TRIP_GROUP";
     private Context context;
 
     @Override
@@ -32,17 +48,56 @@ public class TravelDetailsActivity extends AppCompatActivity {
 
         Bundle b = getIntent().getExtras();
         final String id =  b.getString(EXTRA_ID);
+        final String img =  b.getString(EXTRA_IMG);
         final String name =  b.getString(EXTRA_NAME);
+        final String descr =  b.getString(EXTRA_DESCR);
+        final String dep =  b.getString(EXTRA_DEPARTURE);
+        final String dest =  b.getString(EXTRA_DEST);
         final String budget =  b.getString(EXTRA_BUDGET);
+        final String start =  b.getString(EXTRA_START);
+        final String end =  b.getString(EXTRA_END);
         final String group =  b.getString(EXTRA_GROUP);
 
-        final ImageView img = (ImageView) findViewById(R.id.header_cover_image);
-        //img.setBackgroundResource(R.mipmap.new_york);
-        //img.setImageResource(R.drawable.white_gradient);
+        final ImageView imgv = (ImageView) findViewById(R.id.header_cover_image);
+        GlideApp.with(this)
+                .load(img)
+                .placeholder(R.mipmap.placeholder_image)
+                .into(imgv);
         final TextView n = (TextView) findViewById(R.id.name);
         n.setText(name);
+        final TextView dsc = (TextView) findViewById(R.id.descr);
+
+        // Justified text alignment
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            dsc.setText(descr);
+            dsc.setJustificationMode(Layout.JUSTIFICATION_MODE_INTER_WORD);
+          }
+
+        else {
+            final WebView view = (WebView) findViewById(R.id.descr_for_older_versions);
+            String text = "<html><body><p align=\"justify\">";
+            text+= descr;
+            text+= "</p></body></html>";
+            view.loadData(text, "text/html", "utf-8");
+            view.setVisibility(View.VISIBLE);
+            dsc.setVisibility(View.GONE);
+            // Now I've to change the below param of the below elements
+            final ConstraintLayout layout = findViewById(R.id.layout2);
+            RelativeLayout.LayoutParams params= new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+            params.addRule(RelativeLayout.BELOW, R.id.descr_for_older_versions);
+            layout.setLayoutParams(params);
+        }
+
+        final TextView dp = (TextView) findViewById(R.id.from);
+        dp.setText(dep);
+        final TextView dt = (TextView) findViewById(R.id.to);
+        dt.setText(dest);
         final TextView bud = (TextView) findViewById(R.id.budget);
         bud.setText(budget);
+        final TextView s = (TextView) findViewById(R.id.date1);
+        s.setText(start);
+        final TextView e = (TextView) findViewById(R.id.date2);
+        e.setText(end);
         final TextView g = (TextView) findViewById(R.id.n_users);
         g.setText(group);
 
