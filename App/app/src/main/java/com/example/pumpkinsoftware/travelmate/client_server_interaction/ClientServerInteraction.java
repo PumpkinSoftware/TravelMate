@@ -1,6 +1,5 @@
 package com.example.pumpkinsoftware.travelmate.client_server_interaction;
 
-import android.app.Activity;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.widget.Toast;
@@ -22,11 +21,12 @@ import java.util.ArrayList;
 public class ClientServerInteraction {
    // private ArrayList<Trip> trips=null;
     private Context context;
-    private RecyclerView rvContacts;
+    private RecyclerView rvTrips;
     TripsAdapter adapter;
+
     public ClientServerInteraction(Context c, RecyclerView rv) {
         context = c;
-        rvContacts=rv;
+        rvTrips = rv;
     }
 
     public void getTripsFromServer(String query, RequestQueue mQueue, final ArrayList<Trip> trips) {
@@ -40,20 +40,30 @@ public class ClientServerInteraction {
                     //JSONArray jsonArray=response.getJSONArray("viaggi")
                     for (int i = 0; i < response.length(); i++) {
                         JSONObject travel = response.getJSONObject(i);
+                        String id = travel.getString("_id");
+                        String image = travel.getString("image");
                         String name = travel.getString("name");
+                        String descr = travel.getString("description");
+                        String departure = travel.getString("departure");
+                        String dest = travel.getString("destination");
                         int budget = travel.getInt("budget");
+                        String dep_date = travel.getString("startDate");
+                        String end_date = travel.getString("endDate");
                         int group_max = travel.getInt("maxPartecipant");
                         JSONArray part = travel.getJSONArray("partecipant");
                         int partecipants = part.length();
-                        String image=travel.getString("image");
                         //ClientServerInteraction.this.
-                        trips.add(new Trip("Trip id",image, name, partecipants+"/"+group_max, budget));
+
+                        trips.add(new Trip(id, image, name, descr, departure, dest, budget,dep_date, end_date,
+                                partecipants+"/"+group_max));
                     }
-                    adapter=new TripsAdapter(trips);
-                    rvContacts.setAdapter(adapter);
+
+                    adapter = new TripsAdapter(trips);
+                    // Attach the adapter to the recyclerview to populate items
+                    rvTrips.setAdapter(adapter);
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    Toast.makeText(context, "Error: data reception failed", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "Errore: connessione fallita", Toast.LENGTH_SHORT).show();
                 }
             }
         }, new Response.ErrorListener() {

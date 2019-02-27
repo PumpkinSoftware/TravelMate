@@ -60,9 +60,9 @@ public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.ViewHolder> 
             // to access the context from any ViewHolder instance.
             super(v);
 
-            trip_image = (ImageView) v.findViewById(R.id.travel_image);
+
             // Handling click on a card
-            trip_image.setOnClickListener(new View.OnClickListener() {
+            View.OnClickListener lis = new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Trip t = getTrip();
@@ -70,9 +70,14 @@ public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.ViewHolder> 
                     if(t != null)
                         openCard(t);
                 }
-            });
+            };
+
+            trip_image = (ImageView) v.findViewById(R.id.travel_image);
+            trip_image.setOnClickListener(lis);
 
             trip_name = (TextView) v.findViewById(R.id.travel_name);
+            trip_name.setOnClickListener(lis);
+
             group_number = (TextView) v.findViewById(R.id.group_number);
             group_image = (ImageView) v.findViewById(R.id.group_image);
             budget_number = (TextView) v.findViewById(R.id.budget_number);
@@ -117,8 +122,14 @@ public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.ViewHolder> 
         private void openCard(Trip t) {
             Intent intent = new Intent(context, TravelDetailsActivity.class);
             intent.putExtra(TravelDetailsActivity.EXTRA_ID, t.getId());
+            intent.putExtra(TravelDetailsActivity.EXTRA_IMG, t.getImage());
             intent.putExtra(TravelDetailsActivity.EXTRA_NAME, t.getName());
+            intent.putExtra(TravelDetailsActivity.EXTRA_DESCR, t.getDescr());
+            intent.putExtra(TravelDetailsActivity.EXTRA_DEPARTURE, t.getDeparture());
+            intent.putExtra(TravelDetailsActivity.EXTRA_DEST, t.getDest());
             intent.putExtra(TravelDetailsActivity.EXTRA_BUDGET, t.getBudget());
+            intent.putExtra(TravelDetailsActivity.EXTRA_START, t.getStartDate());
+            intent.putExtra(TravelDetailsActivity.EXTRA_END, t.getEndDate());
             intent.putExtra(TravelDetailsActivity.EXTRA_GROUP, t.getGroup());
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -126,7 +137,7 @@ public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.ViewHolder> 
                 // of both activities are defined with android:transitionName="robot"
                 ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation((Activity)context,
                         Pair.create((View)trip_image, "travel_image"));
-                        //Pair.create((View)trip_name, "travel_name"));
+                //Pair.create((View)trip_name, "travel_name"));
                 // start the new activity
                 context.startActivity(intent, options.toBundle());
             }
@@ -137,8 +148,6 @@ public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.ViewHolder> 
         }
 
     }
-
-
 
     public TripsAdapter(List<Trip> t) {
         trips = t;
@@ -175,7 +184,6 @@ public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.ViewHolder> 
 
         // Set item views based on your views and data model
         ImageView t_image = viewHolder.trip_image;
-        ;
         // To prevent crash, it wait until context is setted
         while(context == null){}
         GlideApp.with(context)
@@ -186,12 +194,8 @@ public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.ViewHolder> 
         t_name.setText(trip.getName());
         TextView b_number = viewHolder.budget_number;
         b_number.setText(trip.getBudget());
-        ImageView b_image = viewHolder.budget_image;
         TextView g_number = viewHolder.group_number;
         g_number.setText(trip.getGroup());
-        ImageView g_image = viewHolder.group_image;
-        //Button button = viewHolder.more_button;
-        ImageView s_image = viewHolder.sharing_image;
     }
 
     // Returns the total count of items in the list
