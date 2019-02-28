@@ -53,6 +53,8 @@ router.post('/newUser', function(req, res){
                 relationship: clientInput.relationship.toLowerCase(),
                 email: clientInput.email,
                 description: clientInput.description.toLowerCase(),
+                avatar: clientInput.avatar.toLowerCase(),
+                cover: clientInput.cover.toLowerCase(),
                 sumReview: 0,
                 numReview: 0,
                 trips: [],
@@ -165,7 +167,11 @@ router.post('/updateUser', function(req, res){
     if(JsonObject.email != undefined)
         query.email = JsonObject.email;
     if(JsonObject.description != undefined)
-        query.description = JsonObject.description.toLowerCase();
+        query.description = JsonObject.description.toLowerCase();      
+    if(JsonObject.avatar != undefined)
+        query.avatar = JsonObject.avatar.toLowerCase();
+    if(JsonObject.cover != undefined)
+        query.cover = JsonObject.cover.toLowerCase();         
     if(JsonObject.sumReview != undefined)
         query.sumReview = JsonObject.sumReview;
     if(JsonObject.numReview != undefined)
