@@ -85,7 +85,7 @@ public class HomeFragment extends Fragment {
                         swipe.setRefreshing(false);
 
                     }
-                },3000);
+                },1500);
             }
         });
         return view;

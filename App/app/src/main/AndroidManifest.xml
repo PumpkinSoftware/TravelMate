@@ -10,8 +10,12 @@
     Also for Volley
     -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <!--Upload a photo-->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+    <!-- Crop photo-->
+    <!--<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>-->
 
     <application
         android:allowBackup="true"

@@ -28,7 +28,7 @@ public class MinMaxFilter implements InputFilter {
         return "";
     }
 
-    private boolean isInRange(int a, int b, int c) {
+    public static boolean isInRange(int a, int b, int c) {
         return b > a ? c >= a && c <= b : c >= b && c <= a;
     }
 }

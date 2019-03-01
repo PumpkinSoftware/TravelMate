@@ -336,6 +336,7 @@
                     android:id="@+id/nametext"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:maxLength="22"
                     android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!àèéùòì' "
                     android:hint="@string/name_text" />
             </android.support.design.widget.TextInputLayout>
@@ -410,7 +411,7 @@
                 android:text="@string/photo_name"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5" />
 
-            <Button
+            <!--<Button
                 android:id="@+id/photo_upload"
                 android:layout_width="100dp"
                 android:layout_height="40dp"
@@ -418,15 +419,31 @@
                 android:layout_alignStart="@+id/photo_name"
                 android:text="@string/photo_upload"
                 android:textSize="23dp"
-                style="@style/Widget.MaterialComponents.Button.Icon"/>
+                style="@style/Widget.MaterialComponents.Button.Icon"/>-->
 
-            <TextView
+            <!--<TextView
                 android:id="@+id/photo_text"
                 android:layout_width="match_parent"
                 android:layout_height="20dp"
                 android:layout_below="@+id/photo_name"
-                android:layout_alignStart="@+id/swap1"
-                android:layout_marginTop="10dp"/>
+                android:layout_alignStart="@+id/photo_name"
+                android:layout_marginTop="10dp"/>-->
+
+            <!-- anteprima -->
+
+            <ImageView
+                android:id="@+id/photo_upload"
+                android:layout_width="241dp"
+                android:layout_height="92dp"
+                android:layout_below="@+id/photo_name"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginStart="97dp"
+                android:layout_marginTop="980dp"
+                android:background="@mipmap/preview"
+                android:clickable="true"
+                android:scaleType="centerCrop" />
 
             <!--bottone-->
             <android.support.v7.widget.CardView
@@ -457,6 +474,8 @@
                 </Button>
 
             </android.support.v7.widget.CardView>
+
+
 
         </RelativeLayout>
 

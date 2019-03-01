@@ -46,7 +46,7 @@ public class SearchResult extends Activity {
         Bundle b = getIntent().getExtras();
         final String query = b.getString(EXTRA_QUERY);
 
-        RecyclerView rvTrips = (RecyclerView) findViewById(R.id.recyclerview);
+        final RecyclerView rvTrips = (RecyclerView) findViewById(R.id.recyclerview);
         // Set layout manager to position the items
         rvTrips.setLayoutManager(new LinearLayoutManager(this));
         trips = new ArrayList<Trip>();
@@ -62,10 +62,13 @@ public class SearchResult extends Activity {
                 (new Handler()).postDelayed(new Runnable() {
                     @Override
                     public void run() {
+                        rvTrips.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                        trips = new ArrayList<Trip>();
+                        mRequestQueue= Volley.newRequestQueue(getApplicationContext());
+                        new ClientServerInteraction(getApplication(),rvTrips).getTripsFromServer(query,mRequestQueue,trips);
                         swipe.setRefreshing(false);
-                        //testo.setText(risultati);
                     }
-                },3000);
+                },1500);
             }
         });
     }
