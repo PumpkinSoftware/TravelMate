@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.LinearLayoutManager;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -48,24 +49,14 @@ public class HomeFragment extends Fragment {
         context = getContext();
         setHasOptionsMenu(true);
 
+        final ProgressBar progress = view.findViewById(R.id.indeterminateBar);
         final RecyclerView rvTrips = (RecyclerView) view.findViewById(R.id.recyclerview);
-        /*ClientServerInteraction cs = new ClientServerInteraction(context);
-        cs.getTripsFromServer("http://localhost:8095/trip/allTrips/", );*/
-
-        // Initialize trips
-        //ArrayList<Trip> trips = Trip.createTripsList(20);
-
-        // Create adapter passing in the sample user data
-        // TripsAdapter adapter = new TripsAdapter(trips);
-        // Attach the adapter to the recyclerview to populate items
-        // rvContacts.setAdapter(adapter);
-
         // Set layout manager to position the items
         rvTrips.setLayoutManager(new LinearLayoutManager(context));
         trips=new ArrayList<Trip>();
 
         mRequestQueue= Volley.newRequestQueue(context);
-        new ClientServerInteraction(context,rvTrips).getTripsFromServer(URL,mRequestQueue,trips);
+        new ClientServerInteraction(context, rvTrips, progress).getTripsFromServer(URL, mRequestQueue, trips);
 
         //swipe da finire
         final SwipeRefreshLayout swipe = (SwipeRefreshLayout) view.findViewById(R.id.swiperefresh);

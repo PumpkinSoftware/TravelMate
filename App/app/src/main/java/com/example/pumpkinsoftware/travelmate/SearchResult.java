@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.ProgressBar;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
@@ -51,8 +52,10 @@ public class SearchResult extends Activity {
         rvTrips.setLayoutManager(new LinearLayoutManager(this));
         trips = new ArrayList<Trip>();
 
+        ProgressBar progress = findViewById(R.id.indeterminateBar);
+
         mRequestQueue= Volley.newRequestQueue(this);
-        new ClientServerInteraction(this,rvTrips).getTripsFromServer(query,mRequestQueue,trips);
+        new ClientServerInteraction(this, rvTrips, progress).getTripsFromServer(query, mRequestQueue, trips);
 
         final SwipeRefreshLayout swipe = (SwipeRefreshLayout) findViewById(R.id.swiperefresh);
         swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {

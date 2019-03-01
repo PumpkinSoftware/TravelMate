@@ -2,6 +2,8 @@ package com.example.pumpkinsoftware.travelmate.client_server_interaction;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -23,10 +25,17 @@ public class ClientServerInteraction {
     private Context context;
     private RecyclerView rvTrips;
     TripsAdapter adapter;
+    private ProgressBar progressBar;
 
     public ClientServerInteraction(Context c, RecyclerView rv) {
         context = c;
         rvTrips = rv;
+    }
+
+    public ClientServerInteraction(Context c, RecyclerView rv, ProgressBar progress) {
+        context = c;
+        rvTrips = rv;
+        progressBar = progress;
     }
 
     public void getTripsFromServer(String query, RequestQueue mQueue, final ArrayList<Trip> trips) {
@@ -61,8 +70,10 @@ public class ClientServerInteraction {
                     adapter = new TripsAdapter(trips);
                     // Attach the adapter to the recyclerview to populate items
                     rvTrips.setAdapter(adapter);
+                    hideProgressBar();
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    hideProgressBar();
                     Toast.makeText(context, "Errore: connessione fallita", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -70,10 +81,13 @@ public class ClientServerInteraction {
             @Override
             public void onErrorResponse(VolleyError error) {
                 error.printStackTrace();
+                hideProgressBar();
                 Toast.makeText(context, "Errore: connessione assente", Toast.LENGTH_SHORT).show();
             }
         });
         mQueue.add(request);
     }
+
+    private void hideProgressBar() { if (progressBar != null) progressBar.setVisibility(View.GONE); }
 
 }
