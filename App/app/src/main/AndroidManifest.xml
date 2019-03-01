@@ -26,13 +26,17 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:appComponentFactory">
+
         <activity
             android:name=".SearchResult"
             android:parentActivityName=".MainActivity">
         </activity>
+
         <activity
             android:name=".CreationTrip"
-            android:parentActivityName=".MainActivity"></activity>
+            android:parentActivityName=".MainActivity">
+        </activity>
+
         <activity
             android:name=".LoginActivity"
             android:label="@string/app_name"
@@ -45,6 +49,17 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".LogActivity"
+            android:parentActivityName=".LoginActivity">
+        </activity>
+
+        <activity
+            android:name=".RegistrationActivity"
+            android:parentActivityName=".LoginActivity">
+        </activity>
+
         <activity
             android:name=".SearchableActivity"
             android:parentActivityName=".MainActivity">
