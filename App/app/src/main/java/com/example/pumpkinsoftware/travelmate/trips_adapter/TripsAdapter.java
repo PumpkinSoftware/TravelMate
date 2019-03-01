@@ -80,8 +80,15 @@ public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.ViewHolder> 
 
             group_number = (TextView) v.findViewById(R.id.group_number);
             group_image = (ImageView) v.findViewById(R.id.group_image);
+            GlideApp.with(context)
+                    .load(R.drawable.baseline_group_black_24dp)
+                    .into(group_image);
+
             budget_number = (TextView) v.findViewById(R.id.budget_number);
             budget_image = (ImageView) v.findViewById(R.id.budget_image);
+            GlideApp.with(context)
+                    .load(R.drawable.baseline_euro_symbol_black_24dp)
+                    .into(budget_image);
             //more_button = (Button) v.findViewById(R.id.button);
 
             fav_image = (CheckBox) v.findViewById(R.id.fav_image);
@@ -96,6 +103,9 @@ public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.ViewHolder> 
             });
 
             sharing_image = (ImageView) v.findViewById(R.id.sharing_image);
+            GlideApp.with(context)
+                    .load(R.drawable.outline_share_black_24dp)
+                    .into(sharing_image);
             // Handling sharing on click with animation
             sharing_image.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -184,8 +194,6 @@ public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.ViewHolder> 
 
         // Set item views based on your views and data model
         ImageView t_image = viewHolder.trip_image;
-        // To prevent crash, it wait until context is setted
-        while(context == null){}
         GlideApp.with(context)
                 .load((trip.getImage().isEmpty())?(R.mipmap.default_trip):(trip.getImage()))
                 .placeholder(R.mipmap.placeholder_image)

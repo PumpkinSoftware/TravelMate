@@ -9,13 +9,15 @@
     <string name="user">Profilo</string>
     <string name="settings">Opzioni</string>
 
-    <!-- Login -->
+    <!-- Login & registration -->
     <string name="username">Username</string>
     <string name="password">Password</string>
     <string name="login">Login</string>
     <string name="forgot_password">Forgot password?</string>
-    <string name="create_account">Create an account</string>
+    <string name="create_account">CREATE AN ACCOUNT</string>
     <string name="or">Or</string>
+    <string name="register">Registration</string>
+    <string name="mail">Mail</string>
 
     <!-- Facebook application ID and custom URL scheme (app ID prefixed by 'fb'). -->
     <!--<string name="facebook_application_id" translatable="false">YOUR_APP_ID</string>
@@ -29,9 +31,9 @@
     <string name="n58">5/8</string>
     <string name="NYTrip">NY Trip</string>
 
-	<!-- Travel details -->
+    <!-- Travel details -->
     <string name="join">Unisciti</string>
-	
+
     <!-- Travel page-->
     <string name="travel_title">I tuoi eventi</string>
 
@@ -67,7 +69,7 @@
     <string name="photo_name">Carica una foto (facoltativo)</string>
 
     <!-- Mezzi -->
-	<string name="treno">Treno</string>
+    <string name="treno">Treno</string>
     <string name="auto">Auto</string>
 
     <!-- Tag -->
