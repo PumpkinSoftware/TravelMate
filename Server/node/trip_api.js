@@ -47,7 +47,7 @@ router.post('/newTrip', function(req,res){
         vehicle: clientInput.vehicle,
         tag: clientInput.tag,
         maxPartecipant: clientInput.maxPartecipant,
-		partecipant: []
+		partecipants: clientInput.partecipants
 	});
 
 	toInsert.save(function (err) {

@@ -30,7 +30,8 @@ curl -H "Content-Type: application/json" -X POST -d '{
   "owner": "USERBYID1234",
   "startDate": "04/04/2019",
   "tag": "tecnologia",
-  "vehicle": "auto"
+  "vehicle": "auto",
+  "partecipants":"0"
 }' http://localhost:8095/trip/newTrip
 
 echo -e ""
@@ -48,6 +49,7 @@ curl -H "Content-Type: application/json" -X POST -d '{
   "tag":"tecnologia",
   "owner":"GETUSERBYID12233445",
   "startDate": "10/12/2019"
+  "partecipants":"0"
 }' http://localhost:8095/trip/newTrip
 
 echo -e ""
@@ -64,7 +66,8 @@ curl -H "Content-Type: application/json" -X POST -d '{
   "tag":"musica",
   "vehicle":"treno",
   "owner":"GETUSERBYID1234",
-  "startDate": "02/15/2019"
+  "startDate": "02/15/2019",
+  "partecipants":"0"
 }' http://localhost:8095/trip/newTrip
 
 echo -e ""
@@ -81,7 +84,8 @@ curl -H "Content-Type: application/json" -X POST -d '{
   "tag":"intrattenimento",
   "vehicle":"auto",
   "owner":"GETUSERBYID4567",
-  "startDate": "05/01/2019"
+  "startDate": "05/01/2019",
+  "partecipants":"0"
 }' http://localhost:8095/trip/newTrip
 
 echo -e ""
@@ -98,7 +102,8 @@ curl -H "Content-Type: application/json" -X POST -d '{
   "tag":"cultura",
   "vehicle":"treno",
   "owner":"GETUSERBYID567",
-  "startDate": "03/01/2019"
+  "startDate": "03/01/2019",
+  "partecipants":"0"
 }' http://localhost:8095/trip/newTrip
 
 echo -e ""
@@ -115,7 +120,8 @@ curl -H "Content-Type: application/json" -X POST -d '{
   "tag":"tecnologia",
   "vehicle":"auto",
   "owner":"GETUSERBYID234",
-  "startDate": "04/15/2019"
+  "startDate": "04/15/2019",
+  "partecipants":"0"
 }' http://localhost:8095/trip/newTrip
 
 echo -e ""
@@ -132,7 +138,8 @@ curl -H "Content-Type: application/json" -X POST -d '{
   "tag":"musica",
   "vehicle":"treno",
   "owner":"GETUSERBYID123",
-  "startDate": "07/23/2019"
+  "startDate": "07/23/2019",
+  "partecipants":"0"
 }' http://localhost:8095/trip/newTrip
 
 echo -e ""
@@ -149,7 +156,8 @@ curl -H "Content-Type: application/json" -X POST -d '{
   "tag":"musica",
   "vehicle":"auto",
   "owner":"GETUSERBYID567",
-  "startDate": "04/30/2019"
+  "startDate": "04/30/2019",
+  "partecipants":"0"
 }' http://localhost:8095/trip/newTrip
 
 echo -e ""
@@ -166,7 +174,8 @@ curl -H "Content-Type: application/json" -X POST -d '{
   "tag":"intrattenimento",
   "vehicle":"auto",
   "owner":"GETUSERBYID098",
-  "startDate": "06/14/2019"
+  "startDate": "06/14/2019",
+  "partecipants":"0"
 }' http://localhost:8095/trip/newTrip
 
 echo -e ""
@@ -183,7 +192,8 @@ curl -H "Content-Type: application/json" -X POST -d '{
   "tag":"cultura",
   "vehicle":"auto",
   "owner":"GETUSERBYID765",
-  "startDate": "12/06/2019"
+  "startDate": "12/06/2019",
+  "partecipants":"0"
 }' http://localhost:8095/trip/newTrip
 
 echo -e ""
@@ -200,7 +210,8 @@ curl -H "Content-Type: application/json" -X POST -d '{
   "tag":"cultura",
   "vehicle":"treno",
   "owner":"GETUSERBYID432",
-  "startDate": "12/30/2019"
+  "startDate": "12/30/2019",
+  "partecipants":"0"
 }' http://localhost:8095/trip/newTrip
 
 echo -e ""
@@ -217,7 +228,8 @@ curl -H "Content-Type: application/json" -X POST -d '{
   "tag":"tecnologia",
   "vehicle":"treno",
   "owner":"GETUSERBYID432",
-  "startDate": "12/06/2018"
+  "startDate": "12/06/2018",
+  "partecipants":"0"
 }' http://localhost:8095/trip/newTrip
 
 echo -e ""
@@ -234,7 +246,8 @@ curl -H "Content-Type: application/json" -X POST -d '{
   "tag":"musica",
   "vehicle":"auto",
   "owner":"GETUSERBYID432",
-  "startDate": "12/30/2019"
+  "startDate": "12/30/2019",
+  "partecipants":"0"
 }' http://localhost:8095/trip/newTrip
 
 echo -e ""
@@ -251,7 +264,8 @@ curl -H "Content-Type: application/json" -X POST -d '{
   "tag":"intrattenimento",
   "vehicle":"treno",
   "owner":"GETUSERBYID432",
-  "startDate": "12/07/2019"
+  "startDate": "12/07/2019",
+  "partecipants":"0"
 }' http://localhost:8095/trip/newTrip
 
 echo -e ""
@@ -268,7 +282,8 @@ curl -H "Content-Type: application/json" -X POST -d '{
   "tag":"cultura",
   "vehicle":"treno",
   "owner":"GETUSERBYID432",
-  "startDate": "12/30/2019"
+  "startDate": "12/30/2019",
+  "partecipants":"0"
 }' http://localhost:8095/trip/newTrip
 
 echo -e ""
@@ -285,7 +300,8 @@ curl -H "Content-Type: application/json" -X POST -d '{
   "tag":"tecnologia",
   "vehicle":"treno",
   "owner":"GETUSERBYID321",
-  "startDate": "12/06/2019"
+  "startDate": "12/06/2019",
+  "partecipants":"0"
 }' http://localhost:8095/trip/newTrip
 
 echo -e ""
@@ -302,7 +318,8 @@ curl -H "Content-Type: application/json" -X POST -d '{
   "tag":"musica",
   "vehicle":"treno",
   "owner":"GETUSERBYID321",
-  "startDate": "12/14/2019"
+  "startDate": "12/14/2019",
+  "partecipants":"0"
 }' http://localhost:8095/trip/newTrip
   
 echo -e ""
@@ -319,7 +336,8 @@ curl -H "Content-Type: application/json" -X POST -d '{
   "tag":"tecnologia",
   "vehicle":"auto",
   "owner":"GETUSERBYID432",
-  "startDate": "12/14/2019"
+  "startDate": "12/14/2019",
+  "partecipants":"0"
 }' http://localhost:8095/trip/newTrip
 
 echo -e ""
@@ -336,7 +354,8 @@ curl -H "Content-Type: application/json" -X POST -d '{
   "tag":"musica",
   "vehicle":"treno",
   "owner":"GETUSERBYID321",
-  "startDate": "12/06/2019"
+  "startDate": "12/06/2019",
+  "partecipants":"0"
 }' http://localhost:8095/trip/newTrip
 
 echo -e ""
@@ -353,7 +372,8 @@ curl -H "Content-Type: application/json" -X POST -d '{
   "tag":"intrattenimento",
   "vehicle":"treno",
   "owner":"GETUSERBYID765",
-  "startDate": "12/06/2019"
+  "startDate": "12/06/2019",
+  "partecipants":"0"
 }' http://localhost:8095/trip/newTrip
 
 echo -e ""
@@ -370,7 +390,8 @@ curl -H "Content-Type: application/json" -X POST -d '{
   "tag":"tecnologia",
   "vehicle":"auto",
   "owner":"GETUSERBYID654",
-  "startDate": "12/14/2019"
+  "startDate": "12/14/2019",
+  "partecipants":"0"
 }' http://localhost:8095/trip/newTrip
 
 echo -e ""
@@ -387,7 +408,8 @@ curl -H "Content-Type: application/json" -X POST -d '{
   "tag":"intrattenimento",
   "vehicle":"treno",
   "owner":"GETUSERBYID422",
-  "startDate": "12/14/2019"
+  "startDate": "12/14/2019",
+  "partecipants":"0"
 }' http://localhost:8095/trip/newTrip
 
 

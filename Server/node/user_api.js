@@ -1,6 +1,7 @@
 var express = require('express');
 var mongoose = require('mongoose');
 var UserSchema = require('./Schema_mongoose/user_schema');
+var TripSchema = require('./Schema_mongoose/trip_schema');
 var url = process.env.DATA || "mongodb://127.0.0.1:27017/TravelMate";
 
 //Faccio collegare mongoose al database
@@ -283,38 +284,70 @@ router.post('/addTrip', function(req,res){
 	
 	var JsonObject = req.body;
 
+	
 	var trip = {
 		"tripId": JsonObject.tripId
-	};	
-	var conditions = {							
-		_id: JsonObject.userId,
-		'trips.tripId': { $ne: JsonObject.tripId }		
 	};
-	var update = {
+		
+	var conditions_A = {							
+		_id: JsonObject.tripId,
+		$where:'this.partecipants < this.maxPartecipant'	
+	};
+	
+	var conditions_B = {							
+		_id: JsonObject.userId,
+		'trips.tripId': { $ne: JsonObject.tripId }	
+	};
+	
+	var update_A = {
 		$addToSet: {trips: trip}
 	};
 	
-	UserSchema.findOne(conditions, function (err, user) {
+	var update_B = {
+		$inc: {partecipants: +1}
+	};
+	
+	TripSchema.findOne(conditions_A,function(err,trip) {
 		if (err){
 			res.send(JSON.stringify({ status: "error", message: "Error with ObjectId" }));
 			console.log(err);
 		}
-		else if (user == null){
-			res.send(JSON.stringify({ status: "error", message: "Trip is already added" }));
-			console.log(JSON.stringify({ status: "error", message: "Trip is already added" }));
-		}			
+		else if (trip == null){
+			res.send(JSON.stringify({ status: "error", message: "Trip not found or is full" }));
+			console.log(JSON.stringify({ status: "error", message: "Trip not found or is full" }));
+		}
 		else{
-			user.updateOne(update, function(err, tripupdate){
+			UserSchema.findOne(conditions_B, function (err, user) {
 				if (err){
-					res.send(JSON.stringify({ status: "error", message: "Error on adding trip" }));
+					res.send(JSON.stringify({ status: "error", message: "Error with ObjectId" }));
 					console.log(err);
 				}
+				else if (user == null){
+					res.send(JSON.stringify({ status: "error", message: "User not found or Trip is already added" }));
+					console.log(JSON.stringify({ status: "error", message: "User not found or Trip is already added" }));
+				}			
 				else{
-					res.send(JSON.stringify({ status: "ok", message: "Trip: " + JsonObject.tripId + " added to user: " + user._id }));
-					console.log(JSON.stringify({ status: "ok", message: "Trip: " + JsonObject.tripId + " added to user: " + user._id }));
+					user.updateOne(update_A, function(err, userupdate){
+						if (err){
+							res.send(JSON.stringify({ status: "error", message: "Error on adding trip" }));
+							console.log(err);
+						}
+						else{
+							trip.updateOne(update_B, function(err, tripupdate) {
+								if (err){
+									res.send(JSON.stringify({ status: "error", message: "Error on updating number of trip partecipants" }));
+									console.log(err);
+								}
+								else {
+									res.send(JSON.stringify({ status: "ok", message: "Trip: " + JsonObject.tripId + " added to user: " + user._id }));
+									console.log(JSON.stringify({ status: "ok", message: "Trip: " + JsonObject.tripId + " added to user: " + user._id }));
+								}
+							});
+						};
+					});
 				};
 			});
-		};
+		}
 	});
 });
 
@@ -328,15 +361,24 @@ router.post('/removeTrip', function(req,res){
 	var trip = {
 		"tripId": JsonObject.tripId
 	};	
-	var conditions = {							
+	var conditions_A = {							
 		_id: JsonObject.userId,
 		'trips.tripId': { $eq: JsonObject.tripId }		
 	};
-	var update = {
+	
+	var conditions_B = {
+		_id: JsonObject.tripId
+	}
+	
+	var update_A = {
 		$pull: {trips: trip}
 	};
 	
-	UserSchema.findOne(conditions, function (err, user) {
+	var update_B = {
+		$inc: {partecipants: -1}
+	};
+	
+	UserSchema.findOne(conditions_A, function (err, user) {
 		if (err){
 			res.send(JSON.stringify({ status: "error", message: "Error with ObjectId" }));
 			console.log(err);
@@ -346,14 +388,34 @@ router.post('/removeTrip', function(req,res){
 			console.log(JSON.stringify({ status: "error", message: "Trip is not in this list" }));
 		}			
 		else{
-			user.updateOne(update, function(err, tripupdate){
+			user.updateOne(update_A, function(err, userupdate){
 				if (err){
 					res.send(JSON.stringify({ status: "error", message: "Error on removing trip" }));
 					console.log(err);
 				}
 				else{
-					res.send(JSON.stringify({ status: "ok", message: "Trip: " + JsonObject.tripId + " removed from user: " + user._id }));
-					console.log(JSON.stringify({ status: "ok", message: "Trip: " + JsonObject.tripId + " removed from user: " + user._id }));
+					TripSchema.findOne(conditions_B, function(err, trip){
+						if (err){
+							res.send(JSON.stringify({ status: "error", message: "Error on removing trip" }));
+							console.log(err);
+						}
+						else if (trip == null){
+							res.send(JSON.stringify({ status: "error", message: "Trip not found" }));
+							console.log(JSON.stringify({ status: "error", message: "Trip not found" }));
+						}
+						else {
+							trip.updateOne(update_B, function(err, tripupdate){
+								if(err){
+									res.send(JSON.stringify({ status: "error", message: "Error on removing trip" }));
+									console.log(err);	
+								}
+								else {
+									res.send(JSON.stringify({ status: "ok", message: "Trip: " + JsonObject.tripId + " removed from user: " + user._id }));
+									console.log(JSON.stringify({ status: "ok", message: "Trip: " + JsonObject.tripId + " removed from user: " + user._id }));
+								}
+							});
+						}
+					});
 				};
 			});
 		};
