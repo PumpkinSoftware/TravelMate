@@ -59,7 +59,7 @@ public class GetTripInteraction {
                         String dep_date = travel.getString("startDate");
                         String end_date = travel.getString("endDate");
                         int group_max = travel.getInt("maxPartecipant");
-                        int partecipants = travel.getInt("partecipant");
+                        int partecipants = travel.getInt("partecipants");
                         //GetTripInteraction.this.
 
                         trips.add(new Trip(id, image, name, descr, departure, dest, budget,dep_date, end_date,

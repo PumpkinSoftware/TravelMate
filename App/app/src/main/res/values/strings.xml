@@ -52,7 +52,7 @@
     <string name="n0">0</string>
     <string name="n2">2</string>
     <string name="euro">€</string>
-    <string name="buddies">Minimo e massimo dei posti disponibili</string>
+    <string name="buddies">Minimo e massimo dei compagni di viaggio</string>
 
     <!-- Only creation-->
     <string name="creation_title">Nuovo evento</string>
