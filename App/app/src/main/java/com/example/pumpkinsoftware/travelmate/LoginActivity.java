@@ -231,9 +231,17 @@ public class LoginActivity extends AppCompatActivity {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             //startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
-            ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(this,
-                    Pair.create((View) videoView, "bg_video"));
-            startActivity(intent, options.toBundle());
+            if(so_prev_oreo) {
+                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(this,
+                        Pair.create((View) mVideoView, "bg_video"));
+                startActivity(intent, options.toBundle());
+            }
+
+            else {
+                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(this,
+                        Pair.create((View) videoView, "bg_video"));
+                startActivity(intent, options.toBundle());
+            }
         }
 
         else

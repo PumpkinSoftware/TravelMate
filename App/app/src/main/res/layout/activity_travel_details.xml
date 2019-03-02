@@ -111,9 +111,9 @@
             android:paddingRight="5dp"
             android:paddingBottom="20dp">
 
-            <!-- Places section -->
+            <!-- Tag section -->
             <TextView
-                android:id="@+id/from"
+                android:id="@+id/tag"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
@@ -121,8 +121,19 @@
                 android:layout_marginTop="8dp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:text="Roma"
+                android:text="#Cultura"
                 android:textStyle="bold" />
+
+            <!-- Places section -->
+            <TextView
+                android:id="@+id/from"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="Roma"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@+id/tag"
+                app:layout_constraintTop_toBottomOf="@+id/tag" />
 
             <ImageView
                 android:id="@+id/flight_image"
