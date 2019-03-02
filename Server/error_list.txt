@@ -1,0 +1,13 @@
+-1 : Non riesco a creare un nuovo viaggio
+-2 : Non riesco ad inviare tutti i viaggi presenti sul database
+-3 : Non riesco ad inviare la lista dei trip ordinata in base alla data di creazione decrescente
+-4 : Non riesco ad utilizzare la lista dei viaggi con i filtri
+-5 : Il tripId non esiste, viaggio inesistente
+-6 : Non riesco ad eseguire la update
+-7 : Parametro inesistente
+-8 : Non riesco ad inviare il trip con l'id fornito
+-9 : Non riesco a creare nuovo utente
+-10 : Utente già registrato
+-11 : Non riesco ad inviare tutti gli utenti presenti sul database
+-12 : Non riesco a trovare l'utente dall'email
+-13 : Utente non esistente
