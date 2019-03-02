@@ -12,7 +12,7 @@ import android.widget.ProgressBar;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
-import com.example.pumpkinsoftware.travelmate.client_server_interaction.ClientServerInteraction;
+import com.example.pumpkinsoftware.travelmate.client_server_interaction.GetTripInteraction;
 import com.example.pumpkinsoftware.travelmate.trip.Trip;
 
 import java.util.ArrayList;
@@ -55,7 +55,7 @@ public class SearchResult extends Activity {
         ProgressBar progress = findViewById(R.id.indeterminateBar);
 
         mRequestQueue= Volley.newRequestQueue(this);
-        new ClientServerInteraction(this, rvTrips, progress).getTripsFromServer(query, mRequestQueue, trips);
+        new GetTripInteraction(this, rvTrips, progress).getTripsFromServer(query, mRequestQueue, trips);
 
         final SwipeRefreshLayout swipe = (SwipeRefreshLayout) findViewById(R.id.swiperefresh);
         swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -68,7 +68,7 @@ public class SearchResult extends Activity {
                         rvTrips.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                         trips = new ArrayList<Trip>();
                         mRequestQueue= Volley.newRequestQueue(getApplicationContext());
-                        new ClientServerInteraction(getApplication(),rvTrips).getTripsFromServer(query,mRequestQueue,trips);
+                        new GetTripInteraction(getApplication(),rvTrips).getTripsFromServer(query,mRequestQueue,trips);
                         swipe.setRefreshing(false);
                     }
                 },1500);

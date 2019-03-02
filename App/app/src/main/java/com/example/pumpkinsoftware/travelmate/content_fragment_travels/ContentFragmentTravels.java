@@ -23,7 +23,7 @@ public class ContentFragmentTravels extends Fragment {
         Context context = getContext();
 
         RecyclerView rvContacts = (RecyclerView) view.findViewById(R.id.recyclerview);
-        /*ClientServerInteraction cs = new ClientServerInteraction(context);
+        /*GetTripInteraction cs = new GetTripInteraction(context);
         cs.getTripsFromServer("http://localhost:8095/trip/allTrips/", );*/
 
         // Initialize trips

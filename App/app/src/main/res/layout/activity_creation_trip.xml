@@ -281,7 +281,6 @@
                 android:maxLength="4" />
 
             <!--programma-->
-
             <TextView
                 android:id="@+id/plan"
                 android:layout_width="wrap_content"
@@ -307,6 +306,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456879àèéùòì'()., "
+                    android:maxLength="250"
                     android:hint="@string/plan_text" />
             </android.support.design.widget.TextInputLayout>
 
@@ -439,7 +439,7 @@
                 android:layout_alignParentStart="true"
                 android:layout_centerHorizontal="true"
                 android:layout_marginStart="97dp"
-                android:layout_marginTop="63dp"
+                android:layout_marginTop="28dp"
                 android:background="@mipmap/preview"
                 android:clickable="true"
                 android:scaleType="centerCrop" />
