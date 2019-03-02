@@ -14,7 +14,7 @@ var TripSchema = new mongoose.Schema({
         owner: String,
         maxPartecipant: Number,
         tag: String,
-        partecipant: [{userId:String}]
+        partecipant: Number//[{userId:String}]
 	}
 
 );
