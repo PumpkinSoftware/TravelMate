@@ -190,7 +190,7 @@ public class SearchFragment extends Fragment {
                     if (t.getValue() != v)
                         t.setValue(v);
                 } catch (Exception e) {
-                    Toast.makeText(getContext(), "Inserisci un intero", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Inserisci un numero", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -214,7 +214,7 @@ public class SearchFragment extends Fragment {
                     if (t.getValue() != v)
                         t.setValue(v);
                 } catch (Exception e) {
-                    Toast.makeText(getContext(), "Inserisci un intero", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Inserisci un numero", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -239,7 +239,7 @@ public class SearchFragment extends Fragment {
                     if (t.getValue() != v)
                         t.setValue(v);
                 } catch (Exception e) {
-                    Toast.makeText(getContext(), "Inserisci un intero", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Inserisci un numero", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -263,7 +263,7 @@ public class SearchFragment extends Fragment {
                     if (t.getValue() != v)
                         t.setValue(v);
                 } catch (Exception e) {
-                    Toast.makeText(getContext(), "Inserisci un intero", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Inserisci un numero", Toast.LENGTH_SHORT).show();
                 }
             }
         });

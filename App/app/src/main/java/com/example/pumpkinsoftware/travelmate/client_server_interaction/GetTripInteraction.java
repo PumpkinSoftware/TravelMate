@@ -20,19 +20,19 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class ClientServerInteraction {
+public class GetTripInteraction {
    // private ArrayList<Trip> trips=null;
     private Context context;
     private RecyclerView rvTrips;
     TripsAdapter adapter;
     private ProgressBar progressBar;
 
-    public ClientServerInteraction(Context c, RecyclerView rv) {
+    public GetTripInteraction(Context c, RecyclerView rv) {
         context = c;
         rvTrips = rv;
     }
 
-    public ClientServerInteraction(Context c, RecyclerView rv, ProgressBar progress) {
+    public GetTripInteraction(Context c, RecyclerView rv, ProgressBar progress) {
         context = c;
         rvTrips = rv;
         progressBar = progress;
@@ -59,9 +59,8 @@ public class ClientServerInteraction {
                         String dep_date = travel.getString("startDate");
                         String end_date = travel.getString("endDate");
                         int group_max = travel.getInt("maxPartecipant");
-                        JSONArray part = travel.getJSONArray("partecipant");
-                        int partecipants = part.length();
-                        //ClientServerInteraction.this.
+                        int partecipants = travel.getInt("partecipants");
+                        //GetTripInteraction.this.
 
                         trips.add(new Trip(id, image, name, descr, departure, dest, budget,dep_date, end_date,
                                 partecipants+"/"+group_max));

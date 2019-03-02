@@ -147,11 +147,11 @@ public class CreationTrip extends AppCompatActivity {
                     msgErrore("il veicolo");
                 } else if (budget.getText().toString().isEmpty()) {
                     msgErrore("il budget");
-                } else if (Integer.parseInt(budget.getText().toString())<0||(Integer.parseInt(budget.getText().toString())>2000)) {
+                } else if (Integer.parseInt(budget.getText().toString())<0||(Integer.parseInt(budget.getText().toString())>500)) {
                     Toast.makeText(contesto, "Valore budget invalido", Toast.LENGTH_SHORT).show();
                 } else if (group.getText().toString().isEmpty()) {
                     msgErrore("il numero del gruppo");
-                } else if (Integer.parseInt(group.getText().toString())<2||(Integer.parseInt(group.getText().toString())>100)) {
+                } else if (Integer.parseInt(group.getText().toString())<2||(Integer.parseInt(group.getText().toString())>50)) {
                     Toast.makeText(contesto, "Valore gruppo invalido", Toast.LENGTH_SHORT).show();
                 } else if (program_q.isEmpty()) {
                     msgErrore("una sintesi del programma");

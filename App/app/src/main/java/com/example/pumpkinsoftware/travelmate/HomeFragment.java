@@ -13,26 +13,14 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
-import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.pumpkinsoftware.travelmate.client_server_interaction.ClientServerInteraction;
-import com.example.pumpkinsoftware.travelmate.glide.GlideApp;
+import com.example.pumpkinsoftware.travelmate.client_server_interaction.GetTripInteraction;
 import com.example.pumpkinsoftware.travelmate.trip.Trip;
-import com.example.pumpkinsoftware.travelmate.trips_adapter.TripsAdapter;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -56,7 +44,7 @@ public class HomeFragment extends Fragment {
         trips=new ArrayList<Trip>();
 
         mRequestQueue= Volley.newRequestQueue(context);
-        new ClientServerInteraction(context, rvTrips, progress).getTripsFromServer(URL, mRequestQueue, trips);
+        new GetTripInteraction(context, rvTrips, progress).getTripsFromServer(URL, mRequestQueue, trips);
 
         //swipe da finire
         final SwipeRefreshLayout swipe = (SwipeRefreshLayout) view.findViewById(R.id.swiperefresh);
@@ -72,7 +60,7 @@ public class HomeFragment extends Fragment {
                         trips=new ArrayList<Trip>();
 
                         mRequestQueue= Volley.newRequestQueue(context);
-                        new ClientServerInteraction(context,rvTrips).getTripsFromServer(URL,mRequestQueue,trips);
+                        new GetTripInteraction(context,rvTrips).getTripsFromServer(URL,mRequestQueue,trips);
                         swipe.setRefreshing(false);
 
                     }

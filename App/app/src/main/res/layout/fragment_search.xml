@@ -267,7 +267,7 @@
                 android:layout_marginTop="9dp"
                 android:layout_marginEnd="55dp"
                 app:drawThumbsApart="true"
-                app:scaleMax="2000"
+                app:scaleMax="500"
                 app:scaleMin="0"
                 app:stepsThumbsApart="0"
                 app:thumbNumber="2" />
@@ -285,7 +285,7 @@
                 android:ems="10"
                 android:inputType="number"
                 android:maxLength="4"
-                android:text="@string/n2000" />
+                android:text="@string/n500" />
 
             <!-- Group section -->
 
@@ -322,7 +322,7 @@
                 android:layout_marginTop="12dp"
                 android:ems="10"
                 android:inputType="number"
-                android:maxLength="4" />
+                android:maxLength="2" />
 
             <io.apptik.widget.MultiSlider
                 android:id="@+id/group_range_slider"
@@ -335,7 +335,7 @@
                 android:layout_marginTop="9dp"
                 android:layout_marginEnd="55dp"
                 app:drawThumbsApart="true"
-                app:scaleMax="20"
+                app:scaleMax="50"
                 app:scaleMin="1"
                 app:stepsThumbsApart="0"
                 app:thumbNumber="2" />
@@ -354,7 +354,7 @@
                 android:layout_marginBottom="0dp"
                 android:ems="10"
                 android:inputType="number"
-                android:maxLength="4" />
+                android:maxLength="2" />
 
             <!-- Tag -->
             <TextView

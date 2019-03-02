@@ -40,8 +40,8 @@
     <!-- Search and Creation -->
     <string name="search_hint">Search</string>
     <string name="place">Luoghi</string>
-    <string name="from">Da</string>
-    <string name="to">A</string>
+    <string name="from">Partenza</string>
+    <string name="to">Destinazione</string>
     <string name="date">Data</string>
     <string name="departure">Partenza</string>
     <string name="ret">Arrivo</string>
@@ -51,7 +51,6 @@
     <string name="budget_text">Minimo e massimo spendibili nel viaggio</string>
     <string name="n0">0</string>
     <string name="n2">2</string>
-    <string name="n2000">2000</string>
     <string name="euro">€</string>
     <string name="buddies">Minimo e massimo dei compagni di viaggio</string>
 
