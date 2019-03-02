@@ -222,23 +222,22 @@ router.get('/addFavouriteTrip', function(req, res){
             res.send(JSON.stringify({ status: "error", message: "Error in adding trip" }));
             console.log(err);
         }
-
-        if (user != null){
-            user.updateOne(update, function(err, userupdate){
-				if (err){
-					res.send(JSON.stringify({ status: "error", message: "Trip already added" }));
-					console.log(err);
-				}
-				else{
-					res.send(JSON.stringify({ status: "ok", message: "Trip: " + req.query.tripId + " added to user: " + user._id }));
-					console.log(JSON.stringify({ status: "ok", message: "Trip: " + req.query.tripId + " added to user: " + user._id }));
-				}
-			});
-        }
-        else{
-            res.send(JSON.stringify({ status: "error", message: "User not found" }));
-            console.log(JSON.stringify({ status: "error", message: "User not found" }));
-        }
+        else if (user != null){
+                user.updateOne(update, function(err, userupdate){
+				    if (err){
+					    res.send(JSON.stringify({ status: "error", message: "Trip already added" }));
+					    console.log(err);
+				    }
+				    else{
+					    res.send(JSON.stringify({ status: "ok", message: "Trip: " + req.query.tripId + " added to user: " + user._id }));
+					    console.log(JSON.stringify({ status: "ok", message: "Trip: " + req.query.tripId + " added to user: " + user._id }));
+				    }
+			    });
+            }
+            else{
+                res.send(JSON.stringify({ status: "error", message: "User not found" }));
+                console.log(JSON.stringify({ status: "error", message: "User not found" }));
+            }
     });
 });
 
