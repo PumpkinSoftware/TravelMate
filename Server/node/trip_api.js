@@ -1,6 +1,7 @@
 var express = require('express');
 var mongoose = require('mongoose');
 var TripSchema = require('./Schema_mongoose/trip_schema');
+var UserSchema = require('./Schema_mongoose/user_schema');
 var tripExample = require('./Schema_mongoose/trip_example.json'); //Trip Example
 //var database = require('./database');
 var url = process.env.DATA || "mongodb://127.0.0.1:27017/TravelMate";
@@ -47,21 +48,53 @@ router.post('/newTrip', function(req,res){
         vehicle: clientInput.vehicle,
         tag: clientInput.tag,
         maxPartecipant: clientInput.maxPartecipant,
-		partecipant: []
+		partecipant: 1
 	});
 
-	toInsert.save(function (err) {
-        if (err){ 
-            console.log(err);
-        	res.send(JSON.stringify({ status: "error", message: "Error to add "+toInsert.name+" on database." }));
-        	console.log(JSON.stringify({ status: "error", message: "Error to add "+toInsert.name+" on database." }));
-        }
-        else {
-        	res.send(JSON.stringify({ status: "success", message: "Trip " + toInsert.name + " created!" }));
-        	console.log(JSON.stringify({ status: "success", message: "Trip " + toInsert.name + " created!" }));
-        }
-    });
+	var conditions = {							
+		_id: clientInput.owner.toLowerCase(),
+	};
 
+	var trip = {
+		"tripId": toInsert._id
+	};	
+	
+	var update = {
+		$addToSet: {trips: trip}
+	};
+
+	UserSchema.findOne(conditions, function (err, user) {
+		if (err){
+			console.log(err);
+			res.send(JSON.stringify({ status: "error", message: "Error in finding" }));
+		}
+		else if (user == null){
+			console.log(JSON.stringify({ status: "error", message: "User not found" }));
+			res.send(JSON.stringify({ status: "error", message: "User not found" }));
+		}			
+		else{
+			user.updateOne(update, function(err, tripupdate){
+				if (err){
+					console.log(err);
+					res.send(JSON.stringify({ status: "error", message: "Error in updating user" }));
+				}
+				else{
+					console.log(JSON.stringify({ status: "ok", message: "Trip: " + toInsert._id + " added to user: " + clientInput.owner }));
+					toInsert.save(function (err) {
+						if (err){ 
+							console.log(err);
+							res.send(JSON.stringify({ status: "error", message: "Error to add " + toInsert.name+" on database." }));
+							console.log(JSON.stringify({ status: "error", message: "Error to add " + toInsert.name+" on database." }));
+						}
+						else {
+							res.send(JSON.stringify({ status: "success", message: "Trip " + toInsert.name + " created!" }));
+							console.log(JSON.stringify({ status: "success", message: "Trip " + toInsert.name + " created!" }));
+						}
+					});
+				};
+			});
+		};
+	});
 });
 
 /*****************************************/
