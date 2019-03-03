@@ -19,7 +19,7 @@ echo -e "Starting to populate database of users"
 echo -e "${green}"
 
 curl -H "Content-Type: application/json" -X POST -d '{
-  "_id":"5c7ad36f56c9ff0d78213ef8",
+  "id":"5c7ad36f56c9ff0d78213ef8",
   "surname": "Pirozzi",
   "name": "Pio",
   "birthday": "04/23/1995",
@@ -34,7 +34,7 @@ curl -H "Content-Type: application/json" -X POST -d '{
 echo -e ""
 
 curl -H "Content-Type: application/json" -X POST -d '{
-  "_id":"5c7ad36f56c9ff0d78213ef9",
+  "id":"5c7ad36f56c9ff0d78213ef9",
   "surname": "Longo",
   "name": "Fernanda",
   "birthday": "11/28/1996",
@@ -49,7 +49,7 @@ curl -H "Content-Type: application/json" -X POST -d '{
 echo -e ""
 
 curl -H "Content-Type: application/json" -X POST -d '{
-  "_id":"5c7ad36f56c9ff0d78213efa",
+  "id":"5c7ad36f56c9ff0d78213efa",
   "surname": "Milanesi",
   "name": "Alvaro",
   "birthday": "08/06/1998",
@@ -64,7 +64,7 @@ curl -H "Content-Type: application/json" -X POST -d '{
 echo -e ""
 
 curl -H "Content-Type: application/json" -X POST -d '{
-  "_id":"5c7ad36f56c9ff0d78213efb",
+  "id":"5c7ad36f56c9ff0d78213efb",
   "surname": "Trentino",
   "name": "Cordelia",
   "birthday": "03/12/2000",
@@ -79,7 +79,7 @@ curl -H "Content-Type: application/json" -X POST -d '{
 echo -e ""
 
 curl -H "Content-Type: application/json" -X POST -d '{
-  "_id":"5c7ad36f56c9ff0d78213efc",
+  "id":"5c7ad36f56c9ff0d78213efc",
   "surname": "Asta",
   "name": "Andrea",
   "birthday": "08/21/1997",
@@ -94,7 +94,7 @@ curl -H "Content-Type: application/json" -X POST -d '{
 echo -e ""
 
 curl -H "Content-Type: application/json" -X POST -d '{
-  "_id":"5c7ad36f56c9ff0d78213efd",
+  "id":"5c7ad36f56c9ff0d78213efd",
   "surname": "Marcelo",
   "name": "Teresa",
   "birthday": "01/16/2001",
@@ -109,7 +109,7 @@ curl -H "Content-Type: application/json" -X POST -d '{
 echo -e ""
 
 curl -H "Content-Type: application/json" -X POST -d '{
-  "_id":"5c7ad36f56c9ff0d78213efe",
+  "id":"5c7ad36f56c9ff0d78213efe",
   "surname": "Nestore",
   "name": "Bruno",
   "birthday": "02/08/1999",
@@ -124,7 +124,7 @@ curl -H "Content-Type: application/json" -X POST -d '{
 echo -e ""
 
 curl -H "Content-Type: application/json" -X POST -d '{
-  "_id":"5c7ad36f56c9ff0d78213eff",
+  "id":"5c7ad36f56c9ff0d78213eff",
   "surname": "Fiorentini",
   "name": "Daphne",
   "birthday": "11/20/2000",
@@ -139,7 +139,7 @@ curl -H "Content-Type: application/json" -X POST -d '{
 echo -e ""
 
 curl -H "Content-Type: application/json" -X POST -d '{
-  "_id":"5c7ad36f56c9ff0d78213f00",
+  "id":"5c7ad36f56c9ff0d78213f00",
   "surname": "Romani",
   "name": "Diego",
   "birthday": "06/08/1993",
@@ -154,7 +154,7 @@ curl -H "Content-Type: application/json" -X POST -d '{
 echo -e ""
 
 curl -H "Content-Type: application/json" -X POST -d '{
-  "_id":"5c7ad36f56c9ff0d78213f01",
+  "id":"5c7ad36f56c9ff0d78213f01",
   "surname": "Siciliani",
   "name": "Frediana",
   "birthday": "09/28/1994",
