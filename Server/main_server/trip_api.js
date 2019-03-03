@@ -36,9 +36,9 @@ router.post('/newTrip', function(req,res){
 
 	var toInsert = null;
 
-	if(req.body._id != undefined){
+	if(req.body.id != undefined){
 		toInsert = new TripSchema({
-		_id : clientInput._id,
+		_id : clientInput.id,
 		name : clientInput.name.toLowerCase(),
         description: clientInput.description,
         departure: clientInput.departure.toLowerCase(),

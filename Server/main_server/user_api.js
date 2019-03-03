@@ -49,9 +49,9 @@ router.post('/newUser', function(req, res){
 
         	var toInsert = null;
 
-        	if(clientInput._id != undefined){
+        	if(clientInput.id != undefined){
         		toInsert = new UserSchema({
-        		_id: clientInput._id,
+        		_id: clientInput.id,
                 name: clientInput.name.toLowerCase(),
                 surname: clientInput.surname.toLowerCase(),
                 age: clientInput.age,
