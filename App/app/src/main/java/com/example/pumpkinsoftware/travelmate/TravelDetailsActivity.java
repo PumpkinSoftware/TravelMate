@@ -2,15 +2,15 @@ package com.example.pumpkinsoftware.travelmate;
 
 import android.animation.AnimatorInflater;
 import android.animation.AnimatorSet;
-import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Layout;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,10 +19,13 @@ import android.webkit.WebView;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.example.pumpkinsoftware.travelmate.glide.GlideApp;
 import com.example.pumpkinsoftware.travelmate.trip.Trip;
 import com.example.pumpkinsoftware.travelmate.trips_adapter.TripsAdapter;
@@ -39,6 +42,7 @@ public class TravelDetailsActivity extends AppCompatActivity {
     public final static String EXTRA_END = "travelmate_extra_tda_TRIP_END";
     public final static String EXTRA_GROUP = "travelmate_extra_tda_TRIP_GROUP";
     private Context context;
+    private boolean so_prev_lol; // Useful for transitions
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,10 +63,8 @@ public class TravelDetailsActivity extends AppCompatActivity {
         final String group =  b.getString(EXTRA_GROUP);
 
         final ImageView imgv = (ImageView) findViewById(R.id.header_cover_image);
-        GlideApp.with(this)
-                .load(img)
-                .placeholder(R.mipmap.placeholder_image)
-                .into(imgv);
+        loadImg(img, imgv);
+
         final TextView n = (TextView) findViewById(R.id.name);
         n.setText(name);
         final TextView dsc = (TextView) findViewById(R.id.descr);
@@ -142,6 +144,40 @@ public class TravelDetailsActivity extends AppCompatActivity {
         intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject/Title");
         intent.putExtra(android.content.Intent.EXTRA_TEXT, "Che ne dici di dare un'occhiata a "+ s + "?");
         startActivity(Intent.createChooser(intent, "Condividi"));
+    }
+
+    private void loadImg(String img, ImageView imgv) {
+        so_prev_lol = false;
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            postponeEnterTransition();
+        else {
+            so_prev_lol = true;
+            supportPostponeEnterTransition();
+        }
+
+        GlideApp.with(this)
+                .load(img)
+                .placeholder(R.mipmap.placeholder_image)
+                .listener(new RequestListener<Drawable>() {
+                    @Override
+                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                        if(so_prev_lol)
+                            supportStartPostponedEnterTransition();
+                        else
+                            startPostponedEnterTransition();
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                        if(so_prev_lol)
+                            supportStartPostponedEnterTransition();
+                        else
+                            startPostponedEnterTransition();
+                        return false;
+                    }
+                })
+                .into(imgv);
     }
 
     @Override
