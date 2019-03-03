@@ -1,8 +1,5 @@
 package com.example.pumpkinsoftware.travelmate.trip;
 
-import android.widget.Button;
-import android.widget.ImageView;
-
 import java.util.ArrayList;
 
 public class Trip {
@@ -16,10 +13,11 @@ public class Trip {
     private String start_date;
     private String end_date;
     private String group_number;
+    private String tag;
     //private User[] partecipants;
 
     public Trip(String id, String t_image, String name, String description, String departure,
-                String destination,  int budget, String start, String end, String group) {
+                String destination, int budget, String start, String end, String group, String s) {
         this.id = id;
         trip_image = t_image;
         trip_name = name;
@@ -30,6 +28,8 @@ public class Trip {
         start_date = start;
         end_date = end;
         group_number = group;
+        tag=s;
+
     }
 
     public String getId() {
@@ -72,6 +72,10 @@ public class Trip {
         return group_number;
     }
 
+    public String getTag(){
+        return tag;
+    }
+
 
     /*public String getPartecipants() {
         for(int i=0; i<group_number; i++)
@@ -101,7 +105,7 @@ public class Trip {
             int max = i + (int) d;
             trips.add(new Trip("Trip " + ++lastTripId, "Trip " + lastTripId, "Trip " + lastTripId,
                     "Splendido viaggio", "Roma","Venezia", i*10+10*max , "20/4/19",
-                    "23/4/19", i+"/"+max));
+                    "23/4/19", i+"/"+max, "" + "/" ));
         }
 
         return trips;

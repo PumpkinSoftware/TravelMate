@@ -5,4 +5,9 @@
     <color name="colorAccent">#D81A60</color>
     <color name="gold">#FFD700</color>
     <color name="toolbar">#FFFFFF</color>
+    <color name="red">#FF0000</color>
+    <color name="blu">#1E90FF</color>
+    <color name="verde">#008000</color>
+    <color name="giallo">#FFFF00</color>
+    <color name="arancionedark">#FF8C00</color>
 </resources>

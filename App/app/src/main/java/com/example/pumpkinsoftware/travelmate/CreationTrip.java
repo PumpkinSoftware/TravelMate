@@ -17,6 +17,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -86,6 +87,8 @@ public class CreationTrip extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 onBackPressed();
+                InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
                 finish();
             }
         });
@@ -176,7 +179,7 @@ public class CreationTrip extends AppCompatActivity {
                         viaggio.put("vehicle", vehicle);
                         viaggio.put("tag", tag);
                         viaggio.put("maxPartecipant", group_q);
-                        viaggio.put("owner", "default");
+                        viaggio.put("owner", "5c7ad36f56c9ff0d78213ef8");
 
                     } catch (JSONException e) {
                         e.printStackTrace();

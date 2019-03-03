@@ -7,7 +7,9 @@ import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Build;
+import android.support.v4.content.ContextCompat;
 import android.transition.TransitionManager;
 import android.util.DisplayMetrics;
 import android.util.Pair;
@@ -47,6 +49,7 @@ public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.ViewHolder> 
         public ImageView group_image;
         public TextView budget_number;
         public ImageView budget_image;
+        public TextView trip_tag;
         //public Button more_button;
         public CheckBox fav_image;
         public ImageView sharing_image;
@@ -77,6 +80,8 @@ public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.ViewHolder> 
 
             trip_name = (TextView) v.findViewById(R.id.travel_name);
             trip_name.setOnClickListener(lis);
+
+            trip_tag=(TextView) v.findViewById(R.id.travel_tag);
 
             group_number = (TextView) v.findViewById(R.id.group_number);
             group_image = (ImageView) v.findViewById(R.id.group_image);
@@ -204,6 +209,18 @@ public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.ViewHolder> 
         b_number.setText(trip.getBudget());
         TextView g_number = viewHolder.group_number;
         g_number.setText(trip.getGroup());
+        TextView t_tag=viewHolder.trip_tag;
+        String tag=trip.getTag();
+        if(tag.equals("cultura")){
+            t_tag.setBackgroundColor(Color.parseColor("#008000")); //verde
+        }else if (tag.equals("musica")){
+            t_tag.setBackgroundColor(Color.parseColor("#FF8C00")); //arancione(dark)
+        }else if(tag.equals("intrattenimento")){
+            t_tag.setBackgroundColor(Color.parseColor("#FF0000")); //rosso
+        }else{
+            t_tag.setBackgroundColor(Color.parseColor("#1E90FF")); //blu
+        }
+        t_tag.setText(tag);
     }
 
     // Returns the total count of items in the list

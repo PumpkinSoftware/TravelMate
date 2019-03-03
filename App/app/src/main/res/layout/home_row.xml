@@ -34,6 +34,31 @@
             android:transitionName="travel_image"/>
             <!-- android:src="@drawable/new_york" -->
 
+        <TextView
+            android:id="@+id/travel_tag"
+            style="@android:style/Widget.Holo.Light.TextView.SpinnerItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/NYTrip"
+            android:textColor="@android:color/white"
+            android:layout_above="@+id/travel_name"
+            android:textSize="15dp"
+            android:transitionName="travel_name"
+            android:background="@color/white"/>
+
+        <CheckBox
+            android:id="@+id/fav_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/travel_tag"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="-1dp"
+            android:layout_marginEnd="9dp"
+            android:background="@drawable/circle"
+            android:button="@drawable/fav_icon"
+            android:elevation="6dp" />
+
+
         <!-- Oblique tag -->
         <!--<TextView
             style="@android:style/Widget.Holo.Light.TextView.SpinnerItem"
@@ -59,8 +84,10 @@
             android:layout_below="@+id/travel_image"
             android:text="@string/NYTrip"
             android:textColor="@android:color/black"
-            android:textSize="30sp"
+            android:textSize="20dp"
             android:transitionName="travel_name" />
+
+
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -70,7 +97,7 @@
             <TextView
                 android:id="@+id/group_number"
                 android:layout_width="wrap_content"
-                android:layout_height="48dp"
+                android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
                 android:layout_marginStart="0dp"
@@ -79,7 +106,7 @@
                 android:paddingStart="18dp"
                 android:text="@string/n58"
                 android:textColor="@android:color/black"
-                android:textSize="20sp"
+                android:textSize="20dp"
                 android:transitionName="group_number" />
 
             <ImageView
@@ -109,7 +136,7 @@
                 android:paddingStart="18dp"
                 android:text="@string/n500"
                 android:textColor="@android:color/black"
-                android:textSize="20sp"
+                android:textSize="20dp"
                 android:transitionName="budget_number"/>
 
             <ImageView
@@ -137,16 +164,7 @@
                 android:textColorLink="@android:color/holo_orange_light"
                 tools:text="MORE" />-->
 
-            <CheckBox
-                android:id="@+id/fav_image"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_alignTop="@+id/sharing_image"
-                android:layout_alignBottom="@+id/sharing_image"
-                android:layout_marginEnd="10dp"
-                android:layout_toStartOf="@+id/sharing_image"
-                android:background="@drawable/fav_icon"
-                android:button="@null" />
+
 
             <ImageView
                 android:id="@+id/sharing_image"

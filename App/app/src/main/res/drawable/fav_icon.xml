@@ -2,6 +2,7 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item android:state_checked="true" android:drawable="@drawable/red_heart"/>
-    <item android:drawable="@drawable/baseline_favorite_border_black_24dp"/>
+
+    <item android:drawable="@drawable/ic_favorite_border_black_24dp" />
 
 </selector>

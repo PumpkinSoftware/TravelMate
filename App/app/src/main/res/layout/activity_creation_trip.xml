@@ -336,7 +336,7 @@
                     android:id="@+id/nametext"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:maxLength="22"
+                    android:maxLength="35"
                     android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!àèéùòì' "
                     android:hint="@string/name_text" />
             </android.support.design.widget.TextInputLayout>

@@ -60,10 +60,11 @@ public class GetTripInteraction {
                         String end_date = travel.getString("endDate");
                         int group_max = travel.getInt("maxPartecipant");
                         int partecipants = travel.getInt("partecipants");
+                        String tag=travel.getString("tag");
                         //GetTripInteraction.this.
 
                         trips.add(new Trip(id, image, name, descr, departure, dest, budget,dep_date, end_date,
-                                partecipants+"/"+group_max));
+                                partecipants+"/"+group_max,tag));
                     }
 
                     adapter = new TripsAdapter(trips);
