@@ -104,7 +104,7 @@ public class Trip {
             double d = (Math.random()*10);
             int max = i + (int) d;
             trips.add(new Trip("Trip " + ++lastTripId, "Trip " + lastTripId, "Trip " + lastTripId,
-                    "Splendido viaggio", "Roma","Venezia", i*10+10*max , "20/4/19",
+                    "Splendido viaggio", "Roma","Venezia", i*10+10*max , "2019-06-03T00:00:00.000Z",
                     "23/4/19", i+"/"+max, "" + "/" ));
         }
 

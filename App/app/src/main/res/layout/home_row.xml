@@ -34,28 +34,53 @@
             android:transitionName="travel_image"/>
             <!-- android:src="@drawable/new_york" -->
 
+        <ImageView
+            android:id="@+id/destinazione_image"
+            android:layout_width="29dp"
+            android:layout_height="29dp"
+            android:layout_above="@+id/travel_name"
+            android:src="@drawable/ic_location_on_black_12dp"
+            android:transitionName="budget_image"
+            android:background="@color/white"/>
+
+        <TextView
+            android:id="@+id/destinazione"
+            android:layout_width="wrap_content"
+            android:layout_height="29dp"
+            android:layout_above="@+id/travel_name"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="29dp"
+            android:layout_marginTop="121dp"
+            android:background="@color/white"
+            android:text="destinazione"
+            android:textColor="@android:color/black"
+            android:layout_toEndOf="@+id/destinazione_image"
+            android:textSize="20dp" />
+
         <TextView
             android:id="@+id/travel_tag"
             style="@android:style/Widget.Holo.Light.TextView.SpinnerItem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignEnd="@id/fav_image"
+            android:background="@color/white"
             android:text="@string/NYTrip"
             android:textColor="@android:color/white"
-            android:layout_above="@+id/travel_name"
             android:textSize="15dp"
-            android:transitionName="travel_name"
-            android:background="@color/white"/>
+            android:layout_marginEnd="-9dp"
+            android:transitionName="travel_name" />
 
-        <CheckBox
+        <ImageButton
             android:id="@+id/fav_image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/travel_tag"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_alignTop="@+id/destinazione"
             android:layout_alignParentEnd="true"
-            android:layout_marginTop="-1dp"
+            android:layout_marginTop="6dp"
             android:layout_marginEnd="9dp"
             android:background="@drawable/circle"
-            android:button="@drawable/fav_icon"
+            android:src="@drawable/fav_icon"
             android:elevation="6dp" />
 
 
@@ -78,13 +103,14 @@
 
         <TextView
             android:id="@+id/travel_name"
-            style="@android:style/Widget.Holo.Light.TextView.SpinnerItem"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/travel_image"
             android:text="@string/NYTrip"
             android:textColor="@android:color/black"
-            android:textSize="20dp"
+            android:textSize="30dp"
+            android:paddingStart="6dp"
             android:transitionName="travel_name" />
 
 
@@ -94,60 +120,70 @@
             android:layout_height="match_parent"
             android:layout_below="@+id/travel_name">
 
+
+
+
+            <ImageView
+                android:id="@+id/data_image"
+                android:layout_width="29dp"
+                android:layout_height="29dp"
+                android:layout_marginBottom="4dp"
+                android:src="@drawable/ic_date_range_black_12dp"
+                android:transitionName="budget_image" />
+
             <TextView
-                android:id="@+id/group_number"
+                android:id="@+id/data"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginStart="0dp"
-                android:layout_marginTop="0dp"
-                android:padding="8dp"
-                android:paddingStart="18dp"
-                android:text="@string/n58"
+                android:layout_toEndOf="@+id/data_image"
+                android:text="@string/n1010"
                 android:textColor="@android:color/black"
                 android:textSize="20dp"
                 android:transitionName="group_number" />
 
-            <ImageView
-                android:id="@+id/group_image"
-                android:layout_width="37dp"
-                android:layout_height="wrap_content"
-                android:layout_alignTop="@+id/group_number"
-                android:layout_alignBottom="@+id/group_number"
-                android:layout_marginStart="0dp"
-                android:layout_marginTop="1dp"
-                android:layout_marginBottom="-1dp"
-                android:layout_toEndOf="@+id/group_number"
-                />
-            <!-- app:srcCompat="@drawable/baseline_group_black_24dp" -->
-
             <TextView
                 android:id="@+id/budget_number"
                 android:layout_width="wrap_content"
-                android:layout_height="48dp"
-                android:layout_alignTop="@+id/group_number"
-                android:layout_alignBottom="@+id/group_number"
-                android:layout_marginStart="-3dp"
-                android:layout_marginTop="1dp"
-                android:layout_marginBottom="-1dp"
-                android:layout_toEndOf="@+id/group_image"
-                android:padding="8dp"
-                android:paddingStart="18dp"
+                android:layout_height="24dp"
+                android:layout_toEndOf="@id/budget_image"
                 android:text="@string/n500"
                 android:textColor="@android:color/black"
                 android:textSize="20dp"
-                android:transitionName="budget_number"/>
+                android:transitionName="budget_number" />
 
             <ImageView
                 android:id="@+id/budget_image"
-                android:layout_width="27dp"
-                android:layout_height="wrap_content"
+                android:layout_width="28dp"
+                android:layout_height="26dp"
                 android:layout_alignTop="@+id/budget_number"
-                android:layout_alignBottom="@+id/budget_number"
-                android:layout_marginStart="-1dp"
-                android:layout_toEndOf="@+id/budget_number"
-                android:transitionName="budget_image"/>
+                android:layout_marginStart="130dp"
+                android:src="@drawable/ic_euro_symbol_black_12dp"
+                android:transitionName="budget_image" />
+
+
+            <ImageView
+                android:id="@+id/group_image"
+                android:layout_width="28dp"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/group_number"
+                android:layout_alignBottom="@+id/group_number"
+                android:layout_marginStart="230dp"
+                android:src="@drawable/ic_group_black_12dp"/>
+
+            <TextView
+                android:id="@+id/group_number"
+                android:layout_width="67dp"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@+id/group_image"
+                android:text="@string/n1010"
+                android:textColor="@android:color/black"
+                android:textSize="20dp"
+                android:transitionName="group_number" />
+            <!-- app:srcCompat="@drawable/baseline_group_black_24dp" -->
+
+
+
+
             <!-- app:srcCompat="@drawable/baseline_euro_symbol_black_24dp" -->
 
             <!--<Button
@@ -165,7 +201,7 @@
                 tools:text="MORE" />-->
 
 
-
+            <!--
             <ImageView
                 android:id="@+id/sharing_image"
                 android:layout_width="32dp"
@@ -173,7 +209,7 @@
                 android:layout_alignTop="@+id/group_image"
                 android:layout_alignParentEnd="true"
                 android:layout_marginTop="10dp"
-                android:layout_marginEnd="13dp" />
+                android:layout_marginEnd="13dp" />-->
             <!-- app:srcCompat="@drawable/outline_share_black_24dp" -->
 
 

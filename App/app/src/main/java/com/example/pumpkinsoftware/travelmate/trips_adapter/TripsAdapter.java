@@ -43,18 +43,13 @@ public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.ViewHolder> 
     public class ViewHolder extends RecyclerView.ViewHolder {
         // Your holder should contain a member variable
         // for any view that will be set as you render a row
-        public ImageView trip_image;
-        public TextView trip_name;
-        public TextView group_number;
-        public ImageView group_image;
-        public TextView budget_number;
-        public ImageView budget_image;
-        public TextView trip_tag;
+        public ImageView trip_image,group_image,fav_image;
+        public TextView trip_name,group_number,budget_number,trip_tag,destinazione,data;
+        //public ImageView budget_image;
         //public Button more_button;
-        public CheckBox fav_image;
-        public ImageView sharing_image;
-        private int minHeight;
-        private CardView cardView;
+        //public ImageView sharing_image;
+        //private int minHeight;
+        //private CardView cardView;
 
         // We also create a constructor that accepts the entire item row
         // and does the view lookups to find each subview
@@ -84,29 +79,34 @@ public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.ViewHolder> 
             trip_tag=(TextView) v.findViewById(R.id.travel_tag);
 
             group_number = (TextView) v.findViewById(R.id.group_number);
+            /*
             group_image = (ImageView) v.findViewById(R.id.group_image);
             GlideApp.with(context)
                     .load(R.drawable.baseline_group_black_24dp)
                     .into(group_image);
-
+            */
             budget_number = (TextView) v.findViewById(R.id.budget_number);
+            /*
             budget_image = (ImageView) v.findViewById(R.id.budget_image);
             GlideApp.with(context)
                     .load(R.drawable.baseline_euro_symbol_black_24dp)
-                    .into(budget_image);
+                    .into(budget_image);*/
             //more_button = (Button) v.findViewById(R.id.button);
 
-            fav_image = (CheckBox) v.findViewById(R.id.fav_image);
+            fav_image = (ImageView) v.findViewById(R.id.fav_image);
             // Handling animation on click
-            fav_image.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            /*fav_image.setOnChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     AnimatorSet set = (AnimatorSet) AnimatorInflater.loadAnimator(context, R.animator.zoom_in);
                     set.setTarget(buttonView); // set the view you want to animate
                     set.start();
                 }
-            });
+            });*/
 
+            destinazione=(TextView) v.findViewById(R.id.destinazione);
+            data=(TextView) v.findViewById(R.id.data);
+            /*
             sharing_image = (ImageView) v.findViewById(R.id.sharing_image);
             GlideApp.with(context)
                     .load(R.drawable.outline_share_black_24dp)
@@ -121,7 +121,7 @@ public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.ViewHolder> 
                     Trip t = getTrip();
                     shareText(t.getName());
                 }
-            });
+            });*/
 
         }
 
@@ -221,6 +221,10 @@ public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.ViewHolder> 
             t_tag.setBackgroundColor(Color.parseColor("#1E90FF")); //blu
         }
         t_tag.setText(tag);
+        TextView b_destinazione = viewHolder.destinazione;
+        b_destinazione.setText(trip.getDest());
+        TextView b_data=viewHolder.data;
+        b_data.setText(getData(trip.getStartDate()));
     }
 
     // Returns the total count of items in the list
@@ -229,4 +233,8 @@ public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.ViewHolder> 
         return trips.size();
     }
 
+    public String getData(String data) {
+      String[] d=data.split("-");
+      return d[2].substring(0,2) +"/"+d[1];
+    }
 }
