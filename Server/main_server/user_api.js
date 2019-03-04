@@ -54,7 +54,7 @@ router.post('/newUser', function(req, res){
         		_id: clientInput.id,
                 name: clientInput.name.toLowerCase(),
                 surname: clientInput.surname.toLowerCase(),
-                age: clientInput.age,
+                birthday: clientInput.birthday,
                 gender: clientInput.gender.toLowerCase(),
                 relationship: clientInput.relationship.toLowerCase(),
                 email: clientInput.email,
@@ -73,7 +73,7 @@ router.post('/newUser', function(req, res){
         		toInsert = new UserSchema({
                 name: clientInput.name.toLowerCase(),
                 surname: clientInput.surname.toLowerCase(),
-                age: clientInput.age,
+                birthday: clientInput.birthday,
                 gender: clientInput.gender.toLowerCase(),
                 relationship: clientInput.relationship.toLowerCase(),
                 email: clientInput.email,
