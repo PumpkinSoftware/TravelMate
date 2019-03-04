@@ -121,7 +121,7 @@
                 android:layout_marginTop="8dp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:text="#Cultura"
+                android:textColor="@color/white"
                 android:textStyle="bold" />
 
             <!-- Places section -->
@@ -165,7 +165,7 @@
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:layout_marginTop="12dp"
-                app:srcCompat="@drawable/baseline_calendar_today_black_24dp"
+                android:src="@drawable/ic_date_range_black_12dp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/from"
                 app:layout_constraintTop_toBottomOf="@+id/from"  />
@@ -187,7 +187,7 @@
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:layout_marginTop="12dp"
-                app:srcCompat="@drawable/baseline_calendar_today_black_24dp"
+                android:src="@drawable/ic_date_range_black_12dp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/date1_image"
                 app:layout_constraintTop_toBottomOf="@+id/date1_image"  />
@@ -209,7 +209,7 @@
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:layout_marginTop="12dp"
-                app:srcCompat="@drawable/baseline_euro_symbol_black_24dp"
+                android:src="@drawable/ic_euro_symbol_black_12dp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/date2_image"
                 app:layout_constraintTop_toBottomOf="@+id/date2_image"

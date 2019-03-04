@@ -16,13 +16,13 @@ public class Trip {
     private String tag;
     //private User[] partecipants;
 
-    public Trip(String id, String t_image, String name, String description, String departure,
+    public Trip(String id, String t_image, String name, String description, String dep,
                 String destination, int budget, String start, String end, String group, String s) {
         this.id = id;
         trip_image = t_image;
         trip_name = name;
         descr = description;
-        this.departure = departure;
+        departure = dep;
         dest = destination;
         budget_number = Integer.toString(budget);
         start_date = start;

@@ -4,6 +4,7 @@ import android.animation.AnimatorInflater;
 import android.animation.AnimatorSet;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -41,6 +42,7 @@ public class TravelDetailsActivity extends AppCompatActivity {
     public final static String EXTRA_START = "travelmate_extra_tda_TRIP_START";
     public final static String EXTRA_END = "travelmate_extra_tda_TRIP_END";
     public final static String EXTRA_GROUP = "travelmate_extra_tda_TRIP_GROUP";
+    public final static String EXTRA_TAG = "travelmate_extra_tda_TRIP_TAG";
     private Context context;
     private boolean so_prev_lol; // Useful for transitions
 
@@ -61,13 +63,25 @@ public class TravelDetailsActivity extends AppCompatActivity {
         final String start =  b.getString(EXTRA_START);
         final String end =  b.getString(EXTRA_END);
         final String group =  b.getString(EXTRA_GROUP);
-
+        final String tag = b.getString(EXTRA_TAG);
         final ImageView imgv = (ImageView) findViewById(R.id.header_cover_image);
         loadImg(img, imgv);
-
         final TextView n = (TextView) findViewById(R.id.name);
         n.setText(name);
         final TextView dsc = (TextView) findViewById(R.id.descr);
+
+        final TextView t_tag=(TextView) findViewById(R.id.tag);
+
+        if(tag.equals("cultura")){
+            t_tag.setBackgroundColor(Color.parseColor("#008000")); //verde
+        }else if (tag.equals("musica")){
+            t_tag.setBackgroundColor(Color.parseColor("#FF8C00")); //arancione(dark)
+        }else if(tag.equals("intrattenimento")){
+            t_tag.setBackgroundColor(Color.parseColor("#FF0000")); //rosso
+        }else{
+            t_tag.setBackgroundColor(Color.parseColor("#1E90FF")); //blu
+        }
+        t_tag.setText(tag);
 
         // Justified text alignment
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -97,9 +111,9 @@ public class TravelDetailsActivity extends AppCompatActivity {
         final TextView bud = (TextView) findViewById(R.id.budget);
         bud.setText(budget);
         final TextView s = (TextView) findViewById(R.id.date1);
-        s.setText(start);
+        s.setText(getData(start));
         final TextView e = (TextView) findViewById(R.id.date2);
-        e.setText(end);
+        e.setText(getData(end));
         final TextView g = (TextView) findViewById(R.id.n_users);
         g.setText(group);
 
@@ -156,7 +170,7 @@ public class TravelDetailsActivity extends AppCompatActivity {
         }
 
         GlideApp.with(this)
-                .load(img)
+                .load((img.isEmpty())?(R.mipmap.default_trip):(img))
                 .placeholder(R.mipmap.placeholder_image)
                 .listener(new RequestListener<Drawable>() {
                     @Override
@@ -202,5 +216,9 @@ public class TravelDetailsActivity extends AppCompatActivity {
             default:
                 return false;
         }
+    }
+    public String getData(String data) {
+        String[] d=data.split("-");
+        return d[2].substring(0,2) +"/"+d[1]+"/"+d[0];
     }
 }
