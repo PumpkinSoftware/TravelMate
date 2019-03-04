@@ -43,13 +43,8 @@ public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.ViewHolder> 
     public class ViewHolder extends RecyclerView.ViewHolder {
         // Your holder should contain a member variable
         // for any view that will be set as you render a row
-        public ImageView trip_image,group_image,fav_image;
+        public ImageView trip_image,fav_image;
         public TextView trip_name,group_number,budget_number,trip_tag,destinazione,data;
-        //public ImageView budget_image;
-        //public Button more_button;
-        //public ImageView sharing_image;
-        //private int minHeight;
-        //private CardView cardView;
 
         // We also create a constructor that accepts the entire item row
         // and does the view lookups to find each subview
@@ -147,6 +142,7 @@ public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.ViewHolder> 
             intent.putExtra(TravelDetailsActivity.EXTRA_END, t.getEndDate());
             intent.putExtra(TravelDetailsActivity.EXTRA_GROUP, t.getGroup());
             intent.putExtra(TravelDetailsActivity.EXTRA_TAG, t.getTag());
+            intent.putExtra(TravelDetailsActivity.EXTRA_VEHICLE,t.getVehicle());
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 // create the transition animation - the images in the layouts
@@ -206,6 +202,7 @@ public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.ViewHolder> 
                 .into(t_image);
         TextView t_name = viewHolder.trip_name;
         t_name.setText(trip.getName());
+        t_name.setHorizontallyScrolling(true);
         TextView b_number = viewHolder.budget_number;
         b_number.setText(trip.getBudget());
         TextView g_number = viewHolder.group_number;

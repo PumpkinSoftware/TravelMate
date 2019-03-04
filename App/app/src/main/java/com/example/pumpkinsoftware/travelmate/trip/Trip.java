@@ -14,10 +14,12 @@ public class Trip {
     private String end_date;
     private String group_number;
     private String tag;
+    private String vehicle;
+    private String owner;
     //private User[] partecipants;
 
     public Trip(String id, String t_image, String name, String description, String dep,
-                String destination, int budget, String start, String end, String group, String s) {
+                String destination, int budget, String start, String end, String group, String s, String v, String ow) {
         this.id = id;
         trip_image = t_image;
         trip_name = name;
@@ -29,7 +31,8 @@ public class Trip {
         end_date = end;
         group_number = group;
         tag=s;
-
+        vehicle=v;
+        owner=ow;
     }
 
     public String getId() {
@@ -76,6 +79,13 @@ public class Trip {
         return tag;
     }
 
+    public String getVehicle(){
+        return vehicle;
+    }
+
+    public String getOwner() {
+        return owner;
+    }
 
     /*public String getPartecipants() {
         for(int i=0; i<group_number; i++)
@@ -105,7 +115,7 @@ public class Trip {
             int max = i + (int) d;
             trips.add(new Trip("Trip " + ++lastTripId, "Trip " + lastTripId, "Trip " + lastTripId,
                     "Splendido viaggio", "Roma","Venezia", i*10+10*max , "2019-06-03T00:00:00.000Z",
-                    "23/4/19", i+"/"+max, "" + "/" ));
+                    "23/4/19", i+"/"+max, "" + "/", "treno", "owner"));
         }
 
         return trips;
