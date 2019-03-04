@@ -9,25 +9,30 @@
     <string name="user">Profilo</string>
     <string name="settings">Opzioni</string>
 
-    <!-- Login -->
+    <!-- Login & registration -->
     <string name="username">Username</string>
     <string name="password">Password</string>
     <string name="login">Login</string>
     <string name="forgot_password">Forgot password?</string>
     <string name="create_account">CREATE AN ACCOUNT</string>
     <string name="or">Or</string>
+    <string name="register">Registration</string>
+    <string name="mail">Mail</string>
 
     <!-- Facebook application ID and custom URL scheme (app ID prefixed by 'fb'). -->
     <!--<string name="facebook_application_id" translatable="false">YOUR_APP_ID</string>
     <string name="facebook_login_protocol_scheme" translatable="false">fbYOUR_APP_ID</string>-->
 
     <!-- Home -->
-    <string name="home_title"> 🔥 Tendenze</string>
+    <string name="home_title"> 😎 Ultimi aggiunti</string>
     <string name="user_logged">LeBron James</string>
     <string name="MORE">MORE</string>
     <string name="n500">500</string>
-    <string name="n58">5/8</string>
+    <string name="n1010">10/10</string>
     <string name="NYTrip">NY Trip</string>
+
+    <!-- Travel details -->
+    <string name="join">Unisciti</string>
 
     <!-- Travel page-->
     <string name="travel_title">I tuoi eventi</string>
@@ -35,30 +40,43 @@
     <!-- Search and Creation -->
     <string name="search_hint">Search</string>
     <string name="place">Luoghi</string>
-    <string name="from">Da</string>
-    <string name="to">A</string>
+    <string name="from">Partenza</string>
+    <string name="to">Destinazione</string>
     <string name="date">Data</string>
     <string name="departure">Partenza</string>
     <string name="ret">Arrivo</string>
-    <string name="pets">Animali?</string>
-    <string name="pets_text">Trasporto animali incluso</string>
+    <string name="car">Treno/auto</string>
+    <string name="car_text">Mezzo di trasporto</string>
     <string name="budget">Budget</string>
     <string name="budget_text">Minimo e massimo spendibili nel viaggio</string>
     <string name="n0">0</string>
     <string name="n2">2</string>
-    <string name="n2000">2000</string>
     <string name="euro">€</string>
+    <string name="buddies">Minimo e massimo dei compagni di viaggio</string>
 
     <!-- Only creation-->
-    <string name="creation_title">Nuovo evento?</string>
+    <string name="creation_title">Nuovo evento</string>
     <string name="group">Gruppo</string>
-    <string name="buddies">Minimo e massimo dei compagni di viaggio</string>
+    <string name="buddies2">Persone necessarie per partire</string>
     <string name="budget_text2">Cifra approssimativa</string>
     <string name="plan">Programma</string>
     <string name="plan_text">Scrivi qualche dettaglio in più sul viaggio</string>
     <string name="name">Nome</string>
-    <string name="name_text">Inserisci il nome dell\evento per concludere</string>
+    <string name="name_text">Inserisci il nome dell\' evento per concludere</string>
     <string name="confirm">Conferma</string>
+    <string name="photo_upload">scegli</string>
+    <string name="photo_name">Carica una foto (facoltativo)</string>
+
+    <!-- Mezzi -->
+    <string name="treno">Treno</string>
+    <string name="auto">Auto</string>
+
+    <!-- Tag -->
+    <string name="tag_text">Tipo di evento</string>
+    <string name="tag1">Cultura</string>
+    <string name="tag2">Intrattenimento</string>
+    <string name="tag3">Musica</string>
+    <string name="tag4">Tecnologia</string>
 
     <!-- Result page-->
     <string name="result_title">Risultati</string>
@@ -84,6 +102,8 @@
     <string name="language">Lingua</string>
     <string name="sounds">Suoni</string>
     <string name="notifications">Notifiche</string>
+
+
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

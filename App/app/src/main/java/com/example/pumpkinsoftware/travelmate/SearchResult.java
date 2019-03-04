@@ -4,11 +4,23 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.TextView;
+import android.widget.ProgressBar;
+
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.Volley;
+import com.example.pumpkinsoftware.travelmate.client_server_interaction.GetTripInteraction;
+import com.example.pumpkinsoftware.travelmate.trip.Trip;
+
+import java.util.ArrayList;
 
 public class SearchResult extends Activity {
+    private RequestQueue mRequestQueue;
+    private ArrayList<Trip> trips;
+    public final static String EXTRA_QUERY = "travelmate_extra_sr_QUERY";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,15 +39,24 @@ public class SearchResult extends Activity {
             @Override
             public void onClick(View v) {
                 onBackPressed();
+                finish();
             }
         });
         //FINE
 
+        Bundle b = getIntent().getExtras();
+        final String query = b.getString(EXTRA_QUERY);
 
-        Bundle p = getIntent().getExtras();
-        final String risultati =p.getString("result");
-        final TextView testo=(TextView) findViewById(R.id.result);
-        testo.setText(risultati);
+        final RecyclerView rvTrips = (RecyclerView) findViewById(R.id.recyclerview);
+        // Set layout manager to position the items
+        rvTrips.setLayoutManager(new LinearLayoutManager(this));
+        trips = new ArrayList<Trip>();
+
+        ProgressBar progress = findViewById(R.id.indeterminateBar);
+
+        mRequestQueue= Volley.newRequestQueue(this);
+        new GetTripInteraction(this, rvTrips, progress).getTripsFromServer(query, mRequestQueue, trips);
+
         final SwipeRefreshLayout swipe = (SwipeRefreshLayout) findViewById(R.id.swiperefresh);
         swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -44,11 +65,15 @@ public class SearchResult extends Activity {
                 (new Handler()).postDelayed(new Runnable() {
                     @Override
                     public void run() {
+                        rvTrips.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                        trips = new ArrayList<Trip>();
+                        mRequestQueue= Volley.newRequestQueue(getApplicationContext());
+                        new GetTripInteraction(getApplication(),rvTrips).getTripsFromServer(query,mRequestQueue,trips);
                         swipe.setRefreshing(false);
-                        testo.setText(risultati);
                     }
-                },3000);
+                },1500);
             }
         });
     }
+
 }

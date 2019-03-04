@@ -58,6 +58,7 @@ router.post('/newUser', function(req, res){
                 gender: clientInput.gender.toLowerCase(),
                 relationship: clientInput.relationship.toLowerCase(),
                 email: clientInput.email,
+                uid: clientInput.uid,
                 description: clientInput.description,
                 avatar: clientInput.avatar,
                 cover: clientInput.cover,
@@ -76,6 +77,7 @@ router.post('/newUser', function(req, res){
                 gender: clientInput.gender.toLowerCase(),
                 relationship: clientInput.relationship.toLowerCase(),
                 email: clientInput.email,
+                uid: clientInput.uid,
                 description: clientInput.description,
                 avatar: clientInput.avatar,
                 cover: clientInput.cover,
@@ -146,6 +148,31 @@ router.get('/getUserByEmail', function(req, res){
     });
 });
 
+//Api per ottenere un utente tramite email => /getUserByUid?uid=prova@gmail.com
+
+router.get('/getUserByUid', function(req, res){
+
+    var conditions = {
+        uid: req.query.uid
+    };
+
+    UserSchema.findOne(conditions, function(err, user){
+        
+        if (err){
+			res.send(JSON.stringify({ status: "error", type: "-12" }));
+			console.log(err);
+		}
+		else if(user != null){
+			res.send(user);
+			console.log(user);
+        }
+        else{
+            res.send(JSON.stringify({ status: "error", type: "-13" }));
+            console.log(JSON.stringify({ status: "error", message: "User not found" }));
+        }
+    });
+});
+
 /****************************************/
 //Api per ottenere un utente tramite id => /getUserById?userId=...
 
@@ -193,6 +220,8 @@ router.post('/updateUser', function(req, res){
         query.relationship = JsonObject.relationship.toLowerCase();
     if(JsonObject.email != undefined)
         query.email = JsonObject.email;
+    if(JsonObject.uid != undefined)
+        query.uid = JsonObject.uid;
     if(JsonObject.description != undefined)
         query.description = JsonObject.description.toLowerCase();      
     if(JsonObject.avatar != undefined)

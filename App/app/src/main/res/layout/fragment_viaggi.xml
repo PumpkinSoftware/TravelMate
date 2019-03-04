@@ -21,12 +21,33 @@
             android:textSize="22dp"/>
     </android.support.v7.widget.Toolbar>
 
-
-    <TextView
-        android:layout_width="wrap_content"
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tab"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:textSize="30sp" />
+        android:background="@color/colorPrimary"
+        android:layout_below="@id/toolbar"
+        app:tabTextColor="#b2b2b2"
+        app:tabSelectedTextColor="@android:color/white"
+        app:tabIndicatorColor="@android:color/white">
+
+        <android.support.design.widget.TabItem
+            android:text="Futuri" />
+
+        <android.support.design.widget.TabItem
+            android:text="Preferiti"/>
+
+        <android.support.design.widget.TabItem
+            android:text="Passati"/>
+
+    </android.support.design.widget.TabLayout>
+
+    <android.support.v4.view.ViewPager
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/tab" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/floatbutton"
@@ -42,8 +63,6 @@
         android:onClick="runThis"
         android:src="@drawable/ic_add_black_24dp"
         app:backgroundTint="@color/colorPrimary"
-
-
         app:fabSize="normal" />
 
 </RelativeLayout>

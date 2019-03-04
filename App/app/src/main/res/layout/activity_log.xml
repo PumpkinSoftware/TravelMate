@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/login_layout">
+
+    <include
+        layout="@layout/background_video"
+        android:id="@+id/bg_video"
+        android:transitionName="bg_video"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/black_gradient" />
+
+    <EditText
+        android:id="@+id/username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="150dp"
+        android:layout_marginEnd="8dp"
+        android:backgroundTint="@color/white"
+        android:drawableLeft="@drawable/ic_baseline_person_24px"
+        android:ems="10"
+        android:hint="@string/username"
+        android:inputType="textPersonName"
+        android:nextFocusForward="@+id/password"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
+        android:textSize="16dp" />
+
+    <EditText
+        android:id="@+id/password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/username"
+        android:layout_alignTop="@+id/username"
+        android:layout_alignEnd="@+id/username"
+        android:layout_marginTop="59dp"
+        android:backgroundTint="@color/white"
+        android:drawableLeft="@drawable/ic_baseline_lock_24px"
+        android:ems="10"
+        android:hint="@string/password"
+        android:inputType="textPassword"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
+        android:textSize="16dp" />
+
+    <Button
+        android:id="@+id/forgot"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/password"
+        android:layout_alignStart="@+id/password"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="-80dp"
+        android:text="@string/forgot_password"
+        android:textColor="@color/white" />
+
+    <Button
+        android:id="@+id/buttonLogin"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/forgot"
+        android:layout_marginTop="15dp"
+        android:text="@string/login" />
+
+</RelativeLayout>

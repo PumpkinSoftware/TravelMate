@@ -11,7 +11,10 @@ import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -26,14 +29,17 @@ import com.example.pumpkinsoftware.travelmate.ViaggiFragment;
 import com.example.pumpkinsoftware.travelmate.edit_text_date_picker.EditTextDatePicker;
 import com.example.pumpkinsoftware.travelmate.my_on_checked_change_listener.MyOnCheckedChangeListener;
 import com.example.pumpkinsoftware.travelmate.R;
+import com.example.pumpkinsoftware.travelmate.spinner_listener.SpinnerListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import static android.app.PendingIntent.getActivity;
 
-public class SearchOnClickListener implements View.OnTouchListener {
-    private final static String URL="http://192.168.1.107:8095/trip/getTripsWithFilter?";
+
+public class SearchOnClickListener implements View.OnClickListener {
+    private final static String URL = "https://debugtm.herokuapp.com/trip/getTripsWithFilter?";
     private final static String MIN_BUDGET = "0";
     private final static String MAX_BUDGET = "2000";
     private final static String MIN_GROUP = "1";
@@ -42,67 +48,85 @@ public class SearchOnClickListener implements View.OnTouchListener {
     private FragmentManager frag_manager;
     private TextInputEditText from, to;
     private EditTextDatePicker departure, ret;
-    private MyOnCheckedChangeListener switch_listener;
-    private EditText budgetMin,budgetMax, gruppoMin,gruppoMax;
+    private EditText budgetMin, budgetMax, gruppoMin, gruppoMax;
+    private RadioGroup vehicle_radio, tag_radio;
 
     private RequestQueue mQueue;
-    private String stringaResult="", query="";
+    private String stringaResult = "", query = "";
 
     public SearchOnClickListener(Context c, FragmentManager fm, TextInputEditText f, TextInputEditText t,
-                                 EditTextDatePicker d, EditTextDatePicker r, MyOnCheckedChangeListener s,
-                                 EditText m1, EditText m2, EditText m3, EditText m4,RequestQueue m) {
+                                 EditTextDatePicker d, EditTextDatePicker r,
+                                 RadioGroup vr, RadioGroup tr, EditText m1, EditText m2, EditText m3, EditText m4) {//, RequestQueue m) {
         context = c;
         frag_manager = fm;
         from = f;
         to = t;
         departure = d;
         ret = r;
-        switch_listener = s;
+        vehicle_radio = vr;
+        tag_radio = tr;
         budgetMin = m1;
         budgetMax = m2;
         gruppoMin = m3;
         gruppoMax = m4;
-        mQueue=m;
+        //mQueue = m;
+
     }
 
+
     @Override
-    public boolean onTouch(View v, MotionEvent event){
+    public void onClick(View v) {
+        String from_q, to_q, min1_q, min2_q, max1_q, max2_q, departure_q, return_q, vehicle, tag ;
 
-        if (event.getAction() == MotionEvent.ACTION_UP) {
-            String from_q,to_q,min1_q,min2_q,max1_q,max2_q,pets_value="",departure_q,return_q;
+        //Get radio value
 
-            // Get places
-            from_q = (from.getText()).toString().toLowerCase();
-            to_q = (to.getText()).toString().toLowerCase();
+        RadioButton tmp1 = ((RadioButton) ((Activity) context).findViewById(vehicle_radio.getCheckedRadioButtonId()));
+        if(tmp1!=null){
+            vehicle=tmp1.getText().toString();
+        }else {
+            vehicle="";
+        }
 
-            // Get dates
-            departure_q = departure.getSetMonth()+"/"+departure.getSetDay()+"/"+departure.getSetYear();
+        //Non posso mettere le linee come nella search altrimenti questo non funziona perchè non trova il bottone
+        RadioButton tmp2 = ((RadioButton) ((Activity) context).findViewById(tag_radio.getCheckedRadioButtonId()));
+        if(tmp2!=null){
+            tag=tmp2.getText().toString();
+        }else{
+            tag="";
+        }
 
-            return_q = ret.getSetMonth()+"/"+ret.getSetDay()+"/"+ret.getSetYear();
+        Log.i("Dato4", vehicle);
+        Log.i("Dato4", tag);
 
-            // Get switch value
 
-            pets_value = switch_listener.getValue();
+        // Get places
+        from_q = (from.getText()).toString().toLowerCase();
+        to_q = (to.getText()).toString().toLowerCase();
 
-            // Get budget
-            min1_q = (budgetMin.getText()).toString();
-            max1_q = (budgetMax.getText()).toString();
+        // Get dates
+        departure_q = departure.getSetMonth() + "/" + departure.getSetDay() + "/" + departure.getSetYear();
+        return_q = ret.getSetMonth() + "/" + ret.getSetDay() + "/" + ret.getSetYear();
 
-            // Get group
-            min2_q = (gruppoMin.getText()).toString();
-            max2_q = (gruppoMax.getText()).toString();
+        // Get budget
+        min1_q = (budgetMin.getText()).toString();
+        max1_q = (budgetMax.getText()).toString();
 
-            //costruzione della query
-            query=URL;
-            if(!to_q.isEmpty())                             filter("destination",to_q.toLowerCase());
-            if(!from_q.isEmpty())                           filter("departure",from_q.toLowerCase());
-            if(!departure_q.equals("-1/-1/-1"))             filter("startDate",departure_q.toLowerCase());
-            if(!return_q.equals("-1/-1/-1"))                filter("endDate",return_q.toLowerCase());
-            if(pets_value.equals("true"))                   filter("pets","true");
-            if(!min1_q.equals("1")&&!min1_q.equals(MIN_BUDGET))    filter("minBudget",min1_q);
-            if(!max1_q.equals(MAX_BUDGET))                      filter("maxBudget",max1_q);
-            if(!min2_q.equals(MIN_GROUP)&&!min2_q.equals("0"))    filter("minPartecipant",min2_q);
-            if(!max2_q.equals(MAX_GROUP))                        filter("maxPartecipant",max2_q);
+        // Get group
+        min2_q = (gruppoMin.getText()).toString();
+        max2_q = (gruppoMax.getText()).toString();
+
+        //costruzione della query
+        query = URL;
+        if (!to_q.isEmpty()) filter("destination", to_q.toLowerCase());
+        if (!from_q.isEmpty()) filter("departure", from_q.toLowerCase());
+        if (!departure_q.equals("-1/-1/-1")) filter("startDate", departure_q.toLowerCase());
+        if (!return_q.equals("-1/-1/-1")) filter("endDate", return_q.toLowerCase());
+        if (!vehicle.isEmpty()) filter("vehicle", vehicle.toLowerCase());
+        if (!tag.isEmpty()) filter("tag", tag.toLowerCase());
+        if (!min1_q.equals("1") && !min1_q.equals(MIN_BUDGET)) filter("minBudget", min1_q);
+        if (!max1_q.equals(MAX_BUDGET)) filter("maxBudget", max1_q);
+        if (!min2_q.equals(MIN_GROUP) && !min2_q.equals("0")) filter("minPartecipant", min2_q);
+        if (!max2_q.equals(MAX_GROUP)) filter("maxPartecipant", max2_q);
 
             /*
             // Intent to start search activity
@@ -111,55 +135,18 @@ public class SearchOnClickListener implements View.OnTouchListener {
             startActivity(intent);
             */
 
-
-            //chiamata del server
-            jsonParse();
-
-            Intent i = new Intent(this.context,SearchResult.class);
-            i.putExtra("result",stringaResult);
-            context.startActivity(i);
-
-            stringaResult="";
-        }
-        return false;
+        context.startActivity(new Intent(this.context, SearchResult.class).putExtra(SearchResult.EXTRA_QUERY, query));
     }
 
     //altre funzioni
 
-    private void jsonParse(){
-        //Log.i("query",query);
-        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, query, null, new Response.Listener<JSONArray>() {
-            public void onResponse(JSONArray response) {
-
-                try {
-                    //JSONArray jsonArray=response.getJSONArray("viaggi")
-                    for(int i=0;i<response.length();i++){
-                        JSONObject viaggio= response.getJSONObject(i);
-                        String name =viaggio.getString("name");
-                       // Log.i("viaggio",name);
-                        stringaResult+=name+System.getProperty("line.separator");
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    Toast.makeText(context, "Error: data reception failed", Toast.LENGTH_SHORT).show();
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                error.printStackTrace();
-                Toast.makeText(context, "Error: connection with server failed ", Toast.LENGTH_SHORT).show();
-            }
-        });
-        mQueue.add(request);
-    }
-
-    private String filter(String categoria,String filtro){
+    private void filter(String categoria, String filtro) {
         //il primo valore non deve avere il simbolo "&"
-        if(query.equals(URL))
-            return query+=categoria+"="+filtro;
+        if (query.equals(URL))
+            query += categoria + "=" + filtro;
         else
-            return query+="&"+categoria+"="+filtro;
+            query += "&" + categoria + "=" + filtro;
     }
+
 
 }

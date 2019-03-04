@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white">
+
+        <!-- Header -->
+        <ImageView
+            android:id="@+id/back"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="13dp"
+            android:layout_marginTop="10dp"
+            android:elevation="10dp"
+            android:tint="@android:color/white"
+            app:srcCompat="@drawable/baseline_arrow_back_black_24dp" />
+
+        <CheckBox
+            android:id="@+id/fav_image"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_alignTop="@+id/sharing_image"
+            android:layout_alignBottom="@+id/sharing_image"
+            android:layout_marginEnd="10dp"
+            android:layout_toStartOf="@+id/sharing_image"
+            android:background="@drawable/fav_icon"
+            android:button="@null"
+            android:elevation="10dp"
+            android:backgroundTint="@android:color/white"/>
+
+        <ImageView
+            android:id="@+id/sharing_image"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="13dp"
+            android:layout_marginTop="10dp"
+            android:elevation="10dp"
+            android:tint="@android:color/white"
+            app:srcCompat="@drawable/outline_share_black_24dp" />
+
+        <ImageView
+            android:id="@+id/header_cover_image"
+            android:layout_width="match_parent"
+            android:layout_height="210dp"
+            android:scaleType="centerCrop"
+            android:transitionName="travel_image"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="210dp"
+            android:background="@drawable/white_gradient" />
+
+        <!-- Travel -->
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/header_cover_image"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="5dp"
+            android:transitionName="travel_name"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+
+        <TextView
+            android:id="@+id/descr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/name"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="7dp"
+            android:layout_marginEnd="7dp"
+            android:text="Description"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
+
+        <!-- Descr alignment for sdk<26 -->
+        <WebView
+            android:id="@+id/descr_for_older_versions"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/name"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="7dp"
+            android:layout_marginEnd="7dp"
+            android:visibility="gone"/>
+        <!--</RelativeLayout>-->
+
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/layout2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/descr"
+            android:layout_margin="5dp"
+            android:layout_marginTop="10dp"
+            android:background="#fff"
+            android:orientation="vertical"
+            android:paddingLeft="5dp"
+            android:paddingTop="20dp"
+            android:paddingRight="5dp"
+            android:paddingBottom="20dp">
+
+            <!-- Tag section -->
+            <TextView
+                android:id="@+id/tag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_marginStart="25dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:textColor="@color/white"
+                android:textStyle="bold" />
+
+            <!-- Places section -->
+            <TextView
+                android:id="@+id/from"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="Roma"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@+id/tag"
+                app:layout_constraintTop_toBottomOf="@+id/tag" />
+
+            <ImageView
+                android:id="@+id/flight_image"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginStart="35dp"
+                android:rotation="90"
+                android:src="@drawable/ic_flight_black_24dp"
+                app:layout_constraintBottom_toBottomOf="@+id/from"
+                app:layout_constraintStart_toEndOf="@+id/from"
+                app:layout_constraintTop_toTopOf="@+id/from" />
+            <!--
+                app:srcCompat="@drawable/baseline_arrow_back_black_24dp"-->
+
+            <TextView
+                android:id="@+id/to"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="35dp"
+                android:text="Venezia"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/flight_image"
+                app:layout_constraintStart_toEndOf="@+id/flight_image"
+                app:layout_constraintTop_toTopOf="@+id/flight_image" />
+
+            <!-- Date section -->
+            <ImageView
+                android:id="@+id/date1_image"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginTop="12dp"
+                android:src="@drawable/ic_date_range_black_12dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/from"
+                app:layout_constraintTop_toBottomOf="@+id/from"  />
+
+            <TextView
+                android:id="@+id/date1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:text="20 Aprile 2018"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/date1_image"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/date1_image"
+                app:layout_constraintTop_toTopOf="@+id/date1_image" />
+
+            <ImageView
+                android:id="@+id/date2_image"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginTop="12dp"
+                android:src="@drawable/ic_date_range_black_12dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/date1_image"
+                app:layout_constraintTop_toBottomOf="@+id/date1_image"  />
+
+            <TextView
+                android:id="@+id/date2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:text="23 Aprile 2018"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/date2_image"
+                app:layout_constraintStart_toEndOf="@+id/date2_image"
+                app:layout_constraintTop_toTopOf="@+id/date2_image" />
+
+            <!-- Budget section -->
+            <ImageView
+                android:id="@+id/budget_image"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginTop="12dp"
+                android:src="@drawable/ic_euro_symbol_black_12dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/date2_image"
+                app:layout_constraintTop_toBottomOf="@+id/date2_image"
+                android:transitionName="budget_image" />
+
+            <TextView
+                android:id="@+id/budget"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/budget_image"
+                app:layout_constraintStart_toEndOf="@+id/budget_image"
+                app:layout_constraintTop_toTopOf="@+id/budget_image"
+                android:transitionName="budget_number"/>
+
+            <TextView
+                android:id="@+id/users"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Partecipanti: "
+                android:textStyle="bold"
+                android:layout_marginTop="28dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/date2_image"
+                app:layout_constraintTop_toBottomOf="@+id/budget_image" />
+
+            <TextView
+                android:id="@+id/n_users"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/users"
+                app:layout_constraintStart_toEndOf="@+id/users"
+                app:layout_constraintTop_toTopOf="@+id/users"
+                android:transitionName="group_number"/>
+
+            <!-- Users section -->
+            <de.hdodenhof.circleimageview.CircleImageView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/profile1"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="28dp"
+                android:clickable="true"
+                android:elevation="5dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/girl"
+                app:civ_border_color="#FFFFFFFF"
+                app:civ_border_width="1dp"
+                app:layout_constraintStart_toStartOf="@+id/users"
+                app:layout_constraintTop_toBottomOf="@+id/users" />
+
+            <TextView
+                android:id="@+id/user1"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginStart="20dp"
+                android:padding="9dp"
+                android:clickable="true"
+                android:text="User1"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/profile1"
+                app:layout_constraintLeft_toRightOf="@+id/date1"
+                app:layout_constraintStart_toEndOf="@+id/profile1"
+                app:layout_constraintTop_toTopOf="@+id/profile1" />
+
+            <RatingBar
+                android:id="@+id/ratingBar"
+                style="@style/Widget.AppCompat.RatingBar.Indicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:progressTint="@color/gold"
+                android:rating="3.3"
+                android:secondaryProgressTint="@color/gold"
+                app:layout_constraintBottom_toBottomOf="@+id/profile1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/user1"
+                app:layout_constraintTop_toTopOf="@+id/profile1" />
+
+            <!-- Join button -->
+            <android.support.v7.widget.CardView
+                android:id="@+id/cardView"
+                android:layout_width="300dp"
+                android:layout_height="50dp"
+                android:layout_below="@+id/profile1"
+                android:layout_centerHorizontal="true"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="28dp"
+                android:layout_marginEnd="8dp"
+                app:cardBackgroundColor="@color/colorAccent"
+                app:cardCornerRadius="25dp"
+                app:cardElevation="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/profile1">
+
+                <Button
+                    android:id="@+id/search_button"
+                    android:layout_width="327dp"
+                    android:layout_height="match_parent"
+                    android:layout_alignStart="@+id/cardView"
+                    android:layout_centerInParent="true"
+                    android:background="@android:color/transparent"
+                    android:clickable="true"
+                    android:paddingEnd="30sp"
+                    android:text="@string/join"
+                    android:textColor="#fff"
+                    android:textSize="18sp">
+
+                </Button>
+
+            </android.support.v7.widget.CardView>
+
+        </android.support.constraint.ConstraintLayout>
+
+    </RelativeLayout>
+</ScrollView>

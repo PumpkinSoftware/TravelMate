@@ -16,53 +16,47 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.SearchView;
-import android.widget.Switch;
+import android.widget.Spinner;
 import android.widget.Toast;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 
-import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.pumpkinsoftware.travelmate.edit_text_date_picker.EditTextDatePicker;
 import com.example.pumpkinsoftware.travelmate.min_max_filter.MinMaxFilter;
-import com.example.pumpkinsoftware.travelmate.my_on_checked_change_listener.MyOnCheckedChangeListener;
 import com.example.pumpkinsoftware.travelmate.search_on_click_listener.SearchOnClickListener;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.Calendar;
 
 import io.apptik.widget.MultiSlider;
 
 public class SearchFragment extends Fragment {
     private RequestQueue mQueue;
+    private int id_radio_vehicle = -1;
+    private int id_radio_tag = -1;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_search, container, false);
+        final View view = inflater.inflate(R.layout.fragment_search, container, false);
         final EditText min1 = (EditText) view.findViewById(R.id.budget_min_value);
         final EditText max1 = (EditText) view.findViewById(R.id.budget_max_value);
         final EditText min2 = (EditText) view.findViewById(R.id.group_min_value);
         final EditText max2 = (EditText) view.findViewById(R.id.group_max_value);
         final SearchView searchView = (SearchView) view.findViewById(R.id.search_bar);
-        final TextInputEditText from = (TextInputEditText ) view.findViewById(R.id.from_text);
-        final TextInputEditText to = (TextInputEditText ) view.findViewById(R.id.to_text);
+        final TextInputEditText from = (TextInputEditText) view.findViewById(R.id.from_text);
+        final TextInputEditText to = (TextInputEditText) view.findViewById(R.id.to_text);
         final EditText departure_date = (EditText) view.findViewById(R.id.departure);
         final EditText return_date = (EditText) view.findViewById(R.id.ret);
-        final Switch pets_switch = (Switch) view.findViewById(R.id.switch1);
-        mQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
+
+
+        //mQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
 
         // If click on bg, focus is deleted
         view.findViewById(R.id.scroll_child).setOnClickListener(new View.OnClickListener() {
@@ -117,15 +111,15 @@ public class SearchFragment extends Fragment {
         int ma1 = b_multiSlider.getThumb(1).getValue();
         min1.setText(String.valueOf(mi1));
         max1.setText(String.valueOf(ma1));
-        min1.setFilters(new InputFilter[]{ new MinMaxFilter(mi1, ma1)});
-        max1.setFilters(new InputFilter[]{ new MinMaxFilter(mi1, ma1)});
+        min1.setFilters(new InputFilter[]{new MinMaxFilter(mi1, ma1)});
+        max1.setFilters(new InputFilter[]{new MinMaxFilter(mi1, ma1)});
 
         int mi2 = g_multiSlider.getThumb(0).getValue();
         int ma2 = g_multiSlider.getThumb(1).getValue();
         min2.setText(String.valueOf(mi2));
         max2.setText(String.valueOf(ma2));
-        min2.setFilters(new InputFilter[]{ new MinMaxFilter(mi2, ma2)});
-        max2.setFilters(new InputFilter[]{ new MinMaxFilter(mi2, ma2)});
+        min2.setFilters(new InputFilter[]{new MinMaxFilter(mi2, ma2)});
+        max2.setFilters(new InputFilter[]{new MinMaxFilter(mi2, ma2)});
 
         /* Listener multi slider */
         b_multiSlider.setOnThumbValueChangeListener(new MultiSlider.OnThumbValueChangeListener() {
@@ -133,13 +127,12 @@ public class SearchFragment extends Fragment {
             public void onValueChanged(MultiSlider multiSlider,
                                        MultiSlider.Thumb thumb,
                                        int thumbIndex,
-                                       int value)
-            {
+                                       int value) {
                 if (thumbIndex == 0) {
-                    if(Integer.parseInt(min1.getText().toString()) != value)
+                    if (Integer.parseInt(min1.getText().toString()) != value)
                         min1.setText(String.valueOf(value));
                 } else {
-                    if(Integer.parseInt(max1.getText().toString()) != value)
+                    if (Integer.parseInt(max1.getText().toString()) != value)
                         max1.setText(String.valueOf(value));
                 }
             }
@@ -159,10 +152,10 @@ public class SearchFragment extends Fragment {
             @Override
             public void onValueChanged(MultiSlider multiSlider, MultiSlider.Thumb thumb, int thumbIndex, int value) {
                 if (thumbIndex == 0) {
-                    if(Integer.parseInt(min2.getText().toString()) != value)
+                    if (Integer.parseInt(min2.getText().toString()) != value)
                         min2.setText(String.valueOf(value));
                 } else {
-                    if(Integer.parseInt(max2.getText().toString()) != value)
+                    if (Integer.parseInt(max2.getText().toString()) != value)
                         max2.setText(String.valueOf(value));
                 }
             }
@@ -191,14 +184,13 @@ public class SearchFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                try{
+                try {
                     int v = Integer.parseInt(s.toString());
                     MultiSlider.Thumb t = b_multiSlider.getThumb(0);
-                    if(t.getValue() != v)
+                    if (t.getValue() != v)
                         t.setValue(v);
-                }
-                catch (Exception e) {
-                    Toast.makeText(getContext(), "Insert a integer", Toast.LENGTH_SHORT).show();
+                } catch (Exception e) {
+                    Toast.makeText(getContext(), "Inserisci un numero", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -216,14 +208,13 @@ public class SearchFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                try{
+                try {
                     int v = Integer.parseInt(s.toString());
                     MultiSlider.Thumb t = b_multiSlider.getThumb(1);
-                    if(t.getValue() != v)
+                    if (t.getValue() != v)
                         t.setValue(v);
-                }
-                catch (Exception e) {
-                    Toast.makeText(getContext(), "Insert a integer", Toast.LENGTH_SHORT).show();
+                } catch (Exception e) {
+                    Toast.makeText(getContext(), "Inserisci un numero", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -242,14 +233,13 @@ public class SearchFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                try{
+                try {
                     int v = Integer.parseInt(s.toString());
                     MultiSlider.Thumb t = g_multiSlider.getThumb(0);
-                    if(t.getValue() != v)
+                    if (t.getValue() != v)
                         t.setValue(v);
-                }
-                catch (Exception e) {
-                    Toast.makeText(getContext(), "Insert a integer", Toast.LENGTH_SHORT).show();
+                } catch (Exception e) {
+                    Toast.makeText(getContext(), "Inserisci un numero", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -267,28 +257,63 @@ public class SearchFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                try{
+                try {
                     int v = Integer.parseInt(s.toString());
                     MultiSlider.Thumb t = g_multiSlider.getThumb(1);
-                    if(t.getValue() != v)
+                    if (t.getValue() != v)
                         t.setValue(v);
-                }
-                catch (Exception e) {
-                    Toast.makeText(getContext(), "Insert a integer", Toast.LENGTH_SHORT).show();
+                } catch (Exception e) {
+                    Toast.makeText(getContext(), "Inserisci un numero", Toast.LENGTH_SHORT).show();
                 }
             }
         });
 
+        // Radio vehicle
+        final RadioGroup radioGroup = (RadioGroup) view.findViewById(R.id.vehicle_radio);
+        final RadioButton train = (RadioButton) view.findViewById(R.id.treno);
+        final RadioButton auto = (RadioButton) view.findViewById(R.id.auto);
 
-        MyOnCheckedChangeListener switch_listener = new MyOnCheckedChangeListener();
-        pets_switch.setOnCheckedChangeListener(switch_listener);
+        // Method to deselect with a click a selected button
+        View.OnClickListener rlis = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int id = v.getId();
+                if(id_radio_vehicle == id)   radioGroup.clearCheck();
+                else                         id_radio_vehicle = id;
+            }
+        };
 
+        train.setOnClickListener(rlis);
+        auto.setOnClickListener(rlis);
+
+        // Radio tag
+        final RadioGroup radioGroup2 = (RadioGroup) view.findViewById(R.id.tag_radio);
+        final RadioButton tag1 = (RadioButton) view.findViewById(R.id.tag1);
+        final RadioButton tag2 = (RadioButton) view.findViewById(R.id.tag2);
+        final RadioButton tag3 = (RadioButton) view.findViewById(R.id.tag3);
+        final RadioButton tag4 = (RadioButton) view.findViewById(R.id.tag4);
+
+        View.OnClickListener rlis2 = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int id = v.getId();
+                if(id_radio_tag == id)   radioGroup2.clearCheck();
+                else                     id_radio_tag = id;
+            }
+        };
+
+        tag1.setOnClickListener(rlis2);
+        tag2.setOnClickListener(rlis2);
+        tag3.setOnClickListener(rlis2);
+        tag4.setOnClickListener(rlis2);
+
+
+        //Button search
         Button b_search = (Button) view.findViewById(R.id.search_button);
-        b_search.setOnTouchListener(new SearchOnClickListener(getContext(), getActivity().getSupportFragmentManager(),
-                                    from, to, departure, ret,switch_listener, min1, max1, min2, max2, mQueue));
+        b_search.setOnClickListener(new SearchOnClickListener(getContext(), getActivity().getSupportFragmentManager(),
+                from, to, departure, ret, radioGroup, radioGroup2, min1, max1, min2, max2));//, mQueue));
 
         return view;
     }
-
 
 }

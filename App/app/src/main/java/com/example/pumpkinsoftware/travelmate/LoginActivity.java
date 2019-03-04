@@ -1,13 +1,19 @@
 package com.example.pumpkinsoftware.travelmate;
 
+import android.app.Activity;
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Rect;
+import android.graphics.drawable.ColorDrawable;
 import android.media.AudioManager;
 import android.os.Build;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Pair;
 import android.view.View;
 import android.view.View.OnFocusChangeListener;
 import android.view.ViewTreeObserver;
@@ -17,6 +23,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 import android.media.MediaPlayer;
@@ -30,15 +37,14 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AppCompatActivity {
-    private Button button;
+    private Button buttonLogin;
+    private TextView buttonReg;
     private VideoView videoView;
     private MutedVideoView mVideoView;
     private boolean so_prev_oreo = true; // I Don't need call lib func, I use it only for muting video on older version than Oreo
     Context contesto;
 
-    // [START declare_auth]
     private FirebaseAuth mAuth;
-    // [END declare_auth]
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,16 +55,25 @@ public class LoginActivity extends AppCompatActivity {
 
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
-        // [END initialize_auth]
 
-
+        //getWindow().setBackgroundDrawable(new ColorDrawable(Color.BLACK));
 
         /* Login Button */
-        button = (Button) findViewById(R.id.buttonLogin);
-        button.setOnClickListener(new View.OnClickListener() {
+        buttonLogin = (Button) findViewById(R.id.buttonLogin);
+        buttonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                login();
+                //login();
+                performTransition(0);
+            }
+        });
+
+        /* Registration Button */
+        buttonReg = (TextView) findViewById(R.id.create);
+        buttonReg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                performTransition(1);
             }
         });
 
@@ -96,43 +111,6 @@ public class LoginActivity extends AppCompatActivity {
         /* Hide logo on input */
         final ImageView logo = (ImageView) findViewById(R.id.logo);
 
-        EditText edit_text = (EditText) findViewById(R.id.username);
-
-        edit_text.setOnFocusChangeListener(new OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                /*if(hasFocus)
-                    logo.setVisibility(View.GONE);*/
-                /*else
-                    logo.setVisibility(View.VISIBLE);*/
-            }
-        });
-
-        edit_text.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //logo.setVisibility(View.GONE);
-            }
-        });
-
-        edit_text = (EditText) findViewById(R.id.password);
-
-        edit_text.setOnFocusChangeListener(new OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                /*if(hasFocus)
-                    logo.setVisibility(View.GONE);*/
-                /*else
-                    logo.setVisibility(View.VISIBLE);*/
-            }
-        });
-
-        edit_text.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //logo.setVisibility(View.GONE);
-            }
-        });
 
         // If click on bg, focus is deleted, so logo is restored
         findViewById(R.id.login_layout).setOnClickListener(new View.OnClickListener() {
@@ -217,6 +195,7 @@ public class LoginActivity extends AppCompatActivity {
     public void openMain(){
         Intent intent=new Intent(this,MainActivity.class);
         startActivity(intent);
+        finish();
     }
 
     @Override
@@ -240,6 +219,34 @@ public class LoginActivity extends AppCompatActivity {
     public void clearFocus() {
         View view = this.getCurrentFocus();
         if (view != null) view.clearFocus();
+    }
+
+    private void performTransition(int type)
+    {
+        if (isDestroyed())  return;
+
+        Intent intent;
+        if(type == 0)   intent = new Intent(this, LogActivity.class);
+        else            intent = new Intent(this, RegistrationActivity.class);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            //startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+            if(so_prev_oreo) {
+                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(this,
+                        Pair.create((View) mVideoView, "bg_video"));
+                startActivity(intent, options.toBundle());
+            }
+
+            else {
+                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(this,
+                        Pair.create((View) videoView, "bg_video"));
+                startActivity(intent, options.toBundle());
+            }
+        }
+
+        else
+            startActivity(intent);
+
     }
 
 }
