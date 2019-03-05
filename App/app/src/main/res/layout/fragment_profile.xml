@@ -18,8 +18,12 @@
             android:layout_height="210dp"
             android:background="@mipmap/amsterdam"
             android:scaleType="centerCrop"
-            android:src="@drawable/white_gradient"
             tools:ignore="ContentDescription" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="210dp"
+            android:background="@drawable/white_gradient" />
         <!--
         android:background=""?attr/selectableItemBackgroundBorderless"
         app:srcCompat="@drawable/nav_menu_header_bg"
@@ -92,7 +96,7 @@
                 android:textSize="16sp" />-->
 
         <TextView
-            android:id="@+id/designation"
+            android:id="@+id/bio"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/name"
@@ -109,7 +113,7 @@
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/designation"
+            android:layout_below="@+id/bio"
             android:layout_margin="5dp"
             android:layout_marginTop="10dp"
             android:background="#fff"
