@@ -27,7 +27,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class RegistrationActivity extends AppCompatActivity {
     private Context context;
-    private EditText user;
+    private EditText mail;
     private EditText pass;
     private FirebaseAuth mAuth;
     private VideoView videoView;
@@ -39,7 +39,7 @@ public class RegistrationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
 
-        user = (EditText) findViewById(R.id.username);
+        mail = (EditText) findViewById(R.id.mail);
         pass = (EditText) findViewById(R.id.password);
         context = (Context) this;
 
@@ -100,21 +100,35 @@ public class RegistrationActivity extends AppCompatActivity {
     }
 
     public void registration(){
-        String username = user.getText().toString();
+        String email = mail.getText().toString();
         String password = pass.getText().toString();
 
-        if(username.isEmpty() || password.isEmpty()) openMain(); // CAMBIO PER I TEST
-            //Toast.makeText(contesto, "Inserire tutti i campi", Toast.LENGTH_SHORT).show();
+        if(email.isEmpty() || password.isEmpty())
+            Toast.makeText(context, "Inserire tutti i campi", Toast.LENGTH_SHORT).show();
         else
-            mAuth.signInWithEmailAndPassword(username, password)
-                    .addOnCompleteListener((Activity) context, new OnCompleteListener<AuthResult>() {
+            mAuth.createUserWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
+                                // TODO Add user to db
+
+                                FirebaseUser user = mAuth.getCurrentUser();
+                                user.sendEmailVerification()
+                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                if (task.isSuccessful()) {
+                                                    Toast.makeText(context, "Mail di verifica inviata", Toast.LENGTH_SHORT).show();
+                                                }
+                                            }
+                                        });
+
                                 openMain();
                             }
                             else {
-                                Toast.makeText(context, "Nome utente o password errati", Toast.LENGTH_SHORT).show();
+                                //Log.w(TAG, "createUserWithEmail:failure", task.getException());
+                                Toast.makeText(context, "Registrazione fallita", Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
