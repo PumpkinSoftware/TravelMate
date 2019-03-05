@@ -67,6 +67,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 //login();
                 performTransition(0);
+
             }
         });
 
@@ -225,7 +226,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void performTransition(int type)
     {
-        if (isDestroyed())  return;
+       if (isDestroyed())  return;
 
         Intent intent;
         if(type == 0)   intent = new Intent(this, LogActivity.class);
@@ -234,7 +235,7 @@ public class LoginActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
             videoView.stopPlayback();
-            /*if(so_prev_oreo) {
+            if(so_prev_oreo) {
                 ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(this,
                         Pair.create((View) mVideoView, "bg_video"));
                 startActivity(intent, options.toBundle());
@@ -244,7 +245,7 @@ public class LoginActivity extends AppCompatActivity {
                 ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(this,
                         Pair.create((View) videoView, "bg_video"));
                 startActivity(intent, options.toBundle());
-            }*/
+            }
         }
 
         else

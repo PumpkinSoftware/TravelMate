@@ -137,7 +137,7 @@ public class User {
     }
 
     public double getRank() {
-        return sumReviews / numReviews ;
+        return (sumReviews==0 && numReviews==0)?0:sumReviews / numReviews ;
     }
 
 }

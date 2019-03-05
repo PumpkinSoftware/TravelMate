@@ -25,7 +25,7 @@ import org.json.JSONObject;
 
 
 public class ProfileFragment extends Fragment {
-    private final String URL = "https://debugtm.herokuapp.com/user/getUserByUid?uid=";
+    private final static String URL = "https://debugtm.herokuapp.com/user/getUserByUid?uid=";
     private Context context;
     private View view;
 
@@ -84,7 +84,8 @@ public class ProfileFragment extends Fragment {
                 .into(img);
 
         TextView txt = view.findViewById(R.id.name);
-        txt.setText(mUser.getName());
+        String ns=mUser.getName()+ " "+ mUser.getSurname(); //così non rompe
+        txt.setText(ns);
 
         txt = view.findViewById(R.id.bio);
         txt.setText(mUser.getDescr());
@@ -102,14 +103,19 @@ public class ProfileFragment extends Fragment {
         txt.setText(mUser.getEmail());
 
         txt = view.findViewById(R.id.n_review);
-        txt.setText(String.valueOf(mUser.getNumReviews()));
+        String n="( "+(String.valueOf(mUser.getNumReviews()))+" )"; //così non rompe
+        txt.setText(n);
 
         txt = view.findViewById(R.id.rating);
-        txt.setText(String.valueOf(mUser.getRank()));
+        txt.setText(String.valueOf(roundToHalf(mUser.getRank())));
 
         RatingBar ratingBar = view.findViewById(R.id.ratingBar);
         ratingBar.setRating((float) mUser.getRank());
 
         return true;
+    }
+
+    public static double roundToHalf(double d) {
+        return Math.round(d * 2) / 2.0;
     }
 }

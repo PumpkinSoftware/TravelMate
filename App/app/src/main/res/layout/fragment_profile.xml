@@ -15,15 +15,15 @@
         <ImageView
             android:id="@+id/header_cover_image"
             android:layout_width="match_parent"
-            android:layout_height="210dp"
+            android:layout_height="150dp"
             android:background="@mipmap/amsterdam"
             android:scaleType="centerCrop"
             tools:ignore="ContentDescription" />
-
+        <!--
         <View
             android:layout_width="match_parent"
             android:layout_height="210dp"
-            android:background="@drawable/white_gradient" />
+            android:background="@drawable/white_gradient" />-->
         <!--
         android:background=""?attr/selectableItemBackgroundBorderless"
         app:srcCompat="@drawable/nav_menu_header_bg"
@@ -43,6 +43,7 @@
             android:elevation="5dp"
             android:padding="20dp"
             android:scaleType="centerCrop"
+            android:layout_marginTop="50dp"
             app:civ_border_color="#FFFFFFFF"
             app:civ_border_width="3dp" />
         <!--
@@ -76,8 +77,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/header_cover_image"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="-5dp"
-            android:layout_marginEnd="272dp"
+            android:layout_marginTop="100dp"
             android:text="@string/nickname"
             android:textAppearance="@android:style/TextAppearance.Medium"
             android:textStyle="bold"
@@ -101,7 +101,6 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/name"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp"
             android:layout_marginStart="7dp"
             android:layout_marginEnd="7dp"
             android:text="@string/bio"
@@ -175,6 +174,7 @@
                 app:layout_constraintLeft_toRightOf="@+id/gender"
                 app:layout_constraintTop_toTopOf="@+id/gender" />
 
+            <!--
             <TextView
                 android:id="@+id/nationality"
                 android:layout_width="wrap_content"
@@ -198,7 +198,8 @@
                 app:layout_constraintBottom_toBottomOf="@+id/nationality"
                 app:layout_constraintLeft_toRightOf="@+id/nationality"
                 app:layout_constraintTop_toTopOf="@+id/nationality" />
-
+            -->
+            <!--
             <TextView
                 android:id="@+id/lang"
                 android:layout_width="wrap_content"
@@ -208,8 +209,8 @@
                 android:text="@string/lingua"
                 android:textStyle="bold"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/nationality"
-                app:layout_constraintTop_toBottomOf="@+id/nationality" />
+                app:layout_constraintStart_toStartOf="@+id/gender"
+                app:layout_constraintTop_toBottomOf="@+id/gender" />
 
             <TextView
                 android:id="@+id/lang2"
@@ -221,8 +222,9 @@
                 android:text="Italian, English, French"
                 app:layout_constraintBottom_toBottomOf="@+id/lang"
                 app:layout_constraintLeft_toRightOf="@+id/lang"
-                app:layout_constraintTop_toTopOf="@+id/lang" />
+                app:layout_constraintTop_toTopOf="@+id/lang" />-->
 
+            <!--
             <TextView
                 android:id="@+id/occupation"
                 android:layout_width="wrap_content"
@@ -270,6 +272,7 @@
                 app:layout_constraintBottom_toBottomOf="@+id/education"
                 app:layout_constraintLeft_toRightOf="@+id/education"
                 app:layout_constraintTop_toTopOf="@+id/education" />
+                -->
 
             <TextView
                 android:id="@+id/rel"
@@ -281,7 +284,7 @@
                 android:textStyle="bold"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/gender"
-                app:layout_constraintTop_toBottomOf="@+id/education" />
+                app:layout_constraintTop_toBottomOf="@+id/gender" />
 
 
             <TextView
@@ -295,6 +298,7 @@
                 app:layout_constraintLeft_toRightOf="@+id/rel"
                 app:layout_constraintTop_toTopOf="@+id/rel" />
 
+            <!--
             <TextView
                 android:id="@+id/mobile"
                 android:layout_width="wrap_content"
@@ -318,6 +322,7 @@
                 app:layout_constraintLeft_toRightOf="@+id/mobile"
                 app:layout_constraintTop_toTopOf="@+id/mobile" />
 
+            -->
             <TextView
                 android:id="@+id/email"
                 android:layout_width="wrap_content"
@@ -327,8 +332,8 @@
                 android:text="@string/email"
                 android:textStyle="bold"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/mobile"
-                app:layout_constraintTop_toBottomOf="@+id/mobile" />
+                app:layout_constraintStart_toStartOf="@+id/rel"
+                app:layout_constraintTop_toBottomOf="@+id/rel" />
 
             <TextView
                 android:id="@+id/email2"
