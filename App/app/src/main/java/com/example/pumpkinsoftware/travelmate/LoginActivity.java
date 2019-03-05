@@ -13,10 +13,12 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.transition.Fade;
 import android.util.Pair;
 import android.view.View;
 import android.view.View.OnFocusChangeListener;
 import android.view.ViewTreeObserver;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
@@ -56,7 +58,7 @@ public class LoginActivity extends AppCompatActivity {
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
 
-        //getWindow().setBackgroundDrawable(new ColorDrawable(Color.BLACK));
+        getWindow().setBackgroundDrawable(new ColorDrawable(Color.BLACK));
 
         /* Login Button */
         buttonLogin = (Button) findViewById(R.id.buttonLogin);
@@ -230,8 +232,9 @@ public class LoginActivity extends AppCompatActivity {
         else            intent = new Intent(this, RegistrationActivity.class);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            //startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
-            if(so_prev_oreo) {
+            startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+            videoView.stopPlayback();
+            /*if(so_prev_oreo) {
                 ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(this,
                         Pair.create((View) mVideoView, "bg_video"));
                 startActivity(intent, options.toBundle());
@@ -241,7 +244,7 @@ public class LoginActivity extends AppCompatActivity {
                 ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(this,
                         Pair.create((View) videoView, "bg_video"));
                 startActivity(intent, options.toBundle());
-            }
+            }*/
         }
 
         else

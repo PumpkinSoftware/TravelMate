@@ -1,41 +1,21 @@
 package com.example.pumpkinsoftware.travelmate.search_on_click_listener;
 
-import com.android.volley.toolbox.JsonArrayRequest;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Toast;
 
-import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.example.pumpkinsoftware.travelmate.CreationTrip;
-import com.example.pumpkinsoftware.travelmate.MainActivity;
-import com.example.pumpkinsoftware.travelmate.SearchFragment;
 import com.example.pumpkinsoftware.travelmate.SearchResult;
-import com.example.pumpkinsoftware.travelmate.ViaggiFragment;
 import com.example.pumpkinsoftware.travelmate.edit_text_date_picker.EditTextDatePicker;
-import com.example.pumpkinsoftware.travelmate.my_on_checked_change_listener.MyOnCheckedChangeListener;
 import com.example.pumpkinsoftware.travelmate.R;
-import com.example.pumpkinsoftware.travelmate.spinner_listener.SpinnerListener;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import static android.app.PendingIntent.getActivity;
 
 
 public class SearchOnClickListener implements View.OnClickListener {

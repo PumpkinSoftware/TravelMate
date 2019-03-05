@@ -27,11 +27,6 @@ public class GetTripInteraction {
     TripsAdapter adapter;
     private ProgressBar progressBar;
 
-    public GetTripInteraction(Context c, RecyclerView rv) {
-        context = c;
-        rvTrips = rv;
-    }
-
     public GetTripInteraction(Context c, RecyclerView rv, ProgressBar progress) {
         context = c;
         rvTrips = rv;
