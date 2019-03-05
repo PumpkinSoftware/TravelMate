@@ -105,20 +105,4 @@ public class Trip {
 
     private static int lastTripId = 0;
 
-    //PER PROVA
-    // Non posso togliere causa una dipendenza con ContentFragmentTravels
-    public static ArrayList<Trip> createTripsList(int n) {
-        ArrayList<Trip> trips = new ArrayList<Trip>();
-
-        for (int i = 1; i <= n; i++) {
-            double d = (Math.random()*10);
-            int max = i + (int) d;
-            trips.add(new Trip("Trip " + ++lastTripId, "Trip " + lastTripId, "Trip " + lastTripId,
-                    "Splendido viaggio", "Roma","Venezia", i*10+10*max , "2019-06-03T00:00:00.000Z",
-                    "23/4/19", i+"/"+max, "" + "/", "treno", "owner"));
-        }
-
-        return trips;
-    }
-
 }

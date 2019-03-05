@@ -1,11 +1,12 @@
 package com.example.pumpkinsoftware.travelmate.pager_adapter;
 
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.example.pumpkinsoftware.travelmate.content_fragment_travels.ContentFragmentTravels;
+import com.example.pumpkinsoftware.travelmate.content_fragment_travels.Tab1;
+import com.example.pumpkinsoftware.travelmate.content_fragment_travels.Tab2;
+import com.example.pumpkinsoftware.travelmate.content_fragment_travels.Tab3;
 
 public class SlidePagerAdapter extends FragmentPagerAdapter {
 
@@ -16,9 +17,9 @@ public class SlidePagerAdapter extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int index) {
         Fragment fragment = null;
-        if (index == 0)         fragment = new ContentFragmentTravels();
-        else if (index == 1)    fragment = new ContentFragmentTravels();
-        else                    fragment = new ContentFragmentTravels();
+        if (index == 0)         fragment = new Tab1();
+        else if (index == 1)    fragment = new Tab2();
+        else                    fragment = new Tab3();
         return fragment;
     }
 
@@ -27,12 +28,13 @@ public class SlidePagerAdapter extends FragmentPagerAdapter {
         return 3;
     }
 
+
     @Override
     public CharSequence getPageTitle(int index) {
         String title = null;
-        if (index == 0)         title = "In attesa";
+        if (index == 0)         title = "In corso";
         else if (index == 1)    title = "Preferiti";
-        else                    title = "Passati";
+        else                    title = "Conclusi";
         return title;
     }
 

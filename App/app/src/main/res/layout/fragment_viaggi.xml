@@ -32,13 +32,20 @@
         app:tabIndicatorColor="@android:color/white">
 
         <android.support.design.widget.TabItem
-            android:text="Futuri" />
+            android:text="@string/tab1"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"/>
+
 
         <android.support.design.widget.TabItem
-            android:text="Preferiti"/>
+            android:text="@string/tab2"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content" />
 
         <android.support.design.widget.TabItem
-            android:text="Passati"/>
+            android:text="@string/tab3"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content" />
 
     </android.support.design.widget.TabLayout>
 
@@ -47,7 +54,9 @@
         android:id="@+id/pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/tab" />
+        android:layout_below="@id/tab" >
+
+    </android.support.v4.view.ViewPager>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/floatbutton"
