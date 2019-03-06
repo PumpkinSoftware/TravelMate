@@ -148,7 +148,7 @@ router.get('/lastTripsCreated', function(req, res){
 	if(req.query.limit != undefined) 
 		limit = parseInt(req.query.limit);
 
-	TripSchema.find( {tag : {$exists:true}, $where:'this.partecipants<this.maxPartecipant'}).where('startDate').gt(new Date()).sort({"createDate": 'desc'}).limit(limit).exec(function(err, trips){
+	TripSchema.find( {tag : {$exists:true}, $where:'this.partecipants<this.maxPartecipant'}).sort({"createDate": 'desc'}).limit(limit).exec(function(err, trips){
 		if(err){
 			console.log(err);
 			res.send(JSON.stringify({ status: "error", type: "-3" }));
@@ -206,7 +206,7 @@ router.get('/getTripsWithFilter', function(req, res){
 	var condition={tag : {$exists:true}, $where:'this.partecipants<this.maxPartecipant'};
 
 
-	TripSchema.find(condition).find(query).where('startDate').gt(new Date()).where('budget').gte(minBudget).lte(maxBudget).where('startDate').gte(minDate).where('endDate').lte(maxDate).where('maxPartecipant').lte(maxPartecipant).gte(minPartecipant).exec( function(err, trips){
+	TripSchema.find(condition).find(query).where('budget').gte(minBudget).lte(maxBudget).where('startDate').gte(minDate).where('endDate').lte(maxDate).where('maxPartecipant').lte(maxPartecipant).gte(minPartecipant).exec( function(err, trips){
 		if(err){
 			res.send(JSON.stringify({ status: "error", type: "-4" }));
 			console.log(err);

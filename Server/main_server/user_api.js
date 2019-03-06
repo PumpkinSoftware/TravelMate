@@ -49,12 +49,12 @@ router.post('/newUser', function(req, res){
 
         	var toInsert = null;
 
-        	if(clientInput._id != undefined){
+        	if(clientInput.id != undefined){
         		toInsert = new UserSchema({
-        		_id: clientInput._id,
+        		_id: clientInput.id,
                 name: clientInput.name.toLowerCase(),
                 surname: clientInput.surname.toLowerCase(),
-                age: clientInput.age,
+                birthday: clientInput.birthday,
                 gender: clientInput.gender.toLowerCase(),
                 relationship: clientInput.relationship.toLowerCase(),
                 email: clientInput.email,
@@ -73,7 +73,7 @@ router.post('/newUser', function(req, res){
         		toInsert = new UserSchema({
                 name: clientInput.name.toLowerCase(),
                 surname: clientInput.surname.toLowerCase(),
-                age: clientInput.age,
+                birthday: clientInput.birthday,
                 gender: clientInput.gender.toLowerCase(),
                 relationship: clientInput.relationship.toLowerCase(),
                 email: clientInput.email,
@@ -502,11 +502,13 @@ router.get('/getTripsByUser', function(req, res){
 
 	var id = req.query.userId;
 
-	var conditions = {
+	var conditions1 = {
 		_id: id
 	};
 
-	UserSchema.findOne(conditions, function(err, user){
+	UserSchema.findOne(conditions1, function(err, user){
+
+		console.log(user.trips);
         
         if (err){
             res.send(JSON.stringify({ status: "error", message: "Error in finding user" }));
@@ -514,27 +516,18 @@ router.get('/getTripsByUser', function(req, res){
         }
         else if (user){
 
-			var length = user.trips.length;
-			var JsonObjects = [];
-			
-			for(var i=0; i < length; i++){
-				TripSchema.find({_id: user.trips[i].tripId}, function(err, trip){
-					if (err){
-						res.send(JSON.stringify({ status: "error", message: "Error on finding trip" }));
-						console.log(err);
-					}
-					else if (trip != null){
-						JsonObjects.push(trip);
-						console.log(JsonObjects);
-					}
-					else{
-						res.send(JSON.stringify({ status: "error", message: "Trip not found" }));
-            			console.log(JSON.stringify({ status: "error", message: "Trip not found" }));
-					}
-				});
-			}
-			console.log(JsonObjects + "ooooooooo");
-			res.send(JSON.stringify(JsonObjects));	
+        	var conditions2 = {
+        		"user.trips.tripId": { $eq: 'this._id' }
+        	};
+
+			TripSchema.find(conditions2,function(err,trips){
+				if(err){
+					console.log("Nonon");
+				}
+				else{
+					res.send(trips);
+				}
+			});
 		}
 		else{
             res.send(JSON.stringify({ status: "error", message: "User not found" }));
