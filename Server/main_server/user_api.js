@@ -49,12 +49,12 @@ router.post('/newUser', function(req, res){
 
         	var toInsert = null;
 
-        	if(clientInput.id != undefined){
+        	if(clientInput._id != undefined){
         		toInsert = new UserSchema({
-        		_id: clientInput.id,
+        		_id: clientInput._id,
                 name: clientInput.name.toLowerCase(),
                 surname: clientInput.surname.toLowerCase(),
-                birthday: clientInput.birthday,
+                age: clientInput.age,
                 gender: clientInput.gender.toLowerCase(),
                 relationship: clientInput.relationship.toLowerCase(),
                 email: clientInput.email,
@@ -73,7 +73,7 @@ router.post('/newUser', function(req, res){
         		toInsert = new UserSchema({
                 name: clientInput.name.toLowerCase(),
                 surname: clientInput.surname.toLowerCase(),
-                birthday: clientInput.birthday,
+                age: clientInput.age,
                 gender: clientInput.gender.toLowerCase(),
                 relationship: clientInput.relationship.toLowerCase(),
                 email: clientInput.email,
@@ -475,6 +475,73 @@ router.post('/removeTrip', function(req,res){
 			});
 		};
 	});
+});
+
+/******************************************/
+//Api per rimuovere un utente. e.g. /deleteUser?userId=...
+
+router.get('/deleteUser', function(req, res){
+
+	var id = req.query.userId;    
+
+	UserSchema.remove({_id : id }, function(err){
+		if(err){
+			res.send(JSON.stringify({ status: "error", message: "Error on delete user" }));
+			console.log(err);
+		}
+		else{
+			res.send(JSON.stringify({ status: "ok", message: "User is deleted" }));
+		}
+	});
+});
+
+/******************************************/
+//Api che dato un utente restituisce i suoi viaggi con informazioni annesse e.g. /getTripByUser?userId=...
+
+router.get('/getTripsByUser', function(req, res){
+
+	var id = req.query.userId;
+
+	var conditions = {
+		_id: id
+	};
+
+	UserSchema.findOne(conditions, function(err, user){
+        
+        if (err){
+            res.send(JSON.stringify({ status: "error", message: "Error in finding user" }));
+            console.log(err);
+        }
+        else if (user){
+
+			var length = user.trips.length;
+			var JsonObjects = [];
+			
+			for(var i=0; i < length; i++){
+				TripSchema.find({_id: user.trips[i].tripId}, function(err, trip){
+					if (err){
+						res.send(JSON.stringify({ status: "error", message: "Error on finding trip" }));
+						console.log(err);
+					}
+					else if (trip != null){
+						JsonObjects.push(trip);
+						console.log(JsonObjects);
+					}
+					else{
+						res.send(JSON.stringify({ status: "error", message: "Trip not found" }));
+            			console.log(JSON.stringify({ status: "error", message: "Trip not found" }));
+					}
+				});
+			}
+			console.log(JsonObjects + "ooooooooo");
+			res.send(JSON.stringify(JsonObjects));	
+		}
+		else{
+            res.send(JSON.stringify({ status: "error", message: "User not found" }));
+            console.log(JSON.stringify({ status: "error", message: "User not found" }));
+        }
+
+    });
 });
 
 module.exports = router;
