@@ -10,8 +10,10 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.transition.Fade;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -33,6 +35,7 @@ public class LogActivity extends AppCompatActivity {
     private VideoView videoView;
     private MutedVideoView mVideoView;
     private boolean so_prev_oreo = true; // I Don't need call lib func, I use it only for muting video on older version than Oreo
+    private boolean so_prev_lol; // Useful for transitions
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,9 +69,20 @@ public class LogActivity extends AppCompatActivity {
                 }
             });
 
+        /* Forgot Pass Button */
+        button = (Button) findViewById(R.id.forgot);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                resetPass();
+            }
+        });
+
         /* Bg Video */
         // only for Oreo and newer versions
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            postponeEnterTransition();
+
             so_prev_oreo = false;
             videoView = (VideoView) findViewById(R.id.login_bg_video);
             Uri uri = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.login_bg_video);
@@ -81,10 +95,39 @@ public class LogActivity extends AppCompatActivity {
                     mediaPlayer.setLooping(true);
                 }
             });
+
+            videoView.setOnInfoListener(new MediaPlayer.OnInfoListener() {
+                @Override
+                public boolean onInfo(MediaPlayer mp, int what, int extra) {
+
+                    if (what == MediaPlayer.MEDIA_INFO_VIDEO_RENDERING_START) {
+                        // Here the video starts
+                        videoView.postDelayed(new Runnable() {
+
+                            @Override
+                            public void run() {
+                                startPostponedEnterTransition();
+                            }
+
+                        }, 1100); // 1000ms delay
+
+                        return true;
+                    }
+                    return false;
+                }
+            });
         }
 
         // only older versions than Oreo
         else{
+            so_prev_lol = false;
+            if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+                postponeEnterTransition();
+            else {
+                so_prev_lol = true;
+                supportPostponeEnterTransition();
+            }
+
             mVideoView = (MutedVideoView) findViewById(R.id.login_bg_mvideo);
             Uri uri = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.login_bg_video);
             mVideoView.setVideoURI(uri);
@@ -95,11 +138,27 @@ public class LogActivity extends AppCompatActivity {
                     mediaPlayer.setLooping(true);
                 }
             });
+
+            mVideoView.setOnInfoListener(new MediaPlayer.OnInfoListener() {
+                @Override
+                public boolean onInfo(MediaPlayer mp, int what, int extra) {
+
+                    if (what == MediaPlayer.MEDIA_INFO_VIDEO_RENDERING_START) {
+                        // Here the video starts
+                        if(so_prev_lol)
+                            supportStartPostponedEnterTransition();
+                        else
+                            startPostponedEnterTransition();
+                        return true;
+                    }
+                    return false;
+                }
+            });
         }
 
     }
 
-    public void login(){
+    private void login(){
         String username = user.getText().toString();
         String password = pass.getText().toString();
 
@@ -120,8 +179,25 @@ public class LogActivity extends AppCompatActivity {
                     });
     }
 
+    private void resetPass() {
+        String emailAddress = user.getText().toString();
 
-    public void openMain(){
+        if(emailAddress.isEmpty())
+            Toast.makeText(context, "Inserire email", Toast.LENGTH_SHORT).show();
+
+        mAuth.sendPasswordResetEmail(emailAddress)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Toast.makeText(context, "Email di recupero inviata", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
+
+
+    private void openMain(){
         Intent intent = new Intent(context,MainActivity.class);
         startActivity(intent);
     }
@@ -144,7 +220,7 @@ public class LogActivity extends AppCompatActivity {
     }
 
     // Elimina il focus dagli elementi correnti, utile per ripristinare la visualizzazione del logo
-    public void clearFocus() {
+    private void clearFocus() {
         View view = this.getCurrentFocus();
         if (view != null) view.clearFocus();
     }

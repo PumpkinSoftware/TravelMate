@@ -27,11 +27,6 @@ public class GetTripInteraction {
     TripsAdapter adapter;
     private ProgressBar progressBar;
 
-    public GetTripInteraction(Context c, RecyclerView rv) {
-        context = c;
-        rvTrips = rv;
-    }
-
     public GetTripInteraction(Context c, RecyclerView rv, ProgressBar progress) {
         context = c;
         rvTrips = rv;
@@ -61,10 +56,12 @@ public class GetTripInteraction {
                         int group_max = travel.getInt("maxPartecipant");
                         int partecipants = travel.getInt("partecipants");
                         String tag=travel.getString("tag");
+                        String vehicle= travel.getString("vehicle");
+                        String owner = travel.getString("owner");
                         //GetTripInteraction.this.
 
                         trips.add(new Trip(id, image, name, descr, departure, dest, budget,dep_date, end_date,
-                                partecipants+"/"+group_max,tag));
+                                partecipants+"/"+group_max,tag,vehicle,owner));
                     }
 
                     adapter = new TripsAdapter(trips);

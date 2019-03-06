@@ -528,6 +528,7 @@ router.get('/getTripsByUser', function(req, res){
 					res.send(trips);
 				}
 			});
+
 		}
 		else{
             res.send(JSON.stringify({ status: "error", message: "User not found" }));

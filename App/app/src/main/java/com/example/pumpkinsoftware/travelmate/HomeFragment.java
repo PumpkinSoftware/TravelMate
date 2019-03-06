@@ -60,7 +60,7 @@ public class HomeFragment extends Fragment {
                         trips=new ArrayList<Trip>();
 
                         mRequestQueue= Volley.newRequestQueue(context);
-                        new GetTripInteraction(context,rvTrips).getTripsFromServer(URL,mRequestQueue,trips);
+                        new GetTripInteraction(context, rvTrips, progress).getTripsFromServer(URL,mRequestQueue,trips);
                         swipe.setRefreshing(false);
 
                     }

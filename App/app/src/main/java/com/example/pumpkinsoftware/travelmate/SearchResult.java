@@ -52,9 +52,9 @@ public class SearchResult extends Activity {
         rvTrips.setLayoutManager(new LinearLayoutManager(this));
         trips = new ArrayList<Trip>();
 
-        ProgressBar progress = findViewById(R.id.indeterminateBar);
+        final ProgressBar progress = findViewById(R.id.indeterminateBar);
 
-        mRequestQueue= Volley.newRequestQueue(this);
+        mRequestQueue = Volley.newRequestQueue(this);
         new GetTripInteraction(this, rvTrips, progress).getTripsFromServer(query, mRequestQueue, trips);
 
         final SwipeRefreshLayout swipe = (SwipeRefreshLayout) findViewById(R.id.swiperefresh);
@@ -68,7 +68,7 @@ public class SearchResult extends Activity {
                         rvTrips.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                         trips = new ArrayList<Trip>();
                         mRequestQueue= Volley.newRequestQueue(getApplicationContext());
-                        new GetTripInteraction(getApplication(),rvTrips).getTripsFromServer(query,mRequestQueue,trips);
+                        new GetTripInteraction(getApplication(), rvTrips, progress).getTripsFromServer(query,mRequestQueue,trips);
                         swipe.setRefreshing(false);
                     }
                 },1500);

@@ -11,6 +11,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.Layout;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,16 +22,24 @@ import android.webkit.WebView;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
+import com.example.pumpkinsoftware.travelmate.client_server_interaction.GetPartecipantIteration;
+import com.example.pumpkinsoftware.travelmate.client_server_interaction.GetTripInteraction;
 import com.example.pumpkinsoftware.travelmate.glide.GlideApp;
 import com.example.pumpkinsoftware.travelmate.trip.Trip;
 import com.example.pumpkinsoftware.travelmate.trips_adapter.TripsAdapter;
+import com.example.pumpkinsoftware.travelmate.user.User;
+
+import java.util.ArrayList;
 
 public class TravelDetailsActivity extends AppCompatActivity {
     public final static String EXTRA_ID = "travelmate_extra_tda_TRIP_ID";
@@ -43,8 +53,14 @@ public class TravelDetailsActivity extends AppCompatActivity {
     public final static String EXTRA_END = "travelmate_extra_tda_TRIP_END";
     public final static String EXTRA_GROUP = "travelmate_extra_tda_TRIP_GROUP";
     public final static String EXTRA_TAG = "travelmate_extra_tda_TRIP_TAG";
+    public final static String EXTRA_VEHICLE ="travelmate_extra_tda_TRIP_VEHICLE";
+
     private Context context;
     private boolean so_prev_lol; // Useful for transitions
+
+    private final static String QUERY= "https://debugtm.herokuapp.com/user/getUsersByTrip?tripId=";
+    private RequestQueue mRequestQueue;
+    private ArrayList<User> users;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,8 +68,16 @@ public class TravelDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_travel_details);
         context = (Context) this;
 
+        /* PER SERVER
+        final RecyclerView rvUsers = (RecyclerView) findViewById(R.id.recyclerview);
+        // Set layout manager to position the items
+        rvUsers.setLayoutManager(new LinearLayoutManager(context));
+        users=new ArrayList<User>();
+        */
+
+
         Bundle b = getIntent().getExtras();
-        final String id =  b.getString(EXTRA_ID);
+        String id =  b.getString(EXTRA_ID);
         final String img =  b.getString(EXTRA_IMG);
         final String name =  b.getString(EXTRA_NAME);
         final String descr =  b.getString(EXTRA_DESCR);
@@ -64,14 +88,17 @@ public class TravelDetailsActivity extends AppCompatActivity {
         final String end =  b.getString(EXTRA_END);
         final String group =  b.getString(EXTRA_GROUP);
         final String tag = b.getString(EXTRA_TAG);
+        final String vehicle = b.getString(EXTRA_VEHICLE);
+
         final ImageView imgv = (ImageView) findViewById(R.id.header_cover_image);
         loadImg(img, imgv);
         final TextView n = (TextView) findViewById(R.id.name);
         n.setText(name);
         final TextView dsc = (TextView) findViewById(R.id.descr);
+        dsc.setText(descr);
+
 
         final TextView t_tag=(TextView) findViewById(R.id.tag);
-
         if(tag.equals("cultura")){
             t_tag.setBackgroundColor(Color.parseColor("#008000")); //verde
         }else if (tag.equals("musica")){
@@ -82,27 +109,6 @@ public class TravelDetailsActivity extends AppCompatActivity {
             t_tag.setBackgroundColor(Color.parseColor("#1E90FF")); //blu
         }
         t_tag.setText(tag);
-
-        // Justified text alignment
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            dsc.setText(descr);
-            dsc.setJustificationMode(Layout.JUSTIFICATION_MODE_INTER_WORD);
-          }
-
-        else {
-            final WebView view = (WebView) findViewById(R.id.descr_for_older_versions);
-            String text = "<html><body><p align=\"justify\">";
-            text+= descr;
-            text+= "</p></body></html>";
-            view.loadData(text, "text/html", "utf-8");
-            view.setVisibility(View.VISIBLE);
-            dsc.setVisibility(View.GONE);
-            // Now I've to change the below param of the below elements
-            final ConstraintLayout layout = findViewById(R.id.layout2);
-            RelativeLayout.LayoutParams params= new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT);
-            params.addRule(RelativeLayout.BELOW, R.id.descr_for_older_versions);
-            layout.setLayoutParams(params);
-        }
 
         final TextView dp = (TextView) findViewById(R.id.from);
         dp.setText(dep);
@@ -116,6 +122,16 @@ public class TravelDetailsActivity extends AppCompatActivity {
         e.setText(getData(end));
         final TextView g = (TextView) findViewById(R.id.n_users);
         g.setText(group);
+
+        final TextView vm= (TextView) findViewById(R.id.vehicle_text);
+        final ImageView vi= (ImageView) findViewById(R.id.vehicle_image);
+        vm.setText(vehicle);
+        if(vehicle.equals("treno")){
+            vi.setImageResource(R.drawable.ic_train_black_12dp);
+        }else{
+            vi.setImageResource(R.drawable.ic_directions_car_black_12dp);
+        }
+
 
         final ImageView back_image = (ImageView) findViewById(R.id.back);
         // Handling back to parent activity
@@ -148,6 +164,12 @@ public class TravelDetailsActivity extends AppCompatActivity {
                 shareText(name);
             }
         });
+
+        //PER LA CHIAMATA AL SERVER
+        /*
+        mRequestQueue= Volley.newRequestQueue(context);
+        new GetPartecipantIteration(context, rvUsers).getPartecipantFromServer(QUERY+id, mRequestQueue, users);
+        */
     }
 
     // Handling sharing
