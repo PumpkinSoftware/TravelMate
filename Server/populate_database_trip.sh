@@ -19,7 +19,7 @@ echo -e "Starting to populate database of trips"
 echo -e "${green}"
 
 curl -H "Content-Type: application/json" -X POST -d '{
-  "_id":"5c79b80f4a8b77336e1a332a",
+  "id":"5c79b80f4a8b77336e1a332a",
   "budget": "60",
   "departure": "roma",
   "description": "In questo spazio allestito per l’occasione si potrà rivivere l’atmosfera caratteristica di pub inglesi, danesi, spagnoli, tedeschi, irlandesi, scozzesi e di altre culture birraie e degustare oltre 100 tipologie di birra alla spina e specialità in bottiglia tra bionde, rosse, dolci, fruttate, a doppio malto, artigianali e meditative.",
@@ -37,7 +37,7 @@ curl -H "Content-Type: application/json" -X POST -d '{
 echo -e ""
 
 curl -H "Content-Type: application/json" -X POST -d '{
-  "_id":"5c79b80e4a8b77336e1a3329",
+  "id":"5c79b80e4a8b77336e1a3329",
   "budget": "140",
   "departure": "ravenna",
   "description": "Workshop durante il quale i partecipanti si divideranno in team e svilupperanno una vera e propria applicazione web",
@@ -55,13 +55,13 @@ curl -H "Content-Type: application/json" -X POST -d '{
 echo -e ""
 
 curl -H "Content-Type: application/json" -X POST -d '{
-  "_id":"5c79b7e04a8b77336e1a3328",
+  "id":"5c79b7e04a8b77336e1a3328",
   "budget": "65",
   "departure": "palermo",
   "description": "La Raviolata permette di assaggiare il classico raviolo grande come un portafoglio, spesso e irregolare, rigonfio di un ripieno che combina formaggi, pancetta, macinato e spezie, condito con un classico sugo al pomodoro. La manifestazione si svolge in una struttura coperta.",
   "destination": "scapoli",
   "endDate": "05/6/2019",
-  "image": "https://github.com/PumpkinSoftware/TravelMate/blob/Back-End/Logo/trip.jpg?raw=true",
+  "image": "https://www.ilturista.info/myTurista/files/1/la_sagra_del_raviolo_scapolese_a_scapoli_in_molise.jpg",
   "maxPartecipant": "15",
   "name": "la sagra del raviolo scapolese",
   "tag":"cultura",
@@ -73,13 +73,13 @@ curl -H "Content-Type: application/json" -X POST -d '{
 echo -e ""
 
 curl -H "Content-Type: application/json" -X POST -d '{
-  "_id":"5c79b7e04a8b77336e1a3327",
+  "id":"5c79b7e04a8b77336e1a3327",
   "budget": "70",
   "departure": "bari",
   "description": "Posti sul prato. Arriviamo il 5 mattina, mentre ripartiamo il 6 dopo aver fatto colazione",
   "destination": "milano",
   "endDate": "04/06/2019",
-  "image": "https://github.com/PumpkinSoftware/TravelMate/blob/Back-End/Logo/trip_demo/irama.jpg?raw=true",
+  "image": "https://checkinrome.net/wp-content/uploads/2018/08/irama.png",
   "maxPartecipant": "25",
   "name": "irama, live 2019",
   "tag":"musica",
@@ -91,7 +91,7 @@ curl -H "Content-Type: application/json" -X POST -d '{
 echo -e ""
 
 curl -H "Content-Type: application/json" -X POST -d '{
-  "_id":"5c79b7e04a8b77336e1a3326",
+  "id":"5c79b7e04a8b77336e1a3326",
   "budget": "45.00",
   "departure": "pescara",
   "description": "Il quintetto di fiati Wind Academy Quintet si presenterà singolarmente al pubblico facendo risuonare il timbro di ciascuno strumento con motivi certamente riconoscibili.",
@@ -109,7 +109,7 @@ curl -H "Content-Type: application/json" -X POST -d '{
 echo -e ""
 
 curl -H "Content-Type: application/json" -X POST -d '{
-  "_id":"5c79b7e04a8b77336e1a3325",
+  "id":"5c79b7e04a8b77336e1a3325",
   "budget": "30",
   "departure": "pescara",
   "description": "Robert Capa Retrospective”, a cura di Denis Curti, approda alla Mole Vanvitelliana diAncona",
@@ -127,7 +127,7 @@ curl -H "Content-Type: application/json" -X POST -d '{
 echo -e ""
 
 curl -H "Content-Type: application/json" -X POST -d '{
-  "_id":"5c79b7e04a8b77336e1a3324",
+  "id":"5c79b7e04a8b77336e1a3324",
   "budget": "45",
   "departure": "milano",
   "description": "Omar Pedrini riporta sui palchi lo storico album dei Timoria uscito nel 1993 di cui è ideatore e autore principale.",
@@ -145,13 +145,13 @@ curl -H "Content-Type: application/json" -X POST -d '{
 echo -e ""
 
 curl -H "Content-Type: application/json" -X POST -d '{
-  "_id":"5c79b7e04a8b77336e1a3323",
+  "id":"5c79b7e04a8b77336e1a3323",
   "budget": "90",
   "departure": "bari",
   "description": "Ultimo arriva sul palco del Mediolanum Forum con il suo Colpa delle Favole Tour 2019, durante il quale porterà live i brani del suo ultimo album.",
   "destination": "assago",
   "endDate": "05/15/2019",
-  "image": "https://scontent.ffco2-1.fna.fbcdn.net/v/t1.0-9/52602253_2168889659836635_5594296036634918912_o.jpg?_nc_cat=101&_nc_ht=scontent.ffco2-1.fna&oh=ee59672dd1097b7886f9c456cf59b204&oe=5D1E7AEE",
+  "image": "http://www.quirinetta.com/wp-content/uploads/2018/01/Ultimo-20-01-2018-Panucci-CON-LOGO-27--720x490.jpg",
   "maxPartecipant": "25",
   "name": "concerto di ultimo",
   "tag":"musica",
@@ -163,7 +163,7 @@ curl -H "Content-Type: application/json" -X POST -d '{
 echo -e ""
 
 curl -H "Content-Type: application/json" -X POST -d '{
-  "_id":"5c79b7e04a8b77336e1a3322",
+  "id":"5c79b7e04a8b77336e1a3322",
   "budget": 79,
   "departure": "venezia",
   "description": "Leonardo da Vinci Parade è una vera e propria sfilata, una celebrazione in occasione di una ricorrenza importante, in cui si esibiscono in parata sul palco del museo alcuni modelli storici ispirati ai disegni di Leonardo, oltre che ad alcuni affreschi, in un accostamento insolito di arte e scienza.",
@@ -181,7 +181,7 @@ curl -H "Content-Type: application/json" -X POST -d '{
 echo -e ""
 
 curl -H "Content-Type: application/json" -X POST -d '{
-  "_id":"5c79b7e04a8b77336e1a3321",
+  "id":"5c79b7e04a8b77336e1a3321",
   "budget": 23,
   "departure": "latina",
   "description": "La prima mostra monografica di Anne e Patrick Poirier in Italia, ROMAMOR",
@@ -199,7 +199,7 @@ curl -H "Content-Type: application/json" -X POST -d '{
 echo -e ""
 
 curl -H "Content-Type: application/json" -X POST -d '{
-  "_id":"5c79b7e04a8b77336e1a3320",
+  "id":"5c79b7e04a8b77336e1a3320",
   "budget": 95,
   "departure": "torino",
   "description": "Conferenza su applicazioni open source basate su Erlang, OTP, Elixir, LFE, BEAM e altre tecnologie",
@@ -217,7 +217,7 @@ curl -H "Content-Type: application/json" -X POST -d '{
 echo -e ""
 
 curl -H "Content-Type: application/json" -X POST -d '{
-  "_id":"5c79b7e04a8b77336e1a331f",
+  "id":"5c79b7e04a8b77336e1a331f",
   "budget": 45,
   "departure": "campobasso",
   "description": "Carl Brave arriva sul palco del Parco dei Suoni di Riola Sardo (Oristano) il 27 Luglio 2019 con il suo “Notti Brave Tour”, durante il quale porterà live alcuni dei brani estratti dal suo ultimo album",
