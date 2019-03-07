@@ -39,8 +39,9 @@ Second survey: we asked questions about the application mockup on the street. Th
 
 ### Milestone 2 -  March 2019
 
-Third survey:  we asked some [questions](https://goo.gl/forms/ZPFCJLOqs7KFfkUD2) online on groups of students. There are their answers [here]()
+Third survey:  we asked some [questions](https://goo.gl/forms/ZPFCJLOqs7KFfkUD2) online on groups of students. There are their answers [here](https://drive.google.com/open?id=1sfeY3j3EVlUX_Bq445_vP4u6APioxaVh)
 
-Fourth survey:  we asked some [questions](https://goo.gl/forms/XnGCR2VhuRjOUbmH3) online on groups of students. There are their answers [here]()
+Fourth survey:  we asked some [questions](https://goo.gl/forms/XnGCR2VhuRjOUbmH3) online on groups of students. There are their answers [here](https://drive.google.com/open?id=15TPkuSfHiNjqrWKBmmCOmSxbCzDkz_rq)
 
+Our [lean canvas](https://drive.google.com/open?id=12t5Yq8XuLTB-k1W-4bOiyQ3vCx2JD32l)
 #
