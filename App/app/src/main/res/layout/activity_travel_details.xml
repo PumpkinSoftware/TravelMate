@@ -270,24 +270,27 @@
                 android:clickable="true"
                 android:elevation="5dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/girl"
                 app:civ_border_color="#FF0000"
                 app:civ_border_width="1dp"
                 android:layout_below="@+id/owner"
-                android:layout_marginStart="12dp"/>
+                android:layout_marginStart="12dp"
+                android:transitionName="image"/>
+            <!--
+                android:src="@drawable/girl"-->
 
             <TextView
                 android:id="@+id/user1"
                 android:layout_width="wrap_content"
-                android:layout_height="40dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:clickable="true"
                 android:padding="9dp"
-                android:text="User1"
                 android:textStyle="bold"
                 android:layout_toEndOf="@+id/profile1"
                 android:layout_alignBottom="@+id/profile1"
-                android:textSize="20dp"/>
+                android:textSize="20sp"/>
+            <!--
+                android:text="User1"-->
 
             <!-- partecipanti -->
             <TextView

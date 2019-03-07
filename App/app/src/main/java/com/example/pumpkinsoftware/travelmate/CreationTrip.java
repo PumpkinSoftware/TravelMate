@@ -39,6 +39,8 @@ import com.example.pumpkinsoftware.travelmate.my_on_checked_change_listener.MyOn
 import com.gc.materialdesign.widgets.ProgressDialog;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
@@ -179,7 +181,9 @@ public class CreationTrip extends AppCompatActivity {
                         viaggio.put("vehicle", vehicle);
                         viaggio.put("tag", tag);
                         viaggio.put("maxPartecipant", group_q);
-                        viaggio.put("owner", "5c7ad36f56c9ff0d78213ef8");
+                        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                        if (user != null)   viaggio.put("owner", user.getUid());
+                        else                viaggio.put("owner", "5c7ad36f56c9ff0d78213ef8");
 
                     } catch (JSONException e) {
                         e.printStackTrace();
