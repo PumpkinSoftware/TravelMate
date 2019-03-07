@@ -18,12 +18,18 @@ import android.widget.EditText;
 import android.widget.Toast;
 import android.widget.VideoView;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.Volley;
+import com.example.pumpkinsoftware.travelmate.client_server_interaction.GetUserByUid;
+import com.example.pumpkinsoftware.travelmate.client_server_interaction.ServerCallback;
 import com.example.pumpkinsoftware.travelmate.muted_video_view.MutedVideoView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
+import org.json.JSONObject;
 
 public class RegistrationActivity extends AppCompatActivity {
     private Context context;
@@ -111,8 +117,6 @@ public class RegistrationActivity extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
-                                // TODO Add user to db
-
                                 FirebaseUser user = mAuth.getCurrentUser();
                                 user.sendEmailVerification()
                                         .addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -124,7 +128,18 @@ public class RegistrationActivity extends AppCompatActivity {
                                             }
                                         });
 
-                                openMain();
+
+                                // TODO Add user to db
+                                /*RequestQueue mRequestQueue = Volley.newRequestQueue(context);
+                                final newUser server =  new newUser(context);
+                                server.addUser("https://debugtm.herokuapp.com/user/newUser, mRequestQueue, new ServerCallback() {
+                                            @Override
+                                            public void onSuccess(JSONObject response) {
+                                                openMain();
+                                            }
+                                        }
+                                );*/
+
                             }
                             else {
                                 //Log.w(TAG, "createUserWithEmail:failure", task.getException());

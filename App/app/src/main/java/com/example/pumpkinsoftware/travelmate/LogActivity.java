@@ -81,7 +81,7 @@ public class LogActivity extends AppCompatActivity {
         /* Bg Video */
         // only for Oreo and newer versions
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            postponeEnterTransition();
+            //postponeEnterTransition();
 
             so_prev_oreo = false;
             videoView = (VideoView) findViewById(R.id.login_bg_video);
@@ -96,7 +96,7 @@ public class LogActivity extends AppCompatActivity {
                 }
             });
 
-            videoView.setOnInfoListener(new MediaPlayer.OnInfoListener() {
+            /*videoView.setOnInfoListener(new MediaPlayer.OnInfoListener() {
                 @Override
                 public boolean onInfo(MediaPlayer mp, int what, int extra) {
 
@@ -115,18 +115,18 @@ public class LogActivity extends AppCompatActivity {
                     }
                     return false;
                 }
-            });
+            });*/
         }
 
         // only older versions than Oreo
         else{
-            so_prev_lol = false;
+            /*so_prev_lol = false;
             if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
                 postponeEnterTransition();
             else {
                 so_prev_lol = true;
                 supportPostponeEnterTransition();
-            }
+            }*/
 
             mVideoView = (MutedVideoView) findViewById(R.id.login_bg_mvideo);
             Uri uri = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.login_bg_video);
@@ -139,7 +139,7 @@ public class LogActivity extends AppCompatActivity {
                 }
             });
 
-            mVideoView.setOnInfoListener(new MediaPlayer.OnInfoListener() {
+            /*mVideoView.setOnInfoListener(new MediaPlayer.OnInfoListener() {
                 @Override
                 public boolean onInfo(MediaPlayer mp, int what, int extra) {
 
@@ -153,7 +153,7 @@ public class LogActivity extends AppCompatActivity {
                     }
                     return false;
                 }
-            });
+            });*/
         }
 
     }
@@ -185,15 +185,17 @@ public class LogActivity extends AppCompatActivity {
         if(emailAddress.isEmpty())
             Toast.makeText(context, "Inserire email", Toast.LENGTH_SHORT).show();
 
-        mAuth.sendPasswordResetEmail(emailAddress)
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-                            Toast.makeText(context, "Email di recupero inviata", Toast.LENGTH_SHORT).show();
+        else {
+            mAuth.sendPasswordResetEmail(emailAddress)
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                Toast.makeText(context, "Email di recupero inviata", Toast.LENGTH_SHORT).show();
+                            }
                         }
-                    }
-                });
+                    });
+        }
     }
 
 
