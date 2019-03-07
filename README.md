@@ -12,6 +12,15 @@ Organizing a journey has never been so easy, so, what are you waiting for? World
 
 Google Workshop 2018/2019
 #
+
+### Team
+- Appolloni Alessandro (Back-End Development)
+- Asta Andrea (Front-End Development)
+- Bertoldo Romeo (Back-End Development)
+- Fardin Ivan (Front-End Development)
+- Fusco Stefano (Back-End Development)
+#
+
 ### Download
 
 Try our app on an Android device (required 4.4+)  
