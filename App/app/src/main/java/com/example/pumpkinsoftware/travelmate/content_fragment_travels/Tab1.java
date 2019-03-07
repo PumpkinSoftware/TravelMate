@@ -24,7 +24,7 @@ import com.google.firebase.auth.FirebaseUser;
 import java.util.ArrayList;
 
 public class Tab1 extends Fragment {
-    private final static String URL="https://debugtm.herokuapp.com/trip/allTrips/";
+    private final static String URL="https://debugtm.herokuapp.com/trip/getTripsWithFilter?minBudget=20&maxBudget=50&maxPartecipant=15&destination=torino";
     private Context context;
     private RequestQueue mRequestQueue;
     private ArrayList<Trip> trips;
@@ -34,7 +34,10 @@ public class Tab1 extends Fragment {
         View view = inflater.inflate(R.layout.fragment_recyclerview_travel, container, false);
         context = getContext();
 
-        String  user = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if(user == null) return view;
+
+        user.getUid();
 
         final ProgressBar progress = view.findViewById(R.id.indeterminateBar); //xml da controllare
         final RecyclerView rvTrips = (RecyclerView) view.findViewById(R.id.recyclerview);

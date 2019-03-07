@@ -37,6 +37,7 @@ import java.util.List;
 public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.ViewHolder> {
     private List<Trip> trips;
     private Context context = null;
+    private boolean fav;
 
     // Provide a direct reference to each of the views within a data item
     // Used to cache the views within the item layout for fast access
@@ -90,6 +91,25 @@ public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.ViewHolder> 
 
             fav_image = (ImageView) v.findViewById(R.id.fav_image);
             // Handling animation on click
+            fav_image.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(fav) {
+                        fav_image.setImageResource(R.drawable.fav_icon);
+                        fav = false;
+                        // TODO remove travel from user favs
+                    }
+                    else {
+                        fav_image.setImageResource(R.drawable.red_heart);
+                        fav = true;
+                        // TODO add travel to user favs
+                    }
+                    AnimatorSet set = (AnimatorSet) AnimatorInflater.loadAnimator(context, R.animator.zoom_in);
+                    set.setTarget(v); // set the view you want to animate
+                    set.start();
+                }
+            });
+
             /*fav_image.setOnChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {

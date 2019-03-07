@@ -34,9 +34,12 @@ public class Tab2 extends Fragment {
         View view = inflater.inflate(R.layout.fragment_recyclerview_travel, container, false);
         context = getContext();
 
-        String  user = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if(user == null) return view;
 
-        final ProgressBar progress = view.findViewById(R.id.indeterminateBar); //xml da controllare
+        user.getUid();
+
+        /*final ProgressBar progress = view.findViewById(R.id.indeterminateBar); //xml da controllare
         final RecyclerView rvTrips = (RecyclerView) view.findViewById(R.id.recyclerview);
         // Set layout manager to position the items
         rvTrips.setLayoutManager(new LinearLayoutManager(context));
@@ -64,7 +67,7 @@ public class Tab2 extends Fragment {
                     }
                 },1500);
             }
-        });
+        });*/
         return view;
     }
 
