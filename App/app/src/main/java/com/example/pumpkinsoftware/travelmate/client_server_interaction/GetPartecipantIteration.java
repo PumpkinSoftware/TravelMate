@@ -34,20 +34,19 @@ public class GetPartecipantIteration {
         progressBar = progress;
     }
 
-    public void getPartecipantFromServer(String query, RequestQueue mQueue, final ArrayList<User> users) {
-       /* if(this.trips == null)    this.trips = new ArrayList<Trip>();
-        else                 this.trips.clear();*/
-
+    public void getPartecipantFromServer(String query, final String owner_uid, RequestQueue mQueue, final ArrayList<User> users) {
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, query, null, new Response.Listener<JSONArray>() {
             public void onResponse(JSONArray response) {
 
                 try {
-                    //JSONArray jsonArray=response.getJSONArray("viaggi")
                     for (int i = 0; i < response.length(); i++) {
                         JSONObject user = response.getJSONObject(i);
+                        String uid = user.getString("uid");
                         String name = user.getString("name");
                         String profile = user.getString("avatar");
-                        users.add(new User(name,profile));
+
+                        if(!uid.equals(owner_uid))
+                            users.add(new User(uid, name, profile));
                     }
                     adapter = new UsersAdapter(users);
                     // Attach the adapter to the recyclerview to populate items

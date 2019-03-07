@@ -11,8 +11,10 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.pumpkinsoftware.travelmate.trip.Trip;
 import com.example.pumpkinsoftware.travelmate.trips_adapter.TripsAdapter;
+import com.example.pumpkinsoftware.travelmate.user.User;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -21,11 +23,11 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class GetTripInteraction {
-   // private ArrayList<Trip> trips=null;
     private Context context;
     private RecyclerView rvTrips;
     TripsAdapter adapter;
     private ProgressBar progressBar;
+    private final static String URL = "https://debugtm.herokuapp.com/user/getUserByUid?uid=";
 
     public GetTripInteraction(Context c, RecyclerView rv, ProgressBar progress) {
         context = c;
@@ -44,24 +46,23 @@ public class GetTripInteraction {
                     //JSONArray jsonArray=response.getJSONArray("viaggi")
                     for (int i = 0; i < response.length(); i++) {
                         JSONObject travel = response.getJSONObject(i);
-                        String id = travel.getString("_id");
-                        String image = travel.getString("image");
-                        String name = travel.getString("name");
-                        String descr = travel.getString("description");
-                        String departure = travel.getString("departure");
-                        String dest = travel.getString("destination");
-                        int budget = travel.getInt("budget");
-                        String dep_date = travel.getString("startDate");
-                        String end_date = travel.getString("endDate");
-                        int group_max = travel.getInt("maxPartecipant");
-                        int partecipants = travel.getInt("partecipants");
-                        String tag=travel.getString("tag");
-                        String vehicle= travel.getString("vehicle");
-                        String owner = travel.getString("owner");
-                        //GetTripInteraction.this.
+                        final String id = travel.getString("_id");
+                        final String image = travel.getString("image");
+                        final String name = travel.getString("name");
+                        final String descr = travel.getString("description");
+                        final String departure = travel.getString("departure");
+                        final String dest = travel.getString("destination");
+                        final int budget = travel.getInt("budget");
+                        final String dep_date = travel.getString("startDate");
+                        final String end_date = travel.getString("endDate");
+                        final int group_max = travel.getInt("maxPartecipant");
+                        final int partecipants = travel.getInt("partecipants");
+                        final String tag=travel.getString("tag");
+                        final String vehicle= travel.getString("vehicle");
+                        final String owner = travel.getString("owner");
 
                         trips.add(new Trip(id, image, name, descr, departure, dest, budget,dep_date, end_date,
-                                partecipants+"/"+group_max,tag,vehicle,owner));
+                                partecipants+"/"+group_max, tag, vehicle, owner));
                     }
 
                     adapter = new TripsAdapter(trips);

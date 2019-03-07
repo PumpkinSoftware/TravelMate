@@ -72,7 +72,6 @@ public class GetUserByUid {
                 Toast.makeText(context, "Errore: connessione assente", Toast.LENGTH_SHORT).show();
             }
         });
-        //myUser = mUser;
         mQueue.add(request);
     }
 
