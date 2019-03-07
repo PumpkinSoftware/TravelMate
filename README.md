@@ -25,9 +25,9 @@ Google Workshop 2018/2019
 
 Try our app on an Android device (required 4.4+)  
 
-- [nightly build 0.0.2 20-01-19](https://ufile.io/ucfd9)
-- [nightly build 0.0.9 02-02-19](https://ufile.io/oxsfd) 
-- [alpha version 0.9.1 07-03-19](https://ufile.io/e7zan)
+- [nightly build 0.0.2 20-01-19](https://drive.google.com/open?id=1vp7uVcpmBNS2wkGoWhwFAd-crvXKsXCw)
+- [nightly build 0.0.9 02-02-19](https://drive.google.com/open?id=1VwBlZIPMTqY7LjXkmfBGhnZ29lPin_dd) 
+- [alpha version 0.9.1 07-03-19](https://drive.google.com/open?id=1eyoYpYsvc5SdBAIDkxfxbezMVVrbM7Xi)
 
 Android Nougat (7.0) or lower: Ensure enabling 'Unknown Sources' to install it (Settings -> Security -> Unknown Sources)
 
@@ -49,7 +49,7 @@ Second survey: we asked questions about the application mockup on the street. Th
 
 ### Milestone 2 -  March 2019
 
-[Presentation - Release Candidate]()
+[Presentation - Release Candidate](https://docs.google.com/presentation/d/14T7MmTzsgOqtgp4WNqJUG6F0fhfNn_bg6Hj7kWLLNSg/edit?usp=sharing)
 
 Third survey:  we asked some [questions](https://goo.gl/forms/ZPFCJLOqs7KFfkUD2) online on groups of students. There are their answers [here](https://drive.google.com/open?id=1sfeY3j3EVlUX_Bq445_vP4u6APioxaVh)
 
