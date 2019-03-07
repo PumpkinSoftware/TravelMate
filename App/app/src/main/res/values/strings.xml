@@ -34,6 +34,9 @@
     <!-- Travel details -->
     <string name="join">Unisciti</string>
 
+    <!-- User details -->
+    <string name="partecipant">Partecipante</string>
+
     <!-- Travel page-->
     <string name="travel_title">I tuoi eventi</string>
 

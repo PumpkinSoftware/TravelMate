@@ -16,9 +16,10 @@
             android:id="@+id/header_cover_image"
             android:layout_width="match_parent"
             android:layout_height="150dp"
-            android:background="@mipmap/amsterdam"
             android:scaleType="centerCrop"
             tools:ignore="ContentDescription" />
+        <!--
+            android:background="@mipmap/amsterdam" -->
         <!--
         <View
             android:layout_width="match_parent"
@@ -78,11 +79,12 @@
             android:layout_below="@+id/header_cover_image"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="100dp"
-            android:text="@string/nickname"
             android:textAppearance="@android:style/TextAppearance.Medium"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
+        <!--
+            android:text="@string/nickname"-->
 
         <!--<TextView
                 android:id="@+id/location"
@@ -103,9 +105,10 @@
             android:layout_centerHorizontal="true"
             android:layout_marginStart="7dp"
             android:layout_marginEnd="7dp"
-            android:text="@string/bio"
             android:textColor="@android:color/black"
             android:textSize="18sp" />
+        <!--
+            android:text="@string/bio"-->
         <!--</RelativeLayout>-->
 
 
@@ -146,7 +149,6 @@
                 android:layout_margin="5dp"
                 android:layout_marginStart="8dp"
                 android:clickable="true"
-                android:text="25"
                 app:layout_constraintBottom_toBottomOf="@+id/age"
                 app:layout_constraintLeft_toRightOf="@+id/age"
                 app:layout_constraintStart_toEndOf="@+id/age"
@@ -169,7 +171,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:clickable="true"
-                android:text="Female"
                 app:layout_constraintBottom_toBottomOf="@+id/gender"
                 app:layout_constraintLeft_toRightOf="@+id/gender"
                 app:layout_constraintTop_toTopOf="@+id/gender" />
@@ -293,7 +294,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
                 android:clickable="true"
-                android:text="Single"
                 app:layout_constraintBottom_toBottomOf="@+id/rel"
                 app:layout_constraintLeft_toRightOf="@+id/rel"
                 app:layout_constraintTop_toTopOf="@+id/rel" />
@@ -341,7 +341,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="4dp"
                 android:clickable="true"
-                android:text="marothiatechs@gmail.com"
                 app:layout_constraintBottom_toBottomOf="@+id/email"
                 app:layout_constraintLeft_toRightOf="@+id/email"
                 app:layout_constraintTop_toTopOf="@+id/email" />
@@ -357,7 +356,6 @@
                 android:layout_marginTop="28dp"
                 android:layout_marginEnd="8dp"
                 android:progressTint="@color/gold"
-                android:rating="3.3"
                 android:secondaryProgressTint="@color/gold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -370,7 +368,6 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
-                android:text="(12)"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.346"
                 app:layout_constraintStart_toEndOf="@+id/ratingBar"
@@ -382,7 +379,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
-                android:text="3.3"
                 app:layout_constraintBottom_toBottomOf="@+id/n_review"
                 app:layout_constraintEnd_toStartOf="@+id/ratingBar"
                 app:layout_constraintHorizontal_bias="0.524"
