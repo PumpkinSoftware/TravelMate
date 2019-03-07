@@ -15,9 +15,9 @@ Google Workshop 2018/2019
 ### Download
 
 Try our app on an Android device (required 4.4+)  
-[nightly build 02-02-19](https://ufile.io/oxsfd)  
-[nightly build 31-01-19](https://ufile.io/9psmi)  
-[nightly build 20-01-19](https://ufile.io/ucfd9)
+
+[nightly build 0.0.2 20-01-19](https://ufile.io/ucfd9)
+[nightly build 0.0.9 02-02-19](https://ufile.io/oxsfd) 
 
 Android Nougat (7.0) or lower: Ensure enabling 'Unknown Sources' to install it (Settings -> Security -> Unknown Sources)
 
@@ -29,7 +29,7 @@ Android Nougat (7.0) or lower: Ensure enabling 'Unknown Sources' to install it (
 #
 ### Milestone 1 - January 2019
 
-[Presentation-Proof of Concept](https://docs.google.com/presentation/d/1V3NEngYWi-IVNm8uyA-6jAlhKxV82ZXCWahTvfVvlZM/edit?usp=sharing)
+[Presentation - Proof of Concept](https://docs.google.com/presentation/d/1V3NEngYWi-IVNm8uyA-6jAlhKxV82ZXCWahTvfVvlZM/edit?usp=sharing)
 
 First survey:  we asked some [questions](https://goo.gl/forms/GlGpQWnBWqmSHVZ32) online. There are their answers [here](https://drive.google.com/open?id=1VIWYZW6EjvkthMA22XVCKrNiC7RAtoaY) and more detailed [here](https://docs.google.com/spreadsheets/d/1Mj46nVhd1yihtB_okm_Ev94nAZ465J9QAuHAcH_y2KM/edit#gid=2085859047)
 
@@ -38,6 +38,8 @@ Second survey: we asked questions about the application mockup on the street. Th
 #
 
 ### Milestone 2 -  March 2019
+
+[Presentation - Release Candidate]()
 
 Third survey:  we asked some [questions](https://goo.gl/forms/ZPFCJLOqs7KFfkUD2) online on groups of students. There are their answers [here](https://drive.google.com/open?id=1sfeY3j3EVlUX_Bq445_vP4u6APioxaVh)
 
