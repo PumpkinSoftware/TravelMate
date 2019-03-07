@@ -40,7 +40,6 @@
             android:layout_height="29dp"
             android:layout_above="@+id/travel_name"
             android:src="@drawable/ic_location_on_black_12dp"
-            android:transitionName="budget_image"
             android:background="@color/white"/>
 
         <TextView
@@ -83,24 +82,6 @@
             android:background="@drawable/circle"
             android:src="@drawable/fav_icon"
             android:elevation="6dp" />
-
-
-        <!-- Oblique tag -->
-        <!--<TextView
-            style="@android:style/Widget.Holo.Light.TextView.SpinnerItem"
-            android:layout_width="145dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="-38dp"
-            android:background="@android:color/holo_red_dark"
-            android:text="Sport"
-            android:textColor="@android:color/white"
-            android:textSize="30sp"
-            android:textStyle="bold"
-            android:textAlignment="center"
-            android:rotation="45" />-->
 
         <TextView
             android:id="@+id/travel_name"

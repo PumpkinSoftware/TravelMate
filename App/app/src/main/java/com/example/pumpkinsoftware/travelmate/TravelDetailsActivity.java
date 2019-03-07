@@ -2,15 +2,20 @@ package com.example.pumpkinsoftware.travelmate;
 
 import android.animation.AnimatorInflater;
 import android.animation.AnimatorSet;
+import android.animation.ArgbEvaluator;
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Layout;
@@ -19,6 +24,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
@@ -33,13 +39,12 @@ import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.example.pumpkinsoftware.travelmate.client_server_interaction.GetPartecipantIteration;
-import com.example.pumpkinsoftware.travelmate.client_server_interaction.GetTripInteraction;
 import com.example.pumpkinsoftware.travelmate.glide.GlideApp;
-import com.example.pumpkinsoftware.travelmate.trip.Trip;
-import com.example.pumpkinsoftware.travelmate.trips_adapter.TripsAdapter;
 import com.example.pumpkinsoftware.travelmate.user.User;
 
 import java.util.ArrayList;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class TravelDetailsActivity extends AppCompatActivity {
     public final static String EXTRA_ID = "travelmate_extra_tda_TRIP_ID";
@@ -60,21 +65,14 @@ public class TravelDetailsActivity extends AppCompatActivity {
 
     private final static String QUERY= "https://debugtm.herokuapp.com/user/getUsersByTrip?tripId=";
     private RequestQueue mRequestQueue;
-    private ArrayList<User> users;
+    private ArrayList<User> partecipants;
+    private CardView card;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_travel_details);
         context = (Context) this;
-
-        /* PER SERVER
-        final RecyclerView rvUsers = (RecyclerView) findViewById(R.id.recyclerview);
-        // Set layout manager to position the items
-        rvUsers.setLayoutManager(new LinearLayoutManager(context));
-        users=new ArrayList<User>();
-        */
-
 
         Bundle b = getIntent().getExtras();
         String id =  b.getString(EXTRA_ID);
@@ -97,6 +95,26 @@ public class TravelDetailsActivity extends AppCompatActivity {
         final TextView dsc = (TextView) findViewById(R.id.descr);
         dsc.setText(descr);
 
+        // Justified text alignment
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            dsc.setText(descr);
+            dsc.setJustificationMode(Layout.JUSTIFICATION_MODE_INTER_WORD);
+        }
+
+        else {
+            final WebView view = (WebView) findViewById(R.id.descr_for_older_versions);
+            String text = "<html><body><p align=\"justify\">";
+            text+= descr;
+            text+= "</p></body></html>";
+            view.loadData(text, "text/html", "utf-8");
+            view.setVisibility(View.VISIBLE);
+            dsc.setVisibility(View.GONE);
+            // Now I've to change the below param of the below elements
+            final RelativeLayout layout = findViewById(R.id.layout2);
+            RelativeLayout.LayoutParams params= new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+            params.addRule(RelativeLayout.BELOW, R.id.descr_for_older_versions);
+            layout.setLayoutParams(params);
+        }
 
         final TextView t_tag=(TextView) findViewById(R.id.tag);
         if(tag.equals("cultura")){
@@ -165,6 +183,59 @@ public class TravelDetailsActivity extends AppCompatActivity {
             }
         });
 
+        card = (CardView) findViewById(R.id.cardView);
+        final Button join = (Button) findViewById(R.id.join_button);
+        // Handling join on click with animation
+        join.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AnimatorSet set = (AnimatorSet) AnimatorInflater.loadAnimator(context, R.animator.zoom_in);
+                set.setTarget(v); // set the view you want to animate
+                set.start();
+                join(join);
+            }
+        });
+
+        // TODO modify owner
+        /*CircleImageView o_image = findViewById(R.id.profile1);
+        GlideApp.with(context)
+                .load((user.getPhotoProfile().isEmpty())?(R.drawable.girl):(user.getPhotoProfile()))
+                .placeholder(R.mipmap.placeholder_image)
+                .into(o_image);
+        TextView o_name = findViewById(R.id.user1);
+        o_name.setText(user.getName());*/
+
+        final ProgressBar progress = findViewById(R.id.indeterminateBar);
+        final RecyclerView rvUsers = (RecyclerView) findViewById(R.id.recyclerview);
+        // Set layout manager to position the items
+        rvUsers.setLayoutManager(new LinearLayoutManager(context));
+        rvUsers.setNestedScrollingEnabled(false);
+        partecipants = new ArrayList<User>();
+
+        mRequestQueue = Volley.newRequestQueue(context);
+        new GetPartecipantIteration(context, rvUsers, progress).getPartecipantFromServer(QUERY+id, mRequestQueue, partecipants);
+
+        //swipe da finire
+        /*final SwipeRefreshLayout swipe = (SwipeRefreshLayout) view.findViewById(R.id.swiperefresh);
+        swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                swipe.setRefreshing(true);
+                (new Handler()).postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        //temporaneo
+                        rvTrips.setLayoutManager(new LinearLayoutManager(context));
+                        trips=new ArrayList<Trip>();
+                        mRequestQueue= Volley.newRequestQueue(context);
+                        new GetTripInteraction(context, rvTrips, progress).getTripsFromServer(URL,mRequestQueue,trips);
+                        swipe.setRefreshing(false);
+
+                    }
+                },1500);
+            }
+        });*/
+
         //PER LA CHIAMATA AL SERVER
         /*
         mRequestQueue= Volley.newRequestQueue(context);
@@ -180,6 +251,37 @@ public class TravelDetailsActivity extends AppCompatActivity {
         intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject/Title");
         intent.putExtra(android.content.Intent.EXTRA_TEXT, "Che ne dici di dare un'occhiata a "+ s + "?");
         startActivity(Intent.createChooser(intent, "Condividi"));
+    }
+
+    private int colorFrom = R.color.colorPrimary;
+    private int colorTo = Color.RED;
+
+    private void join(Button b) {
+        //CardView card = findViewById(R.id.cardView);
+
+        if (b.getText() == "Abbandona") {
+            ObjectAnimator backgroundColorAnimator = ObjectAnimator.ofObject(card,
+                    "backgroundColor",
+                    new ArgbEvaluator(),
+                    colorTo,
+                    colorFrom);
+            backgroundColorAnimator.setDuration(300);
+            backgroundColorAnimator.start();
+            b.setText("Unisciti");
+            // TODO add user to travel
+        }
+
+        else {
+            ObjectAnimator backgroundColorAnimator = ObjectAnimator.ofObject(card,
+                    "backgroundColor",
+                    new ArgbEvaluator(),
+                    colorFrom,
+                    colorTo);
+            backgroundColorAnimator.setDuration(300);
+            backgroundColorAnimator.start();
+            b.setText("Abbandona");
+            // TODO remove user from travel
+        }
     }
 
     private void loadImg(String img, ImageView imgv) {

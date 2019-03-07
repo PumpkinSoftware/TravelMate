@@ -9,28 +9,34 @@
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
+
         <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/profile1"
+        android:id="@+id/profile"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:clickable="true"
         android:elevation="5dp"
-        android:layout_marginStart="10dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="12dp"
         android:scaleType="centerCrop"
         android:src="@drawable/girl"
+        android:transitionName="image"
         app:civ_border_color="#FFFFFFFF"
         app:civ_border_width="1dp"
         app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
-            android:id="@+id/user1"
+            android:id="@+id/user"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
+            android:layout_alignTop="@+id/profile"
+            android:layout_alignBottom="@+id/profile"
+            android:layout_marginStart="70dp"
             android:clickable="true"
             android:padding="9dp"
             android:text="User1"
             android:textStyle="bold"
-            android:layout_marginStart="70dp"
             tools:layout_editor_absoluteX="147dp"
             tools:layout_editor_absoluteY="0dp" />
 

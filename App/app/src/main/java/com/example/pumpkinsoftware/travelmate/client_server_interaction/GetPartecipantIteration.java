@@ -28,9 +28,10 @@ public class GetPartecipantIteration {
     UsersAdapter adapter;
     private ProgressBar progressBar;
 
-    public GetPartecipantIteration(Context c, RecyclerView rv) {
+    public GetPartecipantIteration(Context c, RecyclerView rv, ProgressBar progress) {
         context = c;
         rvUsers = rv;
+        progressBar = progress;
     }
 
     public void getPartecipantFromServer(String query, RequestQueue mQueue, final ArrayList<User> users) {
@@ -44,16 +45,18 @@ public class GetPartecipantIteration {
                     //JSONArray jsonArray=response.getJSONArray("viaggi")
                     for (int i = 0; i < response.length(); i++) {
                         JSONObject user = response.getJSONObject(i);
-                        String name=user.getString("name");
-                        String profile=user.getString("avatar");
+                        String name = user.getString("name");
+                        String profile = user.getString("avatar");
                         users.add(new User(name,profile));
                     }
                     adapter = new UsersAdapter(users);
                     // Attach the adapter to the recyclerview to populate items
                     rvUsers.setAdapter(adapter);
+                    hideProgressBar();
 
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    hideProgressBar();
                     Toast.makeText(context, "Errore: connessione fallita", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -61,10 +64,12 @@ public class GetPartecipantIteration {
             @Override
             public void onErrorResponse(VolleyError error) {
                 error.printStackTrace();
+                hideProgressBar();
                 Toast.makeText(context, "Errore: connessione assente", Toast.LENGTH_SHORT).show();
             }
         });
         mQueue.add(request);
     }
 
+    private void hideProgressBar() { if (progressBar != null) progressBar.setVisibility(View.GONE); }
 }
