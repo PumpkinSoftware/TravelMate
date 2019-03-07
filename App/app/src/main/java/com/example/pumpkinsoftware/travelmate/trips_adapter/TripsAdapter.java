@@ -2,30 +2,19 @@ package com.example.pumpkinsoftware.travelmate.trips_adapter;
 
 import android.animation.AnimatorInflater;
 import android.animation.AnimatorSet;
-import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
-import android.support.v4.content.ContextCompat;
-import android.transition.TransitionManager;
-import android.util.DisplayMetrics;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
-import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.CardView;
-import android.widget.Toast;
 
 import com.example.pumpkinsoftware.travelmate.TravelDetailsActivity;
 import com.example.pumpkinsoftware.travelmate.glide.GlideApp;
@@ -163,6 +152,7 @@ public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.ViewHolder> 
             intent.putExtra(TravelDetailsActivity.EXTRA_GROUP, t.getGroup());
             intent.putExtra(TravelDetailsActivity.EXTRA_TAG, t.getTag());
             intent.putExtra(TravelDetailsActivity.EXTRA_VEHICLE,t.getVehicle());
+            intent.putExtra(TravelDetailsActivity.EXTRA_OWNER_UID,t.getOwner());
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 // create the transition animation - the images in the layouts

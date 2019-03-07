@@ -1,5 +1,11 @@
 package com.example.pumpkinsoftware.travelmate.trip;
 
+import com.example.pumpkinsoftware.travelmate.client_server_interaction.GetUserByUid;
+import com.example.pumpkinsoftware.travelmate.client_server_interaction.ServerCallback;
+import com.example.pumpkinsoftware.travelmate.user.User;
+
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 public class Trip {
@@ -32,7 +38,7 @@ public class Trip {
         group_number = group;
         tag=s;
         vehicle=v;
-        owner=ow;
+        owner = ow;
     }
 
     public String getId() {
@@ -103,6 +109,8 @@ public class Trip {
         budget_number = budget;
     }
 
-    private static int lastTripId = 0;
+    public void setOwner(String o) {
+        owner = o;
+    }
 
 }

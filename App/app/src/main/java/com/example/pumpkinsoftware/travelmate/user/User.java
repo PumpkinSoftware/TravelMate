@@ -16,8 +16,8 @@ public class User {
     private ArrayList<Trip> favTrips;
     private ArrayList<String> comments;
 
-    public User(String n, String pp){
-        uid = "";
+    public User(String uid, String n, String pp){
+        this.uid = uid;
         name=n;
         surname = "";
         birthday = "";

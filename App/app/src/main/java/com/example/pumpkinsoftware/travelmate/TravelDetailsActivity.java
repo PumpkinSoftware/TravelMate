@@ -4,6 +4,8 @@ import android.animation.AnimatorInflater;
 import android.animation.AnimatorSet;
 import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
+import android.app.Activity;
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -19,6 +21,7 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Layout;
+import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -39,8 +42,12 @@ import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.example.pumpkinsoftware.travelmate.client_server_interaction.GetPartecipantIteration;
+import com.example.pumpkinsoftware.travelmate.client_server_interaction.GetUserByUid;
+import com.example.pumpkinsoftware.travelmate.client_server_interaction.ServerCallback;
 import com.example.pumpkinsoftware.travelmate.glide.GlideApp;
 import com.example.pumpkinsoftware.travelmate.user.User;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -59,14 +66,17 @@ public class TravelDetailsActivity extends AppCompatActivity {
     public final static String EXTRA_GROUP = "travelmate_extra_tda_TRIP_GROUP";
     public final static String EXTRA_TAG = "travelmate_extra_tda_TRIP_TAG";
     public final static String EXTRA_VEHICLE ="travelmate_extra_tda_TRIP_VEHICLE";
+    public final static String EXTRA_OWNER_UID ="travelmate_extra_tda_TRIP_OWNER_UID";
 
     private Context context;
     private boolean so_prev_lol; // Useful for transitions
 
     private final static String QUERY= "https://debugtm.herokuapp.com/user/getUsersByTrip?tripId=";
+    private final static String URL = "https://debugtm.herokuapp.com/user/getUserByUid?uid=";
     private RequestQueue mRequestQueue;
     private ArrayList<User> partecipants;
     private CardView card;
+    private CircleImageView o_image;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,6 +97,7 @@ public class TravelDetailsActivity extends AppCompatActivity {
         final String group =  b.getString(EXTRA_GROUP);
         final String tag = b.getString(EXTRA_TAG);
         final String vehicle = b.getString(EXTRA_VEHICLE);
+        final String owner_uid = b.getString(EXTRA_OWNER_UID);
 
         final ImageView imgv = (ImageView) findViewById(R.id.header_cover_image);
         loadImg(img, imgv);
@@ -156,7 +167,8 @@ public class TravelDetailsActivity extends AppCompatActivity {
         back_image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finishAfterTransition();
+                if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)    finishAfterTransition();
+                else    finish();
             }
         });
 
@@ -196,14 +208,34 @@ public class TravelDetailsActivity extends AppCompatActivity {
             }
         });
 
-        // TODO modify owner
-        /*CircleImageView o_image = findViewById(R.id.profile1);
-        GlideApp.with(context)
-                .load((user.getPhotoProfile().isEmpty())?(R.drawable.girl):(user.getPhotoProfile()))
-                .placeholder(R.mipmap.placeholder_image)
-                .into(o_image);
-        TextView o_name = findViewById(R.id.user1);
-        o_name.setText(user.getName());*/
+        // Handling partecipants
+        RequestQueue mRequestQueue = Volley.newRequestQueue(context);
+        final GetUserByUid server =  new GetUserByUid(context);
+        server.getUserFromServer(URL+owner_uid, mRequestQueue, new ServerCallback() {
+                    @Override
+                    public void onSuccess(JSONObject response) {
+                        final User owner = server.getUser();
+                        o_image = findViewById(R.id.profile1);
+
+                        GlideApp.with(context)
+                                .load((owner.getPhotoProfile().isEmpty())?(R.drawable.girl):(owner.getPhotoProfile()))
+                                .placeholder(R.mipmap.placeholder_image)
+                                .into(o_image);
+                        TextView o_name = findViewById(R.id.user1);
+                        o_name.setText(owner.getName());
+
+                        View.OnClickListener lis = new View.OnClickListener(){
+                            @Override
+                            public void onClick(View v) {
+                                openUser(owner);
+                            }
+                        };
+
+                        o_image.setOnClickListener(lis);
+                        o_name.setOnClickListener(lis);
+                    }
+                }
+        );
 
         final ProgressBar progress = findViewById(R.id.indeterminateBar);
         final RecyclerView rvUsers = (RecyclerView) findViewById(R.id.recyclerview);
@@ -213,7 +245,7 @@ public class TravelDetailsActivity extends AppCompatActivity {
         partecipants = new ArrayList<User>();
 
         mRequestQueue = Volley.newRequestQueue(context);
-        new GetPartecipantIteration(context, rvUsers, progress).getPartecipantFromServer(QUERY+id, mRequestQueue, partecipants);
+        new GetPartecipantIteration(context, rvUsers, progress).getPartecipantFromServer(QUERY+id, owner_uid, mRequestQueue, partecipants);
 
         //swipe da finire
         /*final SwipeRefreshLayout swipe = (SwipeRefreshLayout) view.findViewById(R.id.swiperefresh);
@@ -235,12 +267,6 @@ public class TravelDetailsActivity extends AppCompatActivity {
                 },1500);
             }
         });*/
-
-        //PER LA CHIAMATA AL SERVER
-        /*
-        mRequestQueue= Volley.newRequestQueue(context);
-        new GetPartecipantIteration(context, rvUsers).getPartecipantFromServer(QUERY+id, mRequestQueue, users);
-        */
     }
 
     // Handling sharing
@@ -253,12 +279,11 @@ public class TravelDetailsActivity extends AppCompatActivity {
         startActivity(Intent.createChooser(intent, "Condividi"));
     }
 
+    // Handling join button with animation
     private int colorFrom = R.color.colorPrimary;
     private int colorTo = Color.RED;
 
     private void join(Button b) {
-        //CardView card = findViewById(R.id.cardView);
-
         if (b.getText() == "Abbandona") {
             ObjectAnimator backgroundColorAnimator = ObjectAnimator.ofObject(card,
                     "backgroundColor",
@@ -284,6 +309,27 @@ public class TravelDetailsActivity extends AppCompatActivity {
         }
     }
 
+    // Open user on click
+    private void openUser(User u) {
+        Intent intent = new Intent(context, UserDetailsActivity.class);
+        intent.putExtra(UserDetailsActivity.EXTRA_UID, u.getUid());
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            // create the transition animation - the images in the layouts
+            // of both activities are defined with android:transitionName="robot"
+            ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation((Activity)context,
+                    Pair.create((View)o_image, "image"));
+            //Pair.create((View)trip_name, "travel_name"));
+            // start the new activity
+            context.startActivity(intent, options.toBundle());
+        }
+
+        else {
+            context.startActivity(intent);
+        }
+    }
+
+    // Load travel image with transition efficiently
     private void loadImg(String img, ImageView imgv) {
         so_prev_lol = false;
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)

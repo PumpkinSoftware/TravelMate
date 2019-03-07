@@ -3,6 +3,8 @@ package com.example.pumpkinsoftware.travelmate.users_adapter;
 import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Context;
+import android.content.Intent;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Pair;
@@ -11,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.pumpkinsoftware.travelmate.UserDetailsActivity;
 import com.example.pumpkinsoftware.travelmate.glide.GlideApp;
 import com.example.pumpkinsoftware.travelmate.user.User;
 import com.example.pumpkinsoftware.travelmate.R;
@@ -42,7 +45,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
             imageView = v.findViewById(R.id.profile);
             username = v.findViewById(R.id.user);
 
-            /*View.OnClickListener lis = new View.OnClickListener(){
+            View.OnClickListener lis = new View.OnClickListener(){
                 @Override
                 public void onClick(View v) {
                     User u = getUser();
@@ -53,7 +56,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
             };
 
             imageView.setOnClickListener(lis);
-            username.setOnClickListener(lis);*/
+            username.setOnClickListener(lis);
         }
 
         // Returns user in the list
@@ -65,10 +68,9 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
             return                              null;
         }
 
-        /*private void openUser(User u) {
+        private void openUser(User u) {
             Intent intent = new Intent(context, UserDetailsActivity.class);
-            intent.putExtra(UserDetailsActivity.EXTRA_ID, u.getUid());
-            intent.putExtra(UserDetailsActivity.EXTRA_NAME, u.getName());
+            intent.putExtra(UserDetailsActivity.EXTRA_UID, u.getUid());
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 // create the transition animation - the images in the layouts
@@ -83,7 +85,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
             else {
                 context.startActivity(intent);
             }
-        }*/
+        }
     }
 
     public UsersAdapter(ArrayList<User> u) {
