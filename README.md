@@ -16,8 +16,8 @@ Google Workshop 2018/2019
 
 Try our app on an Android device (required 4.4+)  
 
-[nightly build 0.0.2 20-01-19](https://ufile.io/ucfd9)
-[nightly build 0.0.9 02-02-19](https://ufile.io/oxsfd) 
+- [nightly build 0.0.2 20-01-19](https://ufile.io/ucfd9)
+- [nightly build 0.0.9 02-02-19](https://ufile.io/oxsfd) 
 
 Android Nougat (7.0) or lower: Ensure enabling 'Unknown Sources' to install it (Settings -> Security -> Unknown Sources)
 
