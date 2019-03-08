@@ -507,8 +507,6 @@ router.get('/getTripsByUser', function(req, res){
 	};
 
 	UserSchema.findOne(conditions1, function(err, user){
-
-		console.log(user.trips);
         
         if (err){
             res.send(JSON.stringify({ status: "error", message: "Error in finding user" }));
@@ -516,13 +514,18 @@ router.get('/getTripsByUser', function(req, res){
         }
         else if (user){
 
+        	var list_trips = user.trips.map(function(trip){
+        		return trip.tripId;
+        	});
+        	console.log(list_trips);
+
         	var conditions2 = {
-        		"user.trips.tripId": { $eq: 'this._id' }
+        		_id: { $in:  list_trips } 
         	};
 
 			TripSchema.find(conditions2,function(err,trips){
 				if(err){
-					console.log("Nonon");
+					console.log({status:"error",message:"Error in find trip"});
 				}
 				else{
 					res.send(trips);
