@@ -517,7 +517,6 @@ router.get('/getTripsByUser', function(req, res){
         	var list_trips = user.trips.map(function(trip){
         		return trip.tripId;
         	});
-        	console.log(list_trips);
 
         	var conditions2 = {
         		_id: { $in:  list_trips } 
@@ -525,7 +524,8 @@ router.get('/getTripsByUser', function(req, res){
 
 			TripSchema.find(conditions2,function(err,trips){
 				if(err){
-					console.log({status:"error",message:"Error in find trip"});
+					res.send(JSON.stringify({ status: "error", message: "Error in finding trip" }));
+					console.log(err);
 				}
 				else{
 					res.send(trips);
@@ -540,5 +540,60 @@ router.get('/getTripsByUser', function(req, res){
 
     });
 });
+
+/******************************************/
+//Api che dato un utente restituisce i suoi viaggi con informazioni annesse,divisi 
+// in in corso e passati e.g. /getTripByUserSplit?userId=...
+
+router.get('/getTripsByUserSplit',function(req,res){
+	var id = req.query.userId;
+
+	UserSchema.findOne({_id : id}, function(err, user){
+        
+        if (err){
+            res.send(JSON.stringify({ status: "error", message: "Error in finding user" }));
+            console.log(err);
+        }
+        else if (user){
+
+        	var list_trips = user.trips.map(function(trip){
+        		return trip.tripId;
+        	});
+
+        	var conditions2 = {
+        		_id: { $in:  list_trips } 
+        	};
+
+			TripSchema.find(conditions2).where('startDate').gte(new Date()).sort({"startDate": 'desc'}).exec(function(err,progress){
+				if(err){
+					console.log(err);
+					res.send(JSON.stringify({ status: "error", message: "Error in finding progress trips" }));
+					return;
+				}
+				else{
+					TripSchema.find(conditions2).where('startDate').lt(new Date()).sort({"startDate": 'desc'}).exec(function(err,done){
+						if(err){
+							console.log(err);
+							res.send(JSON.stringify({ status: "error", message: "Error in finding done trips" }));
+							return;
+						}
+						else{
+							res.send([[progress],[done]]);
+						}
+					});
+				}
+			});
+
+		}
+		else{
+            res.send(JSON.stringify({ status: "error", message: "User not found" }));
+            console.log(JSON.stringify({ status: "error", message: "User not found" }));
+        }
+
+    });
+
+
+});
+
 
 module.exports = router;
