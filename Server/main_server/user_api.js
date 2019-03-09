@@ -34,15 +34,15 @@ router.post('/newUser', function(req, res){
     
     UserSchema.findOne(conditions, function(err, user){
         if (err){
-            
-            res.send(JSON.stringify({ status: "error", type: "-9" }));
+            console.log(JSON.stringify({ status: "error", type: "-1" }));
+            res.send(JSON.stringify({ status: "error", type: "-1" }));
             console.log(err);
         
         }
         else if (user){
             
-            res.send(JSON.stringify({ status: "error", type: "-10" }));
-            console.log(JSON.stringify({ status: "error", message: "User with this email is registered" }));
+            res.send(JSON.stringify({ status: "error", type: "-5" }));
+            console.log(JSON.stringify({ status: "error", type: "-5" }));
         
         }
         else{
@@ -93,8 +93,8 @@ router.post('/newUser', function(req, res){
             toInsert.save(function (err) {
                 if (err){ 
                     console.log(err);
-                    res.send(JSON.stringify({ status: "error", type: "-9" }));
-                    console.log(JSON.stringify({ status: "error", message: "Error to add "+toInsert.name+" on database." }));
+                    res.send(JSON.stringify({ status: "error", type: "-1" }));
+                    console.log(JSON.stringify({ status: "error", type: "-1" }));
                 }
                 else {
                     res.send(JSON.stringify({ status: "success", message: "User " + toInsert.name + " created!" }));
@@ -114,10 +114,11 @@ router.get('/allUsers', function(req, res){
     UserSchema.find({}).exec( function(err, users){
 		if(err){
 			console.log(err);
-			res.send(JSON.stringify({ status: "error", type: "-11" }));
+			console.log(JSON.stringify({ status: "error", type: "-1" }));
+			res.send(JSON.stringify({ status: "error", type: "-1" }));
 		}else{
 			res.send(users);
-			console.log('retrieved list of users', users.length);
+			console.log(users);
 		}
 	});
 });
@@ -134,16 +135,17 @@ router.get('/getUserByEmail', function(req, res){
     UserSchema.findOne(conditions, function(err, user){
         
         if (err){
-			res.send(JSON.stringify({ status: "error", type: "-12" }));
+			res.send(JSON.stringify({ status: "error", type: "-1" }));
 			console.log(err);
+			console.log(JSON.stringify({ status: "error", type: "-1" }));
 		}
 		else if(user != null){
 			res.send(user);
 			console.log(user);
         }
         else{
-            res.send(JSON.stringify({ status: "error", type: "-13" }));
-            console.log(JSON.stringify({ status: "error", message: "User not found" }));
+            res.send(JSON.stringify({ status: "error", type: "-2" }));
+            console.log(JSON.stringify({ status: "error", type: "-2" }));
         }
     });
 });
@@ -159,16 +161,17 @@ router.get('/getUserByUid', function(req, res){
     UserSchema.findOne(conditions, function(err, user){
         
         if (err){
-			res.send(JSON.stringify({ status: "error", type: "-12" }));
+			res.send(JSON.stringify({ status: "error", type: "-1" }));
 			console.log(err);
+			console.log(JSON.stringify({ status: "error", type: "-1" }));
 		}
 		else if(user != null){
 			res.send(user);
 			console.log(user);
         }
         else{
-            res.send(JSON.stringify({ status: "error", type: "-13" }));
-            console.log(JSON.stringify({ status: "error", message: "User not found" }));
+            res.send(JSON.stringify({ status: "error", type: "-2" }));
+            console.log(JSON.stringify({ status: "error", type: "-2" }));
         }
     });
 });
@@ -185,16 +188,17 @@ router.get('/getUserById', function(req, res){
 	UserSchema.findOne(conditions, function(err, user){
         
         if (err){
-			res.send(JSON.stringify({ status: "error", message: "Error get with Id" }));
+			res.send(JSON.stringify({ status: "error", type: "-1" }));
 			console.log(err);
+			console.log(JSON.stringify({ status: "error", type: "-1" }));
 		}
 		else if(user != null){
 			res.send(user);
 			console.log(user);
         }
         else{
-            res.send(JSON.stringify({ status: "error", message: "User not found" }));
-            console.log(JSON.stringify({ status: "error", message: "User not found" }));
+            res.send(JSON.stringify({ status: "error", type: "-2" }));
+            console.log(JSON.stringify({ status: "error", type: "-2" }));
         }
     });
 	
@@ -237,8 +241,9 @@ router.post('/updateUser', function(req, res){
 	UserSchema.findById(JsonObject.userId).exec(function(err, user){
 		
 		if (err){
-			res.send(JSON.stringify({ status: "error", message: "Cannot find user by _id" }));
+			res.send(JSON.stringify({ status: "error", type: "-1" }));
 			console.log(err);
+			console.log(JSON.stringify({ status: "error", type: "-1" }));
         }
         
         if (user != null){
@@ -247,15 +252,18 @@ router.post('/updateUser', function(req, res){
 		
 		    user.save(function(err, updateuser){
 			    if (err){
-				    res.send(JSON.stringify({ status: "error", message: "Error on update your user" }));
+				    res.send(JSON.stringify({ status: "error", type: "-1" }));
 				    console.log(err);
+				    console.log(JSON.stringify({ status: "error", type: "-1" }));
+
 			    } 
 			    res.send(updateuser);
+			    console.log(updateuser);
             });
         }
         else{
-            res.send(JSON.stringify({ status: "error", message: "Cannot find user" }));
-            console.log(JSON.stringify({ status: "error", message: "Cannot find user" }));
+            res.send(JSON.stringify({ status: "error", type: "-2" }));
+            console.log(JSON.stringify({ status: "error", type: "-2" }));
         }
 	}); 
 });
@@ -281,15 +289,17 @@ router.get('/addFavouriteTrip', function(req, res){
     UserSchema.findOne(conditions, function(err, user){
         
         if (err){
-            res.send(JSON.stringify({ status: "error", message: "Error in adding trip" }));
+            res.send(JSON.stringify({ status: "error", type: "-1" }));
             console.log(err);
+            console.log(JSON.stringify({ status: "error", type: "-1" }));
         }
 
         if (user != null){
             user.updateOne(update, function(err, userupdate){
 				if (err){
-					res.send(JSON.stringify({ status: "error", message: "Trip already added" }));
+					res.send(JSON.stringify({ status: "error", type: "-6" }));
 					console.log(err);
+					console.log(JSON.stringify({ status: "error", type: "-6" }));
 				}
 				else{
 					res.send(JSON.stringify({ status: "ok", message: "Trip: " + req.query.tripId + " added to user: " + user._id }));
@@ -298,8 +308,8 @@ router.get('/addFavouriteTrip', function(req, res){
 			});
         }
         else{
-            res.send(JSON.stringify({ status: "error", message: "User not found" }));
-            console.log(JSON.stringify({ status: "error", message: "User not found" }));
+            res.send(JSON.stringify({ status: "error", type: "-2" }));
+            console.log(JSON.stringify({ status: "error", type: "-2" }));
         }
     });
 });
@@ -316,8 +326,9 @@ router.get('/getUsersByTrip', function(req, res){
     UserSchema.find(conditions, function(err, users){
         
         if (err){
-            res.send(JSON.stringify({ status: "error", message: "Error in finding users" }));
+            res.send(JSON.stringify({ status: "error", type: "-1" }));
             console.log(err);
+            console.log(JSON.stringify({ status: "error", type: "-1" }));
         }
         
         if (users.length > 0){
@@ -325,8 +336,8 @@ router.get('/getUsersByTrip', function(req, res){
             console.log(users);
         }
         else{
-            res.send(JSON.stringify({ status: "error", message: "Users not found" }));
-            console.log(JSON.stringify({ status: "error", message: "Users not found" }));
+            res.send(JSON.stringify({ status: "error", type: "-2" }));
+            console.log(JSON.stringify({ status: "error", type: "-2" }));
         }
 
     });
@@ -364,34 +375,38 @@ router.post('/addTrip', function(req,res){
 	
 	TripSchema.findOne(conditions_A,function(err,trip) {
 		if (err){
-			res.send(JSON.stringify({ status: "error", message: "Error with ObjectId" }));
+			res.send(JSON.stringify({ status: "error", type: "-1" }));
 			console.log(err);
+			console.log(JSON.stringify({ status: "error", type: "-1" }));
 		}
 		else if (trip == null){
-			res.send(JSON.stringify({ status: "error", message: "Trip not found or is full" }));
-			console.log(JSON.stringify({ status: "error", message: "Trip not found or is full" }));
+			res.send(JSON.stringify({ status: "error", type: "-7" }));
+			console.log(JSON.stringify({ status: "error", type: "-7" }));
 		}
 		else{
 			UserSchema.findOne(conditions_B, function (err, user) {
 				if (err){
-					res.send(JSON.stringify({ status: "error", message: "Error with ObjectId" }));
+					res.send(JSON.stringify({ status: "error", type: "-1" }));
 					console.log(err);
+					console.log(JSON.stringify({ status: "error", type: "-1" }));
 				}
 				else if (user == null){
-					res.send(JSON.stringify({ status: "error", message: "User not found or Trip is already added" }));
-					console.log(JSON.stringify({ status: "error", message: "User not found or Trip is already added" }));
+					res.send(JSON.stringify({ status: "error", type: "-8" }));
+					console.log(JSON.stringify({ status: "error", type: "-8" }));
 				}			
 				else{
 					user.updateOne(update_A, function(err, userupdate){
 						if (err){
-							res.send(JSON.stringify({ status: "error", message: "Error on adding trip" }));
+							res.send(JSON.stringify({ status: "error", type: "-1" }));
 							console.log(err);
+							console.log(JSON.stringify({ status: "error", type: "-1" }));
 						}
 						else{
 							trip.updateOne(update_B, function(err, tripupdate) {
 								if (err){
-									res.send(JSON.stringify({ status: "error", message: "Error on updating number of trip partecipants" }));
+									res.send(JSON.stringify({ status: "error", type: "-1" }));
 									console.log(err);
+									console.log(JSON.stringify({ status: "error", type: "-1" }));
 								}
 								else {
 									res.send(JSON.stringify({ status: "ok", message: "Trip: " + JsonObject.tripId + " added to user: " + user._id }));
@@ -435,34 +450,38 @@ router.post('/removeTrip', function(req,res){
 	
 	UserSchema.findOne(conditions_A, function (err, user) {
 		if (err){
-			res.send(JSON.stringify({ status: "error", message: "Error with ObjectId" }));
+			res.send(JSON.stringify({ status: "error", type: "-1" }));
 			console.log(err);
+			console.log(JSON.stringify({ status: "error", type: "-1" }));
 		}
 		else if (user == null){
-			res.send(JSON.stringify({ status: "error", message: "Trip is not in this list" }));
-			console.log(JSON.stringify({ status: "error", message: "Trip is not in this list" }));
+			res.send(JSON.stringify({ status: "error", type: "-3" }));
+			console.log(JSON.stringify({ status: "error", type: "-3" }));
 		}			
 		else{
 			user.updateOne(update_A, function(err, userupdate){
 				if (err){
-					res.send(JSON.stringify({ status: "error", message: "Error on removing trip" }));
+					res.send(JSON.stringify({ status: "error", type: "-1" }));
 					console.log(err);
+					console.log(JSON.stringify({ status: "error", type: "-1" }));
 				}
 				else{
 					TripSchema.findOne(conditions_B, function(err, trip){
 						if (err){
-							res.send(JSON.stringify({ status: "error", message: "Error on removing trip" }));
+							res.send(JSON.stringify({ status: "error", type: "-1" }));
 							console.log(err);
+							console.log(JSON.stringify({ status: "error", type: "-1" }));
 						}
 						else if (trip == null){
-							res.send(JSON.stringify({ status: "error", message: "Trip not found" }));
-							console.log(JSON.stringify({ status: "error", message: "Trip not found" }));
+							res.send(JSON.stringify({ status: "error", type: "-3" }));
+							console.log(JSON.stringify({ status: "error", type: "-3" }));
 						}
 						else {
 							trip.updateOne(update_B, function(err, tripupdate){
 								if(err){
-									res.send(JSON.stringify({ status: "error", message: "Error on removing trip" }));
+									res.send(JSON.stringify({ status: "error", type: "-1" }));
 									console.log(err);	
+									console.log(JSON.stringify({ status: "error", type: "-1" }));
 								}
 								else {
 									res.send(JSON.stringify({ status: "ok", message: "Trip: " + JsonObject.tripId + " removed from user: " + user._id }));
@@ -486,11 +505,14 @@ router.get('/deleteUser', function(req, res){
 
 	UserSchema.remove({_id : id }, function(err){
 		if(err){
-			res.send(JSON.stringify({ status: "error", message: "Error on delete user" }));
+			res.send(JSON.stringify({ status: "error", type: "-1" }));
 			console.log(err);
+			console.log(JSON.stringify({ status: "error", type: "-1" }));
 		}
 		else{
 			res.send(JSON.stringify({ status: "ok", message: "User is deleted" }));
+			console.log(JSON.stringify({ status: "ok", message: "User deleted" }));
+								
 		}
 	});
 });
@@ -507,35 +529,192 @@ router.get('/getTripsByUser', function(req, res){
 	};
 
 	UserSchema.findOne(conditions1, function(err, user){
-
-		console.log(user.trips);
         
         if (err){
-            res.send(JSON.stringify({ status: "error", message: "Error in finding user" }));
+            res.send(JSON.stringify({ status: "error", type: "-1" }));
             console.log(err);
+            console.log(JSON.stringify({ status: "error", type: "-1" }));
         }
         else if (user){
 
+        	var list_trips = user.trips.map(function(trip){
+        		return trip.tripId;
+        	});
+
         	var conditions2 = {
-        		"user.trips.tripId": { $eq: 'this._id' }
+        		_id: { $in:  list_trips } 
         	};
 
 			TripSchema.find(conditions2,function(err,trips){
 				if(err){
-					console.log("Nonon");
+					res.send(JSON.stringify({ status: "error", type: "-1" }));
+					console.log(err);
+					console.log(JSON.stringify({ status: "error", type: "-1" }));
 				}
 				else{
 					res.send(trips);
+					console.log(trips);
 				}
 			});
 
 		}
 		else{
-            res.send(JSON.stringify({ status: "error", message: "User not found" }));
-            console.log(JSON.stringify({ status: "error", message: "User not found" }));
+            res.send(JSON.stringify({ status: "error", type: "-2" }));
+            console.log(JSON.stringify({ status: "error", type: "-2" }));
         }
 
     });
 });
+
+/******************************************/
+//Api che dato un utente restituisce i suoi viaggi con informazioni annesse,divisi 
+// in in corso e passati e.g. /getTripByUserSplit?userId=...
+
+router.get('/getTripsByUserSplit',function(req,res){
+	var id = req.query.userId;
+
+	UserSchema.findOne({_id : id}, function(err, user){
+        
+        if (err){
+            res.send(JSON.stringify({ status: "error", type: "-1" }));
+            console.log(err);
+            console.log(JSON.stringify({ status: "error", type: "-1" }));
+        }
+        else if (user){
+
+        	var list_trips = user.trips.map(function(trip){
+        		return trip.tripId;
+        	});
+
+        	var conditions2 = {
+        		_id: { $in:  list_trips } 
+        	};
+
+			TripSchema.find(conditions2).where('startDate').gte(new Date()).sort({"startDate": 'desc'}).exec(function(err,progress){
+				if(err){
+					console.log(err);
+					console.log(JSON.stringify({ status: "error", type: "-1" }));
+					res.send(JSON.stringify({ status: "error", type: "-1" }));
+				}
+				else{
+					TripSchema.find(conditions2).where('startDate').lt(new Date()).sort({"startDate": 'desc'}).exec(function(err,done){
+						if(err){
+							console.log(err);
+							console.log(JSON.stringify({ status: "error", type: "-1" }));
+							res.send(JSON.stringify({ status: "error", type: "-1" }));
+						}
+						else{
+							res.send([[progress],[done]]);
+							console.log([[progress],[done]]);
+						}
+					});
+				}
+			});
+
+		}
+		else{
+            res.send(JSON.stringify({ status: "error", type: "-2" }));
+            console.log(JSON.stringify({ status: "error", type: "-2" }));
+        }
+
+    });
+
+
+});
+
+/******************************************/
+//Api che dato un utente restituisce i suoi viaggi passati con informazioni annesse,divisi 
+// in in corso e passati e.g. /getPassedTripsByUser?userId=...
+
+router.get('/getPassedTripsByUser',function(req,res){
+	var id = req.query.userId;
+
+	UserSchema.findOne({_id : id}, function(err, user){
+        
+        if (err){
+            res.send(JSON.stringify({ status: "error", typw: "-1" }));
+            console.log(err);
+            console.log(JSON.stringify({ status: "error", typw: "-1" }));
+        }
+        else if (user){
+
+        	var list_trips = user.trips.map(function(trip){
+        		return trip.tripId;
+        	});
+
+        	var conditions2 = {
+        		_id: { $in:  list_trips } 
+        	};
+
+			TripSchema.find(conditions2).where('startDate').lt(new Date()).sort({"startDate": 'desc'}).exec(function(err,passed){
+				if(err){
+					console.log(err);
+					console.log(JSON.stringify({ status: "error", type: "-1" }));
+					res.send(JSON.stringify({ status: "error", type: "-1" }));
+				}
+				else{
+					res.send(passed);
+					console.log(passed);
+				}
+			});
+
+		}
+		else{
+            res.send(JSON.stringify({ status: "error", type: "-2" }));
+            console.log(JSON.stringify({ status: "error", type: "-2" }));
+        }
+
+    });
+
+
+});
+
+/******************************************/
+//Api che dato un utente restituisce i suoi viaggi con informazioni annesse,divisi 
+// in in corso e passati e.g. /getProgressByUserSplit?userId=...
+
+router.get('/getProgressTripByUser',function(req,res){
+	var id = req.query.userId;
+
+	UserSchema.findOne({_id : id}, function(err, user){
+        
+        if (err){
+            res.send(JSON.stringify({ status: "error", type: "-1" }));
+            console.log(err);
+            console.log(JSON.stringify({ status: "error", type: "-1" }));
+        }
+        else if (user){
+
+        	var list_trips = user.trips.map(function(trip){
+        		return trip.tripId;
+        	});
+
+        	var conditions2 = {
+        		_id: { $in:  list_trips } 
+        	};
+
+			TripSchema.find(conditions2).where('startDate').gte(new Date()).sort({"startDate": 'desc'}).exec(function(err,progress){
+				if(err){
+					console.log(err);
+					console.log(JSON.stringify({ status: "error", type: "-1" }));
+					res.send(JSON.stringify({ status: "error", type: "-1" }));
+				}
+				else{
+					res.send(progress);
+					console.log(progress);
+				}
+			});
+
+		}
+		else{
+            res.send(JSON.stringify({ status: "error", type: "-2" }));
+            console.log(JSON.stringify({ status: "error", type: "-2" }));
+        }
+
+    });
+
+
+});
+
 
 module.exports = router;

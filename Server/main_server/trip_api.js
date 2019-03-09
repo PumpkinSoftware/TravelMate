@@ -89,26 +89,28 @@ router.post('/newTrip', function(req,res){
 	UserSchema.findOne(conditions, function (err, user) {
 		if (err){
 			console.log(err);
-			res.send(JSON.stringify({ status: "error", message: "Error in finding" }));
+			console.log(JSON.stringify({ status: "error", type: "-1" }));
+			res.send(JSON.stringify({ status: "error", type: "-1" }));
 		}
 		else if (user == null){
-			console.log(JSON.stringify({ status: "error", message: "User not found" }));
-			res.send(JSON.stringify({ status: "error", message: "User not found" }));
+			console.log(JSON.stringify({ status: "error", type: "-2" }));
+			res.send(JSON.stringify({ status: "error", type: "-2" }));
 		}			
 		else{
 			user.updateOne(update, function(err, tripupdate){
 				if (err){
 					console.log(err);
-					res.send(JSON.stringify({ status: "error", message: "Error in updating user" }));
+					console.log(JSON.stringify({ status: "error", type: "-1" }));
+					res.send(JSON.stringify({ status: "error", type: "-1" }));
 				}
 				else{
 					console.log(JSON.stringify({ status: "ok", message: "Trip: " + toInsert._id + " added to user: " + clientInput.owner }));
 					toInsert.save(function (err) {
 						if (err){ 
 							console.log(err);
-							res.send(JSON.stringify({ status: "error", message: "Error to add " + toInsert.name+" on database." }));
-							console.log(JSON.stringify({ status: "error", message: "Error to add " + toInsert.name+" on database." }));
-						}
+							console.log(JSON.stringify({ status: "error", type: "-1" }));
+							res.send(JSON.stringify({ status: "error", type: "-1" }));
+							}
 						else {
 							res.send(JSON.stringify({ status: "success", message: "Trip " + toInsert.name + " created!" }));
 							console.log(JSON.stringify({ status: "success", message: "Trip " + toInsert.name + " created!" }));
@@ -127,10 +129,11 @@ router.get('/allTrips', function(req, res){
 	TripSchema.find({}).exec( function(err, trips){
 		if(err){
 			console.log(err);
-			res.send(JSON.stringify({ status: "error", type: "-2" }));
+			console.log(JSON.stringify({ status: "error", type: "-1" }));
+			res.send(JSON.stringify({ status: "error", type: "-1" }));
 		}else{
 			res.send(trips);
-			console.log('retrieved list of trips', trips.length);
+			console.log(trips);
 		}
 	});
 });
@@ -151,10 +154,11 @@ router.get('/lastTripsCreated', function(req, res){
 	TripSchema.find( {tag : {$exists:true}, $where:'this.partecipants<this.maxPartecipant'}).sort({"createDate": 'desc'}).limit(limit).exec(function(err, trips){
 		if(err){
 			console.log(err);
-			res.send(JSON.stringify({ status: "error", type: "-3" }));
+			console.log(JSON.stringify({ status: "error", type: "-1" }));
+			res.send(JSON.stringify({ status: "error", type: "-1" }));
 		}else{
 			res.send(trips);
-			console.log('retrieved list of trips', trips.length);
+			console.log(trips);
 		}
 	});
 });
@@ -208,11 +212,12 @@ router.get('/getTripsWithFilter', function(req, res){
 
 	TripSchema.find(condition).find(query).where('budget').gte(minBudget).lte(maxBudget).where('startDate').gte(minDate).where('endDate').lte(maxDate).where('maxPartecipant').lte(maxPartecipant).gte(minPartecipant).exec( function(err, trips){
 		if(err){
-			res.send(JSON.stringify({ status: "error", type: "-4" }));
+			res.send(JSON.stringify({ status: "error", type: "-1" }));
 			console.log(err);
+			console.log(JSON.stringify({ status: "error", type: "-1" }));
 		}else{
 			res.send(trips);
-			console.log('retrieved list of trips', trips.length);
+			console.log(trips);
 		}
 	});
 });
@@ -255,18 +260,21 @@ router.post('/updateTrip', function(req, res){
 	TripSchema.findById(input.tripId).exec(function(err, trip){
 		
 		if (err){
-			res.send(JSON.stringify({ status: "error", type: "-5" }));
+			res.send(JSON.stringify({ status: "error", type: "-3" }));
 			console.log(err);
+			console.log(JSON.stringify({ status: "error", type: "-3" }));
 		}
 
 		trip.set(query);
 		
 		trip.save(function(err, updatetrip){
 			if (err){
-				res.send(JSON.stringify({ status: "error", type: "-6" }));
+				res.send(JSON.stringify({ status: "error", type: "-1" }));
 				console.log(err);
+				console.log(JSON.stringify({ status: "error", type: "-1" }));
 			} 
 			res.send(updatetrip);
+			console.log(updatetrip);
 		});
 	});
 });
@@ -281,11 +289,13 @@ router.get('/deleteTrip', function(req, res){
 
 	TripSchema.remove({_id : id }, function(err){
 		if(err){
-			res.send(JSON.stringify({ status: "error", message: "Error on delete your trip" }));
+			res.send(JSON.stringify({ status: "error", type: "-1" }));
 			console.log(err);
+			console.log(JSON.stringify({ status: "error", type: "-1" }));
 		}
 		else{
 			res.send(JSON.stringify({ status: "ok", message: "Your trip is deleted" }));
+			console.log(JSON.stringify({ status: "ok", message: "Your trip is deleted" }));
 		}
 	});
 });
@@ -301,13 +311,14 @@ router.get('/getTripById', function(req, res){
 	var id = req.query.id;
 
 	if(id == undefined)
-		res.send(JSON.stringify({ status: "error", type: "-7" }));
+		res.send(JSON.stringify({ status: "error", type: "-4" }));
 
 	TripSchema.findById(id).exec(function(err, trip){
 		
 		if (err){
-			res.send(JSON.stringify({ status: "error", type: "-8" }));
+			res.send(JSON.stringify({ status: "error", type: "-3" }));
 			console.log(err);
+			console.log(JSON.stringify({ status: "error", type: "-3" }));
 		}
 		else{
 			res.send(trip);
