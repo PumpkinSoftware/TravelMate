@@ -2,7 +2,7 @@
 
 What is TravelMate?
 
-- TravelMate is a mobile application that connect students from 18 to 25 who want to go to an event in italy
+- A mobile application that connect students from 18 to 25 who want to go to an event in italy
 - Choose your event
 - Find the best fit of travel mate in advance
 - Low budget
@@ -51,11 +51,13 @@ Second survey: we asked questions about the application mockup on the street. Th
 
 [Presentation - Release Candidate](https://docs.google.com/presentation/d/14T7MmTzsgOqtgp4WNqJUG6F0fhfNn_bg6Hj7kWLLNSg/edit?usp=sharing)
 
-Third survey:  we asked some [questions](https://goo.gl/forms/ZPFCJLOqs7KFfkUD2) online on groups of students. There are their answers [here](https://drive.google.com/open?id=1sfeY3j3EVlUX_Bq445_vP4u6APioxaVh)
+Third survey:  we asked some [questions](https://goo.gl/forms/ZPFCJLOqs7KFfkUD2) online on groups of students. There are their answers [here](https://drive.google.com/open?id=1jmp_g_e_qM3HSYGy6lfZq8Plep35D_NB)
 
-Fourth survey:  we asked some [questions](https://goo.gl/forms/XnGCR2VhuRjOUbmH3) online on groups of students. There are their answers [here](https://drive.google.com/open?id=15TPkuSfHiNjqrWKBmmCOmSxbCzDkz_rq)
+Fourth survey:  we asked some [questions](https://goo.gl/forms/XnGCR2VhuRjOUbmH3) online on groups of students. There are their answers [here](https://drive.google.com/open?id=1rOihj2msarX3HvTG8hhaT7Ebxwry6YUZ)
 
-[lean canvas](https://drive.google.com/open?id=12t5Yq8XuLTB-k1W-4bOiyQ3vCx2JD32l)
+These are the [main storyboards](https://drive.google.com/open?id=1C4bb19MGyzyB4vTf6suh4R_tyJsUvPCO)
 
-[main storyboards](https://drive.google.com/open?id=1C4bb19MGyzyB4vTf6suh4R_tyJsUvPCO)
+This is our [lean canvas](https://drive.google.com/open?id=16u__YAHpXlvkb9PpqyW-iUpg0qOPbL0x)
+
 #
+
