@@ -171,6 +171,8 @@ public class LogActivity extends AppCompatActivity {
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
                                 openMain();
+                                // TODO finish LoginActivity
+                                finish();
                             }
                             else {
                                 Toast.makeText(context, "Nome utente o password errati", Toast.LENGTH_SHORT).show();

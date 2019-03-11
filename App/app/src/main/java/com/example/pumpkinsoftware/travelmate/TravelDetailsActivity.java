@@ -6,7 +6,9 @@ import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.app.ActivityOptions;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -201,9 +203,9 @@ public class TravelDetailsActivity extends AppCompatActivity {
         join.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AnimatorSet set = (AnimatorSet) AnimatorInflater.loadAnimator(context, R.animator.zoom_in);
+                /*AnimatorSet set = (AnimatorSet) AnimatorInflater.loadAnimator(context, R.animator.zoom_in);
                 set.setTarget(v); // set the view you want to animate
-                set.start();
+                set.start();*/
                 join(join);
             }
         });
@@ -283,29 +285,53 @@ public class TravelDetailsActivity extends AppCompatActivity {
     private int colorFrom = R.color.colorPrimary;
     private int colorTo = Color.RED;
 
-    private void join(Button b) {
+    private void join(final Button b) {
         if (b.getText() == "Abbandona") {
-            ObjectAnimator backgroundColorAnimator = ObjectAnimator.ofObject(card,
-                    "backgroundColor",
-                    new ArgbEvaluator(),
-                    colorTo,
-                    colorFrom);
-            backgroundColorAnimator.setDuration(300);
-            backgroundColorAnimator.start();
-            b.setText("Unisciti");
-            // TODO add user to travel
+            new AlertDialog.Builder(this)
+                    .setTitle("Abbandona evento")
+                    .setMessage("Vuoi lasciare il gruppo?")
+                    //.setIcon(android.R.drawable.ic_dialog_alert)
+                    .setPositiveButton("Sì", new DialogInterface.OnClickListener() {
+
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            AnimatorSet set = (AnimatorSet) AnimatorInflater.loadAnimator(context, R.animator.zoom_in);
+                            set.setTarget(b); // set the view you want to animate
+                            set.start();
+                            ObjectAnimator backgroundColorAnimator = ObjectAnimator.ofObject(card,
+                                    "backgroundColor",
+                                    new ArgbEvaluator(),
+                                    colorTo,
+                                    colorFrom);
+                            backgroundColorAnimator.setDuration(300);
+                            backgroundColorAnimator.start();
+                            b.setText("Unisciti");
+                            // TODO remove user from travel
+                        }})
+                    .setNegativeButton(android.R.string.no, null).show();
         }
 
         else {
-            ObjectAnimator backgroundColorAnimator = ObjectAnimator.ofObject(card,
-                    "backgroundColor",
-                    new ArgbEvaluator(),
-                    colorFrom,
-                    colorTo);
-            backgroundColorAnimator.setDuration(300);
-            backgroundColorAnimator.start();
-            b.setText("Abbandona");
-            // TODO remove user from travel
+            new AlertDialog.Builder(this)
+                    .setTitle("Partecipa all'evento")
+                    .setMessage("Vuoi unirti al gruppo?")
+                    //.setIcon(android.R.drawable.ic_dialog_alert)
+                    .setPositiveButton("Sì", new DialogInterface.OnClickListener() {
+
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            AnimatorSet set = (AnimatorSet) AnimatorInflater.loadAnimator(context, R.animator.zoom_in);
+                            set.setTarget(b); // set the view you want to animate
+                            set.start();
+                            ObjectAnimator backgroundColorAnimator = ObjectAnimator.ofObject(card,
+                                    "backgroundColor",
+                                    new ArgbEvaluator(),
+                                    colorFrom,
+                                    colorTo);
+                            backgroundColorAnimator.setDuration(300);
+                            backgroundColorAnimator.start();
+                            b.setText("Abbandona");
+                            // TODO add user to travel
+                        }})
+                    .setNegativeButton(android.R.string.no, null).show();
         }
     }
 

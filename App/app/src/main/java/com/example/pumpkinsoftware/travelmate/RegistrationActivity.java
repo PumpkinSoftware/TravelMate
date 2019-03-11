@@ -140,6 +140,8 @@ public class RegistrationActivity extends AppCompatActivity {
                                         }
                                 );*/
 
+                                //finish();
+
                             }
                             else {
                                 //Log.w(TAG, "createUserWithEmail:failure", task.getException());
