@@ -19,7 +19,7 @@ var router = express.Router();
 
 /*****************************************/
 //Api per testare il funzionamento di trip_api.js
-//Api verificata con lo stress test
+//Api verificata
 
 router.get('/', function (req, res) {
     res.send("The trip router works completely");
@@ -28,7 +28,7 @@ router.get('/', function (req, res) {
 
 /*****************************************/
 //Api per inserire un nuovo viaggio
-
+//Api verificata
 
 router.post('/newTrip', function(req,res){
 
@@ -75,7 +75,7 @@ router.post('/newTrip', function(req,res){
 	}
 
 	var conditions = {							
-		_id: clientInput.owner,
+		uid: clientInput.owner,
 	};
 
 	var trip = {
@@ -123,7 +123,9 @@ router.post('/newTrip', function(req,res){
 });
 /*****************************************/
 //Api per ottenere tutti i viaggi
-//Api verificata con lo stress test
+//Api verificata
+
+//example use /allTrips
 
 router.get('/allTrips', function(req, res){
 	TripSchema.find({}).exec( function(err, trips){
@@ -140,7 +142,7 @@ router.get('/allTrips', function(req, res){
 
 /*****************************************/
 //Api per ottenere gli ultimi 200 viaggi inseriti
-//Api verificata con lo stress test
+//Api verificata
 
 //example use /lastTripsCreated?limit=200
 
@@ -151,7 +153,7 @@ router.get('/lastTripsCreated', function(req, res){
 	if(req.query.limit != undefined) 
 		limit = parseInt(req.query.limit);
 
-	TripSchema.find( {tag : {$exists:true}, $where:'this.partecipants<this.maxPartecipant'}).sort({"createDate": 'desc'}).limit(limit).exec(function(err, trips){
+	TripSchema.find( {tag : {$exists:true}, $where:'this.partecipants<this.maxPartecipant'}).where('startDate').gte(new Date()).sort({"createDate": 'desc'}).limit(limit).exec(function(err, trips){
 		if(err){
 			console.log(err);
 			console.log(JSON.stringify({ status: "error", type: "-1" }));
@@ -165,7 +167,7 @@ router.get('/lastTripsCreated', function(req, res){
 
 /*****************************************/
 //Api per ottenere i viaggi con filtri
-//Api verificata con lo stress test
+//Api verificata
 
 // example use /getTripsWithFilter?name=casa&destination=rome&departure=milan&minBudget=430&maxBudget=730&startDate=12/31/2018&endDate=01/02/2019&maxPartecipant=12
 // &vehicle=auto&minPartecipant=1&tag="intrattenimento"
@@ -210,7 +212,7 @@ router.get('/getTripsWithFilter', function(req, res){
 	var condition={tag : {$exists:true}, $where:'this.partecipants<this.maxPartecipant'};
 
 
-	TripSchema.find(condition).find(query).where('budget').gte(minBudget).lte(maxBudget).where('startDate').gte(minDate).where('endDate').lte(maxDate).where('maxPartecipant').lte(maxPartecipant).gte(minPartecipant).exec( function(err, trips){
+	TripSchema.find(condition).find(query).where('startDate').gte(new Date()).where('budget').gte(minBudget).lte(maxBudget).where('startDate').gte(minDate).where('endDate').lte(maxDate).where('maxPartecipant').lte(maxPartecipant).gte(minPartecipant).exec( function(err, trips){
 		if(err){
 			res.send(JSON.stringify({ status: "error", type: "-1" }));
 			console.log(err);
@@ -224,7 +226,7 @@ router.get('/getTripsWithFilter', function(req, res){
 
 /******************************************/
 //Api per aggiornare un viaggio
-//Api verificata con lo stress test
+//Api verificata
 
 router.post('/updateTrip', function(req, res){
 
@@ -281,6 +283,8 @@ router.post('/updateTrip', function(req, res){
 
 /******************************************/
 //Api per cancellare un viaggio
+//Api incompleta
+
 //example use: /deleteTrip?tripId=5c537f4bbd73113cd71d1384
 
 router.get('/deleteTrip', function(req, res){
@@ -302,7 +306,7 @@ router.get('/deleteTrip', function(req, res){
 
 /******************************************/
 //Api per ottenere un viaggio da Id
-//Api verificata con lo stress test
+//Api verificata
 
 // example use getTripByid?id=483249832948932ab43c443b
 

@@ -28,7 +28,7 @@ curl -H "Content-Type: application/json" -X POST -d '{
   "image": "https://www.ilturista.info/repo/images/no/AAAEventi/Birra_Sound_Leverano_Puglia.jpg",
   "maxPartecipant": "25",
   "name": "festival birra e sound",
-  "owner": "5c7ad36f56c9ff0d78213ef8",
+  "owner": "Tm8WrtKtVzco0him7RlnB9jUMmL2",
   "startDate": "08/04/2019",
   "tag": "intrattenimento",
   "vehicle": "treno"
@@ -48,7 +48,7 @@ curl -H "Content-Type: application/json" -X POST -d '{
   "name": "css day 2019",
   "vehicle": "auto",
   "tag":"tecnologia",
-  "owner":"5c7ad36f56c9ff0d78213ef9",
+  "owner":"RaHUVBSgljOzWvKNSGLl3QeSThh1",
   "startDate": "03/15/2019"
 }' http://localhost:8095/trip/newTrip
 
@@ -66,7 +66,7 @@ curl -H "Content-Type: application/json" -X POST -d '{
   "name": "la sagra del raviolo scapolese",
   "tag":"cultura",
   "vehicle":"auto",
-  "owner":"5c7ad36f56c9ff0d78213efa",
+  "owner":"kbz4sNCZtHMlfw3w3xCW3TTBco53",
   "startDate": "05/05/2019"
 }' http://localhost:8095/trip/newTrip
 
@@ -84,7 +84,7 @@ curl -H "Content-Type: application/json" -X POST -d '{
   "name": "irama, live 2019",
   "tag":"musica",
   "vehicle":"treno",
-  "owner":"5c7ad36f56c9ff0d78213efb",
+  "owner":"pIfUG1Qpmwasqrdu77d9nake9HM2",
   "startDate": "04/05/2019"
 }' http://localhost:8095/trip/newTrip
 
@@ -102,7 +102,7 @@ curl -H "Content-Type: application/json" -X POST -d '{
   "name": "pierino e il lupo",
   "tag":"cultura",
   "vehicle":"treno",
-  "owner":"5c7ad36f56c9ff0d78213efc",
+  "owner":"7hjchdyNdrO2itvdMRRj3b85wff2",
   "startDate": "04/05/2019"
 }' http://localhost:8095/trip/newTrip
 
@@ -120,7 +120,7 @@ curl -H "Content-Type: application/json" -X POST -d '{
   "name": "robert capa alla mole",
   "tag":"cultura",
   "vehicle":"auto",
-  "owner":"5c7ad36f56c9ff0d78213efd",
+  "owner":"Ip5ooeVpugPGm6I0SY5Y2TUNIki2",
   "startDate": "05/31/2019"
 }' http://localhost:8095/trip/newTrip
 
@@ -138,7 +138,7 @@ curl -H "Content-Type: application/json" -X POST -d '{
   "name": "omar pedrini allo spazio 211",
   "tag":"intrattenimento",
   "vehicle":"treno",
-  "owner":"5c7ad36f56c9ff0d78213efe",
+  "owner":"GutGWyaTg9OdhjecP1wzd35e0l83",
   "startDate": "06/03/2019"
 }' http://localhost:8095/trip/newTrip
 
@@ -150,14 +150,14 @@ curl -H "Content-Type: application/json" -X POST -d '{
   "departure": "bari",
   "description": "Ultimo arriva sul palco del Mediolanum Forum con il suo Colpa delle Favole Tour 2019, durante il quale porterà live i brani del suo ultimo album.",
   "destination": "assago",
-  "endDate": "05/15/2019",
+  "endDate": "05/16/2019",
   "image": "http://www.quirinetta.com/wp-content/uploads/2018/01/Ultimo-20-01-2018-Panucci-CON-LOGO-27--720x490.jpg",
   "maxPartecipant": "25",
   "name": "concerto di ultimo",
   "tag":"musica",
   "vehicle":"treno",
-  "owner":"5c7ad36f56c9ff0d78213eff",
-  "startDate": "05/16/2019"
+  "owner":"3ENghkkewyPdttrz00ImV0F0QpH2",
+  "startDate": "05/15/2019"
 }' http://localhost:8095/trip/newTrip
 
 echo -e ""
@@ -174,7 +174,7 @@ curl -H "Content-Type: application/json" -X POST -d '{
   "name": "Leonardo da Vinci Parade",
   "tag":"cultura",
   "vehicle":"treno",
-  "owner":"5c7ad36f56c9ff0d78213f00",
+  "owner":"sSiOgobodkOlLkyzbIqnqxLQQq93",
   "startDate": "10/02/2019"
 }' http://localhost:8095/trip/newTrip
 
@@ -192,7 +192,7 @@ curl -H "Content-Type: application/json" -X POST -d '{
   "name": "anne e patrick poirier. romamor",
   "tag":"cultura",
   "vehicle":"auto",
-  "owner":"5c7ad36f56c9ff0d78213f01",
+  "owner":"pfcytk2YLdb7qQ2a224J420vZB03",
   "startDate": "05/12/2019"
 }' http://localhost:8095/trip/newTrip
 
@@ -210,7 +210,7 @@ curl -H "Content-Type: application/json" -X POST -d '{
   "name": "code beam ite italy 2019",
   "tag":"tecnologia",
   "vehicle":"treno",
-  "owner":"5c7ad36f56c9ff0d78213ef8",
+  "owner":"Tm8WrtKtVzco0him7RlnB9jUMmL2",
   "startDate": "03/22/2019"
 }' http://localhost:8095/trip/newTrip
 
@@ -228,7 +228,7 @@ curl -H "Content-Type: application/json" -X POST -d '{
   "name": "notti brave tour 2019",
   "tag":"musica",
   "vehicle":"auto",
-  "owner":"5c7ad36f56c9ff0d78213ef9",
+  "owner":"RaHUVBSgljOzWvKNSGLl3QeSThh1",
   "startDate": "07/27/2019"
 }' http://localhost:8095/trip/newTrip
 

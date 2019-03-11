@@ -15,6 +15,7 @@ var router = express.Router();
 
 /*****************************************/
 //Api per testare il funzionamento di trip_api.js
+//Api verificata
 
 router.get('/', function (req, res) {
     res.send("The user router works completely");
@@ -22,7 +23,7 @@ router.get('/', function (req, res) {
 
 /****************************************/
 //Api per inserire un nuovo utente
-//Api verificata con lo stress test
+//Api verificata
 
 router.post('/newUser', function(req, res){
 
@@ -32,7 +33,7 @@ router.post('/newUser', function(req, res){
 		email: clientInput.email	
     };
     
-    UserSchema.findOne(conditions, function(err, user){
+    UserSchema.findOne(conditions).exec(function(err, user){
         if (err){
             console.log(JSON.stringify({ status: "error", type: "-1" }));
             res.send(JSON.stringify({ status: "error", type: "-1" }));
@@ -107,7 +108,7 @@ router.post('/newUser', function(req, res){
 
 /****************************************/
 //Api per testing che stampa tutti gli utenti registrati
-//Api verificata con lo stress test
+//Api verificata
 
 router.get('/allUsers', function(req, res){
     
@@ -124,7 +125,10 @@ router.get('/allUsers', function(req, res){
 });
 
 /****************************************/
-//Api per ottenere un utente tramite email => /getUserByEmail?email=prova@gmail.com
+//Api per ottenere un utente tramite email
+//Api verificata
+
+//Example to use getUserByEmail?email=prova@gmail.com
 
 router.get('/getUserByEmail', function(req, res){
 
@@ -132,33 +136,7 @@ router.get('/getUserByEmail', function(req, res){
         email: req.query.email
     };
 
-    UserSchema.findOne(conditions, function(err, user){
-        
-        if (err){
-			res.send(JSON.stringify({ status: "error", type: "-1" }));
-			console.log(err);
-			console.log(JSON.stringify({ status: "error", type: "-1" }));
-		}
-		else if(user != null){
-			res.send(user);
-			console.log(user);
-        }
-        else{
-            res.send(JSON.stringify({ status: "error", type: "-2" }));
-            console.log(JSON.stringify({ status: "error", type: "-2" }));
-        }
-    });
-});
-
-//Api per ottenere un utente tramite email => /getUserByUid?uid=prova@gmail.com
-
-router.get('/getUserByUid', function(req, res){
-
-    var conditions = {
-        uid: req.query.uid
-    };
-
-    UserSchema.findOne(conditions, function(err, user){
+    UserSchema.findOne(conditions).exec(function(err, user){
         
         if (err){
 			res.send(JSON.stringify({ status: "error", type: "-1" }));
@@ -177,7 +155,40 @@ router.get('/getUserByUid', function(req, res){
 });
 
 /****************************************/
-//Api per ottenere un utente tramite id => /getUserById?userId=...
+//Api per ottenere un utente tramite uid
+//Api verificata
+
+//Example to use getUserByUid?userUid=ddeun534FR32ew
+
+router.get('/getUserByUid', function(req, res){
+
+    var conditions = {
+        uid: req.query.userUid
+    };
+
+    UserSchema.findOne(conditions).exec(function(err, user){
+        
+        if (err){
+			res.send(JSON.stringify({ status: "error", type: "-1" }));
+			console.log(err);
+			console.log(JSON.stringify({ status: "error", type: "-1" }));
+		}
+		else if(user != null){
+			res.send(user);
+			console.log(user);
+        }
+        else{
+            res.send(JSON.stringify({ status: "error", type: "-2" }));
+            console.log(JSON.stringify({ status: "error", type: "-2" }));
+        }
+    });
+});
+
+/****************************************/
+//Api per ottenere un utente tramite uid
+//Api verificata
+
+//Example to use /getUserById?userId=...
 
 router.get('/getUserById', function(req, res){
 
@@ -185,7 +196,7 @@ router.get('/getUserById', function(req, res){
 		_id: req.query.userId
 	};
 	
-	UserSchema.findOne(conditions, function(err, user){
+	UserSchema.findOne(conditions).exec( function(err, user){
         
         if (err){
 			res.send(JSON.stringify({ status: "error", type: "-1" }));
@@ -206,39 +217,44 @@ router.get('/getUserById', function(req, res){
 
 /******************************************/
 //Api per aggiornare un utente
+//Api verificata
 
 router.post('/updateUser', function(req, res){
     
-    var JsonObject = req.body;
     var query = {};
 
-    if(JsonObject.name != undefined)
-        query.name = JsonObject.name.toLowerCase();
-    if(JsonObject.surname != undefined)
-        query.surname = JsonObject.surname.toLowerCase();
-    if(JsonObject.age != undefined)
-        query.age = JsonObject.age;
-    if(JsonObject.gender != undefined)
-        query.gender = JsonObject.gender.toLowerCase();
-    if(JsonObject.relationship != undefined)
-        query.relationship = JsonObject.relationship.toLowerCase();
-    if(JsonObject.email != undefined)
-        query.email = JsonObject.email;
-    if(JsonObject.uid != undefined)
-        query.uid = JsonObject.uid;
-    if(JsonObject.description != undefined)
-        query.description = JsonObject.description.toLowerCase();      
-    if(JsonObject.avatar != undefined)
-        query.avatar = JsonObject.avatar;
-    if(JsonObject.cover != undefined)
-        query.cover = JsonObject.cover;         
-    if(JsonObject.sumReview != undefined)
-        query.sumReview = JsonObject.sumReview;
-    if(JsonObject.numReview != undefined)
-        query.numReview = JsonObject.numReview;
+    if(req.body.name != undefined)
+        query.name = req.body.name.toLowerCase();
+    if(req.body.surname != undefined)
+        query.surname = req.body.surname.toLowerCase();
+    if(req.body.age != undefined)
+        query.age = req.body.age;
+    if(req.body.gender != undefined)
+        query.gender = req.body.gender;
+    if(req.body.relationship != undefined)
+        query.relationship = req.body.relationship;
+    if(req.body.email != undefined)
+        query.email = req.body.email;
+    if(req.body.uid != undefined)
+        query.uid = req.body.uid;
+    if(req.body.description != undefined)
+        query.description = req.body.description;      
+    if(req.body.avatar != undefined)
+        query.avatar = req.body.avatar;
+    if(req.body.cover != undefined)
+        query.cover = req.body.cover;         
+    if(req.body.sumReview != undefined)
+        query.sumReview = req.body.sumReview;
+    if(req.body.numReview != undefined)
+        query.numReview = req.body.numReview;
+
+    var conditions = {
+        uid: query.uid
+    };
+
+    console.log(query);
     
-    
-	UserSchema.findById(JsonObject.userId).exec(function(err, user){
+	UserSchema.findOne(conditions).exec(function(err, user){
 		
 		if (err){
 			res.send(JSON.stringify({ status: "error", type: "-1" }));
@@ -269,7 +285,10 @@ router.post('/updateUser', function(req, res){
 });
 
 /******************************************/
-//Api per inserire l'id di un viaggio all'interno dell'array favouriteTrips => /addFavourTrip?tripId=....&usersId=....
+//Api per inserire l'id di un viaggio all'interno dell'array favouriteTrips
+//Api verificata
+
+//Example to use addFavourTrip?tripId=....&usersUid=....
 
 router.get('/addFavouriteTrip', function(req, res){
 
@@ -278,7 +297,7 @@ router.get('/addFavouriteTrip', function(req, res){
     };
    
     var conditions = {
-        _id: req.query.userId,
+        uid: req.query.userUid,
         "favouriteTrips.tripId": { $ne: req.query.tripId }
     };
 
@@ -302,20 +321,72 @@ router.get('/addFavouriteTrip', function(req, res){
 					console.log(JSON.stringify({ status: "error", type: "-6" }));
 				}
 				else{
-					res.send(JSON.stringify({ status: "ok", message: "Trip: " + req.query.tripId + " added to user: " + user._id }));
-					console.log(JSON.stringify({ status: "ok", message: "Trip: " + req.query.tripId + " added to user: " + user._id }));
+					res.send(JSON.stringify({ status: "ok", message: "FavouriteTrip: " + req.query.tripId + " added to user: " + user.uid }));
+					console.log(JSON.stringify({ status: "ok", message: "FavouriteTrip: " + req.query.tripId + " added to user: " + user.uid }));
 				}
 			});
         }
         else{
-            res.send(JSON.stringify({ status: "error", type: "-2" }));
-            console.log(JSON.stringify({ status: "error", type: "-2" }));
+            res.send(JSON.stringify({ status: "error", type: "-9" }));
+            console.log(JSON.stringify({ status: "error", type: "-9" }));
         }
     });
 });
 
 /******************************************/
-//Api per ottenere tutti gli utenti che abbiano tripId all'interno di trips => /GetUsersByTrip?tripId=...
+//Api per rimuovere l'id di un viaggio all'interno dell'array favouriteTrips
+//Api verificata
+
+//Example to use removeFavourTrip?tripId=....&usersUid=....
+
+router.get('/removeFavouriteTrip', function(req, res){
+
+    var trip = {
+        "tripId": req.query.tripId
+    };
+   
+    var conditions = {
+        uid: req.query.userUid,
+        "favouriteTrips.tripId": { $eq: req.query.tripId }
+    };
+
+    var update = {
+		$pull: {favouriteTrips: trip}
+	};
+
+    UserSchema.findOne(conditions, function(err, user){
+        
+        if (err){
+            res.send(JSON.stringify({ status: "error", type: "-1" }));
+            console.log(err);
+            console.log(JSON.stringify({ status: "error", type: "-1" }));
+        }
+
+        if (user != null){
+            user.updateOne(update, function(err, userupdate){
+				if (err){
+					res.send(JSON.stringify({ status: "error", type: "-6" }));
+					console.log(err);
+					console.log(JSON.stringify({ status: "error", type: "-6" }));
+				}
+				else{
+					res.send(JSON.stringify({ status: "ok", message: "FavouriteTrip: " + req.query.tripId + " removed to user: " + user.uid }));
+					console.log(JSON.stringify({ status: "ok", message: "FavouriteTrip: " + req.query.tripId + " removed to user: " + user.uid }));
+				}
+			});
+        }
+        else{
+            res.send(JSON.stringify({ status: "error", type: "-10" }));
+            console.log(JSON.stringify({ status: "error", type: "-10" }));
+        }
+    });
+});
+
+/******************************************/
+//Api per ottenere tutti gli utenti che abbiano tripId all'interno di trips
+//Api verificata
+
+//Example to use /GetUsersByTrip?tripId=...
 
 router.get('/getUsersByTrip', function(req, res){
 
@@ -344,7 +415,10 @@ router.get('/getUsersByTrip', function(req, res){
 });
 
 /******************************************/
-//Api per inserire l'id di un viaggio all'interno dell'array Trips => /addTrip?tripId=....&userId=....
+//Api per inserire l'id di un viaggio all'interno dell'array Trips
+//Api verificata
+
+//Example to use Post /addTrip?tripId=....&userUid=....
 
 router.post('/addTrip', function(req,res){
 	
@@ -361,7 +435,7 @@ router.post('/addTrip', function(req,res){
 	};
 	
 	var conditions_B = {							
-		_id: JsonObject.userId,
+		uid: JsonObject.userUid,
 		'trips.tripId': { $ne: JsonObject.tripId }	
 	};
 	
@@ -373,7 +447,7 @@ router.post('/addTrip', function(req,res){
 		$inc: {partecipants: +1}
 	};
 	
-	TripSchema.findOne(conditions_A,function(err,trip) {
+	TripSchema.findOne(conditions_A).exec(function(err,trip) {
 		if (err){
 			res.send(JSON.stringify({ status: "error", type: "-1" }));
 			console.log(err);
@@ -384,7 +458,7 @@ router.post('/addTrip', function(req,res){
 			console.log(JSON.stringify({ status: "error", type: "-7" }));
 		}
 		else{
-			UserSchema.findOne(conditions_B, function (err, user) {
+			UserSchema.findOne(conditions_B).exec(function (err, user) {
 				if (err){
 					res.send(JSON.stringify({ status: "error", type: "-1" }));
 					console.log(err);
@@ -395,14 +469,14 @@ router.post('/addTrip', function(req,res){
 					console.log(JSON.stringify({ status: "error", type: "-8" }));
 				}			
 				else{
-					user.updateOne(update_A, function(err, userupdate){
+					user.updateOne(update_A).exec( function(err, userupdate){
 						if (err){
 							res.send(JSON.stringify({ status: "error", type: "-1" }));
 							console.log(err);
 							console.log(JSON.stringify({ status: "error", type: "-1" }));
 						}
 						else{
-							trip.updateOne(update_B, function(err, tripupdate) {
+							trip.updateOne(update_B).exec(function(err, tripupdate) {
 								if (err){
 									res.send(JSON.stringify({ status: "error", type: "-1" }));
 									console.log(err);
@@ -422,7 +496,10 @@ router.post('/addTrip', function(req,res){
 });
 
 /******************************************/
-//Api per rimuovere l'id di un viaggio all'interno dell'array Trips => /removeTrip?tripId=....&userId=....
+//Api per rimuovere l'id di un viaggio all'interno dell'array Trips
+//Api verificata
+
+//Example to use Post /removeTrip?tripId=....&userUid=....
 
 router.post('/removeTrip', function(req,res){
 	
@@ -432,7 +509,7 @@ router.post('/removeTrip', function(req,res){
 		"tripId": JsonObject.tripId
 	};	
 	var conditions_A = {							
-		_id: JsonObject.userId,
+		uid: JsonObject.userUid,
 		'trips.tripId': { $eq: JsonObject.tripId }		
 	};
 	
@@ -448,7 +525,7 @@ router.post('/removeTrip', function(req,res){
 		$inc: {partecipants: -1}
 	};
 	
-	UserSchema.findOne(conditions_A, function (err, user) {
+	UserSchema.findOne(conditions_A).exec( function (err, user) {
 		if (err){
 			res.send(JSON.stringify({ status: "error", type: "-1" }));
 			console.log(err);
@@ -459,14 +536,14 @@ router.post('/removeTrip', function(req,res){
 			console.log(JSON.stringify({ status: "error", type: "-3" }));
 		}			
 		else{
-			user.updateOne(update_A, function(err, userupdate){
+			user.updateOne(update_A).exec( function(err, userupdate){
 				if (err){
 					res.send(JSON.stringify({ status: "error", type: "-1" }));
 					console.log(err);
 					console.log(JSON.stringify({ status: "error", type: "-1" }));
 				}
 				else{
-					TripSchema.findOne(conditions_B, function(err, trip){
+					TripSchema.findOne(conditions_B).exec( function(err, trip){
 						if (err){
 							res.send(JSON.stringify({ status: "error", type: "-1" }));
 							console.log(err);
@@ -477,7 +554,7 @@ router.post('/removeTrip', function(req,res){
 							console.log(JSON.stringify({ status: "error", type: "-3" }));
 						}
 						else {
-							trip.updateOne(update_B, function(err, tripupdate){
+							trip.updateOne(update_B).exec( function(err, tripupdate){
 								if(err){
 									res.send(JSON.stringify({ status: "error", type: "-1" }));
 									console.log(err);	
@@ -497,13 +574,16 @@ router.post('/removeTrip', function(req,res){
 });
 
 /******************************************/
-//Api per rimuovere un utente. e.g. /deleteUser?userId=...
+//Api per rimuovere un utente.
+//Api verificata
+
+ //Example to use /deleteUser?userUid=...
 
 router.get('/deleteUser', function(req, res){
 
-	var id = req.query.userId;    
+	var uid = req.query.userUid;    
 
-	UserSchema.remove({_id : id }, function(err){
+	UserSchema.remove({uid : uid }).exec( function(err){
 		if(err){
 			res.send(JSON.stringify({ status: "error", type: "-1" }));
 			console.log(err);
@@ -518,17 +598,20 @@ router.get('/deleteUser', function(req, res){
 });
 
 /******************************************/
-//Api che dato un utente restituisce i suoi viaggi con informazioni annesse e.g. /getTripByUser?userId=...
+//Api che dato un utente restituisce i suoi viaggi con informazioni annesse
+//Api verificata
+ 
+//Example to use /getTripByUser?userUid=...
 
 router.get('/getTripsByUser', function(req, res){
 
-	var id = req.query.userId;
+	var uid = req.query.userUid;
 
 	var conditions1 = {
-		_id: id
+		uid: uid
 	};
 
-	UserSchema.findOne(conditions1, function(err, user){
+	UserSchema.findOne(conditions1).exec( function(err, user){
         
         if (err){
             res.send(JSON.stringify({ status: "error", type: "-1" }));
@@ -545,7 +628,7 @@ router.get('/getTripsByUser', function(req, res){
         		_id: { $in:  list_trips } 
         	};
 
-			TripSchema.find(conditions2,function(err,trips){
+			TripSchema.find(conditions2).exec(function(err,trips){
 				if(err){
 					res.send(JSON.stringify({ status: "error", type: "-1" }));
 					console.log(err);
@@ -568,12 +651,15 @@ router.get('/getTripsByUser', function(req, res){
 
 /******************************************/
 //Api che dato un utente restituisce i suoi viaggi con informazioni annesse,divisi 
-// in in corso e passati e.g. /getTripByUserSplit?userId=...
+// in in corso e passati
+//Api verificata
+
+//Example to use /getTripByUserSplit?userUid=...
 
 router.get('/getTripsByUserSplit',function(req,res){
-	var id = req.query.userId;
+	var uid = req.query.userUid;
 
-	UserSchema.findOne({_id : id}, function(err, user){
+	UserSchema.findOne({uid : uid}).exec( function(err, user){
         
         if (err){
             res.send(JSON.stringify({ status: "error", type: "-1" }));
@@ -623,13 +709,15 @@ router.get('/getTripsByUserSplit',function(req,res){
 });
 
 /******************************************/
-//Api che dato un utente restituisce i suoi viaggi passati con informazioni annesse,divisi 
-// in in corso e passati e.g. /getPassedTripsByUser?userId=...
+//Api che dato un utente restituisce i suoi viaggi passati con informazioni annesse 
+//Api verificata
+
+// Example to use /getPassedTripsByUser?userUid=...
 
 router.get('/getPassedTripsByUser',function(req,res){
-	var id = req.query.userId;
+	var uid = req.query.userUid;
 
-	UserSchema.findOne({_id : id}, function(err, user){
+	UserSchema.findOne({uid : uid}).exec( function(err, user){
         
         if (err){
             res.send(JSON.stringify({ status: "error", typw: "-1" }));
@@ -670,13 +758,15 @@ router.get('/getPassedTripsByUser',function(req,res){
 });
 
 /******************************************/
-//Api che dato un utente restituisce i suoi viaggi con informazioni annesse,divisi 
-// in in corso e passati e.g. /getProgressByUserSplit?userId=...
+//Api che dato un utente restituisce i suoi viaggi in corso con informazioni annesse 
+//Api verificata
+
+// Example to use /getPassedTripsByUser?userUid=...
 
 router.get('/getProgressTripByUser',function(req,res){
-	var id = req.query.userId;
+	var uid = req.query.userUid;
 
-	UserSchema.findOne({_id : id}, function(err, user){
+	UserSchema.findOne({uid : uid}).exec( function(err, user){
         
         if (err){
             res.send(JSON.stringify({ status: "error", type: "-1" }));
