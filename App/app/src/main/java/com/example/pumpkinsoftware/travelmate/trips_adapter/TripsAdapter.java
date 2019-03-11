@@ -78,6 +78,7 @@ public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.ViewHolder> 
                     .into(budget_image);*/
             //more_button = (Button) v.findViewById(R.id.button);
 
+            /*
             fav_image = (ImageView) v.findViewById(R.id.fav_image);
             // Handling animation on click
             fav_image.setOnClickListener(new View.OnClickListener() {

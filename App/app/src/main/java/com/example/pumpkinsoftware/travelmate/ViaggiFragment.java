@@ -22,6 +22,8 @@ import com.example.pumpkinsoftware.travelmate.client_server_interaction.GetTripI
 import com.example.pumpkinsoftware.travelmate.content_fragment_travels.Tab1;
 import com.example.pumpkinsoftware.travelmate.pager_adapter.SlidePagerAdapter;
 import com.example.pumpkinsoftware.travelmate.trip.Trip;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 
@@ -30,7 +32,7 @@ public class ViaggiFragment extends Fragment implements View.OnClickListener {
     private ViewPager viewPager;
     private TabLayout tabLayout;
     private Context context;
-
+    private static final String URL="https://debugtm.herokuapp.com/user/getTripByUserSplit?userUid=";
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)  {
@@ -68,7 +70,7 @@ public class ViaggiFragment extends Fragment implements View.OnClickListener {
             public void onTabReselected(TabLayout.Tab tab) {
             }
         });
-
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         return view;
 
     }

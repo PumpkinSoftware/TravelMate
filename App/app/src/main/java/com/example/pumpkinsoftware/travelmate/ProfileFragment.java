@@ -25,7 +25,7 @@ import org.json.JSONObject;
 
 
 public class ProfileFragment extends Fragment {
-    private final static String URL = "https://debugtm.herokuapp.com/user/getUserByUid?uid=";
+    private final static String URL = "https://debugtm.herokuapp.com/user/getUserByUid?userUid=";
     private Context context;
     private View view;
 

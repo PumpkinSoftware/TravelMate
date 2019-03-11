@@ -23,7 +23,7 @@
             android:elevation="10dp"
             android:tint="@android:color/white"
             app:srcCompat="@drawable/baseline_arrow_back_black_24dp" />
-
+        <!--
         <CheckBox
             android:id="@+id/fav_image"
             android:layout_width="32dp"
@@ -36,7 +36,7 @@
             android:button="@null"
             android:elevation="10dp"
             android:backgroundTint="@android:color/white"/>
-
+        -->
         <ImageView
             android:id="@+id/sharing_image"
             android:layout_width="32dp"

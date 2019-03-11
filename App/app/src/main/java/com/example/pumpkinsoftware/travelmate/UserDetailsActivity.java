@@ -29,7 +29,7 @@ import org.json.JSONObject;
 
 public class UserDetailsActivity extends AppCompatActivity {
     public final static String EXTRA_UID = "travelmate_extra_uda_USER_UID";
-    private final static String URL = "https://debugtm.herokuapp.com/user/getUserByUid?uid=";
+    private final static String URL = "https://debugtm.herokuapp.com/user/getUserByUid?userUid=";
     private Context context;
     private boolean so_prev_lol;
 

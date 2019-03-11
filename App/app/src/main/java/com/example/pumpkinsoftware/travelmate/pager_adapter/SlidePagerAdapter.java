@@ -18,14 +18,14 @@ public class SlidePagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int index) {
         Fragment fragment = null;
         if (index == 0)         fragment = new Tab1();
-        else if (index == 1)    fragment = new Tab2();
+        //else if (index == 1)    fragment = new Tab2();
         else                    fragment = new Tab3();
         return fragment;
     }
 
     @Override
     public int getCount() {
-        return 3;
+        return 2;
     }
 
 
@@ -33,7 +33,7 @@ public class SlidePagerAdapter extends FragmentPagerAdapter {
     public CharSequence getPageTitle(int index) {
         String title = null;
         if (index == 0)         title = "In corso";
-        else if (index == 1)    title = "Preferiti";
+       // else if (index == 1)    title = "Preferiti";
         else                    title = "Conclusi";
         return title;
     }

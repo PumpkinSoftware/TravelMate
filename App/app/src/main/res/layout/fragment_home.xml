@@ -13,13 +13,23 @@
         android:layout_height="?attr/actionBarSize"
         android:background="@color/colorPrimary"
         android:theme="@style/toolbar">
+
         <TextView
+            android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/title"
             android:text="@string/home_title"
             android:textColor="@color/white"
-            android:textSize="22dp"/>
+            android:textSize="22dp" />
+
+        <ImageView
+            android:id="@+id/button_chat"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:clickable="true"
+            android:scaleX="-1"
+            android:layout_marginStart="170dp"
+            android:src="@drawable/ic_message_white_12dp" />
     </android.support.v7.widget.Toolbar>
 
     <!-- Fine header -->

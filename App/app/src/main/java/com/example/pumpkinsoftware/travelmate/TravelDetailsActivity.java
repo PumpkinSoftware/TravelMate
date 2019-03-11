@@ -74,7 +74,7 @@ public class TravelDetailsActivity extends AppCompatActivity {
     private boolean so_prev_lol; // Useful for transitions
 
     private final static String QUERY= "https://debugtm.herokuapp.com/user/getUsersByTrip?tripId=";
-    private final static String URL = "https://debugtm.herokuapp.com/user/getUserByUid?uid=";
+    private final static String URL = "https://debugtm.herokuapp.com/user/getUserByUid?userUid=";
     private RequestQueue mRequestQueue;
     private ArrayList<User> partecipants;
     private CardView card;
@@ -173,7 +173,7 @@ public class TravelDetailsActivity extends AppCompatActivity {
                 else    finish();
             }
         });
-
+        /* favoriti
         final CheckBox fav_image = (CheckBox) findViewById(R.id.fav_image);
         // Handling animation on click
         fav_image.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -183,7 +183,7 @@ public class TravelDetailsActivity extends AppCompatActivity {
                 set.setTarget(buttonView); // set the view you want to animate
                 set.start();
             }
-        });
+        });*/
 
         final ImageView sharing_image = (ImageView) findViewById(R.id.sharing_image);
         // Handling sharing on click with animation

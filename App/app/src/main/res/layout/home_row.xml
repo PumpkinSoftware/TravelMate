@@ -63,14 +63,14 @@
             style="@android:style/Widget.Holo.Light.TextView.SpinnerItem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignEnd="@id/fav_image"
+            android:layout_alignParentEnd="true"
             android:background="@color/white"
             android:text="@string/NYTrip"
             android:textColor="@android:color/white"
             android:textSize="15dp"
             android:layout_marginEnd="-9dp"
             android:transitionName="travel_name" />
-
+        <!--
         <ImageButton
             android:id="@+id/fav_image"
             android:layout_width="32dp"
@@ -82,7 +82,7 @@
             android:background="@drawable/circle"
             android:src="@drawable/fav_icon"
             android:elevation="6dp" />
-
+         -->
         <TextView
             android:id="@+id/travel_name"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
