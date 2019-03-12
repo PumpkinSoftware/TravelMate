@@ -212,7 +212,7 @@ router.get('/getTripsWithFilter', function(req, res){
 	var condition={tag : {$exists:true}, $where:'this.partecipants<this.maxPartecipant'};
 
 
-	TripSchema.find(condition).find(query).where('startDate').gte(new Date()).where('budget').gte(minBudget).lte(maxBudget).where('startDate').gte(minDate).where('endDate').lte(maxDate).where('maxPartecipant').lte(maxPartecipant).gte(minPartecipant).exec( function(err, trips){
+	TripSchema.find(condition).find(query).where('startDate').gte(new Date()).where('budget').gte(minBudget).lte(maxBudget).where('startDate').gte(startDate).where('endDate').lte(endDate).where('maxPartecipant').lte(maxPartecipant).gte(minPartecipant).exec( function(err, trips){
 		if(err){
 			res.send(JSON.stringify({ status: "error", type: "-1" }));
 			console.log(err);
