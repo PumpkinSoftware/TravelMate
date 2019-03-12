@@ -190,11 +190,10 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="height" value="12" />
-                            <entry key="outputName" value="ic_business_center_black_12dp" />
+                            <entry key="assetSourceType" value="FILE" />
+                            <entry key="outputName" value="ic_alcohol_drink_wine_icon_24" />
                             <entry key="overrideSize" value="true" />
-                            <entry key="sourceFile" value="C:\Users\andre\Downloads\baseline-person-24px.svg" />
-                            <entry key="width" value="12" />
+                            <entry key="sourceFile" value="C:\Users\andre\Downloads\alcohol_drink_wine_icon_128.svg" />
                           </map>
                         </option>
                       </PersistentState>

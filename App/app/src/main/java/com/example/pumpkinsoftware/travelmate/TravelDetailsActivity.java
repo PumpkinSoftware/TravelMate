@@ -282,7 +282,7 @@ public class TravelDetailsActivity extends AppCompatActivity {
                         o_image = findViewById(R.id.profile1);
 
                         GlideApp.with(context)
-                                .load((img.isEmpty())?(R.drawable.girl):(img))
+                                .load((img.isEmpty())?(R.drawable.blank_avatar):(img))
                                 .placeholder(R.mipmap.placeholder_image)
                                 .into(o_image);
                         TextView o_name = findViewById(R.id.user1);

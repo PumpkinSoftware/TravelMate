@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
 import com.example.pumpkinsoftware.travelmate.client_server_interaction.GetUserByUid;
 import com.example.pumpkinsoftware.travelmate.client_server_interaction.ServerCallback;
 import com.example.pumpkinsoftware.travelmate.glide.GlideApp;
@@ -62,8 +63,14 @@ public class ProfileFragment extends Fragment {
             ImageView img = (ImageView) view.findViewById(R.id.profile);
 
             GlideApp.with(context)
-                    .load(R.drawable.girl)
+                    .load(R.drawable.blank_avatar)
                     .into(img);
+
+            ImageView img2=(ImageView) view.findViewById(R.id.header_cover_image);
+
+            Glide.with(context)
+                    .load(R.drawable.blank_cover)
+                    .into(img2);
         }
 
         return view;

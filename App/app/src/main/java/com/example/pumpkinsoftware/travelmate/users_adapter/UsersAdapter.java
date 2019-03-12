@@ -116,7 +116,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
         // Set item views based on your views and data model
         CircleImageView image = viewHolder.imageView;
         GlideApp.with(context)
-                .load((user.getPhotoProfile().isEmpty())?(R.drawable.girl):(user.getPhotoProfile()))
+                .load((user.getPhotoProfile().isEmpty())?(R.drawable.blank_avatar):(user.getPhotoProfile()))
                 .placeholder(R.mipmap.placeholder_image)
                 .into(image);
         TextView name = viewHolder.username;

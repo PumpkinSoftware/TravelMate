@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.LinearLayoutManager;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
@@ -69,7 +70,7 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        ImageView chat=(ImageView) view.findViewById(R.id.button_chat);
+        ImageButton chat=(ImageButton) view.findViewById(R.id.button_chat);
         chat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

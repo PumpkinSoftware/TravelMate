@@ -36,7 +36,7 @@ public class ReviewActivity extends AppCompatActivity {
 
         ImageView img = (ImageView) findViewById(R.id.profile);
         GlideApp.with(context)
-                .load(R.drawable.girl)
+                .load(R.drawable.blank_avatar)
                 .into(img);
 
         /*RatingBar ratingBar1 = findViewById(R.id.ratingBar1);

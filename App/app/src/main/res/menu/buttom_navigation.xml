@@ -8,7 +8,7 @@
 
     <item
         android:id="@+id/nav_viaggi"
-        android:icon="@drawable/ic_business_center_black_12dp"
+        android:icon="@drawable/ic_alcohol_drink_wine_icon_24"
         android:title="@string/journey" />
 
     <item
