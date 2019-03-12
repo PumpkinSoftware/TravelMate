@@ -108,7 +108,7 @@ public class EditTextDatePicker implements OnTouchListener, DatePickerDialog.OnD
     }
 
     public int getSetMonth() {
-        if(date_set)    return month;
+        if(date_set)    return month+1;
         return -1;
     }
 
