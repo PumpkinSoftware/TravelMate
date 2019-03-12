@@ -105,12 +105,24 @@
     <string name="language">Lingua</string>
     <string name="sounds">Suoni</string>
     <string name="notifications">Notifiche</string>
+    <string name="edit_profile">Modifica il profilo</string>
+    <string name="rate">Valuta la nostra app</string>
 
 
-    <!-- Travel page-->
+    <!-- Travel page -->
     <string name="tab1">In corso</string>
     <string name="tab2">Favoriti</string>
     <string name="tab3">Conclusi</string>
+
+    <!-- Reviews -->
+    <string name="review">Recensione</string>
+    <string name="experience">Condividi la tua esperienza per migliorare il servizio</string>
+    <string name="q1">Domanda 1</string>
+    <string name="q2">Domanda 2</string>
+    <string name="q3">Domanda 3</string>
+    <string name="q4">Domanda 4</string>
+    <string name="send">Invia</string>
+
 
 
     <!-- TODO: Remove or change this placeholder text -->
