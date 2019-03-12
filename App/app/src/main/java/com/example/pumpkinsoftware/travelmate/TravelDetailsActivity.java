@@ -87,7 +87,7 @@ public class TravelDetailsActivity extends AppCompatActivity {
         context = (Context) this;
 
         Bundle b = getIntent().getExtras();
-        String id =  b.getString(EXTRA_ID);
+        final String id =  b.getString(EXTRA_ID);
         final String img =  b.getString(EXTRA_IMG);
         final String name =  b.getString(EXTRA_NAME);
         final String descr =  b.getString(EXTRA_DESCR);
@@ -211,7 +211,7 @@ public class TravelDetailsActivity extends AppCompatActivity {
         });
 
         // Handling partecipants
-        RequestQueue mRequestQueue = Volley.newRequestQueue(context);
+        /*RequestQueue mRequestQueue = Volley.newRequestQueue(context);
         final GetUserByUid server =  new GetUserByUid(context);
         server.getUserFromServer(URL+owner_uid, mRequestQueue, new ServerCallback() {
                     @Override
@@ -237,20 +237,20 @@ public class TravelDetailsActivity extends AppCompatActivity {
                         o_name.setOnClickListener(lis);
                     }
                 }
-        );
+        );*/
 
         final ProgressBar progress = findViewById(R.id.indeterminateBar);
         final RecyclerView rvUsers = (RecyclerView) findViewById(R.id.recyclerview);
         // Set layout manager to position the items
         rvUsers.setLayoutManager(new LinearLayoutManager(context));
         rvUsers.setNestedScrollingEnabled(false);
-        partecipants = new ArrayList<User>();
+        getPartecipants(rvUsers, progress, id, owner_uid);
 
-        mRequestQueue = Volley.newRequestQueue(context);
-        new GetPartecipantIteration(context, rvUsers, progress).getPartecipantFromServer(QUERY+id, owner_uid, mRequestQueue, partecipants);
+
+        //new GetPartecipantIteration(context, rvUsers, progress).getPartecipantFromServer(QUERY+id, owner_uid, mRequestQueue, partecipants);
 
         //swipe da finire
-        /*final SwipeRefreshLayout swipe = (SwipeRefreshLayout) view.findViewById(R.id.swiperefresh);
+        final SwipeRefreshLayout swipe = (SwipeRefreshLayout) findViewById(R.id.swipeRefresh);
         swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -259,16 +259,47 @@ public class TravelDetailsActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         //temporaneo
-                        rvTrips.setLayoutManager(new LinearLayoutManager(context));
-                        trips=new ArrayList<Trip>();
                         mRequestQueue= Volley.newRequestQueue(context);
-                        new GetTripInteraction(context, rvTrips, progress).getTripsFromServer(URL,mRequestQueue,trips);
+                        getPartecipants(rvUsers, progress, id, owner_uid);
                         swipe.setRefreshing(false);
 
                     }
                 },1500);
             }
-        });*/
+        });
+    }
+
+    private void getPartecipants(RecyclerView rvUsers, ProgressBar progress, String id, final String owner_uid) {
+        partecipants = new ArrayList<User>();
+
+        mRequestQueue = Volley.newRequestQueue(context);
+        final GetPartecipantIteration server =  new GetPartecipantIteration(context, rvUsers, progress);
+        server.getPartecipantFromServer(QUERY+id, owner_uid, mRequestQueue,
+                partecipants, new ServerCallback() {
+                    @Override
+                    public void onSuccess(JSONObject response) {
+                        final String img = server.getOwnerImg();
+                        o_image = findViewById(R.id.profile1);
+
+                        GlideApp.with(context)
+                                .load((img.isEmpty())?(R.drawable.girl):(img))
+                                .placeholder(R.mipmap.placeholder_image)
+                                .into(o_image);
+                        TextView o_name = findViewById(R.id.user1);
+                        o_name.setText(server.getOwnerName());
+
+                        View.OnClickListener lis = new View.OnClickListener(){
+                            @Override
+                            public void onClick(View v) {
+                                openUser(owner_uid);
+                            }
+                        };
+
+                        o_image.setOnClickListener(lis);
+                        o_name.setOnClickListener(lis);
+                    }
+                }
+        );
     }
 
     // Handling sharing
@@ -294,9 +325,10 @@ public class TravelDetailsActivity extends AppCompatActivity {
                     .setPositiveButton("Sì", new DialogInterface.OnClickListener() {
 
                         public void onClick(DialogInterface dialog, int whichButton) {
-                            AnimatorSet set = (AnimatorSet) AnimatorInflater.loadAnimator(context, R.animator.zoom_in);
+                            /*AnimatorSet set = (AnimatorSet) AnimatorInflater.loadAnimator(context, R.animator.zoom_in);
                             set.setTarget(b); // set the view you want to animate
-                            set.start();
+                            set.start();*/
+                            animate(b);
                             ObjectAnimator backgroundColorAnimator = ObjectAnimator.ofObject(card,
                                     "backgroundColor",
                                     new ArgbEvaluator(),
@@ -311,34 +343,53 @@ public class TravelDetailsActivity extends AppCompatActivity {
         }
 
         else {
-            new AlertDialog.Builder(this)
-                    .setTitle("Partecipa all'evento")
-                    .setMessage("Vuoi unirti al gruppo?")
-                    //.setIcon(android.R.drawable.ic_dialog_alert)
-                    .setPositiveButton("Sì", new DialogInterface.OnClickListener() {
-
-                        public void onClick(DialogInterface dialog, int whichButton) {
-                            AnimatorSet set = (AnimatorSet) AnimatorInflater.loadAnimator(context, R.animator.zoom_in);
-                            set.setTarget(b); // set the view you want to animate
-                            set.start();
-                            ObjectAnimator backgroundColorAnimator = ObjectAnimator.ofObject(card,
-                                    "backgroundColor",
-                                    new ArgbEvaluator(),
-                                    colorFrom,
-                                    colorTo);
-                            backgroundColorAnimator.setDuration(300);
-                            backgroundColorAnimator.start();
-                            b.setText("Abbandona");
-                            // TODO add user to travel
-                        }})
-                    .setNegativeButton(android.R.string.no, null).show();
+            /*AnimatorSet set = (AnimatorSet) AnimatorInflater.loadAnimator(context, R.animator.zoom_in);
+            set.setTarget(b); // set the view you want to animate
+            set.start();*/
+            animate(b);
+            ObjectAnimator backgroundColorAnimator = ObjectAnimator.ofObject(card,
+                    "backgroundColor",
+                    new ArgbEvaluator(),
+                    colorFrom,
+                    colorTo);
+            backgroundColorAnimator.setDuration(300);
+            backgroundColorAnimator.start();
+            b.setText("Abbandona");
+            // TODO add user to travel
         }
+    }
+
+    // Animation zoom in on a view
+    private void animate(View v) {
+        AnimatorSet set = (AnimatorSet) AnimatorInflater.loadAnimator(context, R.animator.zoom_in);
+        set.setTarget(v); // set the view you want to animate
+        set.start();
     }
 
     // Open user on click
     private void openUser(User u) {
         Intent intent = new Intent(context, UserDetailsActivity.class);
         intent.putExtra(UserDetailsActivity.EXTRA_UID, u.getUid());
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            // create the transition animation - the images in the layouts
+            // of both activities are defined with android:transitionName="robot"
+            ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation((Activity)context,
+                    Pair.create((View)o_image, "image"));
+            //Pair.create((View)trip_name, "travel_name"));
+            // start the new activity
+            context.startActivity(intent, options.toBundle());
+        }
+
+        else {
+            context.startActivity(intent);
+        }
+    }
+
+    // Open user on click
+    private void openUser(String uid) {
+        Intent intent = new Intent(context, UserDetailsActivity.class);
+        intent.putExtra(UserDetailsActivity.EXTRA_UID, uid);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             // create the transition animation - the images in the layouts

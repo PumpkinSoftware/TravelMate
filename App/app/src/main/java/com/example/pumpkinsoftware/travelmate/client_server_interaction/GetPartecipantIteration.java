@@ -27,6 +27,8 @@ public class GetPartecipantIteration {
     private RecyclerView rvUsers;
     UsersAdapter adapter;
     private ProgressBar progressBar;
+    private String ownerName;
+    private String ownerImg;
 
     public GetPartecipantIteration(Context c, RecyclerView rv, ProgressBar progress) {
         context = c;
@@ -34,7 +36,7 @@ public class GetPartecipantIteration {
         progressBar = progress;
     }
 
-    public void getPartecipantFromServer(String query, final String owner_uid, RequestQueue mQueue, final ArrayList<User> users) {
+    public void getPartecipantFromServer(String query, final String owner_uid, RequestQueue mQueue, final ArrayList<User> users, final ServerCallback callback) {
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, query, null, new Response.Listener<JSONArray>() {
             public void onResponse(JSONArray response) {
 
@@ -45,8 +47,16 @@ public class GetPartecipantIteration {
                         String name = user.getString("name");
                         String profile = user.getString("avatar");
 
-                        if(!uid.equals(owner_uid))
+                        if(uid.equals(owner_uid)) {
+                            ownerName = name;
+                            ownerImg = profile;
+                            callback.onSuccess(user);
+                        }
+                        else
                             users.add(new User(uid, name, profile));
+
+                        /*if(!uid.equals(owner_uid))
+                            users.add(new User(uid, name, profile));*/
                     }
                     adapter = new UsersAdapter(users);
                     // Attach the adapter to the recyclerview to populate items
@@ -71,4 +81,8 @@ public class GetPartecipantIteration {
     }
 
     private void hideProgressBar() { if (progressBar != null) progressBar.setVisibility(View.GONE); }
+
+    public String getOwnerName() { return ownerName; }
+
+    public String getOwnerImg() { return ownerImg; }
 }
