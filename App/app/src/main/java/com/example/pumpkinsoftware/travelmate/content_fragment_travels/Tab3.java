@@ -35,6 +35,8 @@ public class Tab3 extends Fragment {
         context = getContext();
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        final ProgressBar progress = view.findViewById(R.id.indeterminateBar);
+        progress.setVisibility(View.GONE);
         if(user == null) return view;
 
         user.getUid();

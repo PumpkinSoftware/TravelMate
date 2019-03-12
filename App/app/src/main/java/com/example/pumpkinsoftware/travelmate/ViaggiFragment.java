@@ -45,7 +45,7 @@ public class ViaggiFragment extends Fragment implements View.OnClickListener {
         //fine
 
         viewPager = (ViewPager) view.findViewById(R.id.pager);
-        PagerAdapter mAdapter = new SlidePagerAdapter(getFragmentManager());
+        PagerAdapter mAdapter = new SlidePagerAdapter(getChildFragmentManager());
         viewPager.setAdapter(mAdapter);
         tabLayout = view.findViewById(R.id.tab);
         tabLayout.setupWithViewPager(viewPager);

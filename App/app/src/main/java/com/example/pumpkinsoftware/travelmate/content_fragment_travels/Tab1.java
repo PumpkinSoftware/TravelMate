@@ -39,7 +39,7 @@ public class Tab1 extends Fragment {
 
         user.getUid();
 
-        final ProgressBar progress = view.findViewById(R.id.indeterminateBar); //xml da controllare
+        final ProgressBar progress = view.findViewById(R.id.indeterminateBar);
         final RecyclerView rvTrips = (RecyclerView) view.findViewById(R.id.recyclerview);
         // Set layout manager to position the items
         rvTrips.setLayoutManager(new LinearLayoutManager(context));
