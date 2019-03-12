@@ -181,8 +181,8 @@ router.get('/getTripsWithFilter', function(req, res){
 	var vehicle = req.query.vehicle;
 	var minBudget = 0;
 	var maxBudget = 100000;
-	var minDate = new Date("1/1/1970");
-	var maxDate = new Date("1/1/4000");
+	var startDate = new Date("1/1/1970");
+	var endDate = new Date("1/1/4000");
 	var maxPartecipant = 1000000;
 	var minPartecipant = 1;
 
@@ -200,10 +200,10 @@ router.get('/getTripsWithFilter', function(req, res){
 		minBudget = req.query.minBudget;
 	if(req.query.maxBudget != undefined)
 		maxBudget = req.query.maxBudget;
-	if(req.query.minDate != undefined)
-		minDate = new Date(req.query.minDate);
-	if(req.query.maxDate != undefined)
-		maxDate = new Date(req.query.maxDate);
+	if(req.query.startDate != undefined)
+		startDate = new Date(req.query.startDate);
+	if(req.query.endDate != undefined)
+		endDate = new Date(req.query.endDate);
 	if(req.query.maxPartecipant != undefined)
 		maxPartecipant = req.query.maxPartecipant;
 	if(req.query.minPartecipant != undefined)
