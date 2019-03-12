@@ -106,7 +106,7 @@
             android:layout_marginStart="7dp"
             android:layout_marginEnd="7dp"
             android:textColor="@android:color/black"
-            android:textSize="18sp" />
+            android:textSize="18sp"/>
         <!--
             android:text="@string/bio"-->
         <!--</RelativeLayout>-->

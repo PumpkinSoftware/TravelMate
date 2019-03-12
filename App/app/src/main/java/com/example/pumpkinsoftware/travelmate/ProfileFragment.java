@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -84,11 +85,12 @@ public class ProfileFragment extends Fragment {
                 .into(img);
 
         TextView txt = view.findViewById(R.id.name);
-        String ns=mUser.getName()+ " "+ mUser.getSurname(); //così non rompe
+        String ns = mUser.getName()+ " "+ mUser.getSurname();
         txt.setText(ns);
 
         txt = view.findViewById(R.id.bio);
         txt.setText(mUser.getDescr());
+
 
         txt = view.findViewById(R.id.age2);
         txt.setText(String.valueOf(mUser.getAge()));
