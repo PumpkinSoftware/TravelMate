@@ -298,8 +298,54 @@ router.get('/deleteTrip', function(req, res){
 			console.log(JSON.stringify({ status: "error", type: "-1" }));
 		}
 		else{
-			res.send(JSON.stringify({ status: "ok", message: "Your trip is deleted" }));
+			
 			console.log(JSON.stringify({ status: "ok", message: "Your trip is deleted" }));
+			
+			var trip = {
+				"tripId": req.query.tripId
+			};
+		   
+			var condition1 = {
+				"trips.tripId" : { $eq: req.query.tripId }
+			};
+
+			var condition2 = {
+				"favouriteTrips.tripId" : { $eq: req.query.tripId }
+			};
+		
+			var update = {
+				$pull: {trips: trip, favouriteTrips: trip},
+			};
+
+			UserSchema.find(condition1 || condition2, function(err, users){
+				if(err){
+					res.send(JSON.stringify({ status: "error", type: "-1" }));
+					console.log(err);
+					console.log(JSON.stringify({ status: "error", type: "-1" }));
+				}
+
+				else if(users.length > 0){
+					users.forEach( (user) => {
+						user.updateOne(update, function(err, updateuser){
+							if (err){
+								res.send(JSON.stringify({ status: "error", type: "-6" }));
+								console.log(err);
+								console.log(JSON.stringify({ status: "error", type: "-6" }));
+							}
+							else{
+								console.log(JSON.stringify({ status: "ok", message: "trip is removed"}));
+							}
+						});
+					});
+					console.log(JSON.stringify({ status: "ok", message: "the removal is a success" }));
+					res.send(JSON.stringify({ status: "ok", message: "the removal is a success" }));
+				}
+
+				else{
+					console.log(JSON.stringify({ status: "error", type: "-8" }));
+					res.send(JSON.stringify({ status: "error", type: "-8" }));
+				}
+			});
 		}
 	});
 });
