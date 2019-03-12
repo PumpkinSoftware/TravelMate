@@ -763,7 +763,7 @@ router.get('/getPassedTripsByUser',function(req,res){
 
 // Example to use /getPassedTripsByUser?userUid=...
 
-router.get('/getProgressTripByUser',function(req,res){
+router.get('/getProgressTripsByUser',function(req,res){
 	var uid = req.query.userUid;
 
 	UserSchema.findOne({uid : uid}).exec( function(err, user){
