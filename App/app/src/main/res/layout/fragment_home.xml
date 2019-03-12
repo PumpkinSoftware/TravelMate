@@ -28,7 +28,7 @@
             android:layout_height="32dp"
             android:clickable="true"
             android:scaleX="-1"
-            android:layout_marginStart="170dp"
+            android:layout_marginStart="150dp"
             android:src="@drawable/ic_message_white_12dp" />
     </android.support.v7.widget.Toolbar>
 

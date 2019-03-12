@@ -24,7 +24,7 @@ import com.google.firebase.auth.FirebaseUser;
 import java.util.ArrayList;
 
 public class Tab3 extends Fragment {
-    private final static String URL="https://debugtm.herokuapp.com/trip/allTrips/";
+    private final static String URL="https://debugtm.herokuapp.com/user/getPassedTripsByUser?userUid=";
     private Context context;
     private RequestQueue mRequestQueue;
     private ArrayList<Trip> trips;
@@ -38,17 +38,15 @@ public class Tab3 extends Fragment {
         final ProgressBar progress = view.findViewById(R.id.indeterminateBar);
         progress.setVisibility(View.GONE);
         if(user == null) return view;
+        final String uid=user.getUid();
 
-        user.getUid();
-
-        /*final ProgressBar progress = view.findViewById(R.id.indeterminateBar); //xml da controllare
         final RecyclerView rvTrips = (RecyclerView) view.findViewById(R.id.recyclerview);
         // Set layout manager to position the items
         rvTrips.setLayoutManager(new LinearLayoutManager(context));
         trips=new ArrayList<Trip>();
 
         mRequestQueue= Volley.newRequestQueue(context);
-        new GetTripInteraction(context, rvTrips, progress).getTripsFromServer(URL, mRequestQueue, trips);
+        new GetTripInteraction(context, rvTrips, progress).getTripsFromServer(URL+uid, mRequestQueue, trips);
 
         //swipe da finire
         final SwipeRefreshLayout swipe = (SwipeRefreshLayout) view.findViewById(R.id.swiperefresh);
@@ -63,13 +61,13 @@ public class Tab3 extends Fragment {
                         rvTrips.setLayoutManager(new LinearLayoutManager(context));
                         trips=new ArrayList<Trip>();
                         mRequestQueue= Volley.newRequestQueue(context);
-                        new GetTripInteraction(context, rvTrips, progress).getTripsFromServer(URL,mRequestQueue,trips);
+                        new GetTripInteraction(context, rvTrips, progress).getTripsFromServer(URL+uid,mRequestQueue,trips);
                         swipe.setRefreshing(false);
 
                     }
                 },1500);
             }
-        });*/
+        });
         return view;
     }
 

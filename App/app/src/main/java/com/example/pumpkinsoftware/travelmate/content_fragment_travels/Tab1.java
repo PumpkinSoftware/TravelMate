@@ -24,7 +24,7 @@ import com.google.firebase.auth.FirebaseUser;
 import java.util.ArrayList;
 
 public class Tab1 extends Fragment {
-    private final static String URL="https://debugtm.herokuapp.com/trip/getTripsWithFilter?minBudget=20&maxBudget=50&maxPartecipant=15&destination=torino";
+    private final static String URL="https://debugtm.herokuapp.com/user/getProgressTripsByUser?userUid=";
     private Context context;
     private RequestQueue mRequestQueue;
     private ArrayList<Trip> trips;
@@ -33,11 +33,9 @@ public class Tab1 extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_recyclerview_travel, container, false);
         context = getContext();
-
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if(user == null) return view;
-
-        user.getUid();
+        final String uid=user.getUid();
 
         final ProgressBar progress = view.findViewById(R.id.indeterminateBar);
         final RecyclerView rvTrips = (RecyclerView) view.findViewById(R.id.recyclerview);
@@ -46,7 +44,7 @@ public class Tab1 extends Fragment {
         trips=new ArrayList<Trip>();
 
         mRequestQueue= Volley.newRequestQueue(context);
-        new GetTripInteraction(context, rvTrips, progress).getTripsFromServer(URL, mRequestQueue, trips);
+        new GetTripInteraction(context, rvTrips, progress).getTripsFromServer(URL+uid, mRequestQueue, trips);
 
         //swipe da finire
         final SwipeRefreshLayout swipe = (SwipeRefreshLayout) view.findViewById(R.id.swiperefresh);
@@ -61,7 +59,7 @@ public class Tab1 extends Fragment {
                         rvTrips.setLayoutManager(new LinearLayoutManager(context));
                         trips=new ArrayList<Trip>();
                         mRequestQueue= Volley.newRequestQueue(context);
-                        new GetTripInteraction(context, rvTrips, progress).getTripsFromServer(URL,mRequestQueue,trips);
+                        new GetTripInteraction(context, rvTrips, progress).getTripsFromServer(URL+uid,mRequestQueue,trips);
                         swipe.setRefreshing(false);
 
                     }
