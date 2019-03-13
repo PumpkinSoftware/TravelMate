@@ -676,14 +676,14 @@ router.get('/getTripsByUserSplit',function(req,res){
         		_id: { $in:  list_trips } 
         	};
 
-			TripSchema.find(conditions2).where('startDate').gte(new Date()).sort({"startDate": 'desc'}).exec(function(err,progress){
+			TripSchema.find(conditions2).where('startDate').gte(new Date()).sort('startDate').exec(function(err,progress){
 				if(err){
 					console.log(err);
 					console.log(JSON.stringify({ status: "error", type: "-1" }));
 					res.send(JSON.stringify({ status: "error", type: "-1" }));
 				}
 				else{
-					TripSchema.find(conditions2).where('startDate').lt(new Date()).sort({"startDate": 'desc'}).exec(function(err,done){
+					TripSchema.find(conditions2).where('startDate').lt(new Date()).sort('startDate').exec(function(err,done){
 						if(err){
 							console.log(err);
 							console.log(JSON.stringify({ status: "error", type: "-1" }));
@@ -734,7 +734,7 @@ router.get('/getPassedTripsByUser',function(req,res){
         		_id: { $in:  list_trips } 
         	};
 
-			TripSchema.find(conditions2).where('startDate').lt(new Date()).sort({"startDate": 'desc'}).exec(function(err,passed){
+			TripSchema.find(conditions2).where('startDate').lt(new Date()).sort('startDate').exec(function(err,passed){
 				if(err){
 					console.log(err);
 					console.log(JSON.stringify({ status: "error", type: "-1" }));
@@ -783,7 +783,7 @@ router.get('/getProgressTripsByUser',function(req,res){
         		_id: { $in:  list_trips } 
         	};
 
-			TripSchema.find(conditions2).where('startDate').gte(new Date()).sort({"startDate": 'desc'}).exec(function(err,progress){
+			TripSchema.find(conditions2).where('startDate').gte(new Date()).sort('startDate').exec(function(err,progress){
 				if(err){
 					console.log(err);
 					console.log(JSON.stringify({ status: "error", type: "-1" }));
