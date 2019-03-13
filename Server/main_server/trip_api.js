@@ -317,34 +317,15 @@ router.get('/deleteTrip', function(req, res){
 				$pull: {trips: trip, favouriteTrips: trip},
 			};
 
-			UserSchema.find(condition1 || condition2, function(err, users){
-				if(err){
-					res.send(JSON.stringify({ status: "error", type: "-1" }));
+			UserSchema.updateMany(condition1 || condition2, update, { multi: true }, function (err, raw) {
+				if (err){
 					console.log(err);
-					console.log(JSON.stringify({ status: "error", type: "-1" }));
+					res.send(JSON.stringify({ status: "error", type: "-1" }));
 				}
-
-				else if(users.length > 0){
-					users.forEach( (user) => {
-						user.updateOne(update, function(err, updateuser){
-							if (err){
-								res.send(JSON.stringify({ status: "error", type: "-6" }));
-								console.log(err);
-								console.log(JSON.stringify({ status: "error", type: "-6" }));
-							}
-							else{
-								console.log(JSON.stringify({ status: "ok", message: "trip is removed"}));
-							}
-						});
-					});
-					console.log(JSON.stringify({ status: "ok", message: "the removal is a success" }));
-					res.send(JSON.stringify({ status: "ok", message: "the removal is a success" }));
-				}
-
 				else{
-					console.log(JSON.stringify({ status: "error", type: "-8" }));
-					res.send(JSON.stringify({ status: "error", type: "-8" }));
-				}
+					console.log(raw);
+					res.send(JSON.stringify({ status: "ok", message: "the removal is a success" }));
+				} 
 			});
 		}
 	});
