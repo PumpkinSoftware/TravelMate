@@ -31,6 +31,9 @@ import com.google.firebase.auth.FirebaseUser;
 
 import org.json.JSONObject;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class RegistrationActivity extends AppCompatActivity {
     private Context context;
     private EditText mail;
@@ -39,7 +42,8 @@ public class RegistrationActivity extends AppCompatActivity {
     private VideoView videoView;
     private MutedVideoView mVideoView;
     private boolean so_prev_oreo = true; // I Don't need call lib func, I use it only for muting video on older version than Oreo
-
+    public static final Pattern VALID_EMAIL_ADDRESS_REGEX =
+            Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -109,10 +113,19 @@ public class RegistrationActivity extends AppCompatActivity {
         String email = mail.getText().toString();
         String password = pass.getText().toString();
 
-        if(email.isEmpty() || password.isEmpty())
+        if (email.isEmpty() || password.isEmpty()){
             Toast.makeText(context, "Inserire tutti i campi", Toast.LENGTH_SHORT).show();
-        else
-            mAuth.createUserWithEmailAndPassword(email, password)
+        }else if(!validate(email)){
+            Toast.makeText(context, "Email non valida", Toast.LENGTH_SHORT).show();
+        }else if(password.length()<8) {
+            Toast.makeText(context, "Password troppo breve", Toast.LENGTH_SHORT).show();
+        }else{
+            Intent intent = new Intent(context,AccountRegisterActivity.class);
+            intent.putExtra("mail",email);
+            intent.putExtra("pass",password);
+            startActivity(intent);
+        }
+           /* mAuth.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
@@ -142,13 +155,13 @@ public class RegistrationActivity extends AppCompatActivity {
 
                                 //finish();
 
-                            }
+                          /*  }
                             else {
                                 //Log.w(TAG, "createUserWithEmail:failure", task.getException());
                                 Toast.makeText(context, "Registrazione fallita", Toast.LENGTH_SHORT).show();
                             }
                         }
-                    });
+                    });*/
     }
 
 
@@ -179,6 +192,9 @@ public class RegistrationActivity extends AppCompatActivity {
         View view = this.getCurrentFocus();
         if (view != null) view.clearFocus();
     }
-
+    public static boolean validate(String emailStr) {
+        Matcher matcher = VALID_EMAIL_ADDRESS_REGEX .matcher(emailStr);
+        return matcher.find();
+    }
 }
 

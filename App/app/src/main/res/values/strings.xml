@@ -123,12 +123,19 @@
     <string name="q4">Domanda 4</string>
     <string name="send">Invia</string>
 
-
+    <!-- Register -->
+    <string name="account">Nuovo account</string>
+    <string name="nascita">Data di nascita</string>
+    <string name="uomo">Uomo</string>
+    <string name="donna">Donna</string>
+    <string name="single">Single</string>
+    <string name="fidanzato">Fidanzato/a</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="partecipanti">Partecipanti:</string>
     <string name="organizzatore">Organizzatore:</string>
+
 
 
 </resources>
