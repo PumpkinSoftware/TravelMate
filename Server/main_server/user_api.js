@@ -532,8 +532,8 @@ router.post('/removeTrip', function(req,res){
 			console.log(JSON.stringify({ status: "error", type: "-1" }));
 		}
 		else if (user == null){
-			res.send(JSON.stringify({ status: "error", type: "-3" }));
-			console.log(JSON.stringify({ status: "error", type: "-3" }));
+			res.send(JSON.stringify({ status: "error", type: "-2" }));
+			console.log(JSON.stringify({ status: "error", type: "-2" }));
 		}			
 		else{
 			user.updateOne(update_A).exec( function(err, userupdate){
@@ -676,14 +676,14 @@ router.get('/getTripsByUserSplit',function(req,res){
         		_id: { $in:  list_trips } 
         	};
 
-			TripSchema.find(conditions2).where('startDate').gte(new Date()).sort({"startDate": 'desc'}).exec(function(err,progress){
+			TripSchema.find(conditions2).where('startDate').gte(new Date()).sort('startDate').exec(function(err,progress){
 				if(err){
 					console.log(err);
 					console.log(JSON.stringify({ status: "error", type: "-1" }));
 					res.send(JSON.stringify({ status: "error", type: "-1" }));
 				}
 				else{
-					TripSchema.find(conditions2).where('startDate').lt(new Date()).sort({"startDate": 'desc'}).exec(function(err,done){
+					TripSchema.find(conditions2).where('startDate').lt(new Date()).sort('startDate').exec(function(err,done){
 						if(err){
 							console.log(err);
 							console.log(JSON.stringify({ status: "error", type: "-1" }));
@@ -734,7 +734,7 @@ router.get('/getPassedTripsByUser',function(req,res){
         		_id: { $in:  list_trips } 
         	};
 
-			TripSchema.find(conditions2).where('startDate').lt(new Date()).sort({"startDate": 'desc'}).exec(function(err,passed){
+			TripSchema.find(conditions2).where('startDate').lt(new Date()).sort('startDate').exec(function(err,passed){
 				if(err){
 					console.log(err);
 					console.log(JSON.stringify({ status: "error", type: "-1" }));
@@ -763,7 +763,7 @@ router.get('/getPassedTripsByUser',function(req,res){
 
 // Example to use /getPassedTripsByUser?userUid=...
 
-router.get('/getProgressTripByUser',function(req,res){
+router.get('/getProgressTripsByUser',function(req,res){
 	var uid = req.query.userUid;
 
 	UserSchema.findOne({uid : uid}).exec( function(err, user){
@@ -783,7 +783,7 @@ router.get('/getProgressTripByUser',function(req,res){
         		_id: { $in:  list_trips } 
         	};
 
-			TripSchema.find(conditions2).where('startDate').gte(new Date()).sort({"startDate": 'desc'}).exec(function(err,progress){
+			TripSchema.find(conditions2).where('startDate').gte(new Date()).sort('startDate').exec(function(err,progress){
 				if(err){
 					console.log(err);
 					console.log(JSON.stringify({ status: "error", type: "-1" }));
@@ -805,6 +805,88 @@ router.get('/getProgressTripByUser',function(req,res){
 
 
 });
+
+/******************************************/
+//Api che dato un viaggio e un utente, cambia l'owner del viaggio nell'utente dato e rimuove il precedente owner dai partecipanti del viaggio 
+
+// Example to use /changeOwnerAndRemoveLast?tripId=...&userUid=...
+
+router.post('/changeOwnerAndRemoveLast',function(req,res){
+	
+	var JsonObject = req.body;
+	
+	var trip = {
+		"tripId":JsonObject.tripId
+	};
+	
+	var conditions_A = {
+		_id: JsonObject.tripId
+	}
+	
+	var update_A = {
+		$set: {owner: JsonObject.userUid},
+		$inc: {partecipants: -1}
+	};
+	
+	var update_B = {
+		$pull: {trips: trip}
+	}
+	
+	TripSchema.findOne(conditions_A).exec(function(err,trip) {
+		if (err){
+			res.send(JSON.stringify({ status: "error", type: "-1" }));
+			console.log(err);
+			console.log(JSON.stringify({ status: "error", type: "-1" }));
+		}
+		else if (trip == null){
+			res.send(JSON.stringify({ status: "error", type: "-3" }));
+			console.log(JSON.stringify({ status: "error", type: "-3" }));
+		}
+		else{
+			
+			var conditions_B = {
+				uid: trip.owner
+			}
+			
+			UserSchema.findOne(conditions_B).exec(function(err, user) {
+				if (err){
+					res.send(JSON.stringify({ status: "error", type: "-1" }));
+					console.log(err);
+					console.log(JSON.stringify({ status: "error", type: "-1" }));
+				}
+				else if (user == null){
+					res.send(JSON.stringify({ status: "error", type: "-2" }));
+					console.log(JSON.stringify({ status: "error", type: "-2" }));
+				}			
+				else{					
+					user.updateOne(update_B).exec(function(err, userupdate){
+						if (err){
+							res.send(JSON.stringify({ status: "error", type: "-1" }));
+							console.log(err);
+							console.log(JSON.stringify({ status: "error", type: "-1" }));
+						}
+						else{
+							trip.updateOne(update_A).exec(function(err, tripupdate) {
+								if (err){
+									res.send(JSON.stringify({ status: "error", type: "-1" }));
+									console.log(err);
+									console.log(JSON.stringify({ status: "error", type: "-1" }));
+								}
+								else{
+									res.send(JSON.stringify({ status: "ok", message: "Trip: " + JsonObject.tripId + " has now the new owner: " + JsonObject.userUid }));
+									console.log(JSON.stringify({ status: "ok", message: "Trip: " + JsonObject.tripId + " has now the new owner: " + JsonObject.userUid }));
+								}
+							});
+						}
+					});
+				}
+			});	
+		}
+	});
+
+});
+
+
 
 
 module.exports = router;
