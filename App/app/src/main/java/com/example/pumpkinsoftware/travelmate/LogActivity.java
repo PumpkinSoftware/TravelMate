@@ -162,8 +162,8 @@ public class LogActivity extends AppCompatActivity {
         String username = user.getText().toString();
         String password = pass.getText().toString();
 
-        if(username.isEmpty() || password.isEmpty()) openMain(); // CAMBIO PER I TEST
-            //Toast.makeText(contesto, "Inserire tutti i campi", Toast.LENGTH_SHORT).show();
+        if(username.isEmpty() || password.isEmpty())
+            Toast.makeText(context, "Inserire tutti i campi", Toast.LENGTH_SHORT).show();
         else
             mAuth.signInWithEmailAndPassword(username, password)
                     .addOnCompleteListener((Activity) context, new OnCompleteListener<AuthResult>() {

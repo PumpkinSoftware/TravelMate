@@ -44,7 +44,6 @@ import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.example.pumpkinsoftware.travelmate.client_server_interaction.GetPartecipantIteration;
-import com.example.pumpkinsoftware.travelmate.client_server_interaction.GetUserByUid;
 import com.example.pumpkinsoftware.travelmate.client_server_interaction.ServerCallback;
 import com.example.pumpkinsoftware.travelmate.glide.GlideApp;
 import com.example.pumpkinsoftware.travelmate.user.User;
@@ -74,7 +73,7 @@ public class TravelDetailsActivity extends AppCompatActivity {
     private boolean so_prev_lol; // Useful for transitions
 
     private final static String QUERY= "https://debugtm.herokuapp.com/user/getUsersByTrip?tripId=";
-    private final static String URL = "https://debugtm.herokuapp.com/user/getUserByUid?userUid=";
+    //private final static String URL = "https://debugtm.herokuapp.com/user/getUserByUid?userUid=";
     private RequestQueue mRequestQueue;
     private ArrayList<User> partecipants;
     private CardView card;

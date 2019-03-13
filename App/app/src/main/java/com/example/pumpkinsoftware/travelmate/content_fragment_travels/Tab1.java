@@ -31,7 +31,7 @@ public class Tab1 extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_recyclerview_travel2, container, false);
+        View view = inflater.inflate(R.layout.fragment_recyclerview_travel, container, false);
         context = getContext();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if(user == null) return view;

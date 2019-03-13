@@ -36,14 +36,18 @@
 
     <!-- Fine header -->
 
-    <ProgressBar
+    <include layout="@layout/fragment_recyclerview_travel"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/toolbar"/>
+
+    <!--<ProgressBar
         android:id="@+id/indeterminateBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true" />
 
-    <!-- Swipe Refresh -->
     <android.support.v4.widget.SwipeRefreshLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/swiperefresh"
@@ -55,7 +59,7 @@
             android:id="@+id/recyclerview"
             android:scrollbars="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"/>-->
 
     <!-- Contenuto per lo scrolling -->
     <!--<ScrollView
@@ -393,5 +397,5 @@
         <!--</RelativeLayout>
     </ScrollView>-->
 
-    </android.support.v4.widget.SwipeRefreshLayout>
+   <!-- </android.support.v4.widget.SwipeRefreshLayout>-->
 </RelativeLayout>
