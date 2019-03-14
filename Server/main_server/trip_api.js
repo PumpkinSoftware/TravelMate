@@ -359,6 +359,56 @@ router.get('/getTripById', function(req, res){
 	});
 });
 
+/******************************************/
+//Api per ottenere un viaggio da Id
+//Api verificata
+
+// example use getTripByidWithUsers?id=483249832948932ab43c443b
+
+router.get('/getTripByIdWithUsers', function(req, res){
+
+	var id = req.query.id;
+
+	if(id == undefined)
+		res.send(JSON.stringify({ status: "error", type: "-4" }));
+
+	TripSchema.findById(id).exec(function(err, trip){
+		
+		if (err){
+			res.send(JSON.stringify({ status: "error", type: "-3" }));
+			console.log(err);
+			console.log(JSON.stringify({ status: "error", type: "-3" }));
+		}
+		else{
+
+			var conditions = {
+        		"trips.tripId": { $eq: trip._id }
+    		}
+
+    		UserSchema.find(conditions, function(err, users){
+        
+        	if (err){
+            	res.send(JSON.stringify({ status: "error", type: "-1" }));
+            	console.log(err);
+            	console.log(JSON.stringify({ status: "error", type: "-1" }));
+        	}
+        
+        	if (users.length > 0){
+            	res.send([trip + users]);
+            	console.log([trip + users]);
+        	}
+        	else{
+            	res.send(JSON.stringify({ status: "error", type: "-2" }));
+            	console.log(JSON.stringify({ status: "error", type: "-2" }));
+        	}
+
+    	});
+
+		}
+
+	});
+});
+
 
 
 /****************************************/

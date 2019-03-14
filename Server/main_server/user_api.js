@@ -734,7 +734,7 @@ router.get('/getPassedTripsByUser',function(req,res){
         		_id: { $in:  list_trips } 
         	};
 
-			TripSchema.find(conditions2).where('startDate').lt(new Date()).sort('startDate').exec(function(err,passed){
+			TripSchema.find(conditions2).where('startDate').lt(new Date()).sort({'startDate':'desc'}).exec(function(err,passed){
 				if(err){
 					console.log(err);
 					console.log(JSON.stringify({ status: "error", type: "-1" }));
