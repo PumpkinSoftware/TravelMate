@@ -53,11 +53,11 @@ router.post('/newUser', function(req, res){
         	if(clientInput.id != undefined){
         		toInsert = new UserSchema({
         		_id: clientInput.id,
-                name: clientInput.name.toLowerCase(),
-                surname: clientInput.surname.toLowerCase(),
+                name: clientInput.name,
+                surname: clientInput.surname,
                 birthday: clientInput.birthday,
-                gender: clientInput.gender.toLowerCase(),
-                relationship: clientInput.relationship.toLowerCase(),
+                gender: clientInput.gender,
+                relationship: clientInput.relationship,
                 email: clientInput.email,
                 uid: clientInput.uid,
                 description: clientInput.description,
@@ -72,11 +72,11 @@ router.post('/newUser', function(req, res){
         	}
         	else{
         		toInsert = new UserSchema({
-                name: clientInput.name.toLowerCase(),
-                surname: clientInput.surname.toLowerCase(),
+                name: clientInput.name,
+                surname: clientInput.surname,
                 birthday: clientInput.birthday,
-                gender: clientInput.gender.toLowerCase(),
-                relationship: clientInput.relationship.toLowerCase(),
+                gender: clientInput.gender,
+                relationship: clientInput.relationship,
                 email: clientInput.email,
                 uid: clientInput.uid,
                 description: clientInput.description,
@@ -224,9 +224,9 @@ router.post('/updateUser', function(req, res){
     var query = {};
 
     if(req.body.name != undefined)
-        query.name = req.body.name.toLowerCase();
+        query.name = req.body.name;
     if(req.body.surname != undefined)
-        query.surname = req.body.surname.toLowerCase();
+        query.surname = req.body.surname;
     if(req.body.age != undefined)
         query.age = req.body.age;
     if(req.body.gender != undefined)
@@ -734,7 +734,7 @@ router.get('/getPassedTripsByUser',function(req,res){
         		_id: { $in:  list_trips } 
         	};
 
-			TripSchema.find(conditions2).where('startDate').lt(new Date()).sort('startDate').exec(function(err,passed){
+			TripSchema.find(conditions2).where('startDate').lt(new Date()).sort({'startDate':'desc'}).exec(function(err,passed){
 				if(err){
 					console.log(err);
 					console.log(JSON.stringify({ status: "error", type: "-1" }));
@@ -884,6 +884,27 @@ router.post('/changeOwnerAndRemoveLast',function(req,res){
 		}
 	});
 
+});
+
+/****************************************/
+//Api per inserire pulire tutta la collezione trips
+//Api verificata
+
+router.get('/deleteAll', function(req, res){
+
+	UserSchema.remove({}).exec(function(err, trip){
+		
+		if (err){
+			res.send(JSON.stringify({ status: "error", type: "-1" }));
+			console.log(err);
+			console.log(JSON.stringify({ status: "error", type: "-1" }));
+		}
+		else{
+			res.send(JSON.stringify({ status: "ok", type: "all users deleted" }));
+			console.log(JSON.stringify({ status: "ok", type: "all users deleted" }));
+		}
+
+	});
 });
 
 
