@@ -22,7 +22,14 @@ import android.widget.ProgressBar;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.example.pumpkinsoftware.travelmate.client_server_interaction.GetTripInteraction;
+import com.example.pumpkinsoftware.travelmate.client_server_interaction.GetUserByUid;
+import com.example.pumpkinsoftware.travelmate.client_server_interaction.ServerCallback;
 import com.example.pumpkinsoftware.travelmate.trip.Trip;
+import com.example.pumpkinsoftware.travelmate.user.User;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -31,6 +38,7 @@ public class HomeFragment extends Fragment {
     private RequestQueue mRequestQueue;
     private String URL="https://debugtm.herokuapp.com/trip/lastTripsCreated?limit=50";;
     private ArrayList<Trip> trips;
+    private User currentUser;
 
     @Nullable
     @Override
@@ -43,9 +51,9 @@ public class HomeFragment extends Fragment {
         final RecyclerView rvTrips = (RecyclerView) view.findViewById(R.id.recyclerview);
         // Set layout manager to position the items
         rvTrips.setLayoutManager(new LinearLayoutManager(context));
-        trips=new ArrayList<Trip>();
+        trips = new ArrayList<Trip>();
 
-        mRequestQueue= Volley.newRequestQueue(context);
+        mRequestQueue = Volley.newRequestQueue(context);
         new GetTripInteraction(context, rvTrips, progress).getTripsFromServer(URL, mRequestQueue, trips);
 
         //swipe da finire
@@ -61,7 +69,7 @@ public class HomeFragment extends Fragment {
                         rvTrips.setLayoutManager(new LinearLayoutManager(context));
                         trips=new ArrayList<Trip>();
 
-                        mRequestQueue= Volley.newRequestQueue(context);
+                        mRequestQueue = Volley.newRequestQueue(context);
                         new GetTripInteraction(context, rvTrips, progress).getTripsFromServer(URL,mRequestQueue,trips);
                         swipe.setRefreshing(false);
 
