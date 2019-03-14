@@ -36,7 +36,11 @@
             android:name=".CreationTrip"
             android:parentActivityName=".MainActivity">
         </activity>
-
+		
+		<activity
+            android:name=".AccountRegisterActivity"
+            android:parentActivityName=".RegistrationActivity"></activity>
+			
         <activity
             android:name=".LoginActivity"
             android:label="@string/app_name"
