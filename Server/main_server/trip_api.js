@@ -181,7 +181,7 @@ router.get('/getTripsWithFilter', function(req, res){
 	var vehicle = req.query.vehicle;
 	var minBudget = 0;
 	var maxBudget = 100000;
-	var startDate = new Date("1/1/1970");
+	var startDate = new Date();
 	var endDate = new Date("1/1/4000");
 	var maxPartecipant = 1000000;
 	var minPartecipant = 1;
