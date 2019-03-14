@@ -22,12 +22,17 @@
             android:textSize="22sp" />
     </android.support.v7.widget.Toolbar>
 
-
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/toolbar" >
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
             <ImageView
                 android:id="@+id/header_cover_image_r"
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
-                android:layout_below="@id/toolbar"
                 android:scaleType="centerCrop"
                 android:src="@drawable/blank_cover_add"
                 tools:ignore="ContentDescription" />
@@ -88,10 +93,7 @@
                 android:gravity="center_horizontal"
                 android:hint="Biografia"
                 android:textColor="@android:color/black" />
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/bio_r" >
+
             <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -255,5 +257,6 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/email2_r" />
             </android.support.constraint.ConstraintLayout>
+        </RelativeLayout>
     </ScrollView>
 </RelativeLayout>
