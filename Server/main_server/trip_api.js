@@ -283,7 +283,7 @@ router.post('/updateTrip', function(req, res){
 
 /******************************************/
 //Api per cancellare un viaggio
-//Api incompleta
+//Api verificata
 
 //example use: /deleteTrip?tripId=5c537f4bbd73113cd71d1384
 
@@ -404,6 +404,27 @@ router.get('/getTripByIdWithUsers', function(req, res){
 
     	});
 
+		}
+
+	});
+});
+
+/****************************************/
+//Api per inserire pulire tutta la collezione trips
+//Api verificata
+
+router.get('/deleteAll', function(req, res){
+
+	TripSchema.remove({}).exec(function(err, trip){
+		
+		if (err){
+			res.send(JSON.stringify({ status: "error", type: "-1" }));
+			console.log(err);
+			console.log(JSON.stringify({ status: "error", type: "-1" }));
+		}
+		else{
+			res.send(JSON.stringify({ status: "ok", type: "all trips deleted" }));
+			console.log(JSON.stringify({ status: "ok", type: "all trips deleted" }));
 		}
 
 	});

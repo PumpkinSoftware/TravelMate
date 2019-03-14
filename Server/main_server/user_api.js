@@ -886,5 +886,26 @@ router.post('/changeOwnerAndRemoveLast',function(req,res){
 
 });
 
+/****************************************/
+//Api per inserire pulire tutta la collezione trips
+//Api verificata
+
+router.get('/deleteAll', function(req, res){
+
+	UserSchema.remove({}).exec(function(err, trip){
+		
+		if (err){
+			res.send(JSON.stringify({ status: "error", type: "-1" }));
+			console.log(err);
+			console.log(JSON.stringify({ status: "error", type: "-1" }));
+		}
+		else{
+			res.send(JSON.stringify({ status: "ok", type: "all users deleted" }));
+			console.log(JSON.stringify({ status: "ok", type: "all users deleted" }));
+		}
+
+	});
+});
+
 
 module.exports = router;
