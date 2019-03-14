@@ -197,6 +197,58 @@ echo -e ""
 curl -H "Content-Type: application/json" -X POST -d '{"tripId":"5c79b7e04a8b77336e1a331f","userUid":"Tm8WrtKtVzco0him7RlnB9jUMmL2"}' http://localhost:8095/user/addTrip
 echo -e ""
 
+#Viaggio 13 IdViaggio:5c8a254ac537bc12849274e1 IdCreatore:Tm8WrtKtVzco0him7RlnB9jUMmL2 maxPartecipant:5
+curl -H "Content-Type: application/json" -X POST -d '{"tripId":"5c8a254ac537bc12849274e1","userUid":"3ENghkkewyPdttrz00ImV0F0QpH2"}' http://localhost:8095/user/addTrip
+echo -e ""
+curl -H "Content-Type: application/json" -X POST -d '{"tripId":"5c8a254ac537bc12849274e1","userUid":"Ip5ooeVpugPGm6I0SY5Y2TUNIki2"}' http://localhost:8095/user/addTrip
+echo -e ""
+curl -H "Content-Type: application/json" -X POST -d '{"tripId":"5c8a254ac537bc12849274e1","userUid":"pfcytk2YLdb7qQ2a224J420vZB03"}' http://localhost:8095/user/addTrip
+echo -e ""
+curl -H "Content-Type: application/json" -X POST -d '{"tripId":"5c8a254ac537bc12849274e1","userUid":"7hjchdyNdrO2itvdMRRj3b85wff2"}' http://localhost:8095/user/addTrip
+echo -e ""
+ 
+#Viaggio 14 IdViaggio:5c8a2726c537bc12849274e3 IdCreatore:RaHUVBSgljOzWvKNSGLl3QeSThh1 maxPartecipant:7
+curl -H "Content-Type: application/json" -X POST -d '{"tripId":"5c8a2726c537bc12849274e3","userUid":"kbz4sNCZtHMlfw3w3xCW3TTBco53"}' http://localhost:8095/user/addTrip
+echo -e ""
+curl -H "Content-Type: application/json" -X POST -d '{"tripId":"5c8a2726c537bc12849274e3","userUid":"pIfUG1Qpmwasqrdu77d9nake9HM2"}' http://localhost:8095/user/addTrip
+echo -e ""
+curl -H "Content-Type: application/json" -X POST -d '{"tripId":"5c8a2726c537bc12849274e3","userUid":"GutGWyaTg9OdhjecP1wzd35e0l83"}' http://localhost:8095/user/addTrip
+echo -e ""
+curl -H "Content-Type: application/json" -X POST -d '{"tripId":"5c8a2726c537bc12849274e3","userUid":"sSiOgobodkOlLkyzbIqnqxLQQq93"}' http://localhost:8095/user/addTrip
+echo -e ""
+
+#Viaggio 15 IdViaggio:5c8a2959c537bc12849274e5 IdCreatore:7hjchdyNdrO2itvdMRRj3b85wff2 maxPartecipant:4
+curl -H "Content-Type: application/json" -X POST -d '{"tripId":"5c8a2959c537bc12849274e5","userUid":"Ip5ooeVpugPGm6I0SY5Y2TUNIki2"}' http://localhost:8095/user/addTrip
+echo -e ""
+curl -H "Content-Type: application/json" -X POST -d '{"tripId":"5c8a2959c537bc12849274e5","userUid":"3ENghkkewyPdttrz00ImV0F0QpH2"}' http://localhost:8095/user/addTrip
+echo -e ""
+curl -H "Content-Type: application/json" -X POST -d '{"tripId":"5c8a2959c537bc12849274e5","userUid":"pfcytk2YLdb7qQ2a224J420vZB03"}' http://localhost:8095/user/addTrip
+echo -e ""
+
+#Viaggio 16 IdViaggio:5c8a29c4c537bc12849274e7 IdCreatore: maxPartecipant: 10
+curl -H "Content-Type: application/json" -X POST -d '{"tripId":"5c8a29c4c537bc12849274e7","userUid":"3ENghkkewyPdttrz00ImV0F0QpH2"}' http://localhost:8095/user/addTrip
+echo -e ""
+curl -H "Content-Type: application/json" -X POST -d '{"tripId":"5c8a29c4c537bc12849274e7","userUid":"sSiOgobodkOlLkyzbIqnqxLQQq93"}' http://localhost:8095/user/addTrip
+echo -e ""
+curl -H "Content-Type: application/json" -X POST -d '{"tripId":"5c8a29c4c537bc12849274e7","userUid":"pfcytk2YLdb7qQ2a224J420vZB03"}' http://localhost:8095/user/addTrip
+echo -e ""
+curl -H "Content-Type: application/json" -X POST -d '{"tripId":"5c8a29c4c537bc12849274e7","userUid":"GutGWyaTg9OdhjecP1wzd35e0l83"}' http://localhost:8095/user/addTrip
+echo -e ""
+curl -H "Content-Type: application/json" -X POST -d '{"tripId":"5c8a29c4c537bc12849274e7","userUid":"7hjchdyNdrO2itvdMRRj3b85wff2"}' http://localhost:8095/user/addTrip
+echo -e ""
+
+#Viaggio 17 IdViaggio:5c8a29fdc537bc12849274e9 IdCreatore:pfcytk2YLdb7qQ2a224J420vZB03 maxPartecipant:8
+curl -H "Content-Type: application/json" -X POST -d '{"tripId":"5c8a29fdc537bc12849274e9","userUid":"kbz4sNCZtHMlfw3w3xCW3TTBco53"}' http://localhost:8095/user/addTrip
+echo -e ""
+curl -H "Content-Type: application/json" -X POST -d '{"tripId":"5c8a29fdc537bc12849274e9","userUid":"Ip5ooeVpugPGm6I0SY5Y2TUNIki2"}' http://localhost:8095/user/addTrip
+echo -e ""
+curl -H "Content-Type: application/json" -X POST -d '{"tripId":"5c8a29fdc537bc12849274e9","userUid":"3ENghkkewyPdttrz00ImV0F0QpH2"}' http://localhost:8095/user/addTrip
+echo -e ""
+curl -H "Content-Type: application/json" -X POST -d '{"tripId":"5c8a29fdc537bc12849274e9","userUid":"sSiOgobodkOlLkyzbIqnqxLQQq93"}' http://localhost:8095/user/addTrip
+echo -e ""
+curl -H "Content-Type: application/json" -X POST -d '{"tripId":"5c8a29fdc537bc12849274e9","userUid":"Tm8WrtKtVzco0him7RlnB9jUMmL2"}' http://localhost:8095/user/addTrip
+echo -e ""
+
 echo -e " ${reset}"
 
 echo -e "Script end"
