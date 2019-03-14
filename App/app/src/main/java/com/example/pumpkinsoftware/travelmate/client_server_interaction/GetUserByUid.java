@@ -9,17 +9,16 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.RequestFuture;
 import com.example.pumpkinsoftware.travelmate.user.User;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.concurrent.ExecutionException;
+import java.util.Arrays;
+import java.util.LinkedList;
+
 
 public class GetUserByUid {
     private Context context;
@@ -54,9 +53,15 @@ public class GetUserByUid {
                     int sumReviews = user.getInt("sumReview");
                     int numReviews = user.getInt("numReview");
 
+                    // Per ora non serve, vediamo se in futuro può essere utile
+                    /*LinkedList<String> trips = new LinkedList<String>();
+                    JSONArray t =  user.getJSONArray("trips");
+                    for(int i = 0; i < t.length(); i++)
+                        trips.add(t.getString(i));*/
+
                     hideProgressBar();
                     mUser = new User(uid, name, surname, birthday, gender, relationship, email,
-                                     descr, photo, cover, sumReviews, numReviews);
+                            descr, photo, cover, sumReviews, numReviews);
                     callback.onSuccess(response);
                 } catch (JSONException e) {
                     e.printStackTrace();

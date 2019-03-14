@@ -29,6 +29,7 @@ public class GetPartecipantIteration {
     private ProgressBar progressBar;
     private String ownerName;
     private String ownerImg;
+    private boolean userIsAPartecipant;
 
     public GetPartecipantIteration(Context c, RecyclerView rv, ProgressBar progress) {
         context = c;
@@ -36,28 +37,34 @@ public class GetPartecipantIteration {
         progressBar = progress;
     }
 
-    public void getPartecipantFromServer(String query, final String owner_uid, RequestQueue mQueue, final ArrayList<User> users, final ServerCallback callback) {
+    public void getPartecipantFromServer(String query, final String owner_uid, RequestQueue mQueue, final ArrayList<User> users,
+                                         final String currentUserUid, final ServerCallback callback) {
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, query, null, new Response.Listener<JSONArray>() {
             public void onResponse(JSONArray response) {
 
                 try {
+                    JSONObject user = null;
                     for (int i = 0; i < response.length(); i++) {
-                        JSONObject user = response.getJSONObject(i);
+                        user = response.getJSONObject(i);
                         String uid = user.getString("uid");
-                        String name = user.getString("name");
+                        String name;
+
+                        if(uid.equals(currentUserUid)) {
+                            userIsAPartecipant = true;
+                            name = "Tu";
+                        }
+                        else  name = user.getString("name");
+
                         String profile = user.getString("avatar");
 
                         if(uid.equals(owner_uid)) {
                             ownerName = name;
                             ownerImg = profile;
-                            callback.onSuccess(user);
                         }
                         else
                             users.add(new User(uid, name, profile));
-
-                        /*if(!uid.equals(owner_uid))
-                            users.add(new User(uid, name, profile));*/
                     }
+                    callback.onSuccess(user);
                     adapter = new UsersAdapter(users);
                     // Attach the adapter to the recyclerview to populate items
                     rvUsers.setAdapter(adapter);
@@ -85,4 +92,6 @@ public class GetPartecipantIteration {
     public String getOwnerName() { return ownerName; }
 
     public String getOwnerImg() { return ownerImg; }
+
+    public boolean isUserAPartecipant() { return userIsAPartecipant; }
 }

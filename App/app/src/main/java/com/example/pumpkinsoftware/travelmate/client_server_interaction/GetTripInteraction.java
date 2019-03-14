@@ -28,11 +28,13 @@ public class GetTripInteraction {
     TripsAdapter adapter;
     private ProgressBar progressBar;
     private final static String URL = "https://debugtm.herokuapp.com/user/getUserByUid?uid=";
+    //private User currentUser;
 
     public GetTripInteraction(Context c, RecyclerView rv, ProgressBar progress) {
         context = c;
         rvTrips = rv;
         progressBar = progress;
+        //this.currentUser = currentUser;
     }
 
     public void getTripsFromServer(String query, RequestQueue mQueue, final ArrayList<Trip> trips) {
@@ -62,7 +64,7 @@ public class GetTripInteraction {
                         final String owner = travel.getString("owner");
 
                         trips.add(new Trip(id, image, name, descr, departure, dest, budget,dep_date, end_date,
-                                partecipants+"/"+group_max, tag, vehicle, owner));
+                                partecipants, group_max, tag, vehicle, owner));
                     }
 
                     adapter = new TripsAdapter(trips);

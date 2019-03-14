@@ -20,12 +20,14 @@ import com.example.pumpkinsoftware.travelmate.TravelDetailsActivity;
 import com.example.pumpkinsoftware.travelmate.glide.GlideApp;
 import com.example.pumpkinsoftware.travelmate.trip.Trip;
 import com.example.pumpkinsoftware.travelmate.R;
+import com.example.pumpkinsoftware.travelmate.user.User;
 
 import java.util.List;
 
 public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.ViewHolder> {
     private List<Trip> trips;
     private Context context = null;
+    private User currentUser;
     private boolean fav;
 
     // Provide a direct reference to each of the views within a data item
@@ -61,7 +63,7 @@ public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.ViewHolder> 
             trip_name = (TextView) v.findViewById(R.id.travel_name);
             trip_name.setOnClickListener(lis);
 
-            trip_tag=(TextView) v.findViewById(R.id.travel_tag);
+            trip_tag = (TextView) v.findViewById(R.id.travel_tag);
 
             group_number = (TextView) v.findViewById(R.id.group_number);
             /*
@@ -109,8 +111,8 @@ public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.ViewHolder> 
                 }
             });*/
 
-            destinazione=(TextView) v.findViewById(R.id.destinazione);
-            data=(TextView) v.findViewById(R.id.data);
+            destinazione = (TextView) v.findViewById(R.id.destinazione);
+            data = (TextView) v.findViewById(R.id.data);
             /*
             sharing_image = (ImageView) v.findViewById(R.id.sharing_image);
             GlideApp.with(context)
@@ -141,6 +143,7 @@ public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.ViewHolder> 
 
         private void openCard(Trip t) {
             Intent intent = new Intent(context, TravelDetailsActivity.class);
+            //String travelId = t.getId();
             intent.putExtra(TravelDetailsActivity.EXTRA_ID, t.getId());
             intent.putExtra(TravelDetailsActivity.EXTRA_IMG, t.getImage());
             intent.putExtra(TravelDetailsActivity.EXTRA_NAME, t.getName());
@@ -150,10 +153,17 @@ public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.ViewHolder> 
             intent.putExtra(TravelDetailsActivity.EXTRA_BUDGET, t.getBudget());
             intent.putExtra(TravelDetailsActivity.EXTRA_START, t.getStartDate());
             intent.putExtra(TravelDetailsActivity.EXTRA_END, t.getEndDate());
-            intent.putExtra(TravelDetailsActivity.EXTRA_GROUP, t.getGroup());
+            intent.putExtra(TravelDetailsActivity.EXTRA_PARTECIPANTS_NUMBER, t.getPartecipants());
+            intent.putExtra(TravelDetailsActivity.EXTRA_GROUP_NUMBER, t.getGroupNumber());
             intent.putExtra(TravelDetailsActivity.EXTRA_TAG, t.getTag());
             intent.putExtra(TravelDetailsActivity.EXTRA_VEHICLE,t.getVehicle());
             intent.putExtra(TravelDetailsActivity.EXTRA_OWNER_UID,t.getOwner());
+
+            /*String extraUserIsAPartecipant;
+            if(currentUser.getTrips().contains(travelId))  extraUserIsAPartecipant = "true";
+            else                                           extraUserIsAPartecipant = "false";
+
+            intent.putExtra(TravelDetailsActivity.EXTRA_USER, extraUserIsAPartecipant);*/
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 // create the transition animation - the images in the layouts
@@ -174,6 +184,7 @@ public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.ViewHolder> 
 
     public TripsAdapter(List<Trip> t) {
         trips = t;
+        //this.currentUser = currentUser;
     }
 
     private void shareText(String s) {

@@ -44,9 +44,15 @@ import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.example.pumpkinsoftware.travelmate.client_server_interaction.GetPartecipantIteration;
+import com.example.pumpkinsoftware.travelmate.client_server_interaction.GetTripById;
+import com.example.pumpkinsoftware.travelmate.client_server_interaction.GetUserByUid;
+import com.example.pumpkinsoftware.travelmate.client_server_interaction.PostJoin;
 import com.example.pumpkinsoftware.travelmate.client_server_interaction.ServerCallback;
 import com.example.pumpkinsoftware.travelmate.glide.GlideApp;
+import com.example.pumpkinsoftware.travelmate.trip.Trip;
 import com.example.pumpkinsoftware.travelmate.user.User;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import org.json.JSONObject;
 
@@ -64,20 +70,29 @@ public class TravelDetailsActivity extends AppCompatActivity {
     public final static String EXTRA_BUDGET = "travelmate_extra_tda_TRIP_BUDGET";
     public final static String EXTRA_START = "travelmate_extra_tda_TRIP_START";
     public final static String EXTRA_END = "travelmate_extra_tda_TRIP_END";
-    public final static String EXTRA_GROUP = "travelmate_extra_tda_TRIP_GROUP";
+    public final static String EXTRA_PARTECIPANTS_NUMBER = "travelmate_extra_tda_TRIP_EXTRA_PARTECIPANTS_NUMBER";
+    public final static String EXTRA_GROUP_NUMBER = "travelmate_extra_tda_TRIP_EXTRA_GROUP_NUMBER";
     public final static String EXTRA_TAG = "travelmate_extra_tda_TRIP_TAG";
     public final static String EXTRA_VEHICLE ="travelmate_extra_tda_TRIP_VEHICLE";
     public final static String EXTRA_OWNER_UID ="travelmate_extra_tda_TRIP_OWNER_UID";
+    //public final static String EXTRA_USER ="travelmate_extra_tda_TRIP_EXTRA_USER"; // Current user is a partecipant? true or false
 
     private Context context;
     private boolean so_prev_lol; // Useful for transitions
 
     private final static String QUERY= "https://debugtm.herokuapp.com/user/getUsersByTrip?tripId=";
-    //private final static String URL = "https://debugtm.herokuapp.com/user/getUserByUid?userUid=";
     private RequestQueue mRequestQueue;
     private ArrayList<User> partecipants;
     private CardView card;
     private CircleImageView o_image;
+    private String travelId;
+    private String userUid;
+    private String owner_uid;
+    private int partecipantsNumber;
+    private int group;
+    private Button joinBtn;
+    private RecyclerView rvUsers;
+    private ProgressBar progress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,7 +101,7 @@ public class TravelDetailsActivity extends AppCompatActivity {
         context = (Context) this;
 
         Bundle b = getIntent().getExtras();
-        final String id =  b.getString(EXTRA_ID);
+        travelId =  b.getString(EXTRA_ID);
         final String img =  b.getString(EXTRA_IMG);
         final String name =  b.getString(EXTRA_NAME);
         final String descr =  b.getString(EXTRA_DESCR);
@@ -95,10 +110,29 @@ public class TravelDetailsActivity extends AppCompatActivity {
         final String budget =  b.getString(EXTRA_BUDGET);
         final String start =  b.getString(EXTRA_START);
         final String end =  b.getString(EXTRA_END);
-        final String group =  b.getString(EXTRA_GROUP);
+        partecipantsNumber =  b.getInt(EXTRA_PARTECIPANTS_NUMBER);
+        group =  b.getInt(EXTRA_GROUP_NUMBER);
         final String tag = b.getString(EXTRA_TAG);
         final String vehicle = b.getString(EXTRA_VEHICLE);
-        final String owner_uid = b.getString(EXTRA_OWNER_UID);
+        owner_uid = b.getString(EXTRA_OWNER_UID);
+        //final String userIsAPartecipant = b.getString(EXTRA_USER); // true if is a partecipant
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            userUid = user.getUid();
+            if(userUid.equals(owner_uid)) {
+                final ImageView edit = findViewById(R.id.edit_image);
+                edit.setVisibility(View.VISIBLE);
+
+                edit.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        // TODO edit trip
+                    }
+                });
+
+            }
+        }
 
         final ImageView imgv = (ImageView) findViewById(R.id.header_cover_image);
         loadImg(img, imgv);
@@ -151,7 +185,7 @@ public class TravelDetailsActivity extends AppCompatActivity {
         final TextView e = (TextView) findViewById(R.id.date2);
         e.setText(getData(end));
         final TextView g = (TextView) findViewById(R.id.n_users);
-        g.setText(group);
+        g.setText(partecipantsNumber+"/"+group);
 
         final TextView vm= (TextView) findViewById(R.id.vehicle_text);
         final ImageView vi= (ImageView) findViewById(R.id.vehicle_image);
@@ -197,15 +231,15 @@ public class TravelDetailsActivity extends AppCompatActivity {
         });
 
         card = (CardView) findViewById(R.id.cardView);
-        final Button join = (Button) findViewById(R.id.join_button);
+        joinBtn = (Button) findViewById(R.id.join_button);
         // Handling join on click with animation
-        join.setOnClickListener(new View.OnClickListener() {
+        joinBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 /*AnimatorSet set = (AnimatorSet) AnimatorInflater.loadAnimator(context, R.animator.zoom_in);
                 set.setTarget(v); // set the view you want to animate
                 set.start();*/
-                join(join);
+                join();
             }
         });
 
@@ -238,12 +272,12 @@ public class TravelDetailsActivity extends AppCompatActivity {
                 }
         );*/
 
-        final ProgressBar progress = findViewById(R.id.indeterminateBar);
-        final RecyclerView rvUsers = (RecyclerView) findViewById(R.id.recyclerview);
+        progress = findViewById(R.id.indeterminateBar);
+        rvUsers = (RecyclerView) findViewById(R.id.recyclerview);
         // Set layout manager to position the items
         rvUsers.setLayoutManager(new LinearLayoutManager(context));
         rvUsers.setNestedScrollingEnabled(false);
-        getPartecipants(rvUsers, progress, id, owner_uid);
+        getPartecipants(rvUsers, progress, travelId, owner_uid);
 
 
         //new GetPartecipantIteration(context, rvUsers, progress).getPartecipantFromServer(QUERY+id, owner_uid, mRequestQueue, partecipants);
@@ -259,7 +293,7 @@ public class TravelDetailsActivity extends AppCompatActivity {
                     public void run() {
                         //temporaneo
                         mRequestQueue= Volley.newRequestQueue(context);
-                        getPartecipants(rvUsers, progress, id, owner_uid);
+                        getPartecipants(rvUsers, progress, travelId, owner_uid);
                         swipe.setRefreshing(false);
 
                     }
@@ -274,7 +308,7 @@ public class TravelDetailsActivity extends AppCompatActivity {
         mRequestQueue = Volley.newRequestQueue(context);
         final GetPartecipantIteration server =  new GetPartecipantIteration(context, rvUsers, progress);
         server.getPartecipantFromServer(QUERY+id, owner_uid, mRequestQueue,
-                partecipants, new ServerCallback() {
+                partecipants, userUid, new ServerCallback() {
                     @Override
                     public void onSuccess(JSONObject response) {
                         final String img = server.getOwnerImg();
@@ -296,6 +330,22 @@ public class TravelDetailsActivity extends AppCompatActivity {
 
                         o_image.setOnClickListener(lis);
                         o_name.setOnClickListener(lis);
+
+                        if(partecipantsNumber == group) card.setVisibility(View.GONE);
+
+                        if(userUid.equals(owner_uid)) {
+                            if(partecipantsNumber == 1)   joinBtn.setText("Elimina");
+                            else                          joinBtn.setText("Abbandona");
+                            card.setCardBackgroundColor(colorTo);
+                        }
+
+                        else if(server.isUserAPartecipant()) {
+                            joinBtn.setText("Abbandona");
+                            card.setCardBackgroundColor(colorTo);
+                        }
+
+                        else joinBtn.setText("Unisciti");
+
                     }
                 }
         );
@@ -315,19 +365,30 @@ public class TravelDetailsActivity extends AppCompatActivity {
     private int colorFrom = R.color.colorPrimary;
     private int colorTo = Color.RED;
 
-    private void join(final Button b) {
-        if (b.getText() == "Abbandona") {
+    private void join() {
+        String label = joinBtn.getText().toString();
+        if (label.equals("Abbandona")) {
             new AlertDialog.Builder(this)
                     .setTitle("Abbandona evento")
                     .setMessage("Vuoi lasciare il gruppo?")
-                    //.setIcon(android.R.drawable.ic_dialog_alert)
                     .setPositiveButton("Sì", new DialogInterface.OnClickListener() {
 
                         public void onClick(DialogInterface dialog, int whichButton) {
                             /*AnimatorSet set = (AnimatorSet) AnimatorInflater.loadAnimator(context, R.animator.zoom_in);
                             set.setTarget(b); // set the view you want to animate
                             set.start();*/
-                            animate(b);
+
+                            if(userUid.equals(owner_uid))
+                                changeOwner();
+
+                            // Remove user from travel
+                            else {
+                                new PostJoin(context).send("https://debugtm.herokuapp.com/user/removeTrip/",
+                                        travelId, userUid, PostJoin.request.ABANDON);
+                            }
+
+                            animate(joinBtn);
+
                             ObjectAnimator backgroundColorAnimator = ObjectAnimator.ofObject(card,
                                     "backgroundColor",
                                     new ArgbEvaluator(),
@@ -335,17 +396,39 @@ public class TravelDetailsActivity extends AppCompatActivity {
                                     colorFrom);
                             backgroundColorAnimator.setDuration(300);
                             backgroundColorAnimator.start();
-                            b.setText("Unisciti");
-                            // TODO remove user from travel
-                        }})
+                            joinBtn.setText("Unisciti");
+                            updateLayout();
+                            }})
                     .setNegativeButton(android.R.string.no, null).show();
         }
+
+        else if(label.equals("Elimina")) {
+            new AlertDialog.Builder(this)
+                    .setTitle("Elimina evento")
+                    .setMessage("Vuoi eliminare l'evento?")
+                    //.setIcon(android.R.drawable.ic_dialog_alert)
+                    .setPositiveButton("Sì", new DialogInterface.OnClickListener() {
+
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            /*AnimatorSet set = (AnimatorSet) AnimatorInflater.loadAnimator(context, R.animator.zoom_in);
+                            set.setTarget(b); // set the view you want to animate
+                            set.start();*/
+
+                            // Delete travel
+                            //new PostJoin(context).send("https://debugtm.herokuapp.com/trip/deleteTrip?tripId="+travelId, PostJoin.request.DELETE);
+                            animate(joinBtn);
+                        }})
+                    .setNegativeButton(android.R.string.no, null).show();
+            }
 
         else {
             /*AnimatorSet set = (AnimatorSet) AnimatorInflater.loadAnimator(context, R.animator.zoom_in);
             set.setTarget(b); // set the view you want to animate
             set.start();*/
-            animate(b);
+            // Add user from travel
+            new PostJoin(this).send("https://debugtm.herokuapp.com/user/addTrip/", travelId,
+                    userUid, PostJoin.request.JOIN);
+            animate(joinBtn);
             ObjectAnimator backgroundColorAnimator = ObjectAnimator.ofObject(card,
                     "backgroundColor",
                     new ArgbEvaluator(),
@@ -353,8 +436,8 @@ public class TravelDetailsActivity extends AppCompatActivity {
                     colorTo);
             backgroundColorAnimator.setDuration(300);
             backgroundColorAnimator.start();
-            b.setText("Abbandona");
-            // TODO add user to travel
+            joinBtn.setText("Abbandona");
+            updateLayout();
         }
     }
 
@@ -363,6 +446,29 @@ public class TravelDetailsActivity extends AppCompatActivity {
         AnimatorSet set = (AnimatorSet) AnimatorInflater.loadAnimator(context, R.animator.zoom_in);
         set.setTarget(v); // set the view you want to animate
         set.start();
+    }
+
+    private void changeOwner() {
+        User user = partecipants.get(1);
+        new PostJoin(this).send("https://debugtm.herokuapp.com/user/changeOwnerAndRemoveLast", travelId,
+                user.getUid(), PostJoin.request.JOIN);
+    }
+
+    private void updateLayout() {
+        final GetTripById server = new GetTripById(this);
+        server.getTripFromServer("https://debugtm.herokuapp.com/trip/getTripById?id="+travelId,
+                new ServerCallback(){
+                    @Override
+                    public void onSuccess(JSONObject response) {
+                        Trip trip = server.getTrip();
+                        loadTrip();
+                        getPartecipants(rvUsers, progress, travelId, owner_uid);
+                    }
+                });
+    }
+
+    private void loadTrip() {
+        // TODO
     }
 
     // Open user on click
