@@ -43,7 +43,7 @@
                 android:layout_alignParentStart="true"
                 android:layout_marginStart="13dp"
                 android:layout_marginTop="5dp"
-                android:text="@string/place"
+                android:text="@string/place2"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5" />
 
             <android.support.design.widget.TextInputLayout
@@ -102,7 +102,7 @@
                 android:layout_below="@+id/to"
                 android:layout_alignStart="@+id/vehicle"
                 android:layout_marginTop="9dp"
-                android:text="@string/date"
+                android:text="@string/date2"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5" />
 
             <EditText
@@ -164,7 +164,7 @@
                 android:layout_alignStart="@+id/departure"
                 android:layout_marginStart="0dp"
                 android:layout_marginTop="28dp"
-                android:text="@string/car"
+                android:text="@string/car2"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5" />
 
             <TextView
@@ -186,7 +186,7 @@
                 android:layout_alignStart="@+id/vehicle"
                 android:layout_marginStart="-2dp"
                 android:layout_marginTop="27dp"
-                android:text="@string/budget"
+                android:text="@string/budget2"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5" />
 
             <TextView
@@ -338,7 +338,7 @@
                 android:layout_alignStart="@+id/vehicle_text"
                 android:layout_marginStart="0dp"
                 android:layout_marginTop="28dp"
-                android:text="@string/tag_text"
+                android:text="@string/tag_text2"
                 android:layout_below="@+id/name_text"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5" />
 

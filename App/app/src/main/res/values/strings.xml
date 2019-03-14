@@ -47,7 +47,7 @@
     <string name="to">Destinazione</string>
     <string name="date">Data</string>
     <string name="departure">Partenza</string>
-    <string name="ret">Arrivo</string>
+    <string name="ret">Ritorno</string>
     <string name="car">Treno/auto</string>
     <string name="car_text">Mezzo di trasporto</string>
     <string name="budget">Budget</string>
@@ -59,16 +59,21 @@
 
     <!-- Only creation-->
     <string name="creation_title">Nuovo evento</string>
-    <string name="group">Gruppo</string>
+    <string name="group">Gruppo*</string>
     <string name="buddies2">Persone necessarie per partire</string>
     <string name="budget_text2">Cifra approssimativa</string>
-    <string name="plan">Programma</string>
+    <string name="plan">Programma*</string>
     <string name="plan_text">Scrivi qualche dettaglio in più sul viaggio</string>
-    <string name="name">Nome</string>
+    <string name="name">Nome*</string>
     <string name="name_text">Inserisci il nome dell\' evento per concludere</string>
     <string name="confirm">Conferma</string>
     <string name="photo_upload">scegli</string>
-    <string name="photo_name">Carica una foto (facoltativo)</string>
+    <string name="photo_name">Carica una foto</string>
+    <string name="budget2">Budget*</string>
+    <string name="car2">Treno/auto*</string>
+    <string name="date2">Data*</string>
+    <string name="place2">Luoghi*</string>
+    <string name="tag_text2">Tipo di evento*</string>
 
     <!-- Mezzi -->
     <string name="treno">Treno</string>
