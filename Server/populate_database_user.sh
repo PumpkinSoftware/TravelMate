@@ -24,12 +24,12 @@ curl -H "Content-Type: application/json" -X POST -d '{
   "name": "Pio",
   "birthday": "04/23/1995",
   "uid":"Tm8WrtKtVzco0him7RlnB9jUMmL2",
-  "gender": "uomo",
-  "relationship": "single",
+  "gender": "Uomo",
+  "relationship": "Single",
   "email": "PioPirozzi@travelmate.com",
   "description":"Adoro la tecnologia, sono socievole e simpatico",
-  "avatar":"https://pbs.twimg.com/profile_images/378800000266689071/56738634b70e821b49150d13b92ffd73_400x400.jpeg",
-  "cover":"https://images.pexels.com/photos/1146708/pexels-photo-1146708.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
+  "avatar":"https://firebasestorage.googleapis.com/v0/b/travelmate-ee239.appspot.com/o/userImage%2FPioPirozzi%40travelmate.com%2F56738634b70e821b49150d13b92ffd73_400x400.jpeg?alt=media&token=3bf14bec-891b-4210-b057-9a1109131860",
+  "cover":"https://firebasestorage.googleapis.com/v0/b/travelmate-ee239.appspot.com/o/userImage%2FPioPirozzi%40travelmate.com%2Fpexels-photo-1146708.jpeg?alt=media&token=8d20fe7f-a0d2-4f2d-be05-2309f055d7d8"
 }' http://localhost:8095/user/newUser
 
 echo -e ""
@@ -39,13 +39,13 @@ curl -H "Content-Type: application/json" -X POST -d '{
   "surname": "Longo",
   "name": "Fernanda",
   "birthday": "11/28/1996",
-  "gender": "donna",
+  "gender": "Donna",
   "uid":"RaHUVBSgljOzWvKNSGLl3QeSThh1",
-  "relationship": "fidanzata",
+  "relationship": "Fidanzata",
   "email": "FernandaLongo@travelmate.com",
   "description":"Se vuoi farmi felice, portami a mangiare",
-  "avatar":"https://dzentlmenis.lv/wp-content/uploads/2016/04/1-kopija3.jpg",
-  "cover":"https://static2-viaggi.corriereobjects.it/wp-content/uploads/2019/01/1_Sri-Lanka-country-650x450.jpg"
+  "avatar":"https://firebasestorage.googleapis.com/v0/b/travelmate-ee239.appspot.com/o/userImage%2FFernandaLongo%40travelmate.com%2F1-kopija3.jpg?alt=media&token=c858a12c-83a0-42e1-a0a9-99ffd444118c",
+  "cover":"https://firebasestorage.googleapis.com/v0/b/travelmate-ee239.appspot.com/o/userImage%2FFernandaLongo%40travelmate.com%2F1_Sri-Lanka-country-650x450.jpg?alt=media&token=1fd8971b-eefb-48b8-bf90-0f05170d639c"
 }' http://localhost:8095/user/newUser
 
 echo -e ""
@@ -55,13 +55,13 @@ curl -H "Content-Type: application/json" -X POST -d '{
   "surname": "Milanesi",
   "name": "Alvaro",
   "birthday": "08/06/1998",
-  "gender": "uomo",
+  "gender": "Uomo",
   "uid":"kbz4sNCZtHMlfw3w3xCW3TTBco53",
-  "relationship": "single",
+  "relationship": "Single",
   "email": "AlvaroMilanesi@travelmate.com",
   "description":"Adoro la musica metallara, non mi stanco mai di camminare e mangio kebaba",
-  "avatar":"https://i.pinimg.com/originals/79/08/16/7908162c8773e904cacf36cbea572096.jpg",
-  "cover":"https://www.qbe.com/au/-/media/Australia/Images/travel-insurance/J9962travel%20claims750%20x550.png?h=550&la=en&w=750&hash=0CD78A3585E919F1F136263EBF36F282D751BFD7"
+  "avatar":"https://firebasestorage.googleapis.com/v0/b/travelmate-ee239.appspot.com/o/userImage%2FAlvaroMilanesi%40travelmate.com%2F7908162c8773e904cacf36cbea572096.jpg?alt=media&token=ae2384d5-1a4c-4288-81ee-4d66661abd46",
+  "cover":"https://firebasestorage.googleapis.com/v0/b/travelmate-ee239.appspot.com/o/userImage%2FAlvaroMilanesi%40travelmate.com%2FJ9962travel%20claims750%20x550.png?alt=media&token=8b80554d-596d-4c45-a127-998c49803f64"
 }' http://localhost:8095/user/newUser
 
 echo -e ""
@@ -71,13 +71,13 @@ curl -H "Content-Type: application/json" -X POST -d '{
   "surname": "Trentino",
   "name": "Cordelia",
   "birthday": "03/12/2000",
-  "gender": "donna",
+  "gender": "Donna",
   "uid":"pIfUG1Qpmwasqrdu77d9nake9HM2",
-  "relationship": "fidanzata",
+  "relationship": "Fidanzata",
   "email": "TrentinoCordelia@travelmate.com",
   "description":"Cliente abituale del Mc Donald... Se viaggi con me sei obbligato a venire",
-  "avatar":"http://higher-ed.us/wp-content/uploads/2017/12/girls-pictures-5-valuable-design-ideas-the-25-best-tumblr-on-pinterest-selfies.jpg",
-  "cover":"https://cdn.pixabay.com/photo/2017/08/05/20/38/people-2585415_960_720.jpg"
+  "avatar":"https://firebasestorage.googleapis.com/v0/b/travelmate-ee239.appspot.com/o/userImage%2FTrentinoCordelia%40travelmate.com%2Fgirls-pictures-5-valuable-design-ideas-the-25-best-tumblr-on-pinterest-selfies.jpg?alt=media&token=3fca1864-40ea-4bb8-82ac-a66c4cffed5b",
+  "cover":"https://firebasestorage.googleapis.com/v0/b/travelmate-ee239.appspot.com/o/userImage%2FTrentinoCordelia%40travelmate.com%2Fpeople-2585415_960_720.jpg?alt=media&token=359cae42-a9fa-4bf2-92ae-07ab0b00eaf9"
 }' http://localhost:8095/user/newUser
 
 echo -e ""
@@ -87,13 +87,13 @@ curl -H "Content-Type: application/json" -X POST -d '{
   "surname": "Asta",
   "name": "Andrea",
   "birthday": "08/21/1997",
-  "gender": "uomo",
+  "gender": "Uomo",
   "uid":"7hjchdyNdrO2itvdMRRj3b85wff2",
-  "relationship": "fidanzato",
+  "relationship": "Fidanzato",
   "email": "AstaAndrea@travelmate.com",
-  "description":"There s no place like 127.0.0.1",
-  "avatar":"https://scontent-fco1-1.xx.fbcdn.net/v/t1.0-9/21077532_1438053249612166_2564380775655528061_n.jpg?_nc_cat=101&_nc_ht=scontent-fco1-1.xx&oh=53d5b0db58052997a76a01c955c0b1fc&oe=5D26977F",
-  "cover":"https://www.corriere.it/methode_image/2014/04/01/Tecnologia/Foto%20Gallery/I%27iconica%20collina%20Windows_MGTHUMB-INTERNA.jpg"
+  "description":"There is no place like 127.0.0.1",
+  "avatar":"https://firebasestorage.googleapis.com/v0/b/travelmate-ee239.appspot.com/o/userImage%2FAstaAndrea%40travelmate.com%2F21077532_1438053249612166_2564380775655528061_n.jpg?alt=media&token=03da483a-0c8e-4dac-966f-30c05608ad6d",
+  "cover":"https://firebasestorage.googleapis.com/v0/b/travelmate-ee239.appspot.com/o/userImage%2FAstaAndrea%40travelmate.com%2Fcollina%20Windows_MGTHUMB-INTERNA.jpg?alt=media&token=62826b16-efae-439d-a85a-2afbabf81b48"
 }' http://localhost:8095/user/newUser
 
 echo -e ""
@@ -103,13 +103,13 @@ curl -H "Content-Type: application/json" -X POST -d '{
   "surname": "Marcelo",
   "name": "Teresa",
   "birthday": "01/16/2001",
-  "gender": "donna",
+  "gender": "Donna",
   "uid":"Ip5ooeVpugPGm6I0SY5Y2TUNIki2",
-  "relationship": "single",
+  "relationship": "Single",
   "email": "MarceloTeresa@travelmate.com",
   "description":"Tecnologia, tecnologia, tecnologia... L ho già detto tecnologia?",
-  "avatar":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTWqfOeHoDA9hwJvRWDGGhxD4oCO9E6ZdxY_OM9PjXg9SaZusPA",
-  "cover":"https://cdn.muenchen-p.de/.imaging/stk/responsive/image980/dms/va-2017/tollwood-2017/teaser/tollwood-2017-hp-01/document/tollwood-2017-hp-01.jpg"
+  "avatar":"https://firebasestorage.googleapis.com/v0/b/travelmate-ee239.appspot.com/o/userImage%2FMarceloTeresa%40travelmate.com%2Fimages.jpeg?alt=media&token=cd751310-3b18-4c29-b10e-90cd153d4176",
+  "cover":"https://firebasestorage.googleapis.com/v0/b/travelmate-ee239.appspot.com/o/userImage%2FMarceloTeresa%40travelmate.com%2Ftollwood-2017-hp-01.jpg?alt=media&token=ded8aa4e-e6b8-42c0-9e4c-b78945145e82"
 }' http://localhost:8095/user/newUser
 
 echo -e ""
@@ -119,13 +119,13 @@ curl -H "Content-Type: application/json" -X POST -d '{
   "surname": "Nestore",
   "name": "Bruno",
   "birthday": "02/08/1999",
-  "gender": "uomo",
-  "relationship": "fidanzato",
+  "gender": "Uomo",
+  "relationship": "Fidanzato",
   "uid":"GutGWyaTg9OdhjecP1wzd35e0l83",
   "email": "NestoreBruno@travelmate.com",
   "description":"Assiduo frequentatore di discoteche... Vieni con me e non smetterai mai di ballare",
-  "avatar":"https://hairstyleonpoint.com/wp-content/uploads/2014/11/tumblr_na261xr0Qg1rwya4go1_1280.jpg",
-  "cover":"https://blogmedia.evbstatic.com/wp-content/uploads/wpmulti/sites/3/2017/06/29103043/event-distribution.png"
+  "avatar":"https://firebasestorage.googleapis.com/v0/b/travelmate-ee239.appspot.com/o/userImage%2FNestoreBruno%40travelmate.com%2Ftumblr_na261xr0Qg1rwya4go1_1280.jpg?alt=media&token=83be07f1-44ce-4bf5-9f81-9daaa39e80b1",
+  "cover":"https://firebasestorage.googleapis.com/v0/b/travelmate-ee239.appspot.com/o/userImage%2FNestoreBruno%40travelmate.com%2Fevent-distribution.png?alt=media&token=7fa1eb10-2e98-4b55-aed7-aa481094c020"
 }' http://localhost:8095/user/newUser
 
 echo -e ""
@@ -135,13 +135,13 @@ curl -H "Content-Type: application/json" -X POST -d '{
   "surname": "Fiorentini",
   "name": "Daphne",
   "birthday": "11/20/2000",
-  "gender": "donna",
+  "gender": "Donna",
   "uid":"3ENghkkewyPdttrz00ImV0F0QpH2",
-  "relationship": "single",
+  "relationship": "Single",
   "email": "FiorentiniDaphne@travelmate.com",
   "description":"Esistono tre modi per non apprezzare l’Arte. Il primo consiste nel non apprezzarla. Il secondo nell’apprezzarla con razionalità. Il terzo è apprezzarla con me",
-  "avatar":"https://i.ytimg.com/vi/hYvkSHYh_WQ/hqdefault.jpg",
-  "cover":"http://backpackertours.co.uk/images/September-Oktoberfest-Munich-Germany-2.jpg"
+  "avatar":"https://firebasestorage.googleapis.com/v0/b/travelmate-ee239.appspot.com/o/userImage%2FFiorentiniDaphne%40travelmate.com%2Fhqdefault.jpg?alt=media&token=ffba2255-2d3b-4272-a0bb-3345e997dfb6",
+  "cover":"https://firebasestorage.googleapis.com/v0/b/travelmate-ee239.appspot.com/o/userImage%2FFiorentiniDaphne%40travelmate.com%2FSeptember-Oktoberfest-Munich-Germany-2.jpg?alt=media&token=55cccedb-3a81-404d-bd04-634e9a47dc24"
 }' http://localhost:8095/user/newUser
 
 echo -e ""
@@ -151,13 +151,13 @@ curl -H "Content-Type: application/json" -X POST -d '{
   "surname": "Romani",
   "name": "Diego",
   "birthday": "06/08/1993",
-  "gender": "uomo",
+  "gender": "Uomo",
   "uid":"sSiOgobodkOlLkyzbIqnqxLQQq93",
-  "relationship": "single",
+  "relationship": "Single",
   "email": "RomaniDiego@travelmate.com",
   "description":"Adoro tutti gli eventi... Per me l importante è viaggiare in compagnia, il resto non conta.",
-  "avatar":"https://www.menshairstyletrends.com/wp-content/uploads/2018/05/russ_thebarber-classic-short-haircut-for-guys.jpg",
-  "cover":"https://images.pexels.com/photos/414105/pexels-photo-414105.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
+  "avatar":"https://firebasestorage.googleapis.com/v0/b/travelmate-ee239.appspot.com/o/userImage%2FRomaniDiego%40travelmate.com%2Fruss_thebarber-classic-short-haircut-for-guys.jpg?alt=media&token=c8bd8537-3200-4aec-82ea-b099883a884d",
+  "cover":"https://firebasestorage.googleapis.com/v0/b/travelmate-ee239.appspot.com/o/userImage%2FRomaniDiego%40travelmate.com%2Fpexels-photo-414105.jpeg?alt=media&token=17894b5e-6338-4842-9b86-a0fa22942eb1"
 }' http://localhost:8095/user/newUser
 
 echo -e ""
@@ -168,12 +168,12 @@ curl -H "Content-Type: application/json" -X POST -d '{
   "name": "Frediana",
   "uid":"pfcytk2YLdb7qQ2a224J420vZB03",
   "birthday": "09/28/1994",
-  "gender": "donna",
-  "relationship": "fidanzata",
+  "gender": "Donna",
+  "relationship": "Fidanzata",
   "email": "SicilianiFrediana@travelmate.com",
   "description":"Amo i robot e la musica rock, sono socievole e mi adatto facilmente a tutto",
-  "avatar":"https://edecorati.com/data/out/215/girls-images_292560625.jpg",
-  "cover":"http://www.eventelephant.com/wp-content/uploads/2019/01/What-Makes-Xsaga-Different.jpg"
+  "avatar":"https://firebasestorage.googleapis.com/v0/b/travelmate-ee239.appspot.com/o/userImage%2FSicilianiFrediana%40travelmate.com%2Fgirls-images_292560625.jpg?alt=media&token=3bbc5ab1-7dc7-44c9-859c-44bba38d2fe2",
+  "cover":"https://firebasestorage.googleapis.com/v0/b/travelmate-ee239.appspot.com/o/userImage%2FSicilianiFrediana%40travelmate.com%2FWhat-Makes-Xsaga-Different.jpg?alt=media&token=b3826e17-1c81-48b4-aa3f-74a48dcd0125"
 }' http://localhost:8095/user/newUser
 
 echo -e " ${reset}"

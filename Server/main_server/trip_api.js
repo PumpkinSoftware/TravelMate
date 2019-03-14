@@ -181,7 +181,7 @@ router.get('/getTripsWithFilter', function(req, res){
 	var vehicle = req.query.vehicle;
 	var minBudget = 0;
 	var maxBudget = 100000;
-	var startDate = new Date("1/1/1970");
+	var startDate = new Date();
 	var endDate = new Date("1/1/4000");
 	var maxPartecipant = 1000000;
 	var minPartecipant = 1;
@@ -283,7 +283,7 @@ router.post('/updateTrip', function(req, res){
 
 /******************************************/
 //Api per cancellare un viaggio
-//Api incompleta
+//Api verificata
 
 //example use: /deleteTrip?tripId=5c537f4bbd73113cd71d1384
 
@@ -354,6 +354,77 @@ router.get('/getTripById', function(req, res){
 		else{
 			res.send(trip);
 			console.log(trip);
+		}
+
+	});
+});
+
+/******************************************/
+//Api per ottenere un viaggio da Id
+//Api verificata
+
+// example use getTripByidWithUsers?id=483249832948932ab43c443b
+
+router.get('/getTripByIdWithUsers', function(req, res){
+
+	var id = req.query.id;
+
+	if(id == undefined)
+		res.send(JSON.stringify({ status: "error", type: "-4" }));
+
+	TripSchema.findById(id).exec(function(err, trip){
+		
+		if (err){
+			res.send(JSON.stringify({ status: "error", type: "-3" }));
+			console.log(err);
+			console.log(JSON.stringify({ status: "error", type: "-3" }));
+		}
+		else{
+
+			var conditions = {
+        		"trips.tripId": { $eq: trip._id }
+    		}
+
+    		UserSchema.find(conditions, function(err, users){
+        
+        	if (err){
+            	res.send(JSON.stringify({ status: "error", type: "-1" }));
+            	console.log(err);
+            	console.log(JSON.stringify({ status: "error", type: "-1" }));
+        	}
+        
+        	if (users.length > 0){
+            	res.send([trip + users]);
+            	console.log([trip + users]);
+        	}
+        	else{
+            	res.send(JSON.stringify({ status: "error", type: "-2" }));
+            	console.log(JSON.stringify({ status: "error", type: "-2" }));
+        	}
+
+    	});
+
+		}
+
+	});
+});
+
+/****************************************/
+//Api per inserire pulire tutta la collezione trips
+//Api verificata
+
+router.get('/deleteAll', function(req, res){
+
+	TripSchema.remove({}).exec(function(err, trip){
+		
+		if (err){
+			res.send(JSON.stringify({ status: "error", type: "-1" }));
+			console.log(err);
+			console.log(JSON.stringify({ status: "error", type: "-1" }));
+		}
+		else{
+			res.send(JSON.stringify({ status: "ok", type: "all trips deleted" }));
+			console.log(JSON.stringify({ status: "ok", type: "all trips deleted" }));
 		}
 
 	});
