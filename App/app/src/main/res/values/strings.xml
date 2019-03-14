@@ -59,7 +59,7 @@
 
     <!-- Only creation-->
     <string name="creation_title">Nuovo evento</string>
-    <string name="group">Gruppo*</string>
+    <string name="group">Gruppo</string>
     <string name="buddies2">Persone necessarie per partire</string>
     <string name="budget_text2">Cifra approssimativa</string>
     <string name="plan">Programma*</string>
@@ -130,11 +130,12 @@
 
     <!-- Register -->
     <string name="account">Nuovo account</string>
-    <string name="nascita">Data di nascita</string>
+    <string name="nascita">Data di nascita: </string>
     <string name="uomo">Uomo</string>
     <string name="donna">Donna</string>
     <string name="single">Single</string>
     <string name="fidanzato">Fidanzato/a</string>
+    <string name="group2">Gruppo*</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

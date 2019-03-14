@@ -238,7 +238,7 @@
                 android:layout_alignStart="@+id/budget"
                 android:layout_marginStart="0dp"
                 android:layout_marginTop="28dp"
-                android:text="@string/group"
+                android:text="@string/group2"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5" />
 
             <TextView

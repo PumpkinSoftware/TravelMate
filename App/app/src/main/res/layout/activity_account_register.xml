@@ -37,13 +37,12 @@
                 android:src="@drawable/blank_cover_add"
                 tools:ignore="ContentDescription" />
 
-
             <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/profile_r"
                 android:layout_width="200dp"
                 android:layout_height="200dp"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="100dp"
+                android:layout_marginTop="50dp"
                 android:clickable="true"
                 android:elevation="5dp"
                 android:padding="20dp"
@@ -124,11 +123,12 @@
 
                 <EditText
                     android:id="@+id/age2_r"
-                    android:layout_width="70dp"
+                    android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
                     android:layout_marginStart="8dp"
-                    android:clickable="true"
+                    android:inputType="date"
+                    android:focusable="false"
                     app:layout_constraintBottom_toBottomOf="@+id/age_r"
                     app:layout_constraintLeft_toRightOf="@+id/age_r"
                     app:layout_constraintStart_toEndOf="@+id/age_r"
