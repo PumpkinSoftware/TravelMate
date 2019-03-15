@@ -20,19 +20,18 @@ import com.example.pumpkinsoftware.travelmate.TravelDetailsActivity;
 import com.example.pumpkinsoftware.travelmate.glide.GlideApp;
 import com.example.pumpkinsoftware.travelmate.trip.Trip;
 import com.example.pumpkinsoftware.travelmate.R;
-import com.example.pumpkinsoftware.travelmate.user.User;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.ViewHolder> {
-    private List<Trip> trips;
-    private Context context = null;
-    private User currentUser;
+public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.ViewHolder> implements Serializable {
+    private transient List<Trip> trips;
+    private transient Context context = null;
     private boolean fav;
 
     // Provide a direct reference to each of the views within a data item
     // Used to cache the views within the item layout for fast access
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements Serializable {
         // Your holder should contain a member variable
         // for any view that will be set as you render a row
         public ImageView trip_image,fav_image;
@@ -132,9 +131,11 @@ public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.ViewHolder> 
 
         }
 
+        private int pos;
+
         // Returns trip in the list
         private Trip getTrip(){
-            int pos = getAdapterPosition();
+            pos = getAdapterPosition();
 
             // check if item still exists
             if(pos != RecyclerView.NO_POSITION) return trips.get(pos);
@@ -143,7 +144,6 @@ public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.ViewHolder> 
 
         private void openCard(Trip t) {
             Intent intent = new Intent(context, TravelDetailsActivity.class);
-            //String travelId = t.getId();
             intent.putExtra(TravelDetailsActivity.EXTRA_ID, t.getId());
             intent.putExtra(TravelDetailsActivity.EXTRA_IMG, t.getImage());
             intent.putExtra(TravelDetailsActivity.EXTRA_NAME, t.getName());
@@ -156,8 +156,10 @@ public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.ViewHolder> 
             intent.putExtra(TravelDetailsActivity.EXTRA_PARTECIPANTS_NUMBER, t.getPartecipants());
             intent.putExtra(TravelDetailsActivity.EXTRA_GROUP_NUMBER, t.getGroupNumber());
             intent.putExtra(TravelDetailsActivity.EXTRA_TAG, t.getTag());
-            intent.putExtra(TravelDetailsActivity.EXTRA_VEHICLE,t.getVehicle());
-            intent.putExtra(TravelDetailsActivity.EXTRA_OWNER_UID,t.getOwner());
+            intent.putExtra(TravelDetailsActivity.EXTRA_VEHICLE, t.getVehicle());
+            intent.putExtra(TravelDetailsActivity.EXTRA_OWNER_UID, t.getOwner());
+            intent.putExtra(TravelDetailsActivity.EXTRA_ADAPTER, getTripsAdapter());
+            intent.putExtra(TravelDetailsActivity.EXTRA_ADAPTER_POS, pos);
 
             /*String extraUserIsAPartecipant;
             if(currentUser.getTrips().contains(travelId))  extraUserIsAPartecipant = "true";
@@ -184,8 +186,11 @@ public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.ViewHolder> 
 
     public TripsAdapter(List<Trip> t) {
         trips = t;
-        //this.currentUser = currentUser;
     }
+
+    // Useful to update recycler view from travel details
+    public TripsAdapter getTripsAdapter() { return this; }
+    public List<Trip> getTrips() { return trips; }
 
     private void shareText(String s) {
         Intent intent = new Intent(android.content.Intent.ACTION_SEND);
@@ -206,7 +211,7 @@ public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.ViewHolder> 
         View contactView = inflater.inflate(R.layout.home_row, parent, false);
 
         // Return a new holder instance
-        ViewHolder viewHolder = new ViewHolder(contactView);
+        TripsAdapter.ViewHolder viewHolder = new ViewHolder(contactView);
         return viewHolder;
     }
 

@@ -16,6 +16,14 @@
             android:layout_height="match_parent"
             android:background="@android:color/white">
 
+            <ProgressBar
+                android:id="@+id/indeterminateBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:indeterminateTint="@color/colorPrimary"/>
+
             <!-- Header -->
             <ImageView
                 android:id="@+id/back"
@@ -360,17 +368,6 @@
                     android:layout_toEndOf="@+id/profile2"
                     android:layout_alignBottom="@+id/profile2"
                     android:textSize="20dp"/>-->
-
-
-                <ProgressBar
-                    android:id="@+id/indeterminateBar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_centerVertical="true"
-                    android:layout_below="@+id/users"
-                    android:layout_marginTop="28dp"
-                    android:indeterminateTint="@color/colorPrimary"/>
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/recyclerview"

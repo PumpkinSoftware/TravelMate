@@ -1,13 +1,5 @@
 package com.example.pumpkinsoftware.travelmate.trip;
 
-import com.example.pumpkinsoftware.travelmate.client_server_interaction.GetUserByUid;
-import com.example.pumpkinsoftware.travelmate.client_server_interaction.ServerCallback;
-import com.example.pumpkinsoftware.travelmate.user.User;
-
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-
 public class Trip {
     private final String id;
     private String trip_image;

@@ -28,7 +28,7 @@ public class GetTripInteraction {
     TripsAdapter adapter;
     private ProgressBar progressBar;
     private final static String URL = "https://debugtm.herokuapp.com/user/getUserByUid?uid=";
-    //private User currentUser;
+    private ArrayList<Trip> mTrips;
 
     public GetTripInteraction(Context c, RecyclerView rv, ProgressBar progress) {
         context = c;
@@ -37,9 +37,10 @@ public class GetTripInteraction {
         //this.currentUser = currentUser;
     }
 
-    public void getTripsFromServer(String query, RequestQueue mQueue, final ArrayList<Trip> trips) {
+    public void getTripsFromServer(String query, RequestQueue mQueue, ArrayList<Trip> trips) {
        /* if(this.trips == null)    this.trips = new ArrayList<Trip>();
         else                 this.trips.clear();*/
+       mTrips = new ArrayList<Trip>();
 
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, query, null, new Response.Listener<JSONArray>() {
             public void onResponse(JSONArray response) {
@@ -63,11 +64,11 @@ public class GetTripInteraction {
                         final String vehicle= travel.getString("vehicle");
                         final String owner = travel.getString("owner");
 
-                        trips.add(new Trip(id, image, name, descr, departure, dest, budget,dep_date, end_date,
+                        mTrips.add(new Trip(id, image, name, descr, departure, dest, budget,dep_date, end_date,
                                 partecipants, group_max, tag, vehicle, owner));
                     }
 
-                    adapter = new TripsAdapter(trips);
+                    adapter = new TripsAdapter(mTrips);
                     // Attach the adapter to the recyclerview to populate items
                     rvTrips.setAdapter(adapter);
                     hideProgressBar();
@@ -89,5 +90,4 @@ public class GetTripInteraction {
     }
 
     private void hideProgressBar() { if (progressBar != null) progressBar.setVisibility(View.GONE); }
-
 }

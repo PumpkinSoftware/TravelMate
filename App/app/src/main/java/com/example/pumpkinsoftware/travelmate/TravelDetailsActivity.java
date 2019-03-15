@@ -50,6 +50,7 @@ import com.example.pumpkinsoftware.travelmate.client_server_interaction.PostJoin
 import com.example.pumpkinsoftware.travelmate.client_server_interaction.ServerCallback;
 import com.example.pumpkinsoftware.travelmate.glide.GlideApp;
 import com.example.pumpkinsoftware.travelmate.trip.Trip;
+import com.example.pumpkinsoftware.travelmate.trips_adapter.TripsAdapter;
 import com.example.pumpkinsoftware.travelmate.user.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -57,6 +58,7 @@ import com.google.firebase.auth.FirebaseUser;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -75,7 +77,8 @@ public class TravelDetailsActivity extends AppCompatActivity {
     public final static String EXTRA_TAG = "travelmate_extra_tda_TRIP_TAG";
     public final static String EXTRA_VEHICLE ="travelmate_extra_tda_TRIP_VEHICLE";
     public final static String EXTRA_OWNER_UID ="travelmate_extra_tda_TRIP_OWNER_UID";
-    //public final static String EXTRA_USER ="travelmate_extra_tda_TRIP_EXTRA_USER"; // Current user is a partecipant? true or false
+    public final static String EXTRA_ADAPTER ="travelmate_extra_tda_TRIP_EXTRA_ADAPTER";
+    public final static String EXTRA_ADAPTER_POS ="travelmate_extra_tda_TRIP_EXTRA_ADAPTER_POS";
 
     private Context context;
     private boolean so_prev_lol; // Useful for transitions
@@ -93,6 +96,10 @@ public class TravelDetailsActivity extends AppCompatActivity {
     private Button joinBtn;
     private RecyclerView rvUsers;
     private ProgressBar progress;
+    private TripsAdapter adapter;
+    private int adapterPos;
+    private Trip trip;
+    private ArrayList<Trip> trips;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,8 +122,10 @@ public class TravelDetailsActivity extends AppCompatActivity {
         final String tag = b.getString(EXTRA_TAG);
         final String vehicle = b.getString(EXTRA_VEHICLE);
         owner_uid = b.getString(EXTRA_OWNER_UID);
-        //final String userIsAPartecipant = b.getString(EXTRA_USER); // true if is a partecipant
+        adapter = (TripsAdapter) b.getSerializable(EXTRA_ADAPTER);
+        adapterPos = b.getInt(EXTRA_ADAPTER_POS);
 
+        // OLD
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
             userUid = user.getUid();
@@ -202,10 +211,18 @@ public class TravelDetailsActivity extends AppCompatActivity {
         back_image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // NON FUNZIONA, trips risulta null
+                /*if(trip != null && adapter != null) {
+                    trips = new ArrayList<Trip>(adapter.getTrips());
+                    trips.set(adapterPos, trip);
+                    adapter.notifyItemChanged(adapterPos);
+                }*/
+
                 if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)    finishAfterTransition();
                 else    finish();
             }
         });
+
         /* favoriti
         final CheckBox fav_image = (CheckBox) findViewById(R.id.fav_image);
         // Handling animation on click
@@ -277,6 +294,7 @@ public class TravelDetailsActivity extends AppCompatActivity {
         // Set layout manager to position the items
         rvUsers.setLayoutManager(new LinearLayoutManager(context));
         rvUsers.setNestedScrollingEnabled(false);
+        //updateLayout();
         getPartecipants(rvUsers, progress, travelId, owner_uid);
 
 
@@ -292,8 +310,9 @@ public class TravelDetailsActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         //temporaneo
-                        mRequestQueue= Volley.newRequestQueue(context);
-                        getPartecipants(rvUsers, progress, travelId, owner_uid);
+                        //mRequestQueue= Volley.newRequestQueue(context);
+                        //getPartecipants(rvUsers, progress, travelId, owner_uid);
+                        updateLayout();
                         swipe.setRefreshing(false);
 
                     }
@@ -302,6 +321,7 @@ public class TravelDetailsActivity extends AppCompatActivity {
         });
     }
 
+    // OLD
     private void getPartecipants(RecyclerView rvUsers, ProgressBar progress, String id, final String owner_uid) {
         partecipants = new ArrayList<User>();
 
@@ -397,8 +417,14 @@ public class TravelDetailsActivity extends AppCompatActivity {
                             backgroundColorAnimator.setDuration(300);
                             backgroundColorAnimator.start();
                             joinBtn.setText("Unisciti");
-                            updateLayout();
-                            }})
+
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    updateLayout();
+                                }
+                            },200);
+                        }})
                     .setNegativeButton(android.R.string.no, null).show();
         }
 
@@ -415,7 +441,19 @@ public class TravelDetailsActivity extends AppCompatActivity {
                             set.start();*/
 
                             // Delete travel
-                            //new PostJoin(context).send("https://debugtm.herokuapp.com/trip/deleteTrip?tripId="+travelId, PostJoin.request.DELETE);
+                            final PostJoin server = new PostJoin(context);
+                            server.delete("https://debugtm.herokuapp.com/trip/deleteTrip?tripId="+travelId, new ServerCallback() {
+                                @Override
+                                public void onSuccess(JSONObject response) {
+                                    // Check if trip is really deleted from server
+                                    if (server.isDeleted()) {
+                                        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+                                            finishAfterTransition();
+                                        else finish();
+                                    }
+                                }
+                            });
+
                             animate(joinBtn);
                         }})
                     .setNegativeButton(android.R.string.no, null).show();
@@ -437,7 +475,13 @@ public class TravelDetailsActivity extends AppCompatActivity {
             backgroundColorAnimator.setDuration(300);
             backgroundColorAnimator.start();
             joinBtn.setText("Abbandona");
-            updateLayout();
+
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    updateLayout();
+                }
+            },200);
         }
     }
 
@@ -451,24 +495,136 @@ public class TravelDetailsActivity extends AppCompatActivity {
     private void changeOwner() {
         User user = partecipants.get(1);
         new PostJoin(this).send("https://debugtm.herokuapp.com/user/changeOwnerAndRemoveLast", travelId,
-                user.getUid(), PostJoin.request.JOIN);
+                user.getUid(), PostJoin.request.CHANGE);
     }
 
     private void updateLayout() {
         final GetTripById server = new GetTripById(this);
         server.getTripFromServer("https://debugtm.herokuapp.com/trip/getTripById?id="+travelId,
+                owner_uid, partecipants, userUid,
                 new ServerCallback(){
                     @Override
                     public void onSuccess(JSONObject response) {
-                        Trip trip = server.getTrip();
-                        loadTrip();
+                        trip = server.getTrip();
+                        loadTrip(trip);
+
                         getPartecipants(rvUsers, progress, travelId, owner_uid);
+                        /*final String img = server.getOwnerImg();
+                        o_image = findViewById(R.id.profile1);
+
+                        GlideApp.with(context)
+                                .load((img.isEmpty())?(R.drawable.blank_avatar):(img))
+                                .placeholder(R.mipmap.placeholder_image)
+                                .into(o_image);
+                        TextView o_name = findViewById(R.id.user1);
+                        o_name.setText(server.getOwnerName());
+
+                        View.OnClickListener lis = new View.OnClickListener(){
+                            @Override
+                            public void onClick(View v) {
+                                openUser(owner_uid);
+                            }
+                        };
+
+                        o_image.setOnClickListener(lis);
+                        o_name.setOnClickListener(lis);
+
+                        if(partecipantsNumber == group) card.setVisibility(View.GONE);
+
+                        if(userUid.equals(owner_uid)) {
+                            if(partecipantsNumber == 1)   joinBtn.setText("Elimina");
+                            else                          joinBtn.setText("Abbandona");
+                            card.setCardBackgroundColor(colorTo);
+                        }
+
+                        else if(server.isUserAPartecipant()) {
+                            joinBtn.setText("Abbandona");
+                            card.setCardBackgroundColor(colorTo);
+                        }
+
+                        else joinBtn.setText("Unisciti");*/
                     }
                 });
     }
 
-    private void loadTrip() {
-        // TODO
+    private void loadTrip(Trip t) {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            userUid = user.getUid();
+            if(userUid.equals(owner_uid)) {
+                final ImageView edit = findViewById(R.id.edit_image);
+                edit.setVisibility(View.VISIBLE);
+
+                edit.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        // TODO edit trip
+                    }
+                });
+
+            }
+        }
+
+        final ImageView imgv = (ImageView) findViewById(R.id.header_cover_image);
+        loadImg(t.getImage(), imgv);
+        final TextView n = (TextView) findViewById(R.id.name);
+        n.setText(t.getName());
+        final TextView dsc = (TextView) findViewById(R.id.descr);
+
+        // Justified text alignment
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            dsc.setText(t.getDescr());
+            dsc.setJustificationMode(Layout.JUSTIFICATION_MODE_INTER_WORD);
+        }
+
+        else {
+            final WebView view = (WebView) findViewById(R.id.descr_for_older_versions);
+            String text = "<html><body><p align=\"justify\">";
+            text+= t.getDescr();
+            text+= "</p></body></html>";
+            view.loadData(text, "text/html", "utf-8");
+            view.setVisibility(View.VISIBLE);
+            dsc.setVisibility(View.GONE);
+            // Now I've to change the below param of the below elements
+            final RelativeLayout layout = findViewById(R.id.layout2);
+            RelativeLayout.LayoutParams params= new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+            params.addRule(RelativeLayout.BELOW, R.id.descr_for_older_versions);
+            layout.setLayoutParams(params);
+        }
+
+        final TextView t_tag=(TextView) findViewById(R.id.tag);
+        String tag = t.getTag();
+        if(tag.equals("cultura")){
+            t_tag.setBackgroundColor(Color.parseColor("#008000")); //verde
+        }else if (tag.equals("musica")){
+            t_tag.setBackgroundColor(Color.parseColor("#FF8C00")); //arancione(dark)
+        }else if(tag.equals("intrattenimento")){
+            t_tag.setBackgroundColor(Color.parseColor("#FF0000")); //rosso
+        }else{
+            t_tag.setBackgroundColor(Color.parseColor("#1E90FF")); //blu
+        }
+        t_tag.setText(tag);
+
+        final TextView dp = (TextView) findViewById(R.id.from);
+        dp.setText(t.getDeparture());
+        final TextView dt = (TextView) findViewById(R.id.to);
+        dt.setText(t.getDest());
+        final TextView bud = (TextView) findViewById(R.id.budget);
+        bud.setText(t.getBudget());
+        final TextView s = (TextView) findViewById(R.id.date1);
+        s.setText(getData(t.getStartDate()));
+        final TextView e = (TextView) findViewById(R.id.date2);
+        e.setText(getData(t.getEndDate()));
+        final TextView g = (TextView) findViewById(R.id.n_users);
+        g.setText(t.getGroup());
+
+        final TextView vm = (TextView) findViewById(R.id.vehicle_text);
+        final ImageView vi = (ImageView) findViewById(R.id.vehicle_image);
+        String vehicle = t.getVehicle();
+        vm.setText(vehicle);
+
+        if(vehicle.equals("treno"))     vi.setImageResource(R.drawable.ic_train_black_12dp);
+        else                            vi.setImageResource(R.drawable.ic_directions_car_black_12dp);
     }
 
     // Open user on click
@@ -573,4 +729,15 @@ public class TravelDetailsActivity extends AppCompatActivity {
         String[] d=data.split("-");
         return d[2].substring(0,2) +"/"+d[1]+"/"+d[0];
     }
+
+    @Override
+    public void onBackPressed() {
+        if(trip != null && adapter != null) {
+            adapter.notifyDataSetChanged();
+        }
+
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)    finishAfterTransition();
+        else    finish();
+    }
+
 }
