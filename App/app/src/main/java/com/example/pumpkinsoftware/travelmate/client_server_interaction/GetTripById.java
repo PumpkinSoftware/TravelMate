@@ -51,12 +51,12 @@ public class GetTripById {
         this.users = users;
         this.currentUserUid = currentUserUid;
         final RequestQueue mQueue = Volley.newRequestQueue(context);
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, query, null, new Response.Listener<JSONObject>() {
-            public void onResponse(JSONObject response) {
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, query, null, new Response.Listener<JSONArray>() {
+            public void onResponse(JSONArray response) {
 
                 try {
-                    //JSONObject travel = response.getJSONObject(0);
-                    JSONObject travel = response;
+                    JSONObject travel = response.getJSONObject(0);
+                    //JSONObject travel = response;
                     final String id = travel.getString("_id");
                     final String image = travel.getString("image");
                     final String name = travel.getString("name");
@@ -72,7 +72,7 @@ public class GetTripById {
                     final String vehicle = travel.getString("vehicle");
                     final String owner = travel.getString("owner");
 
-                    //getPartecipants(response, callback);
+                    getPartecipants(response.getJSONArray(1), callback);
                     hideProgressBar();
                     trip = new Trip(id, image, name, descr, departure, dest, budget,dep_date, end_date,
                             n_partecipants, group_max, tag, vehicle, owner);
@@ -101,7 +101,7 @@ public class GetTripById {
     private void getPartecipants(JSONArray response, final ServerCallback callback) {
         try {
             JSONObject user = null;
-            for (int i = 1; i < response.length(); i++) {
+            for (int i = 0; i < response.length(); i++) {
                 user = response.getJSONObject(i);
                 String uid = user.getString("uid");
                 String name;
@@ -121,7 +121,7 @@ public class GetTripById {
                 else
                     users.add(new User(uid, name, profile));
             }
-            callback.onSuccess(user);
+            //callback.onSuccess(user);
             adapter = new UsersAdapter(users);
             // Attach the adapter to the recyclerview to populate items
             rvUsers.setAdapter(adapter);
