@@ -809,7 +809,7 @@ router.get('/getProgressTripsByUser',function(req,res){
 /******************************************/
 //Api che dato un viaggio e un utente, cambia l'owner del viaggio nell'utente dato e rimuove il precedente owner dai partecipanti del viaggio 
 
-// Example to use /changeOwnerAndRemoveLast?tripId=...&newOwner=...
+// Example to use /changeOwnerAndRemoveLast?tripId=...&userUid=...
 
 router.post('/changeOwnerAndRemoveLast',function(req,res){
 	
@@ -824,7 +824,7 @@ router.post('/changeOwnerAndRemoveLast',function(req,res){
 	}
 	
 	var update_A = {
-		$set: {owner: JsonObject.newOwner},
+		$set: {owner: JsonObject.userUid},
 		$inc: {partecipants: -1}
 	};
 	
