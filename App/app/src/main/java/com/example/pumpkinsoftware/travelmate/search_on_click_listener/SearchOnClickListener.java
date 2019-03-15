@@ -14,8 +14,7 @@ import android.widget.RadioGroup;
 
 import com.android.volley.RequestQueue;
 import com.example.pumpkinsoftware.travelmate.SearchResult;
-import com.example.pumpkinsoftware.travelmate.edit_text_date_picker.EditTextDatePicker;
-import com.example.pumpkinsoftware.travelmate.R;
+import com.example.pumpkinsoftware.travelmate.date_picker.EditTextDatePicker;
 
 
 public class SearchOnClickListener implements View.OnClickListener {

@@ -11,24 +11,19 @@ import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.SearchView;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.Volley;
-import com.example.pumpkinsoftware.travelmate.edit_text_date_picker.EditTextDatePicker;
+import com.example.pumpkinsoftware.travelmate.date_picker.EditTextDatePicker;
 import com.example.pumpkinsoftware.travelmate.min_max_filter.MinMaxFilter;
 import com.example.pumpkinsoftware.travelmate.search_on_click_listener.SearchOnClickListener;
 

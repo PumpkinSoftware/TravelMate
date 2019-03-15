@@ -1,4 +1,4 @@
-package com.example.pumpkinsoftware.travelmate.edit_text_date_picker;
+package com.example.pumpkinsoftware.travelmate.date_picker;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;

@@ -6,36 +6,40 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.pumpkinsoftware.travelmate.edit_text_date_picker.BirthdayPicker;
+import com.example.pumpkinsoftware.travelmate.date_picker.BirthdayPicker;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.text.DateFormat;
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.Calendar;
+import java.util.UUID;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class AccountRegisterActivity extends AppCompatActivity {
-    private String mail, pass, profile_pic = "", cover_pic = "", name, surname, bio, age, sex, relationship;
+    private String mail, pass, name, surname, bio, age, sex, relationship;
     private final static String URL = "https://debugtm.herokuapp.com/user/newUser";
     private EditText namet, surnamet, biot;
     private CircleImageView profile;
@@ -45,8 +49,10 @@ public class AccountRegisterActivity extends AppCompatActivity {
     private final int PICK_IMAGE_REQUEST = 71;
     private int FOTO = 0;
     private BirthdayPicker nascita;
-
+    private static Calendar calendar;
     Context contesto;
+    FirebaseStorage storage;
+    StorageReference storageReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +72,11 @@ public class AccountRegisterActivity extends AppCompatActivity {
             }
         });
 
+        // file per firebase
+        storage = FirebaseStorage.getInstance();
+        storageReference = storage.getReference();
+
+
         //valori
         Intent intent = getIntent();
         mail = intent.getExtras().getString("mail");
@@ -78,7 +89,7 @@ public class AccountRegisterActivity extends AppCompatActivity {
         surnamet = (EditText) findViewById(R.id.surname_r);
         biot = (EditText) findViewById(R.id.bio_r);
 
-        final Calendar calendar = Calendar.getInstance();
+        calendar = Calendar.getInstance();
         final EditText data = (EditText) findViewById(R.id.age2_r);
         data.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -113,6 +124,7 @@ public class AccountRegisterActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 sendRegistration();
+                openHome();
             }
         });
     }
@@ -192,6 +204,15 @@ public class AccountRegisterActivity extends AppCompatActivity {
         return Result.substring(0, Result.length() - 1);
     }
 
+    private static boolean checkAge(int month, int day, int year) {
+        calendar=Calendar.getInstance();
+        int today_day = calendar.get(Calendar.DAY_OF_MONTH);
+        int today_month = calendar.get(Calendar.MONTH);
+        int today_year = calendar.get(Calendar.YEAR);
+        return (today_year-year)>18 || (today_year-year==18 && (today_month-month>0 || (today_month-month==0 && today_day-day>=0))) ;
+    }
+
+
     private void sendRegistration() {
         name = String.valueOf(namet.getText());
         surname = String.valueOf(surnamet.getText());
@@ -203,7 +224,7 @@ public class AccountRegisterActivity extends AppCompatActivity {
             msgErrore("cognome");
         } else if (bio.isEmpty()) {
             msgErrore("una breve biografia");
-        } else if (!checkAge(age)) {
+        } else if (!checkAge(nascita.getSetMonth(),nascita.getSetDay(),nascita.getSetYear())) {
             Toast.makeText(contesto, "Devi essere maggiorenne", Toast.LENGTH_SHORT).show();
         } else if (sex.isEmpty()) {
             msgErrore("il sesso");
@@ -230,19 +251,111 @@ public class AccountRegisterActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
             uploadImage(utente);
-            finish();
-            //manca il ritono alla home
+            jsonParse(utente);
+
         }
     }
 
-    private void uploadImage(JSONObject utente) {
-        //manca l'upload
+
+    private void uploadImage(final JSONObject utente) {
+
+        if (filePath1 != null) {
+            final StorageReference ref = storageReference.child("tripImage/" + UUID.randomUUID().toString());
+            ref.putFile(filePath1)
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(Uri uri) {
+                                    try {
+                                        //Log.i("Dato",uri.toString());
+                                        utente.put("avatar", (uri.toString()));
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            });
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            //progressDialog.dismiss();
+                            Toast.makeText(contesto, "Failed " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                            double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot
+                                    .getTotalByteCount());
+                            // progressDialog.setMessage("Uploaded "+(int)progress+"%");
+                        }
+                    });
+        } else {
+            try {
+                utente.put("avatar", "");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        if (filePath2 != null) {
+            final StorageReference ref = storageReference.child("tripImage/" + UUID.randomUUID().toString());
+            ref.putFile(filePath1)
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(Uri uri) {
+                                    try {
+                                        //Log.i("Dato",uri.toString());
+                                        utente.put("cover", (uri.toString()));
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            });
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            //progressDialog.dismiss();
+                            Toast.makeText(contesto, "Failed " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                            double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot
+                                    .getTotalByteCount());
+                            // progressDialog.setMessage("Uploaded "+(int)progress+"%");
+                        }
+                    });
+
+        } else {
+            try {
+                utente.put("cover", "");
+            } catch (JSONException e) {
+                e.printStackTrace();
+
+            }
+        }
     }
 
-    private boolean checkAge(String age) {
-        //manca la funzione
-        return true;
+    private void jsonParse(JSONObject utente) {
+
     }
 
+
+
+    public void openHome(){
+        Intent intent=new Intent(this,LoginActivity.class);
+        startActivity(intent);
+        finish();
+    }
 
 }

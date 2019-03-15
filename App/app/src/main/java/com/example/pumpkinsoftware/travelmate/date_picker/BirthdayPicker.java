@@ -1,6 +1,5 @@
-package com.example.pumpkinsoftware.travelmate.edit_text_date_picker;
+package com.example.pumpkinsoftware.travelmate.date_picker;
 
-import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.view.MotionEvent;
@@ -8,8 +7,6 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import android.widget.DatePicker;
 import android.widget.EditText;
-
-import com.example.pumpkinsoftware.travelmate.R;
 
 import java.util.Calendar;
 import java.util.Date;
