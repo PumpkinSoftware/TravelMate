@@ -38,7 +38,6 @@ public class HomeFragment extends Fragment {
     private RequestQueue mRequestQueue;
     private String URL="https://debugtm.herokuapp.com/trip/lastTripsCreated?limit=50";;
     private ArrayList<Trip> trips;
-    private User currentUser;
 
     @Nullable
     @Override

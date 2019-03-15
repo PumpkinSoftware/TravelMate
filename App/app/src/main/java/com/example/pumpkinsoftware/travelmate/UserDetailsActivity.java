@@ -11,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -41,9 +42,10 @@ public class UserDetailsActivity extends AppCompatActivity {
 
         Bundle b = getIntent().getExtras();
         final String uid = b.getString(EXTRA_UID);
+        final ProgressBar progressBar = findViewById(R.id.indeterminateBar);
 
         RequestQueue mRequestQueue = Volley.newRequestQueue(context);
-        final GetUserByUid server =  new GetUserByUid(context);
+        final GetUserByUid server =  new GetUserByUid(context, progressBar);
         server.getUserFromServer(URL+uid, mRequestQueue, new ServerCallback() {
                     @Override
                     public void onSuccess(JSONObject response) {

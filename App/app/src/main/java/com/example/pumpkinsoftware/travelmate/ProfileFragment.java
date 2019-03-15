@@ -8,7 +8,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RatingBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.RequestQueue;
@@ -28,6 +30,7 @@ public class ProfileFragment extends Fragment {
     private final static String URL = "https://debugtm.herokuapp.com/user/getUserByUid?userUid=";
     private Context context;
     private View view;
+    private Boolean isReady;
 
     @Nullable
     @Override
@@ -35,7 +38,11 @@ public class ProfileFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_profile, container, false);
         context = getContext();
 
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        final RelativeLayout layout = view.findViewById(R.id.layout);
+        layout.setVisibility(View.INVISIBLE);
+        final ProgressBar progressBar = view.findViewById(R.id.indeterminateBar);
+        progressBar.setVisibility(View.VISIBLE);
+        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
             //boolean emailVerified = user.isEmailVerified();
 
@@ -44,14 +51,14 @@ public class ProfileFragment extends Fragment {
             // FirebaseUser.getIdToken() instead.
             String uid = user.getUid();
             RequestQueue mRequestQueue = Volley.newRequestQueue(context);
-            final GetUserByUid server =  new GetUserByUid(context);
+            final GetUserByUid server =  new GetUserByUid(context, progressBar);
             server.getUserFromServer(URL+uid, mRequestQueue, new ServerCallback() {
                         @Override
                         public void onSuccess(JSONObject response) {
                             loadUser(server);
+                            layout.setVisibility(View.VISIBLE);
                         }
-                    }
-            );
+            });
         }
 
         else {
