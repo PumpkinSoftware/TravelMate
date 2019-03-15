@@ -19,6 +19,7 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.pumpkinsoftware.travelmate.client_server_interaction.PostUser;
 import com.example.pumpkinsoftware.travelmate.date_picker.BirthdayPicker;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -40,7 +41,6 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class AccountRegisterActivity extends AppCompatActivity {
     private String mail, pass, name, surname, bio, age, sex, relationship;
-    private final static String URL = "https://debugtm.herokuapp.com/user/newUser";
     private EditText namet, surnamet, biot;
     private CircleImageView profile;
     private ImageView cover;
@@ -251,7 +251,7 @@ public class AccountRegisterActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
             uploadImage(utente);
-            jsonParse(utente);
+            new PostUser(contesto).jsonParse(utente, PostUser.flag.NEW);
 
         }
     }
@@ -345,12 +345,6 @@ public class AccountRegisterActivity extends AppCompatActivity {
             }
         }
     }
-
-    private void jsonParse(JSONObject utente) {
-
-    }
-
-
 
     public void openHome(){
         Intent intent=new Intent(this,LoginActivity.class);

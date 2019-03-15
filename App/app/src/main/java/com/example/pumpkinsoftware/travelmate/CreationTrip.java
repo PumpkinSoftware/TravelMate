@@ -287,7 +287,6 @@ public class CreationTrip extends AppCompatActivity {
                 e.printStackTrace();
             }
             jsonParse(viaggio);
-            Toast.makeText(contesto, "Viaggio creato correttamente.", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -296,7 +295,19 @@ public class CreationTrip extends AppCompatActivity {
         final JsonObjectRequest JORequest = new JsonObjectRequest(Request.Method.POST, URL, viaggio, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                Toast.makeText(contesto, "Inserito correttamente", Toast.LENGTH_SHORT).show();
+                try {
+                    //da controllare l'update
+                    String status = response.getString("status");
+                    if(status.equals("ok")) {
+                        Toast.makeText(contesto, "Aggiunto correttamente", Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        Toast.makeText(contesto, "Errore: riprovare", Toast.LENGTH_SHORT).show();
+                    }
+
+                } catch (JSONException e) {
+                    Toast.makeText(contesto, "Errore: riprovare", Toast.LENGTH_SHORT).show();
+                }
             }
         }, new Response.ErrorListener() {
             @Override
