@@ -42,6 +42,9 @@ dependencies {
     // Find the latest Facebook SDK releases here: https://goo.gl/Ce5L94
     implementation 'com.facebook.android:facebook-android-sdk:4.39.0'
 
+    // Dynamic links with Firebase
+    implementation 'com.google.firebase:firebase-dynamic-links:16.1.7'
+
     // Multi Slider
     implementation 'io.apptik.widget:multislider:1.3'
 

@@ -12,9 +12,11 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -36,6 +38,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
@@ -52,13 +55,26 @@ import com.example.pumpkinsoftware.travelmate.glide.GlideApp;
 import com.example.pumpkinsoftware.travelmate.trip.Trip;
 import com.example.pumpkinsoftware.travelmate.trips_adapter.TripsAdapter;
 import com.example.pumpkinsoftware.travelmate.user.User;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.dynamiclinks.DynamicLink;
+import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
+import com.google.firebase.dynamiclinks.PendingDynamicLinkData;
+import com.google.firebase.dynamiclinks.ShortDynamicLink;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Calendar;
+import java.util.Date;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -100,6 +116,7 @@ public class TravelDetailsActivity extends AppCompatActivity {
     private int adapterPos;
     private Trip trip;
     private ArrayList<Trip> trips;
+    private boolean isFileDeleted;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -249,16 +266,34 @@ public class TravelDetailsActivity extends AppCompatActivity {
 
         card = (CardView) findViewById(R.id.cardView);
         joinBtn = (Button) findViewById(R.id.join_button);
-        // Handling join on click with animation
-        joinBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+
+        try {
+            Date date1 = new SimpleDateFormat("dd/MM/yyyy").parse(getData(start));
+            //Toast.makeText(context, date1.toString(), Toast.LENGTH_SHORT).show();
+            Calendar now = Calendar.getInstance();
+            Calendar startDate = Calendar.getInstance();
+            startDate.setTime(date1);
+
+            // Check if travel is expired
+            if (now.equals(startDate) || now.after(startDate)) {
+                card.setVisibility(View.GONE);
+            }
+
+            else {
+                // Handling join on click with animation
+                joinBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
                 /*AnimatorSet set = (AnimatorSet) AnimatorInflater.loadAnimator(context, R.animator.zoom_in);
                 set.setTarget(v); // set the view you want to animate
                 set.start();*/
-                join();
+                        join();
+                    }
+                });
             }
-        });
+        } catch (ParseException ex) {
+            ex.printStackTrace();
+        }
 
         // Handling partecipants
         /*RequestQueue mRequestQueue = Volley.newRequestQueue(context);
@@ -297,8 +332,7 @@ public class TravelDetailsActivity extends AppCompatActivity {
         //updateLayout();
         getPartecipants(rvUsers, progress, travelId, owner_uid);
 
-
-        //new GetPartecipantIteration(context, rvUsers, progress).getPartecipantFromServer(QUERY+id, owner_uid, mRequestQueue, partecipants);
+        //openDynamicLink();
 
         //swipe da finire
         final SwipeRefreshLayout swipe = (SwipeRefreshLayout) findViewById(R.id.swipeRefresh);
@@ -309,9 +343,6 @@ public class TravelDetailsActivity extends AppCompatActivity {
                 (new Handler()).postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        //temporaneo
-                        //mRequestQueue= Volley.newRequestQueue(context);
-                        //getPartecipants(rvUsers, progress, travelId, owner_uid);
                         updateLayout();
                         swipe.setRefreshing(false);
 
@@ -381,6 +412,62 @@ public class TravelDetailsActivity extends AppCompatActivity {
         startActivity(Intent.createChooser(intent, "Condividi"));
     }
 
+    // CHIAMEREMO QUESTA QUANDO PRONTA INVECE DI shareText E DA QUI CHIAMEREMO shareText
+    private void createDynamicUri() {
+        Task<ShortDynamicLink> shortLinkTask = FirebaseDynamicLinks.getInstance().createDynamicLink()
+                .setLink(Uri.parse("https://"+R.string.host))
+                .setDomainUriPrefix("https://example.page.link")
+                // Open links with this app on Android
+                .setAndroidParameters(new DynamicLink.AndroidParameters.Builder().build())
+                // Open links with com.example.ios on iOS
+                .setIosParameters(new DynamicLink.IosParameters.Builder("com.example.ios").build())
+                .buildShortDynamicLink(ShortDynamicLink.Suffix.SHORT)
+                .addOnCompleteListener(this, new OnCompleteListener<ShortDynamicLink>() {
+                    @Override
+                    public void onComplete(@NonNull Task<ShortDynamicLink> task) {
+                        if (task.isSuccessful()) {
+                            // Short link created
+                            Uri shortLink = task.getResult().getShortLink();
+                            Uri flowchartLink = task.getResult().getPreviewLink();
+                            //shareText(shortLink.toString());
+                        } else {
+                            Toast.makeText(context, "Errore: riprovare", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
+
+    // Handling receive a dynamic link
+    private void openDynamicLink() {
+        FirebaseDynamicLinks.getInstance()
+                .getDynamicLink(getIntent())
+                .addOnSuccessListener(this, new OnSuccessListener<PendingDynamicLinkData>() {
+                    @Override
+                    public void onSuccess(PendingDynamicLinkData pendingDynamicLinkData) {
+                        // Get deep link from result (may be null if no link is found)
+                        Uri deepLink = null;
+                        if (pendingDynamicLinkData != null) {
+                            deepLink = pendingDynamicLinkData.getLink();
+                            // TODO open link
+                        }
+
+
+                        // Handle the deep link. For example, open the linked
+                        // content, or apply promotional credit to the user's
+                        // account.
+                        // ...
+
+                        // ...
+                    }
+                })
+                .addOnFailureListener(this, new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                       // Log.w(TAG, "getDynamicLink:onFailure", e);
+                    }
+                });
+    }
+
     // Handling join button with animation
     private int colorFrom = R.color.colorPrimary;
     private int colorTo = Color.RED;
@@ -440,6 +527,26 @@ public class TravelDetailsActivity extends AppCompatActivity {
                             set.setTarget(b); // set the view you want to animate
                             set.start();*/
 
+                            String storageUrl = trip.getImage();
+                            StorageReference storageReference = FirebaseStorage.getInstance().getReference().child(storageUrl);
+                            storageReference.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    // File deleted successfully
+                                    isFileDeleted = true;
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception exception) {
+                                   // Log.d(TAG, "onFailure: did not delete file");
+                                }
+                            });
+
+                            if(!isFileDeleted) {
+                                Toast.makeText(context, "Errore: riprovare", Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+
                             // Delete travel
                             final PostJoin server = new PostJoin(context);
                             server.delete("https://debugtm.herokuapp.com/trip/deleteTrip?tripId="+travelId, new ServerCallback() {
@@ -447,6 +554,7 @@ public class TravelDetailsActivity extends AppCompatActivity {
                                 public void onSuccess(JSONObject response) {
                                     // Check if trip is really deleted from server
                                     if (server.isDeleted()) {
+                                        // TODO delete travel img from server
                                         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
                                             finishAfterTransition();
                                         else finish();
@@ -500,7 +608,7 @@ public class TravelDetailsActivity extends AppCompatActivity {
 
     private void updateLayout() {
         final GetTripById server = new GetTripById(this);
-        server.getTripFromServer("https://debugtm.herokuapp.com/trip/getTripById?id="+travelId,
+        server.getTripFromServer("https://debugtm.herokuapp.com/trip/getTripByIdWithUsers?id="+travelId,
                 owner_uid, partecipants, userUid,
                 new ServerCallback(){
                     @Override
@@ -508,8 +616,8 @@ public class TravelDetailsActivity extends AppCompatActivity {
                         trip = server.getTrip();
                         loadTrip(trip);
 
-                        getPartecipants(rvUsers, progress, travelId, owner_uid);
-                        /*final String img = server.getOwnerImg();
+                        //getPartecipants(rvUsers, progress, travelId, owner_uid);
+                        final String img = server.getOwnerImg();
                         o_image = findViewById(R.id.profile1);
 
                         GlideApp.with(context)
@@ -542,7 +650,7 @@ public class TravelDetailsActivity extends AppCompatActivity {
                             card.setCardBackgroundColor(colorTo);
                         }
 
-                        else joinBtn.setText("Unisciti");*/
+                        else joinBtn.setText("Unisciti");
                     }
                 });
     }

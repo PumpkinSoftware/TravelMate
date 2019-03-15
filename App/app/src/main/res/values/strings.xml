@@ -137,6 +137,9 @@
     <string name="fidanzato">Fidanzato/a</string>
     <string name="group2">Gruppo*</string>
 
+
+    <string name="host">pumpkinsoftware.github.io</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="partecipanti">Partecipanti:</string>
