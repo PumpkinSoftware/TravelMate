@@ -28,6 +28,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.pumpkinsoftware.travelmate.date_picker.EditTextDatePicker;
+import com.example.pumpkinsoftware.travelmate.handle_error.ErrorServer;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -107,7 +108,7 @@ public class CreationTrip extends AppCompatActivity {
         final EditTextDatePicker ret = new EditTextDatePicker(contesto, return_date, calendar, departure);
         departure.setOther(ret);
 
-        b_upload =  findViewById(R.id.photo_upload);
+        b_upload = findViewById(R.id.photo_upload);
         b_upload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -143,11 +144,11 @@ public class CreationTrip extends AppCompatActivity {
                     msgErrore("il veicolo");
                 } else if (budget.getText().toString().isEmpty()) {
                     msgErrore("il budget");
-                } else if (Integer.parseInt(budget.getText().toString())<0||(Integer.parseInt(budget.getText().toString())>500)) {
+                } else if (Integer.parseInt(budget.getText().toString()) < 0 || (Integer.parseInt(budget.getText().toString()) > 500)) {
                     Toast.makeText(contesto, "Valore budget invalido", Toast.LENGTH_SHORT).show();
                 } else if (group.getText().toString().isEmpty()) {
                     msgErrore("il numero del gruppo");
-                } else if (Integer.parseInt(group.getText().toString())<2||(Integer.parseInt(group.getText().toString())>50)) {
+                } else if (Integer.parseInt(group.getText().toString()) < 2 || (Integer.parseInt(group.getText().toString()) > 50)) {
                     Toast.makeText(contesto, "Valore gruppo invalido", Toast.LENGTH_SHORT).show();
                 } else if (program_q.isEmpty()) {
                     msgErrore("una sintesi del programma");
@@ -173,8 +174,8 @@ public class CreationTrip extends AppCompatActivity {
                         viaggio.put("tag", tag);
                         viaggio.put("maxPartecipant", group_q);
                         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                        if (user != null)   viaggio.put("owner", user.getUid());
-                        else                viaggio.put("owner", "5c7ad36f56c9ff0d78213ef8");
+                        if (user != null) viaggio.put("owner", user.getUid());
+                        else viaggio.put("owner", "");
 
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -229,7 +230,7 @@ public class CreationTrip extends AppCompatActivity {
                 //path.setText(filePath.getLastPathSegment());
             } catch (IOException e) {
                 e.printStackTrace();
-                }
+            }
         }
     }
 
@@ -258,7 +259,7 @@ public class CreationTrip extends AppCompatActivity {
                                     //Ricorda di lasciare un commento qui per ricordarci di gestire l'errore lato MongoDB
 
                                     // progressDialog.dismiss();
-                                    Toast.makeText(contesto, "Viaggio creato correttamente.", Toast.LENGTH_SHORT).show();
+                                    //Toast.makeText(contesto, "Viaggio creato correttamente.", Toast.LENGTH_SHORT).show();
                                 }
                             });
                         }
@@ -298,11 +299,11 @@ public class CreationTrip extends AppCompatActivity {
                 try {
                     //da controllare l'update
                     String status = response.getString("status");
-                    if(status.equals("ok")) {
+                    if (status.equals("success")) {
                         Toast.makeText(contesto, "Aggiunto correttamente", Toast.LENGTH_SHORT).show();
-                    }
-                    else {
-                        Toast.makeText(contesto, "Errore: riprovare", Toast.LENGTH_SHORT).show();
+                    } else {
+                        String err = response.getString("type");
+                        new ErrorServer(contesto).handleError(err);
                     }
 
                 } catch (JSONException e) {
@@ -357,5 +358,6 @@ public class CreationTrip extends AppCompatActivity {
                 break;
         }
     }
+
 }
 
