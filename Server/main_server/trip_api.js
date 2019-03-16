@@ -275,8 +275,8 @@ router.post('/updateTrip', function(req, res){
 				console.log(err);
 				console.log(JSON.stringify({ status: "error", type: "-1" }));
 			} 
-			res.send(updatetrip);
-			console.log(updatetrip);
+			res.send({ status: "ok", message: "Your trip is updated" });
+			console.log({ status: "ok", message: "Your trip is updated" });
 		});
 	});
 });

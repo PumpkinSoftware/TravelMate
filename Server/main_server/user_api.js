@@ -273,8 +273,8 @@ router.post('/updateUser', function(req, res){
 				    console.log(JSON.stringify({ status: "error", type: "-1" }));
 
 			    } 
-			    res.send(updateuser);
-			    console.log(updateuser);
+			    res.send({ status: "ok", message: "Your user is updated" });
+			    console.log({ status: "ok", message: "Your user is updated" });
             });
         }
         else{
