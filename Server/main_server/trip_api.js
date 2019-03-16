@@ -394,8 +394,8 @@ router.get('/getTripByIdWithUsers', function(req, res){
         	}
         
         	if (users.length > 0){
-            	res.send([trip,[users]]);
-            	console.log([trip,[users]]);
+            	res.send([trip,users]);
+            	console.log([trip,users]);
         	}
         	else{
             	res.send(JSON.stringify({ status: "error", type: "-2" }));
