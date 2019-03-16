@@ -28,7 +28,7 @@ public class GetTripById {
     private ProgressBar progressBar;
     private Trip trip;
     private RecyclerView rvUsers;
-    UsersAdapter adapter;
+    private UsersAdapter adapter;
     private String ownerUid;
     private ArrayList<User> users;
     private String ownerName;
@@ -36,18 +36,14 @@ public class GetTripById {
     private boolean userIsAPartecipant;
     private String currentUserUid;
 
-    public GetTripById(Context c) {
+    public GetTripById(Context c, RecyclerView rv, ProgressBar progress) {
         context = c;
-    }
-
-    public GetTripById(Context c, ProgressBar progress) {
-        context = c;
+        rvUsers = rv;
         progressBar = progress;
     }
 
-    public void getTripFromServer(String query, final String owner_uid, final ArrayList<User> users,
+    public void getTripFromServer(String query, final ArrayList<User> users,
                                   final String currentUserUid, final ServerCallback callback) {
-        this.ownerUid = owner_uid;
         this.users = users;
         this.currentUserUid = currentUserUid;
         final RequestQueue mQueue = Volley.newRequestQueue(context);
@@ -56,7 +52,6 @@ public class GetTripById {
 
                 try {
                     JSONObject travel = response.getJSONObject(0);
-                    //JSONObject travel = response;
                     final String id = travel.getString("_id");
                     final String image = travel.getString("image");
                     final String name = travel.getString("name");
@@ -70,12 +65,12 @@ public class GetTripById {
                     final int n_partecipants = travel.getInt("partecipants");
                     final String tag = travel.getString("tag");
                     final String vehicle = travel.getString("vehicle");
-                    final String owner = travel.getString("owner");
+                    ownerUid = travel.getString("owner");
 
-                    getPartecipants(response.getJSONArray(1), callback);
+                    getPartecipants(response.getJSONArray(1));
                     hideProgressBar();
                     trip = new Trip(id, image, name, descr, departure, dest, budget,dep_date, end_date,
-                            n_partecipants, group_max, tag, vehicle, owner);
+                            n_partecipants, group_max, tag, vehicle, ownerUid);
                     callback.onSuccess(travel);
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -98,11 +93,10 @@ public class GetTripById {
 
     public Trip getTrip() { return trip; }
 
-    private void getPartecipants(JSONArray response, final ServerCallback callback) {
+    private void getPartecipants(JSONArray response) {
         try {
-            JSONObject user = null;
             for (int i = 0; i < response.length(); i++) {
-                user = response.getJSONObject(i);
+                JSONObject user = response.getJSONObject(i);
                 String uid = user.getString("uid");
                 String name;
 
@@ -121,7 +115,6 @@ public class GetTripById {
                 else
                     users.add(new User(uid, name, profile));
             }
-            //callback.onSuccess(user);
             adapter = new UsersAdapter(users);
             // Attach the adapter to the recyclerview to populate items
             rvUsers.setAdapter(adapter);
@@ -132,6 +125,8 @@ public class GetTripById {
             Toast.makeText(context, "Errore: connessione fallita", Toast.LENGTH_SHORT).show();
         }
     }
+
+    public String getOwnerUid() { return ownerUid; }
 
     public String getOwnerName() { return ownerName; }
 

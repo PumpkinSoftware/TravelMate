@@ -100,10 +100,10 @@ public class TravelDetailsActivity extends AppCompatActivity {
     private boolean so_prev_lol; // Useful for transitions
 
     private final static String QUERY= "https://debugtm.herokuapp.com/user/getUsersByTrip?tripId=";
-    private RequestQueue mRequestQueue;
     private ArrayList<User> partecipants;
     private CardView card;
     private CircleImageView o_image;
+    private TextView o_name;
     private String travelId;
     private String userUid;
     private String owner_uid;
@@ -116,7 +116,7 @@ public class TravelDetailsActivity extends AppCompatActivity {
     private int adapterPos;
     private Trip trip;
     private ArrayList<Trip> trips;
-    private boolean isFileDeleted;
+    //private boolean isFileDeleted;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -142,8 +142,25 @@ public class TravelDetailsActivity extends AppCompatActivity {
         adapter = (TripsAdapter) b.getSerializable(EXTRA_ADAPTER);
         adapterPos = b.getInt(EXTRA_ADAPTER_POS);
 
+        // TODO substitute all calls in updateLayout() to findView in private variables initialized here
+        /*edit = findViewById(R.id.edit_image);
+        cover = (ImageView) findViewById(R.id.header_cover_image);
+        namee = (TextView) findViewById(R.id.name);
+        descr = (TextView) findViewById(R.id.descr);
+        t_tag = (TextView) findViewById(R.id.tag);
+        dp = (TextView) findViewById(R.id.from);
+        dt = (TextView) findViewById(R.id.to);
+        bud = (TextView) findViewById(R.id.budget);
+        s = (TextView) findViewById(R.id.date1);
+        e = (TextView) findViewById(R.id.date2);
+        g = (TextView) findViewById(R.id.n_users);
+        vm= (TextView) findViewById(R.id.vehicle_text);
+        vi= (ImageView) findViewById(R.id.vehicle_image);*/
+        o_image = findViewById(R.id.profile1);
+        o_name = findViewById(R.id.user1);
+
         // OLD
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        /*FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
             userUid = user.getUid();
             if(userUid.equals(owner_uid)) {
@@ -220,7 +237,7 @@ public class TravelDetailsActivity extends AppCompatActivity {
             vi.setImageResource(R.drawable.ic_train_black_12dp);
         }else{
             vi.setImageResource(R.drawable.ic_directions_car_black_12dp);
-        }
+        }*/
 
 
         final ImageView back_image = (ImageView) findViewById(R.id.back);
@@ -295,43 +312,14 @@ public class TravelDetailsActivity extends AppCompatActivity {
             ex.printStackTrace();
         }
 
-        // Handling partecipants
-        /*RequestQueue mRequestQueue = Volley.newRequestQueue(context);
-        final GetUserByUid server =  new GetUserByUid(context);
-        server.getUserFromServer(URL+owner_uid, mRequestQueue, new ServerCallback() {
-                    @Override
-                    public void onSuccess(JSONObject response) {
-                        final User owner = server.getUser();
-                        o_image = findViewById(R.id.profile1);
-
-                        GlideApp.with(context)
-                                .load((owner.getPhotoProfile().isEmpty())?(R.drawable.girl):(owner.getPhotoProfile()))
-                                .placeholder(R.mipmap.placeholder_image)
-                                .into(o_image);
-                        TextView o_name = findViewById(R.id.user1);
-                        o_name.setText(owner.getName());
-
-                        View.OnClickListener lis = new View.OnClickListener(){
-                            @Override
-                            public void onClick(View v) {
-                                openUser(owner);
-                            }
-                        };
-
-                        o_image.setOnClickListener(lis);
-                        o_name.setOnClickListener(lis);
-                    }
-                }
-        );*/
-
         progress = findViewById(R.id.indeterminateBar);
         rvUsers = (RecyclerView) findViewById(R.id.recyclerview);
         // Set layout manager to position the items
         rvUsers.setLayoutManager(new LinearLayoutManager(context));
         rvUsers.setNestedScrollingEnabled(false);
-        //updateLayout();
-        getPartecipants(rvUsers, progress, travelId, owner_uid);
+        updateLayout();
 
+        // TODO
         //openDynamicLink();
 
         //swipe da finire
@@ -353,6 +341,7 @@ public class TravelDetailsActivity extends AppCompatActivity {
     }
 
     // OLD
+    /*
     private void getPartecipants(RecyclerView rvUsers, ProgressBar progress, String id, final String owner_uid) {
         partecipants = new ArrayList<User>();
 
@@ -400,7 +389,7 @@ public class TravelDetailsActivity extends AppCompatActivity {
                     }
                 }
         );
-    }
+    }*/
 
     // Handling sharing
     private void shareText(String s) {
@@ -481,18 +470,15 @@ public class TravelDetailsActivity extends AppCompatActivity {
                     .setPositiveButton("Sì", new DialogInterface.OnClickListener() {
 
                         public void onClick(DialogInterface dialog, int whichButton) {
-                            /*AnimatorSet set = (AnimatorSet) AnimatorInflater.loadAnimator(context, R.animator.zoom_in);
-                            set.setTarget(b); // set the view you want to animate
-                            set.start();*/
 
                             if(userUid.equals(owner_uid))
                                 changeOwner();
 
                             // Remove user from travel
-                            else {
+                            else
                                 new PostJoin(context).send("https://debugtm.herokuapp.com/user/removeTrip/",
                                         travelId, userUid, PostJoin.request.ABANDON);
-                            }
+
 
                             animate(joinBtn);
 
@@ -523,55 +509,42 @@ public class TravelDetailsActivity extends AppCompatActivity {
                     .setPositiveButton("Sì", new DialogInterface.OnClickListener() {
 
                         public void onClick(DialogInterface dialog, int whichButton) {
-                            /*AnimatorSet set = (AnimatorSet) AnimatorInflater.loadAnimator(context, R.animator.zoom_in);
-                            set.setTarget(b); // set the view you want to animate
-                            set.start();*/
 
-                            String storageUrl = trip.getImage();
-                            StorageReference storageReference = FirebaseStorage.getInstance().getReference().child(storageUrl);
-                            storageReference.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void aVoid) {
-                                    // File deleted successfully
-                                    isFileDeleted = true;
-                                }
-                            }).addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception exception) {
-                                   // Log.d(TAG, "onFailure: did not delete file");
-                                }
-                            });
-
-                            if(!isFileDeleted) {
+                            // Delete trip image from Firebase
+                            if(trip == null) {
                                 Toast.makeText(context, "Errore: riprovare", Toast.LENGTH_SHORT).show();
                                 return;
                             }
 
-                            // Delete travel
-                            final PostJoin server = new PostJoin(context);
-                            server.delete("https://debugtm.herokuapp.com/trip/deleteTrip?tripId="+travelId, new ServerCallback() {
-                                @Override
-                                public void onSuccess(JSONObject response) {
-                                    // Check if trip is really deleted from server
-                                    if (server.isDeleted()) {
-                                        // TODO delete travel img from server
-                                        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-                                            finishAfterTransition();
-                                        else finish();
-                                    }
-                                }
-                            });
+                            String storageUrl = trip.getImage();
+                            // If trip.getImage() is empty, it means that user hasn't loaded an image
+                            if(!storageUrl.isEmpty()) {
 
+                                StorageReference storageReference = FirebaseStorage.getInstance().getReferenceFromUrl(storageUrl);
+                                storageReference.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        // File deleted successfully
+                                        //isFileDeleted = true;
+                                        deleteTrip();
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception exception) {
+                                        // Log.d(TAG, "onFailure: did not delete file");
+                                    }
+                                });
+                            }
+
+                            // Delete travel
+                            deleteTrip();
                             animate(joinBtn);
                         }})
                     .setNegativeButton(android.R.string.no, null).show();
             }
 
         else {
-            /*AnimatorSet set = (AnimatorSet) AnimatorInflater.loadAnimator(context, R.animator.zoom_in);
-            set.setTarget(b); // set the view you want to animate
-            set.start();*/
-            // Add user from travel
+            // Add user to travel
             new PostJoin(this).send("https://debugtm.herokuapp.com/user/addTrip/", travelId,
                     userUid, PostJoin.request.JOIN);
             animate(joinBtn);
@@ -606,17 +579,35 @@ public class TravelDetailsActivity extends AppCompatActivity {
                 user.getUid(), PostJoin.request.CHANGE);
     }
 
+    private void deleteTrip() {
+        final PostJoin server = new PostJoin(context);
+        server.delete("https://debugtm.herokuapp.com/trip/deleteTrip?tripId="+travelId, new ServerCallback() {
+            @Override
+            public void onSuccess(JSONObject response) {
+                // Check if trip is really deleted from server
+                if (server.isDeleted()) {
+                    // TODO delete travel img from server
+                    if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+                        finishAfterTransition();
+                    else finish();
+                }
+            }
+        });
+    }
+
     private void updateLayout() {
-        final GetTripById server = new GetTripById(this);
+        if(partecipants == null)    partecipants = new ArrayList<User>();
+        else                        partecipants.clear();
+
+        final GetTripById server = new GetTripById(this, rvUsers, progress);
         server.getTripFromServer("https://debugtm.herokuapp.com/trip/getTripByIdWithUsers?id="+travelId,
-                owner_uid, partecipants, userUid,
+                partecipants, userUid,
                 new ServerCallback(){
                     @Override
                     public void onSuccess(JSONObject response) {
                         trip = server.getTrip();
                         loadTrip(trip);
 
-                        //getPartecipants(rvUsers, progress, travelId, owner_uid);
                         final String img = server.getOwnerImg();
                         o_image = findViewById(R.id.profile1);
 
