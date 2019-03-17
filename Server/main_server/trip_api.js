@@ -141,7 +141,7 @@ router.get('/allTrips', function(req, res){
 });
 
 /*****************************************/
-//Api per ottenere gli ultimi 200 viaggi inseriti
+//Api per ottenere gli ultimi limit viaggi inseriti
 //Api verificata
 
 //example use /lastTripsCreated?limit=200
@@ -161,6 +161,49 @@ router.get('/lastTripsCreated', function(req, res){
 		}else{
 			res.send(trips);
 			console.log(trips);
+		}
+	});
+});
+
+/*****************************************/
+//Api per ottenere gli ultimi limit viaggi inseriti senza quelli dell'utente
+//Api verificata
+
+//example use /lastTripsCreatedWithUser?limit=200&userUid=
+
+router.get('/lastTripsCreatedWithUser', function(req, res){
+
+	var limit = 200;
+
+	if(req.query.limit != undefined) 
+		limit = parseInt(req.query.limit);
+
+	UserSchema.findOne({uid:req.query.userUid}).exec(function (err, user) {
+		if (err){
+			res.send(JSON.stringify({ status: "error", type: "-1" }));
+			console.log(err);
+			console.log(JSON.stringify({ status: "error", type: "-1" }));
+		}
+		else if (user == null){
+			res.send(JSON.stringify({ status: "error", type: "-2" }));
+			console.log(JSON.stringify({ status: "error", type: "-2" }));
+		}
+		else{
+
+			var list_trips = user.trips.map(function(trip){
+        		return trip.tripId;
+        	});
+
+			TripSchema.find( {tag : {$exists:true}, $where:'this.partecipants<this.maxPartecipant',_id: { $nin: list_trips }}).where('startDate').gte(new Date()).sort({"createDate": 'desc'}).limit(limit).exec(function(err, trips){
+				if(err){
+					console.log(err);
+					console.log(JSON.stringify({ status: "error", type: "-1" }));
+					res.send(JSON.stringify({ status: "error", type: "-1" }));
+				}else{
+					res.send(trips);
+					console.log(trips);
+				}
+			});
 		}
 	});
 });
