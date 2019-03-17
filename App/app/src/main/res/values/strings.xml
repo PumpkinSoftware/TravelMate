@@ -144,7 +144,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="partecipanti">Partecipanti:</string>
     <string name="organizzatore">Organizzatore:</string>
-
+    <string name="chat">Chat</string>
 
 
 </resources>

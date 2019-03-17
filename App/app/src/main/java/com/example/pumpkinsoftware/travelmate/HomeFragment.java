@@ -81,7 +81,8 @@ public class HomeFragment extends Fragment {
         chat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //apri activity chat
+                Intent intent = new Intent(context,ChatActivity.class);
+                startActivity(intent);
             }
         });
         return view;
