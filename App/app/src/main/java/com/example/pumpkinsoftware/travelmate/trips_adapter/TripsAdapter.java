@@ -153,7 +153,7 @@ public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.ViewHolder> 
             intent.putExtra(TravelDetailsActivity.EXTRA_BUDGET, t.getBudget());
             intent.putExtra(TravelDetailsActivity.EXTRA_START, t.getStartDate());
             intent.putExtra(TravelDetailsActivity.EXTRA_END, t.getEndDate());
-            intent.putExtra(TravelDetailsActivity.EXTRA_PARTECIPANTS_NUMBER, t.getPartecipants());
+            intent.putExtra(TravelDetailsActivity.EXTRA_PARTECIPANTS_NUMBER, t.getPartecipantsNumber());
             intent.putExtra(TravelDetailsActivity.EXTRA_GROUP_NUMBER, t.getGroupNumber());
             intent.putExtra(TravelDetailsActivity.EXTRA_TAG, t.getTag());
             intent.putExtra(TravelDetailsActivity.EXTRA_VEHICLE, t.getVehicle());

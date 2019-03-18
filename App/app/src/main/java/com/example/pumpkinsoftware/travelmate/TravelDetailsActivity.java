@@ -116,7 +116,6 @@ public class TravelDetailsActivity extends AppCompatActivity {
     private int adapterPos;
     private Trip trip;
     private ArrayList<Trip> trips;
-    //private boolean isFileDeleted;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,18 +125,18 @@ public class TravelDetailsActivity extends AppCompatActivity {
 
         Bundle b = getIntent().getExtras();
         travelId =  b.getString(EXTRA_ID);
-        final String img =  b.getString(EXTRA_IMG);
+        //final String img =  b.getString(EXTRA_IMG);
         final String name =  b.getString(EXTRA_NAME);
-        final String descr =  b.getString(EXTRA_DESCR);
+        /*final String descr =  b.getString(EXTRA_DESCR);
         final String dep =  b.getString(EXTRA_DEPARTURE);
         final String dest =  b.getString(EXTRA_DEST);
-        final String budget =  b.getString(EXTRA_BUDGET);
+        final String budget =  b.getString(EXTRA_BUDGET);*/
         final String start =  b.getString(EXTRA_START);
         final String end =  b.getString(EXTRA_END);
-        partecipantsNumber =  b.getInt(EXTRA_PARTECIPANTS_NUMBER);
+        /*partecipantsNumber =  b.getInt(EXTRA_PARTECIPANTS_NUMBER);
         group =  b.getInt(EXTRA_GROUP_NUMBER);
         final String tag = b.getString(EXTRA_TAG);
-        final String vehicle = b.getString(EXTRA_VEHICLE);
+        final String vehicle = b.getString(EXTRA_VEHICLE);*/
         owner_uid = b.getString(EXTRA_OWNER_UID);
         adapter = (TripsAdapter) b.getSerializable(EXTRA_ADAPTER);
         adapterPos = b.getInt(EXTRA_ADAPTER_POS);
@@ -158,6 +157,10 @@ public class TravelDetailsActivity extends AppCompatActivity {
         vi= (ImageView) findViewById(R.id.vehicle_image);*/
         o_image = findViewById(R.id.profile1);
         o_name = findViewById(R.id.user1);
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null)
+            userUid = user.getUid();
 
         // OLD
         /*FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -301,9 +304,6 @@ public class TravelDetailsActivity extends AppCompatActivity {
                 joinBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                /*AnimatorSet set = (AnimatorSet) AnimatorInflater.loadAnimator(context, R.animator.zoom_in);
-                set.setTarget(v); // set the view you want to animate
-                set.start();*/
                         join();
                     }
                 });
@@ -525,8 +525,8 @@ public class TravelDetailsActivity extends AppCompatActivity {
                                     @Override
                                     public void onSuccess(Void aVoid) {
                                         // File deleted successfully
-                                        //isFileDeleted = true;
                                         deleteTrip();
+                                        animate(joinBtn);
                                     }
                                 }).addOnFailureListener(new OnFailureListener() {
                                     @Override
@@ -574,9 +574,10 @@ public class TravelDetailsActivity extends AppCompatActivity {
     }
 
     private void changeOwner() {
-        User user = partecipants.get(1);
+        User user = partecipants.get(0);
+        owner_uid = user.getUid();
         new PostJoin(this).send("https://debugtm.herokuapp.com/user/changeOwnerAndRemoveLast", travelId,
-                user.getUid(), PostJoin.request.CHANGE);
+                owner_uid, PostJoin.request.CHANGE);
     }
 
     private void deleteTrip() {
@@ -606,6 +607,7 @@ public class TravelDetailsActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(JSONObject response) {
                         trip = server.getTrip();
+                        // TODO handle trip deleted by owner when I'm viewing it
                         loadTrip(trip);
 
                         final String img = server.getOwnerImg();
@@ -627,6 +629,7 @@ public class TravelDetailsActivity extends AppCompatActivity {
 
                         o_image.setOnClickListener(lis);
                         o_name.setOnClickListener(lis);
+                        partecipantsNumber = trip.getPartecipantsNumber();
 
                         if(partecipantsNumber == group) card.setVisibility(View.GONE);
 
@@ -647,11 +650,12 @@ public class TravelDetailsActivity extends AppCompatActivity {
     }
 
     private void loadTrip(Trip t) {
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        /*FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
-            userUid = user.getUid();
-            if(userUid.equals(owner_uid)) {
-                final ImageView edit = findViewById(R.id.edit_image);
+            userUid = user.getUid();*/
+
+        final ImageView edit = findViewById(R.id.edit_image);
+        if(userUid.equals(owner_uid)) {
                 edit.setVisibility(View.VISIBLE);
 
                 edit.setOnClickListener(new View.OnClickListener() {
@@ -660,9 +664,9 @@ public class TravelDetailsActivity extends AppCompatActivity {
                         // TODO edit trip
                     }
                 });
-
-            }
         }
+        else
+            edit.setVisibility(View.GONE);
 
         final ImageView imgv = (ImageView) findViewById(R.id.header_cover_image);
         loadImg(t.getImage(), imgv);

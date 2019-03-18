@@ -10,7 +10,7 @@ public class Trip {
     private String budget_number;
     private String start_date;
     private String end_date;
-    private int partecipants;
+    private int partecipants_number;
     private int group_number;
     private String tag;
     private String vehicle;
@@ -18,7 +18,7 @@ public class Trip {
     //private String[] partecipants; // String because we need only users' id
 
     public Trip(String id, String t_image, String name, String description, String dep,
-                String destination, int budget, String start, String end, int partecipants, int group,
+                String destination, int budget, String start, String end, int partecipants_number, int group_number,
                 String s, String v, String ow) {
         this.id = id;
         trip_image = t_image;
@@ -29,8 +29,8 @@ public class Trip {
         budget_number = Integer.toString(budget);
         start_date = start;
         end_date = end;
-        this.partecipants = partecipants;
-        group_number = group;
+        this.partecipants_number = partecipants_number;
+        this.group_number = group_number;
         tag=s;
         vehicle=v;
         owner = ow;
@@ -72,8 +72,8 @@ public class Trip {
         return end_date;
     }
 
-    public int getPartecipants() {
-        return partecipants;
+    public int getPartecipantsNumber() {
+        return partecipants_number;
     }
 
     public int getGroupNumber() {
@@ -81,7 +81,7 @@ public class Trip {
     }
 
     public String getGroup() {
-        return partecipants+"/"+group_number;
+        return partecipants_number+"/"+group_number;
     }
 
     public String getTag(){
@@ -104,8 +104,8 @@ public class Trip {
         descr = description;
     }
 
-    public void setPartecipants(int p) {
-        partecipants = p;
+    public void setPartecipantsNumber(int p) {
+        partecipants_number = p;
     }
 
     public void setGroup_number(int group) {
