@@ -113,7 +113,6 @@ router.post('/newTrip', function(req,res){
 							}
 						else {
 							res.send(JSON.stringify({ status: "success", message: "Trip " + toInsert.name + " created!" }));
-							console.log(JSON.stringify({ status: "success", message: "Trip " + toInsert.name + " created!" }));
 						}
 					});
 				};
@@ -135,7 +134,6 @@ router.get('/allTrips', function(req, res){
 			res.send(JSON.stringify({ status: "error", type: "-1" }));
 		}else{
 			res.send(trips);
-			console.log(trips);
 		}
 	});
 });
@@ -160,7 +158,6 @@ router.get('/lastTripsCreated', function(req, res){
 			res.send(JSON.stringify({ status: "error", type: "-1" }));
 		}else{
 			res.send(trips);
-			console.log(trips);
 		}
 	});
 });
@@ -201,7 +198,6 @@ router.get('/lastTripsCreatedWithUser', function(req, res){
 					res.send(JSON.stringify({ status: "error", type: "-1" }));
 				}else{
 					res.send(trips);
-					console.log(trips);
 				}
 			});
 		}
@@ -262,7 +258,6 @@ router.get('/getTripsWithFilter', function(req, res){
 			console.log(JSON.stringify({ status: "error", type: "-1" }));
 		}else{
 			res.send(trips);
-			console.log(trips);
 		}
 	});
 });
@@ -319,7 +314,6 @@ router.post('/updateTrip', function(req, res){
 				console.log(JSON.stringify({ status: "error", type: "-1" }));
 			} 
 			res.send({ status: "ok", message: "Your trip is updated" });
-			console.log({ status: "ok", message: "Your trip is updated" });
 		});
 	});
 });
@@ -366,7 +360,6 @@ router.get('/deleteTrip', function(req, res){
 					res.send(JSON.stringify({ status: "error", type: "-1" }));
 				}
 				else{
-					console.log(raw);
 					res.send(JSON.stringify({ status: "ok", message: "the removal is a success" }));
 				} 
 			});
@@ -396,7 +389,6 @@ router.get('/getTripById', function(req, res){
 		}
 		else{
 			res.send(trip);
-			console.log(trip);
 		}
 
 	});
@@ -438,7 +430,6 @@ router.get('/getTripByIdWithUsers', function(req, res){
         
         	if (users.length > 0){
             	res.send([trip,users]);
-            	console.log([trip,users]);
         	}
         	else{
             	res.send(JSON.stringify({ status: "error", type: "-2" }));
@@ -467,7 +458,6 @@ router.get('/deleteAll', function(req, res){
 		}
 		else{
 			res.send(JSON.stringify({ status: "ok", type: "all trips deleted" }));
-			console.log(JSON.stringify({ status: "ok", type: "all trips deleted" }));
 		}
 
 	});
