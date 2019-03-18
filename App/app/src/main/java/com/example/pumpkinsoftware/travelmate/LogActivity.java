@@ -172,10 +172,25 @@ public class LogActivity extends AppCompatActivity {
                             if (task.isSuccessful()) {
                                 openMain();
                                 finish();
+                            }else if(!mAuth.getCurrentUser().isEmailVerified()){
+                                Toast.makeText(context, "Devi confermare l'email", Toast.LENGTH_SHORT).show();
+                                sendEmail();
                             }
                             else {
                                 Toast.makeText(context, "Nome utente o password errati", Toast.LENGTH_SHORT).show();
                             }
+                        }
+
+                        private void sendEmail() {
+                            mAuth.getCurrentUser().sendEmailVerification()
+                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if (task.isSuccessful()) {
+                                                //Log.d(TAG, "Email sent.");
+                                            }
+                                        }
+                                    });
                         }
                     });
     }

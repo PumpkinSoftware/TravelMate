@@ -9,7 +9,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.pumpkinsoftware.travelmate.AccountRegisterActivity;
 import com.example.pumpkinsoftware.travelmate.handle_error.ErrorServer;
+
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -38,12 +40,16 @@ public class PostUser {
                     if (status.equals("ok")) {
                         if (myflag.equals(flag.NEW)) {
                             Toast.makeText(contesto, "Conferma via email", Toast.LENGTH_SHORT).show();
+                            AccountRegisterActivity.setStatus("OK");
                         } else {
                             Toast.makeText(contesto, "Profilo aggiornato", Toast.LENGTH_SHORT).show();
                         }
                     } else {
                         String err = response.getString("type");
                         new ErrorServer(contesto).handleError(err);
+                        if (myflag.equals(flag.NEW)) {
+                            AccountRegisterActivity.setStatus("ERROR");
+                        }
                     }
 
                 } catch (JSONException e) {
@@ -51,16 +57,19 @@ public class PostUser {
                 }
 
             }
+
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 // error
                 Toast.makeText(contesto, "Errore ", Toast.LENGTH_SHORT).show();
             }
+
         });
         // Add the request to the RequestQueue.
         mQueue.add(JORequest);
         mQueue.start();
+
     }
 
 }

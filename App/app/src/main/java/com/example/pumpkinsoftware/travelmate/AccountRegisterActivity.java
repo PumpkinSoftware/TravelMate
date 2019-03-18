@@ -21,10 +21,14 @@ import android.widget.Toast;
 
 import com.example.pumpkinsoftware.travelmate.client_server_interaction.PostUser;
 import com.example.pumpkinsoftware.travelmate.date_picker.BirthdayPicker;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
@@ -50,9 +54,15 @@ public class AccountRegisterActivity extends AppCompatActivity {
     private int FOTO = 0;
     private BirthdayPicker nascita;
     private static Calendar calendar;
+
+    public static String status="";
+
     Context contesto;
+
     FirebaseStorage storage;
     StorageReference storageReference;
+    FirebaseAuth mAuth;
+    FirebaseUser user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,16 +81,16 @@ public class AccountRegisterActivity extends AppCompatActivity {
                 finish();
             }
         });
-
-        // file per firebase
-        storage = FirebaseStorage.getInstance();
-        storageReference = storage.getReference();
-
-
         //valori
         Intent intent = getIntent();
         mail = intent.getExtras().getString("mail");
         pass = intent.getExtras().getString("pass");
+        // file per firebase
+
+        PreparationAccount(mail,pass);
+        storage = FirebaseStorage.getInstance();
+        storageReference = storage.getReference();
+
 
         final TextView mailview = (TextView) findViewById(R.id.email2_r);
         mailview.setText(mail);
@@ -127,6 +137,21 @@ public class AccountRegisterActivity extends AppCompatActivity {
                 openHome();
             }
         });
+    }
+
+    private void PreparationAccount(String email, String password) {
+        mAuth.createUserWithEmailAndPassword( email, password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+
+                        } else {
+                            Toast.makeText(contesto, "C'è un problema, riprova", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
     }
 
     private void chooseImage() {
@@ -244,15 +269,38 @@ public class AccountRegisterActivity extends AppCompatActivity {
                     else utente.put("relationship", "Fidanzata");
                 }
                 utente.put("email", mail);
-                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                user = FirebaseAuth.getInstance().getCurrentUser();
                 if (user != null) utente.put("uid", user.getUid());
 
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+
             uploadImage(utente);
             new PostUser(contesto).jsonParse(utente, PostUser.flag.NEW);
+            //Da controllare
+            if(getStatus().equals("ERROR")){
+                deleteUser();
+            }
+            if(getStatus().equals("OK")){
+                updateUserForChat();
+                sendEmail();
+            }
 
+        }
+    }
+
+
+
+    private void sendEmail() {
+        if (user != null) {
+            user.sendEmailVerification()
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            task.isSuccessful();//Log.d(TAG, "Email sent.");
+                        }
+                    });
         }
     }
 
@@ -260,7 +308,7 @@ public class AccountRegisterActivity extends AppCompatActivity {
     private void uploadImage(final JSONObject utente) {
 
         if (filePath1 != null) {
-            final StorageReference ref = storageReference.child("tripImage/" + UUID.randomUUID().toString());
+            final StorageReference ref = storageReference.child("userImage/" + mail+"/avatar");
             ref.putFile(filePath1)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
@@ -302,7 +350,7 @@ public class AccountRegisterActivity extends AppCompatActivity {
         }
 
         if (filePath2 != null) {
-            final StorageReference ref = storageReference.child("tripImage/" + UUID.randomUUID().toString());
+            final StorageReference ref = storageReference.child("userImage/" + mail+"/cover");
             ref.putFile(filePath1)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
@@ -352,4 +400,75 @@ public class AccountRegisterActivity extends AppCompatActivity {
         finish();
     }
 
+    public void deleteUser(){
+        user.delete()
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                           // Log.d(TAG, "User account deleted.");
+                        }
+                    }
+                });
+        if(filePath1 != null) {
+            StorageReference storageRef = storageReference.child("tripUser/" + mail+"/avatar");
+            storageRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    // File deleted successfully
+                    // Log.d(TAG, "onSuccess: deleted file");
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+                    // Uh-oh, an error occurred!
+                    // Log.d(TAG, "onFailure: did not delete file");
+                }
+            });
+        }
+        if(filePath2!=null) {
+            StorageReference storageRef = storageReference.child("tripUser/" + mail+"/cover");
+            storageRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    // File deleted successfully
+                    // Log.d(TAG, "onSuccess: deleted file");
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+                    // Uh-oh, an error occurred!
+                    // Log.d(TAG, "onFailure: did not delete file");
+                }
+            });
+        }
+        Toast.makeText(contesto, "Registrazione fallita,riprova", Toast.LENGTH_SHORT).show();
+        finish();
+    };
+
+
+    private void updateUserForChat() {
+        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                .setDisplayName(name+" "+surname) //QUI GLI PASSI IL NOME E COGNOME
+                .setPhotoUri(Uri.parse("userImage/"+mail+"/avatar")) //QUI IL LINK DELL'AVATAR
+                .build();
+
+        user.updateProfile(profileUpdates)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            //Log.d(TAG, "User profile updated.");
+                        }
+                    }
+                });
+    }
+
+
+    public String getStatus() {
+        return status;
+    }
+    public static void setStatus(String s){
+        status=s;
+    }
 }

@@ -150,7 +150,7 @@ public class CreationTrip extends AppCompatActivity {
                     Toast.makeText(contesto, "Valore budget invalido", Toast.LENGTH_SHORT).show();
                 } else if (group.getText().toString().isEmpty()) {
                     msgErrore("il numero del gruppo");
-                } else if (Integer.parseInt(group.getText().toString()) < 2 || (Integer.parseInt(group.getText().toString()) > 50)) {
+                } else if (Integer.parseInt(group.getText().toString()) < 2 || (Integer.parseInt(group.getText().toString()) > 15)) {
                     Toast.makeText(contesto, "Valore gruppo invalido", Toast.LENGTH_SHORT).show();
                 } else if (program_q.isEmpty()) {
                     msgErrore("una sintesi del programma");
@@ -271,6 +271,11 @@ public class CreationTrip extends AppCompatActivity {
                         @Override
                         public void onFailure(@NonNull Exception e) {
                             //progressDialog.dismiss();
+                            try {
+                                viaggio.put("image", (""));
+                            } catch (JSONException e1) {
+                                e1.printStackTrace();
+                            }
                             Toast.makeText(contesto, "Failed " + e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     })
