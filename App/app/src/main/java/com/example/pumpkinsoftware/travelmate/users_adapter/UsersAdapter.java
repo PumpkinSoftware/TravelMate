@@ -65,7 +65,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
 
             // check if item still exists
             if(pos != RecyclerView.NO_POSITION) return users.get(pos);
-            return                              null;
+            return null;
         }
 
         private void openUser(User u) {
