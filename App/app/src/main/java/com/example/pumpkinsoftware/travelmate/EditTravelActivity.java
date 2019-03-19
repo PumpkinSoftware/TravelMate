@@ -10,6 +10,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -92,10 +93,10 @@ public class EditTravelActivity extends AppCompatActivity {
         to.setText(trip.getDest());
 
         final EditText startDate = findViewById(R.id.departure);
-        startDate.setText(trip.getStartDate());
+        startDate.setText(inverseDate(trip.getStartDate()));
 
         final EditText endDate = findViewById(R.id.ret);
-        endDate.setText(trip.getEndDate());
+        endDate.setText(inverseDate(trip.getEndDate()));
 
         // Date starts from tomorrow
         Calendar calendar = Calendar.getInstance();
@@ -108,6 +109,7 @@ public class EditTravelActivity extends AppCompatActivity {
         if(trip.getVehicle().equals("treno")) radioButton = findViewById(R.id.treno);
         else                                  radioButton = findViewById(R.id.auto);
         radioButton.setChecked(true);
+        vehicle = trip.getVehicle();
 
         final EditText budget = findViewById(R.id.budget_max_value);
         budget.setText(trip.getBudget());
@@ -175,7 +177,6 @@ public class EditTravelActivity extends AppCompatActivity {
                     viaggio.put("departure", from_q);
                     viaggio.put("destination", to_q);
                     viaggio.put("budget", budget_q);
-
                     viaggio.put("vehicle", vehicle);
                     viaggio.put("tag", tag);
                     viaggio.put("maxPartecipant", group_q);
@@ -187,7 +188,7 @@ public class EditTravelActivity extends AppCompatActivity {
                 }
                 uploadImage(viaggio);
                 Intent intent = new Intent();
-                trip.setBudget(String.valueOf(budget_q));
+                trip.setBudget(String.valueOf((int)budget_q));
                 trip.setDescr(program_q);
                 trip.setGroup_number(group_q);
                 trip.setVehicle(vehicle);
@@ -365,6 +366,10 @@ public class EditTravelActivity extends AppCompatActivity {
 
     }
 
+    private String inverseDate(String s){
+        String data[]=s.split("-");
+        return  data[2].substring(0,2)+"/"+data[1]+"/"+data[0];
+    }
     /*@Override
     public void onBackPressed() {
         Intent intent = new Intent();

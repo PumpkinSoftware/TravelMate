@@ -728,6 +728,7 @@ public class TravelDetailsActivity extends AppCompatActivity {
 
         if(vehicle.equals("treno"))     vi.setImageResource(R.drawable.ic_train_black_12dp);
         else                            vi.setImageResource(R.drawable.ic_directions_car_black_12dp);
+
     }
 
     @Override
