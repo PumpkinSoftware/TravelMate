@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -50,6 +51,7 @@ public class ChatActivity extends AppCompatActivity {
         final RecyclerView rvTrips = (RecyclerView) findViewById(R.id.recyclerview_chat);
         // Set layout manager to position the items
         rvTrips.setLayoutManager(new LinearLayoutManager(context));
+        rvTrips.addItemDecoration(new DividerItemDecoration(rvTrips.getContext(), DividerItemDecoration.VERTICAL));
         trips = new ArrayList<Trip>();
 
         mRequestQueue = Volley.newRequestQueue(context);

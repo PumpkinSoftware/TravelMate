@@ -35,12 +35,9 @@ public class GetTripInteraction {
         context = c;
         rvTrips = rv;
         progressBar = progress;
-        //this.currentUser = currentUser;
     }
 
     public void getTripsFromServer(String query, RequestQueue mQueue, ArrayList<Trip> trips) {
-       /* if(this.trips == null)    this.trips = new ArrayList<Trip>();
-        else                 this.trips.clear();*/
        mTrips = new ArrayList<Trip>();
 
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, query, null, new Response.Listener<JSONArray>() {
@@ -89,10 +86,7 @@ public class GetTripInteraction {
         mQueue.add(request);
     }
 
-    public void getChatTripsFromServer(String query, RequestQueue mQueue, ArrayList<Trip> trips) {
-       /* if(this.trips == null)    this.trips = new ArrayList<Trip>();
-        else                 this.trips.clear();*/
-        mTrips = new ArrayList<Trip>();
+    public void getChatTripsFromServer(String query, RequestQueue mQueue, final ArrayList<Trip> trips) {
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, query, null, new Response.Listener<JSONArray>() {
             public void onResponse(JSONArray response) {
                 try {
@@ -114,13 +108,13 @@ public class GetTripInteraction {
                         final String vehicle= travel.getString("vehicle");
                         final String owner = travel.getString("owner");
 
-                        mTrips.add(new Trip(id, image, name, descr, departure, dest, budget,dep_date, end_date,
+                        trips.add(new Trip(id, image, name, descr, departure, dest, budget,dep_date, end_date,
                                 partecipants, group_max, tag, vehicle, owner));
                     }
 
-                    adapterChat = new TripsAdapterChat(mTrips);
+                    adapterChat = new TripsAdapterChat(trips);
                     //adapter = new TripsAdapter(mTrips);
-                    rvTrips.setAdapter(adapter);
+                    rvTrips.setAdapter(adapterChat);
                     hideProgressBar();
                 } catch (JSONException e) {
                     e.printStackTrace();
