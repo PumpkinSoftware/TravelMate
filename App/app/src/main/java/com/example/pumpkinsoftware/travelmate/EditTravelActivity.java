@@ -148,10 +148,26 @@ public class EditTravelActivity extends AppCompatActivity {
                 String program_q = descr.getText().toString().toLowerCase();
                 String departure_q = departure.getSetMonth() + "/" + departure.getSetDay() + "/" + departure.getSetYear();
                 String return_q = ret.getSetMonth() + "/" + ret.getSetDay() + "/" + ret.getSetYear();
+
                 double budget_q = Double.parseDouble(budget.getText().toString());
                 int group_q = Integer.parseInt(partecipants.getText().toString());
 
                 JSONObject viaggio = new JSONObject();
+                if (!departure_q.equals("-1/-1/-1")) {
+
+                    try {
+                        viaggio.put("startDate", departure_q);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                if (!return_q.equals("-1/-1/-1")) {
+                    try {
+                        viaggio.put("endDate", return_q);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
                 try {
                     viaggio.put("_id", trip.getId());
                     viaggio.put("name", nome_q);
@@ -159,13 +175,12 @@ public class EditTravelActivity extends AppCompatActivity {
                     viaggio.put("departure", from_q);
                     viaggio.put("destination", to_q);
                     viaggio.put("budget", budget_q);
-                    viaggio.put("startDate", departure_q);
-                    viaggio.put("endDate", return_q);
+
                     viaggio.put("vehicle", vehicle);
                     viaggio.put("tag", tag);
                     viaggio.put("maxPartecipant", group_q);
-                    /*FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                    if (user != null) viaggio.put("owner", user.getUid());*/
+                    //FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                    //if (user != null) viaggio.put("owner", user.getUid());
 
                 } catch (JSONException e) {
                     e.printStackTrace();

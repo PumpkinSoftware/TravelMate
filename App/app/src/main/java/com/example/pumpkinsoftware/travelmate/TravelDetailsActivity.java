@@ -583,7 +583,7 @@ public class TravelDetailsActivity extends AppCompatActivity {
 
     private void deleteTrip() {
         final PostJoin server = new PostJoin(context);
-        server.delete("https://debugtm.herokuapp.com/trip/deleteTrip?tripId="+travelId, new ServerCallback() {
+        server.delete("https://debugtm.herokuapp.com/trip/deleteTrip?tripId="+travelId+"&userUid="+userUid, new ServerCallback() {
             @Override
             public void onSuccess(JSONObject response) {
                 // Check if trip is really deleted from server
