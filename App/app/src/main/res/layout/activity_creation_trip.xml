@@ -26,9 +26,11 @@
     <ScrollView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="55dp"
         android:fillViewport="true"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"
-        android:layout_marginTop="55dp">
+        app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
         <RelativeLayout
             android:id="@+id/scroll_child"
@@ -90,7 +92,8 @@
                     android:layout_width="138dp"
                     android:layout_height="match_parent"
                     android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZàèéùòì' "
-                    android:hint="@string/to" />
+                    android:hint="@string/to"
+                    android:inputType="textFilter" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -145,15 +148,15 @@
                     android:id="@+id/treno"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/treno"
-                    android:onClick="onRadioButtonClicked"/>
+                    android:onClick="onRadioButtonClicked"
+                    android:text="@string/treno" />
 
                 <RadioButton
                     android:id="@+id/auto"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/auto"
-                    android:onClick="onRadioButtonClicked"/>
+                    android:onClick="onRadioButtonClicked"
+                    android:text="@string/auto" />
             </RadioGroup>
 
             <TextView
@@ -264,7 +267,7 @@
                 android:layout_marginEnd="-32dp"
                 android:layout_marginBottom="-82dp"
                 android:ems="10"
-                android:hint="@string/n0"
+                android:hint="@string/n2"
                 android:inputType="number"
                 android:maxLength="4" />
 
@@ -294,8 +297,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456879àèéùòì'()., "
-                    android:maxLength="250"
-                    android:hint="@string/plan_text" />
+                    android:hint="@string/plan_text"
+                    android:maxLength="250" />
             </android.support.design.widget.TextInputLayout>
 
 
@@ -324,9 +327,9 @@
                     android:id="@+id/nametext"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:maxLength="35"
                     android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!àèéùòì' "
-                    android:hint="@string/name_text" />
+                    android:hint="@string/name_text"
+                    android:maxLength="35" />
             </android.support.design.widget.TextInputLayout>
 
 
@@ -335,11 +338,11 @@
                 android:id="@+id/tag_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/name_text"
                 android:layout_alignStart="@+id/vehicle_text"
                 android:layout_marginStart="0dp"
                 android:layout_marginTop="28dp"
                 android:text="@string/tag_text2"
-                android:layout_below="@+id/name_text"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5" />
 
             <RadioGroup
@@ -354,36 +357,38 @@
                     android:orientation="horizontal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">-->
-                    <RadioButton
-                        android:id="@+id/tag1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/tag1"
-                        android:onClick="onRadioButtonClicked"/>
-                    <RadioButton
-                        android:id="@+id/tag2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/tag2"
-                        android:onClick="onRadioButtonClicked"/>
+                <RadioButton
+                    android:id="@+id/tag1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="onRadioButtonClicked"
+                    android:text="@string/tag1" />
+
+                <RadioButton
+                    android:id="@+id/tag2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="onRadioButtonClicked"
+                    android:text="@string/tag2" />
                 <!--</LinearLayout>
                 <LinearLayout
                     android:id="@+id/row2"
                     android:orientation="horizontal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">-->
-                    <RadioButton
-                        android:id="@+id/tag3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/tag3"
-                        android:onClick="onRadioButtonClicked"/>
-                    <RadioButton
-                        android:id="@+id/tag4"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/tag4"
-                        android:onClick="onRadioButtonClicked"/>
+                <RadioButton
+                    android:id="@+id/tag3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="onRadioButtonClicked"
+                    android:text="@string/tag3" />
+
+                <RadioButton
+                    android:id="@+id/tag4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="onRadioButtonClicked"
+                    android:text="@string/tag4" />
                 <!--</LinearLayout>-->
             </RadioGroup>
 
@@ -461,7 +466,6 @@
                 </Button>
 
             </android.support.v7.widget.CardView>
-
 
 
         </RelativeLayout>

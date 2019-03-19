@@ -74,11 +74,6 @@ public class CreationTrip extends AppCompatActivity {
 
         //TOOLBAR
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //setSupportActionBar(toolbar);
-        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        // getSupportActionBar().setDisplayShowHomeEnabled(true);
-        //toolbar.setTitle("New travel ?");
-        //toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -88,7 +83,6 @@ public class CreationTrip extends AppCompatActivity {
                 finish();
             }
         });
-        //FINE
 
         // file per firebase
         storage = FirebaseStorage.getInstance();
@@ -105,7 +99,9 @@ public class CreationTrip extends AppCompatActivity {
         final EditText nome = findViewById(R.id.nametext);
         final EditText program = findViewById(R.id.plantext);
 
-        final Calendar calendar = Calendar.getInstance();
+        // Date starts from tomorrow
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DAY_OF_MONTH, +1);
         final EditTextDatePicker departure = new EditTextDatePicker(contesto, departure_date, calendar);
         final EditTextDatePicker ret = new EditTextDatePicker(contesto, return_date, calendar, departure);
         departure.setOther(ret);
@@ -147,11 +143,11 @@ public class CreationTrip extends AppCompatActivity {
                 } else if (budget.getText().toString().isEmpty()) {
                     msgErrore("il budget");
                 } else if (Integer.parseInt(budget.getText().toString()) < 0 || (Integer.parseInt(budget.getText().toString()) > 500)) {
-                    Toast.makeText(contesto, "Valore budget invalido", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(contesto, "Valore budget non valido", Toast.LENGTH_SHORT).show();
                 } else if (group.getText().toString().isEmpty()) {
                     msgErrore("il numero del gruppo");
                 } else if (Integer.parseInt(group.getText().toString()) < 2 || (Integer.parseInt(group.getText().toString()) > 15)) {
-                    Toast.makeText(contesto, "Valore gruppo invalido", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(contesto, "Valore gruppo non valido", Toast.LENGTH_SHORT).show();
                 } else if (program_q.isEmpty()) {
                     msgErrore("una sintesi del programma");
                 } else if (nome_q.isEmpty()) {
