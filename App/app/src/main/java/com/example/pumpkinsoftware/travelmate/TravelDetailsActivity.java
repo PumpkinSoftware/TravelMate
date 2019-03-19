@@ -95,6 +95,7 @@ public class TravelDetailsActivity extends AppCompatActivity {
     public final static String EXTRA_OWNER_UID ="travelmate_extra_tda_TRIP_OWNER_UID";
     public final static String EXTRA_ADAPTER ="travelmate_extra_tda_TRIP_EXTRA_ADAPTER";
     public final static String EXTRA_ADAPTER_POS ="travelmate_extra_tda_TRIP_EXTRA_ADAPTER_POS";
+    public final static String EXTRA_TRIP ="travelmate_extra_tda_TRIP_EXTRA_TRIP";
 
     private Context context;
     private boolean so_prev_lol; // Useful for transitions
@@ -650,10 +651,6 @@ public class TravelDetailsActivity extends AppCompatActivity {
     }
 
     private void loadTrip(Trip t) {
-        /*FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user != null) {
-            userUid = user.getUid();*/
-
         final ImageView edit = findViewById(R.id.edit_image);
         if(userUid.equals(owner_uid)) {
                 edit.setVisibility(View.VISIBLE);
@@ -662,6 +659,9 @@ public class TravelDetailsActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         // TODO edit trip
+                        Intent i = new Intent(context, EditTravelActivity.class);
+                        i.putExtra(EditTravelActivity.EXTRA_TRAVEL, trip);
+                        startActivityForResult(i, 1);
                     }
                 });
         }
@@ -728,6 +728,17 @@ public class TravelDetailsActivity extends AppCompatActivity {
 
         if(vehicle.equals("treno"))     vi.setImageResource(R.drawable.ic_train_black_12dp);
         else                            vi.setImageResource(R.drawable.ic_directions_car_black_12dp);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+            if(resultCode == RESULT_OK) {
+                Trip t = (Trip) data.getSerializableExtra(EXTRA_TRIP);
+                loadTrip(t);
+            }
+        }
     }
 
     // Open user on click

@@ -1,6 +1,8 @@
 package com.example.pumpkinsoftware.travelmate.trip;
 
-public class Trip {
+import java.io.Serializable;
+
+public class Trip implements Serializable {
     private final String id;
     private String trip_image;
     private String trip_name;
@@ -120,4 +122,7 @@ public class Trip {
         owner = o;
     }
 
+    public void setVehicle(String v) {
+        vehicle = v;
+    }
 }
