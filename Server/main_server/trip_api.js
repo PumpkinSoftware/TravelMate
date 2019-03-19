@@ -297,7 +297,7 @@ router.post('/updateTrip', function(req, res){
 	if(input.maxPartecipant != undefined)
 		query.maxPartecipant = input.maxPartecipant;
 	
-	TripSchema.findById(input.tripId).exec(function(err, trip){
+	TripSchema.findById(input._id).exec(function(err, trip){
 		
 		if (err){
 			res.send(JSON.stringify({ status: "error", type: "-3" }));
