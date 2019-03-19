@@ -36,9 +36,9 @@ import java.util.ArrayList;
 public class HomeFragment extends Fragment {
     private Context context;
     private RequestQueue mRequestQueue;
-    private String URL="https://debugtm.herokuapp.com/trip/lastTripsCreated?limit=50";;
+    private String URL="https://debugtm.herokuapp.com/trip/lastTripsCreatedWithUser?limit=50&userUid=";
     private ArrayList<Trip> trips;
-
+    FirebaseUser user;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -52,8 +52,9 @@ public class HomeFragment extends Fragment {
         rvTrips.setLayoutManager(new LinearLayoutManager(context));
         trips = new ArrayList<Trip>();
 
+        user=FirebaseAuth.getInstance().getCurrentUser();
         mRequestQueue = Volley.newRequestQueue(context);
-        new GetTripInteraction(context, rvTrips, progress).getTripsFromServer(URL, mRequestQueue, trips);
+        new GetTripInteraction(context, rvTrips, progress).getTripsFromServer(URL+user.getUid(), mRequestQueue, trips);
 
         //swipe da finire
         final SwipeRefreshLayout swipe = (SwipeRefreshLayout) view.findViewById(R.id.swiperefresh);
@@ -69,7 +70,7 @@ public class HomeFragment extends Fragment {
                         trips=new ArrayList<Trip>();
 
                         mRequestQueue = Volley.newRequestQueue(context);
-                        new GetTripInteraction(context, rvTrips, progress).getTripsFromServer(URL,mRequestQueue,trips);
+                        new GetTripInteraction(context, rvTrips, progress).getTripsFromServer(URL+user.getUid(),mRequestQueue,trips);
                         swipe.setRefreshing(false);
 
                     }

@@ -60,7 +60,7 @@
     <!-- Only creation-->
     <string name="creation_title">Nuovo evento</string>
     <string name="group">Gruppo</string>
-    <string name="buddies2">Persone necessarie per partire(min 2, max 15)</string>
+    <string name="buddies2">Numero massimo di partecipanti(min 2, max 15)</string>
     <string name="budget_text2">Spesa approssimativa per il viaggio(min 0, max 500)</string>
     <string name="plan">Programma*</string>
     <string name="plan_text">Scrivi qualche dettaglio in più sul viaggio</string>
