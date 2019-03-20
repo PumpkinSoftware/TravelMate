@@ -298,23 +298,22 @@ router.post('/updateTrip', function(req, res){
 		query.maxPartecipant = input.maxPartecipant;
 	
 	TripSchema.findById(input._id).exec(function(err, trip){
-		
 		if (err){
 			res.send(JSON.stringify({ status: "error", type: "-3" }));
 			console.log(err);
 			console.log(JSON.stringify({ status: "error", type: "-3" }));
 		}
-
-		trip.set(query);
-		
-		trip.save(function(err, updatetrip){
-			if (err){
-				res.send(JSON.stringify({ status: "error", type: "-1" }));
-				console.log(err);
-				console.log(JSON.stringify({ status: "error", type: "-1" }));
-			} 
-			res.send({ status: "ok", message: "Your trip is updated" });
-		});
+		else{
+			trip.set(query);
+			trip.save(function(err, updatetrip){
+				if (err){
+					res.send(JSON.stringify({ status: "error", type: "-1" }));
+					console.log(err);
+					console.log(JSON.stringify({ status: "error", type: "-1" }));
+				} 
+				res.send({ status: "ok", message: "Your trip is updated" });
+			});
+		}
 	});
 });
 
