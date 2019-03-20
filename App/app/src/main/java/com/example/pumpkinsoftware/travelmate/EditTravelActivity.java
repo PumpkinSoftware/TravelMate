@@ -26,6 +26,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.pumpkinsoftware.travelmate.date_picker.EditTextDatePicker;
+import com.example.pumpkinsoftware.travelmate.glide.GlideApp;
 import com.example.pumpkinsoftware.travelmate.handle_error.ErrorServer;
 import com.example.pumpkinsoftware.travelmate.trip.Trip;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -74,7 +75,6 @@ public class EditTravelActivity extends AppCompatActivity {
 
         //Toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //toolbar.setTitle("Modifica evento");
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -131,6 +131,10 @@ public class EditTravelActivity extends AppCompatActivity {
         radioButton.setChecked(true);
 
         b_upload = findViewById(R.id.photo_upload);
+        String img = trip.getImage();
+        GlideApp.with(context)
+                .load(img.isEmpty()?(R.mipmap.default_trip):img)
+                .into(b_upload);
         b_upload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

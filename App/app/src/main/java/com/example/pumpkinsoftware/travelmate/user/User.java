@@ -1,12 +1,13 @@
 package com.example.pumpkinsoftware.travelmate.user;
 
+import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedList;
 
-public class User {
+public class User implements Serializable {
     private final String uid, name, surname, birthday;
     private String gender, relationship, email, descr, photoProfile, cover;
     private short sumReviews, numReviews;

@@ -30,7 +30,7 @@ public class PostUser {
         contesto = c;
     }
 
-    public void jsonParse(JSONObject utente, final flag myflag) {
+    public void jsonParse(JSONObject utente, final flag myflag, final ServerCallback callback) {
         mQueue = Volley.newRequestQueue(contesto);
         final JsonObjectRequest JORequest = new JsonObjectRequest(Request.Method.POST, (myflag.equals(flag.NEW) ? URLNEW : URLUPDATE), utente, new Response.Listener<JSONObject>() {
             @Override
@@ -40,18 +40,17 @@ public class PostUser {
                     if (status.equals("ok")) {
                         if (myflag.equals(flag.NEW)) {
                             Toast.makeText(contesto, "Conferma via email", Toast.LENGTH_SHORT).show();
-                            AccountRegisterActivity.setStatus("OK");
                         } else {
                             Toast.makeText(contesto, "Profilo aggiornato", Toast.LENGTH_SHORT).show();
                         }
+                        AccountRegisterActivity.setStatus("OK");
                     } else {
                         String err = response.getString("type");
                         new ErrorServer(contesto).handleError(err);
-                        if (myflag.equals(flag.NEW)) {
-                            AccountRegisterActivity.setStatus("ERROR");
-                        }
+                        AccountRegisterActivity.setStatus("ERROR");
                     }
 
+                    callback.onSuccess(response);
                 } catch (JSONException e) {
                     Toast.makeText(contesto, "Errore: riprovare", Toast.LENGTH_SHORT).show();
                 }
