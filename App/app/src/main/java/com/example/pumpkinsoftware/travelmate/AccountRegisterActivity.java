@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.pumpkinsoftware.travelmate.client_server_interaction.PostUser;
+import com.example.pumpkinsoftware.travelmate.client_server_interaction.ServerCallback;
 import com.example.pumpkinsoftware.travelmate.date_picker.BirthdayPicker;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -58,7 +59,6 @@ public class AccountRegisterActivity extends AppCompatActivity {
     public static String status="";
 
     Context contesto;
-
     FirebaseStorage storage;
     StorageReference storageReference;
     FirebaseAuth mAuth;
@@ -265,9 +265,10 @@ public class AccountRegisterActivity extends AppCompatActivity {
                 utente.put("birthday", age);
                 utente.put("gender", sex);
                 if (!relationship.equals("Single")) {
-                    if (sex.equals("Uomo")) utente.put("relationship", "Fidanzato");
-                    else utente.put("relationship", "Fidanzata");
+                    if (sex.equals("Uomo"))  relationship = "Fidanzato";
+                    else                     relationship = "Fidanzata";
                 }
+                utente.put("relationship", relationship);
                 utente.put("email", mail);
                 user = FirebaseAuth.getInstance().getCurrentUser();
                 if (user != null) utente.put("uid", user.getUid());
@@ -277,15 +278,19 @@ public class AccountRegisterActivity extends AppCompatActivity {
             }
 
             uploadImage(utente);
-            new PostUser(contesto).jsonParse(utente, PostUser.flag.NEW);
-            //Da controllare
-            if(getStatus().equals("ERROR")){
-                deleteUser();
-            }
-            if(getStatus().equals("OK")){
-                updateUserForChat();
-                sendEmail();
-            }
+
+            new PostUser(contesto).jsonParse(utente, PostUser.flag.NEW, new ServerCallback() {
+                @Override
+                public void onSuccess(JSONObject response) {
+                    if(getStatus().equals("ERROR")){
+                        deleteUser();
+                    }
+                    if(getStatus().equals("OK")){
+                        updateUserForChat();
+                        sendEmail();
+                    }
+                }
+            });
 
         }
     }
@@ -442,7 +447,7 @@ public class AccountRegisterActivity extends AppCompatActivity {
                 }
             });
         }
-        Toast.makeText(contesto, "Registrazione fallita,riprova", Toast.LENGTH_SHORT).show();
+        Toast.makeText(contesto, "Registrazione fallita, riprovare", Toast.LENGTH_SHORT).show();
         finish();
     };
 

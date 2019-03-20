@@ -658,7 +658,6 @@ public class TravelDetailsActivity extends AppCompatActivity {
                 edit.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        // TODO edit trip
                         Intent i = new Intent(context, EditTravelActivity.class);
                         i.putExtra(EditTravelActivity.EXTRA_TRAVEL, trip);
                         startActivityForResult(i, 1);
@@ -737,6 +736,7 @@ public class TravelDetailsActivity extends AppCompatActivity {
         if (requestCode == 1) {
             if(resultCode == RESULT_OK) {
                 Trip t = (Trip) data.getSerializableExtra(EXTRA_TRIP);
+                trip = t;
                 loadTrip(t);
             }
         }
