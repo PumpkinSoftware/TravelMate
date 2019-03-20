@@ -25,6 +25,18 @@
             android:background="@android:color/white">
 
             <ImageView
+                android:id="@+id/edit_image"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="13dp"
+                android:layout_marginTop="10dp"
+                android:elevation="10dp"
+                android:tint="@android:color/white"
+                android:src="@drawable/ic_baseline_create_24px" />
+
+            <ImageView
                 android:id="@+id/header_cover_image"
                 android:layout_width="match_parent"
                 android:layout_height="150dp"

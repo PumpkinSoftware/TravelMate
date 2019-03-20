@@ -1,6 +1,8 @@
 package com.example.pumpkinsoftware.travelmate;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -31,9 +33,11 @@ import org.json.JSONObject;
 
 public class ProfileFragment extends Fragment {
     private final static String URL = "https://debugtm.herokuapp.com/user/getUserByUid?userUid=";
+    public final static String EXTRA_USER = "travelmate_extra_pf_USER";
     private Context context;
     private View view;
-    private Boolean isReady;
+    private User User;
+    private ImageView edit;
 
     @Nullable
     @Override
@@ -41,24 +45,35 @@ public class ProfileFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_profile, container, false);
         context = getContext();
 
+        edit = view.findViewById(R.id.edit_image);
         final RelativeLayout layout = view.findViewById(R.id.layout);
         layout.setVisibility(View.INVISIBLE);
         final ProgressBar progressBar = view.findViewById(R.id.indeterminateBar);
         progressBar.setVisibility(View.VISIBLE);
-        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
             //boolean emailVerified = user.isEmailVerified();
 
             // The user's ID, unique to the Firebase project. Do NOT use this value to
             // authenticate with your backend server, if you have one. Use
             // FirebaseUser.getIdToken() instead.
-            String uid = user.getUid();
+            final String uid = user.getUid();
             RequestQueue mRequestQueue = Volley.newRequestQueue(context);
             final GetUserByUid server =  new GetUserByUid(context, progressBar);
             server.getUserFromServer(URL+uid, mRequestQueue, new ServerCallback() {
                         @Override
                         public void onSuccess(JSONObject response) {
-                            loadUser(server);
+                            User = server.getUser();
+                            loadUser(User);
+
+                            edit.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Intent i = new Intent(context, EditUserActivity.class);
+                                    i.putExtra(EditUserActivity.EXTRA_USER, User);
+                                    startActivityForResult(i, 1);
+                                }
+                            });
                             layout.setVisibility(View.VISIBLE);
                         }
             });
@@ -82,10 +97,18 @@ public class ProfileFragment extends Fragment {
         return view;
     }
 
-    private boolean loadUser(GetUserByUid server) {
-        User mUser = server.getUser();
+    private boolean loadUser(User mUser) {
 
         if(mUser == null) return false;
+
+        edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(context, EditUserActivity.class);
+                i.putExtra(EditUserActivity.EXTRA_USER, User);
+                startActivityForResult(i, 1);
+            }
+        });
 
         ImageView img = (ImageView) view.findViewById(R.id.profile);
         GlideApp.with(context)
@@ -154,5 +177,17 @@ public class ProfileFragment extends Fragment {
 
     public static double roundToHalf(double d) {
         return Math.round(d * 2) / 2.0;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+            if(resultCode == Activity.RESULT_OK) {
+                User u = (User) data.getSerializableExtra(EXTRA_USER);
+                User = u;
+                loadUser(u);
+            }
+        }
     }
 }
