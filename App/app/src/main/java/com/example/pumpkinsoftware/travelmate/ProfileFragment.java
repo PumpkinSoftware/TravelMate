@@ -3,6 +3,9 @@ package com.example.pumpkinsoftware.travelmate;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -21,6 +24,11 @@ import android.widget.TextView;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.FutureTarget;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.example.pumpkinsoftware.travelmate.client_server_interaction.GetUserByUid;
 import com.example.pumpkinsoftware.travelmate.client_server_interaction.ServerCallback;
 import com.example.pumpkinsoftware.travelmate.glide.GlideApp;
@@ -46,6 +54,14 @@ public class ProfileFragment extends Fragment {
         context = getContext();
 
         edit = view.findViewById(R.id.edit_image);
+
+        // Old sdk hasn't elevation attribute
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            edit.setVisibility(View.GONE);
+            edit = view.findViewById(R.id.edit_image_for_old_sdk);
+            edit.setVisibility(View.VISIBLE);
+        }
+
         final RelativeLayout layout = view.findViewById(R.id.layout);
         layout.setVisibility(View.INVISIBLE);
         final ProgressBar progressBar = view.findViewById(R.id.indeterminateBar);
@@ -116,9 +132,12 @@ public class ProfileFragment extends Fragment {
                 .into(img);
 
         img = view.findViewById(R.id.header_cover_image);
+        String cover = mUser.getCover();
         GlideApp.with(context)
-                .load(mUser.getCover())
+                .load(cover)
                 .into(img);
+
+        calculateColor(cover);
 
         TextView txt = view.findViewById(R.id.name);
         String ns = mUser.getName()+ " "+ mUser.getSurname();
@@ -190,4 +209,55 @@ public class ProfileFragment extends Fragment {
             }
         }
     }
+
+    private void calculateColor(String photoPath) {
+        Glide.with(context)
+                .asBitmap()
+                .load(photoPath)
+                .listener(new RequestListener<Bitmap>() {
+                    @Override
+                    public boolean onLoadFailed(@Nullable GlideException e, Object o, Target<Bitmap> target, boolean b) {
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onResourceReady(Bitmap bitmap, Object o, Target<Bitmap> target, DataSource dataSource,
+                                                   boolean b) {
+                        int brightness = calculateBrightness(bitmap, 20);
+                        int iconColor;
+                        if(brightness > 127)    iconColor = Color.BLACK;
+                        else                    iconColor = Color.WHITE;
+
+                        edit.setColorFilter(iconColor);
+                        return false;
+                    }
+                }
+                ).submit();
+    }
+
+    /* Calculates the (estimated) brightness of a bitmap image.
+     The argument "skipPixel" defines how many pixels to skip for the brightness calculation,
+     because it might be very runtime intensive to calculate brightness for every single pixel.
+     Higher values result in better performance, but a more estimated result value.
+     When skipPixel equals 1, the method actually calculates the real average brightness, not an estimated one.
+     So "skipPixel" needs to be 1 or bigger !
+     The function returns a brightness level between 0 and 255, where 0 = totally black and 255 = totally bright
+    */
+    private int calculateBrightness(android.graphics.Bitmap bitmap, int skipPixel) {
+        int R = 0; int G = 0; int B = 0;
+        int height = 5; //bitmap.getHeight();
+        int width = bitmap.getWidth();
+        int n = 0;
+        int[] pixels = new int[width * height];
+        bitmap.getPixels(pixels, 0, width, 0, 0, width, height);
+        for (int i = 0; i < pixels.length; i += skipPixel) {
+            int color = pixels[i];
+            R += Color.red(color);
+            G += Color.green(color);
+            B += Color.blue(color);
+            n++;
+        }
+        return (R + B + G) / (n * 3);
+    }
+
 }

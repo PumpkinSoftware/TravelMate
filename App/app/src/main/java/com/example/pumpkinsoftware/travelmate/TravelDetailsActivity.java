@@ -10,6 +10,8 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -42,10 +44,13 @@ import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.FutureTarget;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
+import com.example.pumpkinsoftware.travelmate.chat.ChatActivityInside;
 import com.example.pumpkinsoftware.travelmate.client_server_interaction.GetPartecipantIteration;
 import com.example.pumpkinsoftware.travelmate.client_server_interaction.GetTripById;
 import com.example.pumpkinsoftware.travelmate.client_server_interaction.GetUserByUid;
@@ -102,6 +107,9 @@ public class TravelDetailsActivity extends AppCompatActivity {
 
     private final static String QUERY= "https://debugtm.herokuapp.com/user/getUsersByTrip?tripId=";
     private ArrayList<User> partecipants;
+    private ImageView back_image;
+    private ImageView edit;
+    private ImageView sharing_image;
     private CardView card;
     private CircleImageView o_image;
     private TextView o_name;
@@ -163,88 +171,21 @@ public class TravelDetailsActivity extends AppCompatActivity {
         if (user != null)
             userUid = user.getUid();
 
-        // OLD
-        /*FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user != null) {
-            userUid = user.getUid();
-            if(userUid.equals(owner_uid)) {
-                final ImageView edit = findViewById(R.id.edit_image);
-                edit.setVisibility(View.VISIBLE);
+        back_image = (ImageView) findViewById(R.id.back);
+        edit = findViewById(R.id.edit_image);
+        sharing_image = findViewById(R.id.sharing_image);
 
-                edit.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        // TODO edit trip
-                    }
-                });
-
-            }
+        // Old sdk hasn't elevation attribute
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            edit = findViewById(R.id.edit_image_for_old_sdk);
+            sharing_image.setVisibility(View.GONE);
+            sharing_image = findViewById(R.id.sharing_image_for_old_sdk);
+            sharing_image.setVisibility(View.VISIBLE);
+            back_image.setVisibility(View.GONE);
+            back_image = findViewById(R.id.back_image_for_old_sdk);
+            back_image.setVisibility(View.VISIBLE);
         }
 
-        final ImageView imgv = (ImageView) findViewById(R.id.header_cover_image);
-        loadImg(img, imgv);
-        final TextView n = (TextView) findViewById(R.id.name);
-        n.setText(name);
-        final TextView dsc = (TextView) findViewById(R.id.descr);
-        dsc.setText(descr);
-
-        // Justified text alignment
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            dsc.setText(descr);
-            dsc.setJustificationMode(Layout.JUSTIFICATION_MODE_INTER_WORD);
-        }
-
-        else {
-            final WebView view = (WebView) findViewById(R.id.descr_for_older_versions);
-            String text = "<html><body><p align=\"justify\">";
-            text+= descr;
-            text+= "</p></body></html>";
-            view.loadData(text, "text/html", "utf-8");
-            view.setVisibility(View.VISIBLE);
-            dsc.setVisibility(View.GONE);
-            // Now I've to change the below param of the below elements
-            final RelativeLayout layout = findViewById(R.id.layout2);
-            RelativeLayout.LayoutParams params= new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT);
-            params.addRule(RelativeLayout.BELOW, R.id.descr_for_older_versions);
-            layout.setLayoutParams(params);
-        }
-
-        final TextView t_tag=(TextView) findViewById(R.id.tag);
-        if(tag.equals("cultura")){
-            t_tag.setBackgroundColor(Color.parseColor("#008000")); //verde
-        }else if (tag.equals("musica")){
-            t_tag.setBackgroundColor(Color.parseColor("#FF8C00")); //arancione(dark)
-        }else if(tag.equals("intrattenimento")){
-            t_tag.setBackgroundColor(Color.parseColor("#FF0000")); //rosso
-        }else{
-            t_tag.setBackgroundColor(Color.parseColor("#1E90FF")); //blu
-        }
-        t_tag.setText(tag);
-
-        final TextView dp = (TextView) findViewById(R.id.from);
-        dp.setText(dep);
-        final TextView dt = (TextView) findViewById(R.id.to);
-        dt.setText(dest);
-        final TextView bud = (TextView) findViewById(R.id.budget);
-        bud.setText(budget);
-        final TextView s = (TextView) findViewById(R.id.date1);
-        s.setText(getData(start));
-        final TextView e = (TextView) findViewById(R.id.date2);
-        e.setText(getData(end));
-        final TextView g = (TextView) findViewById(R.id.n_users);
-        g.setText(partecipantsNumber+"/"+group);
-
-        final TextView vm= (TextView) findViewById(R.id.vehicle_text);
-        final ImageView vi= (ImageView) findViewById(R.id.vehicle_image);
-        vm.setText(vehicle);
-        if(vehicle.equals("treno")){
-            vi.setImageResource(R.drawable.ic_train_black_12dp);
-        }else{
-            vi.setImageResource(R.drawable.ic_directions_car_black_12dp);
-        }*/
-
-
-        final ImageView back_image = (ImageView) findViewById(R.id.back);
         // Handling back to parent activity
         back_image.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -273,7 +214,6 @@ public class TravelDetailsActivity extends AppCompatActivity {
             }
         });*/
 
-        final ImageView sharing_image = (ImageView) findViewById(R.id.sharing_image);
         // Handling sharing on click with animation
         sharing_image.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -558,10 +498,19 @@ public class TravelDetailsActivity extends AppCompatActivity {
             backgroundColorAnimator.start();
             joinBtn.setText("Abbandona");
 
+            // Open chat
+            Intent intent = new Intent(context, ChatActivityInside.class);
+            intent.putExtra(ChatActivityInside.EXTRA_TRIPID, trip.getId());
+            intent.putExtra(ChatActivityInside.EXTRA_TRIPNAME, trip.getName());
+            context.startActivity(intent);
+
+            // TODO add server callback to all PostJoin calls
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     updateLayout();
+                    card.setRadius(25);
+                    card.setCardElevation(10);
                 }
             },200);
         }
@@ -651,7 +600,9 @@ public class TravelDetailsActivity extends AppCompatActivity {
     }
 
     private void loadTrip(Trip t) {
-        final ImageView edit = findViewById(R.id.edit_image);
+        String image = t.getImage();
+        calculateColor(image);
+
         if(userUid.equals(owner_uid)) {
                 edit.setVisibility(View.VISIBLE);
 
@@ -853,6 +804,59 @@ public class TravelDetailsActivity extends AppCompatActivity {
 
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)    finishAfterTransition();
         else    finish();
+    }
+
+    private void calculateColor(String photoPath) {
+        Glide.with(context)
+                .asBitmap()
+                .load(photoPath)
+                .listener(new RequestListener<Bitmap>() {
+                              @Override
+                              public boolean onLoadFailed(@Nullable GlideException e, Object o, Target<Bitmap> target, boolean b) {
+                                  return false;
+                              }
+
+                              @Override
+                              public boolean onResourceReady(Bitmap bitmap, Object o, Target<Bitmap> target, DataSource dataSource,
+                                                             boolean b) {
+                                  int brightness = calculateBrightness(bitmap, 20);
+                                  int iconColor;
+                                  if(brightness > 127)    iconColor = Color.BLACK;
+                                  else                    iconColor = Color.WHITE;
+
+                                  back_image.setColorFilter(iconColor);
+                                  sharing_image.setColorFilter(iconColor);
+                                  if(edit.getVisibility() == View.VISIBLE)
+                                      edit.setColorFilter(iconColor);
+                                  return false;
+                              }
+                          }
+                ).submit();
+    }
+
+    /* Calculates the (estimated) brightness of a bitmap image.
+     The argument "skipPixel" defines how many pixels to skip for the brightness calculation,
+     because it might be very runtime intensive to calculate brightness for every single pixel.
+     Higher values result in better performance, but a more estimated result value.
+     When skipPixel equals 1, the method actually calculates the real average brightness, not an estimated one.
+     So "skipPixel" needs to be 1 or bigger !
+     The function returns a brightness level between 0 and 255, where 0 = totally black and 255 = totally bright
+    */
+    private int calculateBrightness(android.graphics.Bitmap bitmap, int skipPixel) {
+        int R = 0; int G = 0; int B = 0;
+        int height = 5; //bitmap.getHeight();
+        int width = bitmap.getWidth();
+        int n = 0;
+        int[] pixels = new int[width * height];
+        bitmap.getPixels(pixels, 0, width, 0, 0, width, height);
+        for (int i = 0; i < pixels.length; i += skipPixel) {
+            int color = pixels[i];
+            R += Color.red(color);
+            G += Color.green(color);
+            B += Color.blue(color);
+            n++;
+        }
+        return (R + B + G) / (n * 3);
     }
 
 }
