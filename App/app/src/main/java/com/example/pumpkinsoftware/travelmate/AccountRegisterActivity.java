@@ -54,6 +54,7 @@ public class AccountRegisterActivity extends AppCompatActivity {
     private final int PICK_IMAGE_REQUEST = 71;
     private int FOTO = 0;
     private BirthdayPicker nascita;
+    private String userUid;
     private static Calendar calendar;
 
     public static String status="";
@@ -87,7 +88,7 @@ public class AccountRegisterActivity extends AppCompatActivity {
         pass = intent.getExtras().getString("pass");
         // file per firebase
 
-        PreparationAccount(mail,pass);
+        //PreparationAccount(mail,pass);
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
 
@@ -133,8 +134,8 @@ public class AccountRegisterActivity extends AppCompatActivity {
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sendRegistration();
-                openHome();
+                //sendRegistration();
+                PreparationAccount(mail, pass);
             }
         });
     }
@@ -145,7 +146,9 @@ public class AccountRegisterActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            userUid = user.getUid();
+                            sendRegistration();
                         } else {
                             Toast.makeText(contesto, "C'è un problema, riprova", Toast.LENGTH_SHORT).show();
                         }
@@ -259,6 +262,7 @@ public class AccountRegisterActivity extends AppCompatActivity {
 
             JSONObject utente = new JSONObject();
             try {
+                utente.put("uid", userUid);
                 utente.put("name", processingUpperLowerString(name));
                 utente.put("surname", processingUpperLowerString(surname));
                 utente.put("description", bio.substring(0, 1).toUpperCase() + bio.substring(1).toLowerCase());
@@ -288,6 +292,7 @@ public class AccountRegisterActivity extends AppCompatActivity {
                     if(getStatus().equals("OK")){
                         updateUserForChat();
                         sendEmail();
+                        openHome();
                     }
                 }
             });
