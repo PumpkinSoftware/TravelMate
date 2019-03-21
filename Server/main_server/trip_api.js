@@ -104,7 +104,7 @@ router.post('/newTrip', function(req,res){
 					res.send(JSON.stringify({ status: "error", type: "-1" }));
 				}
 				else{
-					console.log(JSON.stringify({ status: "ok", message: "Trip: " + toInsert._id + " added to user: " + clientInput.owner }));
+					console.log(JSON.stringify({ status: "success", message: "Trip: " + toInsert._id + " added to user: " + clientInput.owner }));
 					toInsert.save(function (err) {
 						if (err){ 
 							console.log(err);
@@ -311,7 +311,7 @@ router.post('/updateTrip', function(req, res){
 					console.log(err);
 					console.log(JSON.stringify({ status: "error", type: "-1" }));
 				} 
-				res.send({ status: "ok", message: "Your trip is updated" });
+				res.send({ status: "success", message: "Your trip is updated" });
 			});
 		}
 	});
@@ -335,7 +335,7 @@ router.get('/deleteTrip', function(req, res){
 		}
 		else{
 			
-			console.log(JSON.stringify({ status: "ok", message: "Your trip is deleted" }));
+			console.log(JSON.stringify({ status: "success", message: "Your trip is deleted" }));
 			
 			var trip = {
 				"tripId": req.query.tripId
@@ -359,7 +359,7 @@ router.get('/deleteTrip', function(req, res){
 					res.send(JSON.stringify({ status: "error", type: "-1" }));
 				}
 				else{
-					res.send(JSON.stringify({ status: "ok", message: "the removal is a success" }));
+					res.send(JSON.stringify({ status: "success", message: "the removal is a success" }));
 				} 
 			});
 		}
@@ -456,7 +456,7 @@ router.get('/deleteAll', function(req, res){
 			console.log(JSON.stringify({ status: "error", type: "-1" }));
 		}
 		else{
-			res.send(JSON.stringify({ status: "ok", type: "all trips deleted" }));
+			res.send(JSON.stringify({ status: "success", type: "all trips deleted" }));
 		}
 
 	});
