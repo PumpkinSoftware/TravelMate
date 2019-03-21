@@ -1,4 +1,5 @@
 package com.example.pumpkinsoftware.travelmate;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -27,6 +28,7 @@ public class OpzioniFragment extends Fragment {
                 Toast.makeText(getContext(), "Logout effettuato", Toast.LENGTH_SHORT).show();
                 FirebaseAuth.getInstance().signOut();
                 openLogin();
+                ((Activity)getContext()).finish();
             }
         });
         return inflate;

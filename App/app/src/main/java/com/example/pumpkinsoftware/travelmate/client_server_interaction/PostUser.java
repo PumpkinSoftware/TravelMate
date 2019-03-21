@@ -1,6 +1,7 @@
 package com.example.pumpkinsoftware.travelmate.client_server_interaction;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -36,6 +37,7 @@ public class PostUser {
             @Override
             public void onResponse(JSONObject response) {
                 try {
+                    System.out.println("SONO QUI");
                     String status = response.getString("status");
                     if (status.equals("ok")) {
                         if (myflag.equals(flag.NEW)) {
@@ -60,6 +62,8 @@ public class PostUser {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                Log.d("ERRRORROR",error.toString());
+                error.printStackTrace();
                 // error
                 Toast.makeText(contesto, "Errore ", Toast.LENGTH_SHORT).show();
             }

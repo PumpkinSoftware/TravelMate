@@ -1,10 +1,15 @@
 package com.example.pumpkinsoftware.travelmate;
 
+import android.animation.ArgbEvaluator;
+import android.animation.ObjectAnimator;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -19,6 +24,7 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.pumpkinsoftware.travelmate.client_server_interaction.PostJoin;
 import com.example.pumpkinsoftware.travelmate.client_server_interaction.PostUser;
 import com.example.pumpkinsoftware.travelmate.client_server_interaction.ServerCallback;
 import com.example.pumpkinsoftware.travelmate.date_picker.BirthdayPicker;
@@ -88,6 +94,8 @@ public class AccountRegisterActivity extends AppCompatActivity {
         pass = intent.getExtras().getString("pass");
         // file per firebase
 
+        mAuth = FirebaseAuth.getInstance();
+
         //PreparationAccount(mail,pass);
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
@@ -101,6 +109,7 @@ public class AccountRegisterActivity extends AppCompatActivity {
         biot = (EditText) findViewById(R.id.bio_r);
 
         calendar = Calendar.getInstance();
+        calendar.add(Calendar.YEAR,-18);
         final EditText data = (EditText) findViewById(R.id.age2_r);
         data.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -146,7 +155,7 @@ public class AccountRegisterActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            FirebaseUser user = mAuth.getCurrentUser();
+                            user = mAuth.getCurrentUser();
                             userUid = user.getUid();
                             sendRegistration();
                         } else {
@@ -266,16 +275,16 @@ public class AccountRegisterActivity extends AppCompatActivity {
                 utente.put("name", processingUpperLowerString(name));
                 utente.put("surname", processingUpperLowerString(surname));
                 utente.put("description", bio.substring(0, 1).toUpperCase() + bio.substring(1).toLowerCase());
-                utente.put("birthday", age);
+                utente.put("birthday", "01/01/1970");
                 utente.put("gender", sex);
                 if (!relationship.equals("Single")) {
-                    if (sex.equals("Uomo"))  relationship = "Fidanzato";
-                    else                     relationship = "Fidanzata";
+                    if (sex.equals("Uomo"))
+                        relationship = "Fidanzato";
+                    else
+                        relationship = "Fidanzata";
                 }
                 utente.put("relationship", relationship);
                 utente.put("email", mail);
-                user = FirebaseAuth.getInstance().getCurrentUser();
-                if (user != null) utente.put("uid", user.getUid());
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -292,7 +301,14 @@ public class AccountRegisterActivity extends AppCompatActivity {
                     if(getStatus().equals("OK")){
                         updateUserForChat();
                         sendEmail();
-                        openHome();
+                        new AlertDialog.Builder(contesto    )
+                                .setTitle("Registrazione completata")
+                                .setMessage("Ti è stata mandata una mail per attivare il tuo account")
+                                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+
+                                    public void onClick(DialogInterface dialog, int whichButton) {
+                                        openHome();
+                                    }}).show();
                     }
                 }
             });

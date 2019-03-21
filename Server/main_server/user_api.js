@@ -98,7 +98,7 @@ router.post('/newUser', function(req, res){
                     console.log(JSON.stringify({ status: "error", type: "-1" }));
                 }
                 else {
-                    res.send(JSON.stringify({ status: "success", message: "User " + toInsert.name + " created!" }));
+                    res.send(JSON.stringify({ status: "ok", message: "User " + toInsert.name + " created!" }));
                 }
             });
         }

@@ -170,11 +170,16 @@ public class LogActivity extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
-                                openMain();
-                                finish();
-                            }else if(!mAuth.getCurrentUser().isEmailVerified()){
-                                Toast.makeText(context, "Devi confermare l'email", Toast.LENGTH_SHORT).show();
-                                sendEmail();
+                                if(mAuth.getCurrentUser().isEmailVerified()){
+                                    openMain();
+                                    finish();
+                                }
+                                else{
+                                    sendEmail();
+                                    FirebaseAuth.getInstance().signOut();
+                                    Toast.makeText(context, "Devi attivare l'account dall'email", Toast.LENGTH_SHORT).show();
+                                }
+
                             }
                             else {
                                 Toast.makeText(context, "Nome utente o password errati", Toast.LENGTH_SHORT).show();
