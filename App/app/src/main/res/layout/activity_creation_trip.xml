@@ -224,7 +224,7 @@
                 android:layout_alignTop="@+id/budget_text"
                 android:layout_alignEnd="@+id/budget_text"
                 android:layout_marginTop="-34dp"
-                android:layout_marginEnd="17dp"
+                android:layout_marginEnd="13dp"
                 android:layout_marginBottom="56dp"
                 android:ems="10"
                 android:hint="@string/n0"
@@ -298,7 +298,8 @@
                     android:layout_height="wrap_content"
                     android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456879àèéùòì'()., "
                     android:hint="@string/plan_text"
-                    android:maxLength="250" />
+                    android:maxLength="250"
+                    android:layout_marginEnd="13dp"/>
             </android.support.design.widget.TextInputLayout>
 
 
@@ -329,7 +330,8 @@
                     android:layout_height="wrap_content"
                     android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!àèéùòì' "
                     android:hint="@string/name_text"
-                    android:maxLength="35" />
+                    android:maxLength="35"
+                    android:layout_marginEnd="13dp"/>
             </android.support.design.widget.TextInputLayout>
 
 
