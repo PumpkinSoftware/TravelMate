@@ -99,7 +99,6 @@ router.post('/newUser', function(req, res){
                 }
                 else {
                     res.send(JSON.stringify({ status: "success", message: "User " + toInsert.name + " created!" }));
-                    console.log(JSON.stringify({ status: "success", message: "User " + toInsert.name + " created!" }));
                 }
             });
         }
@@ -119,7 +118,6 @@ router.get('/allUsers', function(req, res){
 			res.send(JSON.stringify({ status: "error", type: "-1" }));
 		}else{
 			res.send(users);
-			console.log(users);
 		}
 	});
 });
@@ -145,7 +143,6 @@ router.get('/getUserByEmail', function(req, res){
 		}
 		else if(user != null){
 			res.send(user);
-			console.log(user);
         }
         else{
             res.send(JSON.stringify({ status: "error", type: "-2" }));
@@ -175,7 +172,6 @@ router.get('/getUserByUid', function(req, res){
 		}
 		else if(user != null){
 			res.send(user);
-			console.log(user);
         }
         else{
             res.send(JSON.stringify({ status: "error", type: "-2" }));
@@ -205,7 +201,6 @@ router.get('/getUserById', function(req, res){
 		}
 		else if(user != null){
 			res.send(user);
-			console.log(user);
         }
         else{
             res.send(JSON.stringify({ status: "error", type: "-2" }));
@@ -273,8 +268,7 @@ router.post('/updateUser', function(req, res){
 				    console.log(JSON.stringify({ status: "error", type: "-1" }));
 
 			    } 
-			    res.send(updateuser);
-			    console.log(updateuser);
+			    res.send({ status: "ok", message: "Your user is updated" });
             });
         }
         else{
@@ -322,7 +316,6 @@ router.get('/addFavouriteTrip', function(req, res){
 				}
 				else{
 					res.send(JSON.stringify({ status: "ok", message: "FavouriteTrip: " + req.query.tripId + " added to user: " + user.uid }));
-					console.log(JSON.stringify({ status: "ok", message: "FavouriteTrip: " + req.query.tripId + " added to user: " + user.uid }));
 				}
 			});
         }
@@ -371,7 +364,6 @@ router.get('/removeFavouriteTrip', function(req, res){
 				}
 				else{
 					res.send(JSON.stringify({ status: "ok", message: "FavouriteTrip: " + req.query.tripId + " removed to user: " + user.uid }));
-					console.log(JSON.stringify({ status: "ok", message: "FavouriteTrip: " + req.query.tripId + " removed to user: " + user.uid }));
 				}
 			});
         }
@@ -404,7 +396,6 @@ router.get('/getUsersByTrip', function(req, res){
         
         if (users.length > 0){
             res.send(users);
-            console.log(users);
         }
         else{
             res.send(JSON.stringify({ status: "error", type: "-2" }));
@@ -484,7 +475,6 @@ router.post('/addTrip', function(req,res){
 								}
 								else {
 									res.send(JSON.stringify({ status: "ok", message: "Trip: " + JsonObject.tripId + " added to user: " + user._id }));
-									console.log(JSON.stringify({ status: "ok", message: "Trip: " + JsonObject.tripId + " added to user: " + user._id }));
 								}
 							});
 						};
@@ -562,7 +552,6 @@ router.post('/removeTrip', function(req,res){
 								}
 								else {
 									res.send(JSON.stringify({ status: "ok", message: "Trip: " + JsonObject.tripId + " removed from user: " + user._id }));
-									console.log(JSON.stringify({ status: "ok", message: "Trip: " + JsonObject.tripId + " removed from user: " + user._id }));
 								}
 							});
 						}
@@ -591,7 +580,6 @@ router.get('/deleteUser', function(req, res){
 		}
 		else{
 			res.send(JSON.stringify({ status: "ok", message: "User is deleted" }));
-			console.log(JSON.stringify({ status: "ok", message: "User deleted" }));
 								
 		}
 	});
@@ -636,7 +624,6 @@ router.get('/getTripsByUser', function(req, res){
 				}
 				else{
 					res.send(trips);
-					console.log(trips);
 				}
 			});
 
@@ -691,7 +678,6 @@ router.get('/getTripsByUserSplit',function(req,res){
 						}
 						else{
 							res.send([[progress],[done]]);
-							console.log([[progress],[done]]);
 						}
 					});
 				}
@@ -734,7 +720,7 @@ router.get('/getPassedTripsByUser',function(req,res){
         		_id: { $in:  list_trips } 
         	};
 
-			TripSchema.find(conditions2).where('startDate').lt(new Date()).sort({'startDate':'desc'}).exec(function(err,passed){
+			TripSchema.find(conditions2).where('endDate').lte(new Date()).sort({'startDate':'desc'}).exec(function(err,passed){
 				if(err){
 					console.log(err);
 					console.log(JSON.stringify({ status: "error", type: "-1" }));
@@ -742,7 +728,6 @@ router.get('/getPassedTripsByUser',function(req,res){
 				}
 				else{
 					res.send(passed);
-					console.log(passed);
 				}
 			});
 
@@ -783,7 +768,7 @@ router.get('/getProgressTripsByUser',function(req,res){
         		_id: { $in:  list_trips } 
         	};
 
-			TripSchema.find(conditions2).where('startDate').gte(new Date()).sort('startDate').exec(function(err,progress){
+			TripSchema.find(conditions2).where('endDate').gt(new Date()).sort('startDate').exec(function(err,progress){
 				if(err){
 					console.log(err);
 					console.log(JSON.stringify({ status: "error", type: "-1" }));
@@ -791,7 +776,6 @@ router.get('/getProgressTripsByUser',function(req,res){
 				}
 				else{
 					res.send(progress);
-					console.log(progress);
 				}
 			});
 
@@ -809,7 +793,7 @@ router.get('/getProgressTripsByUser',function(req,res){
 /******************************************/
 //Api che dato un viaggio e un utente, cambia l'owner del viaggio nell'utente dato e rimuove il precedente owner dai partecipanti del viaggio 
 
-// Example to use /changeOwnerAndRemoveLast?tripId=...&newOwner=...
+// Example to use /changeOwnerAndRemoveLast?tripId=...&userUid=...
 
 router.post('/changeOwnerAndRemoveLast',function(req,res){
 	
@@ -824,7 +808,7 @@ router.post('/changeOwnerAndRemoveLast',function(req,res){
 	}
 	
 	var update_A = {
-		$set: {owner: JsonObject.newOwner},
+		$set: {owner: JsonObject.userUid},
 		$inc: {partecipants: -1}
 	};
 	
@@ -874,7 +858,6 @@ router.post('/changeOwnerAndRemoveLast',function(req,res){
 								}
 								else{
 									res.send(JSON.stringify({ status: "ok", message: "Trip: " + JsonObject.tripId + " has now the new owner: " + JsonObject.userUid }));
-									console.log(JSON.stringify({ status: "ok", message: "Trip: " + JsonObject.tripId + " has now the new owner: " + JsonObject.userUid }));
 								}
 							});
 						}
@@ -901,7 +884,6 @@ router.get('/deleteAll', function(req, res){
 		}
 		else{
 			res.send(JSON.stringify({ status: "ok", type: "all users deleted" }));
-			console.log(JSON.stringify({ status: "ok", type: "all users deleted" }));
 		}
 
 	});
