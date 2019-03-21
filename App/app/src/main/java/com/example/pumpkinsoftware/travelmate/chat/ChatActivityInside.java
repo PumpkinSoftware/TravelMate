@@ -18,7 +18,9 @@ package com.example.pumpkinsoftware.travelmate.chat;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
@@ -40,6 +42,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -115,7 +118,7 @@ public class ChatActivityInside extends AppCompatActivity
     private SharedPreferences mSharedPreferences;
     private static final String FRIENDLY_MSG_LENGTH = "friendly_msg_length";
 
-    private Button mSendButton;
+    private ImageButton mSendButton;
     private RecyclerView mMessageRecyclerView;
     private LinearLayoutManager mLinearLayoutManager;
     private ProgressBar mProgressBar;
@@ -153,7 +156,9 @@ public class ChatActivityInside extends AppCompatActivity
             }
         });
 
-        toolbar.setTitle(tripName);
+        //toolbar.setTitle(tripName);
+        TextView title = findViewById(R.id.title);
+        title.setText(tripName);
 
         MESSAGES_CHILD = "chat/"+tripId+"/";
 
@@ -178,8 +183,13 @@ public class ChatActivityInside extends AppCompatActivity
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 if (charSequence.toString().trim().length() > 0) {
                     mSendButton.setEnabled(true);
+                    int color = R.color.colorPrimary;
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+                        mSendButton.getBackground().setTint(getResources().getColor(color));
                 } else {
                     mSendButton.setEnabled(false);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+                        mSendButton.getBackground().setTint(Color.GRAY);
                 }
             }
 
@@ -188,7 +198,7 @@ public class ChatActivityInside extends AppCompatActivity
             }
         });
 
-        mSendButton = (Button) findViewById(R.id.sendButton);
+        mSendButton = findViewById(R.id.sendButton);
         mSendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.pumpkinsoftware.travelmate.ChatActivity;
@@ -37,11 +38,13 @@ public class TripsAdapterChat extends RecyclerView.Adapter<TripsAdapterChat.View
     public class ViewHolder extends RecyclerView.ViewHolder {
         public CircleImageView imageTravel;
         public TextView nameTravel;
+        public RelativeLayout layout;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             imageTravel = itemView.findViewById(R.id.profile);
             nameTravel = itemView.findViewById(R.id.user);
+            layout = itemView.findViewById(R.id.users);
 
             View.OnClickListener lis = new View.OnClickListener() {
                 @Override
@@ -53,7 +56,7 @@ public class TripsAdapterChat extends RecyclerView.Adapter<TripsAdapterChat.View
 
             imageTravel.setOnClickListener(lis);
             nameTravel.setOnClickListener(lis);
-
+            layout.setOnClickListener(lis);
         }
 
         // Returns trip in the list
