@@ -419,7 +419,7 @@ router.get('/getTripByIdWithUsers', function(req, res){
         		"trips.tripId": { $eq: trip._id }
     		}
 
-    		UserSchema.find(conditions, function(err, users){
+    		UserSchema.find(conditions,'uid name avatar').exec(function(err, users){
         
         	if (err){
             	res.send(JSON.stringify({ status: "error", type: "-1" }));
