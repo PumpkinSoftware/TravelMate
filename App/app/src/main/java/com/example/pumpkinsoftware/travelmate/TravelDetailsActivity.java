@@ -420,16 +420,8 @@ public class TravelDetailsActivity extends AppCompatActivity {
                                 new PostJoin(context).send("https://debugtm.herokuapp.com/user/removeTrip/",
                                         travelId, userUid, PostJoin.request.ABANDON);
 
-
                             animate(joinBtn);
-
-                            ObjectAnimator backgroundColorAnimator = ObjectAnimator.ofObject(card,
-                                    "backgroundColor",
-                                    new ArgbEvaluator(),
-                                    colorTo,
-                                    colorFrom);
-                            backgroundColorAnimator.setDuration(300);
-                            backgroundColorAnimator.start();
+                            card.setCardBackgroundColor(getResources().getColor(colorFrom));
                             joinBtn.setText("Unisciti");
 
                             new Handler().postDelayed(new Runnable() {
@@ -489,13 +481,7 @@ public class TravelDetailsActivity extends AppCompatActivity {
             new PostJoin(this).send("https://debugtm.herokuapp.com/user/addTrip/", travelId,
                     userUid, PostJoin.request.JOIN);
             animate(joinBtn);
-            ObjectAnimator backgroundColorAnimator = ObjectAnimator.ofObject(card,
-                    "backgroundColor",
-                    new ArgbEvaluator(),
-                    colorFrom,
-                    colorTo);
-            backgroundColorAnimator.setDuration(300);
-            backgroundColorAnimator.start();
+            card.setCardBackgroundColor(colorTo);
             joinBtn.setText("Abbandona");
 
             // Open chat
@@ -509,8 +495,6 @@ public class TravelDetailsActivity extends AppCompatActivity {
                 @Override
                 public void run() {
                     updateLayout();
-                    card.setRadius(25);
-                    card.setCardElevation(10);
                 }
             },200);
         }

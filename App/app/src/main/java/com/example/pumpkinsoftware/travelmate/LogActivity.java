@@ -170,7 +170,7 @@ public class LogActivity extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
-                                if(mAuth.getCurrentUser().isEmailVerified()){
+                                if(true) {//mAuth.getCurrentUser().isEmailVerified()){
                                     openMain();
                                     finish();
                                 }
