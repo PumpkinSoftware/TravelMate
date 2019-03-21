@@ -83,32 +83,20 @@ public class EditUserActivity extends AppCompatActivity {
         // Values not editables
         final EditText name = (EditText) findViewById(R.id.name_r);
         name.setText(user.getName());
-        name.setClickable(false);
-        name.setFocusable(false);
-        name.setFocusableInTouchMode(false);
+        name.setEnabled(false);
 
         final EditText surname = (EditText) findViewById(R.id.surname_r);
         surname.setText(user.getSurname());
-        surname.setClickable(false);
-        surname.setFocusable(false);
-        surname.setFocusableInTouchMode(false);
+        surname.setEnabled(false);
 
         final EditText data = (EditText) findViewById(R.id.age2_r);
         data.setText(inverseDate(user.getBirthday()));
-        data.setClickable(false);
-        data.setFocusable(false);
-        data.setFocusableInTouchMode(false);
+        data.setEnabled(false);
 
         RadioButton radioButtonMan = findViewById(R.id.uomo);
-        /*radioButtonMan.setClickable(false);
-        radioButtonMan.setFocusable(false);
-        radioButtonMan.setFocusableInTouchMode(false);*/
         radioButtonMan.setEnabled(false);
 
         RadioButton radioButton = findViewById(R.id.donna);
-        /*radioButton.setClickable(false);
-        radioButton.setFocusable(false);
-        radioButton.setFocusableInTouchMode(false);*/
         radioButton.setEnabled(false);
 
         gender = user.getGender();

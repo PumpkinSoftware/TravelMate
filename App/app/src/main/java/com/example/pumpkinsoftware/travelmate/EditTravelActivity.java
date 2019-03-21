@@ -31,6 +31,8 @@ import com.example.pumpkinsoftware.travelmate.handle_error.ErrorServer;
 import com.example.pumpkinsoftware.travelmate.trip.Trip;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
@@ -155,6 +157,12 @@ public class EditTravelActivity extends AppCompatActivity {
                 String departure_q = departure.getSetMonth() + "/" + departure.getSetDay() + "/" + departure.getSetYear();
                 String return_q = ret.getSetMonth() + "/" + ret.getSetDay() + "/" + ret.getSetYear();
 
+                // Useful to check server side
+                /*FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                String userUid = null;
+                if (user != null)
+                    userUid = user.getUid();*/
+
                 double budget_q = Double.parseDouble(budget.getText().toString());
                 int group_q = Integer.parseInt(partecipants.getText().toString());
 
@@ -175,6 +183,7 @@ public class EditTravelActivity extends AppCompatActivity {
                     }
                 }
                 try {
+                    //viaggio.put("userUid", userUid);
                     viaggio.put("_id", trip.getId());
                     viaggio.put("name", nome_q);
                     viaggio.put("description", program_q);
@@ -274,7 +283,7 @@ public class EditTravelActivity extends AppCompatActivity {
                     } else {
                         String err = response.getString("type");
                         new ErrorServer(context).handleError(err);
-                        deleteTrip();
+                        deleteImg();
                     }
 
                 } catch (JSONException e) {
@@ -352,7 +361,7 @@ public class EditTravelActivity extends AppCompatActivity {
         }
     }
 
-    private void deleteTrip() {
+    private void deleteImg() {
         StorageReference storageRef = storageReference.child("tripImage/"+pathrandom);
         storageRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
@@ -374,12 +383,5 @@ public class EditTravelActivity extends AppCompatActivity {
         String data[]=s.split("-");
         return  data[2].substring(0,2)+"/"+data[1]+"/"+data[0];
     }
-    /*@Override
-    public void onBackPressed() {
-        Intent intent = new Intent();
-        intent.putExtra(TravelDetailsActivity.EXTRA_TRIP, trip);
-        setResult(RESULT_OK, intent);
-        finish();
-    }*/
 
 }
