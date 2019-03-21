@@ -27,8 +27,6 @@ public class BirthdayPicker implements OnTouchListener, DatePickerDialog.OnDateS
     private boolean date_set = false;
 
     public BirthdayPicker(Context c, EditText editTextViewID, Calendar cal) {
-        /*Activity act = (Activity) context;
-        edit_text = (EditText) act.findViewById(editTextViewID);*/
         edit_text = editTextViewID;
         edit_text.setOnTouchListener(this);
         context = c;
@@ -37,7 +35,6 @@ public class BirthdayPicker implements OnTouchListener, DatePickerDialog.OnDateS
         today_month = calendar.get(Calendar.MONTH);
         today_year = calendar.get(Calendar.YEAR);
     }
-
 
     @Override
     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
@@ -53,7 +50,7 @@ public class BirthdayPicker implements OnTouchListener, DatePickerDialog.OnDateS
 
         if (event.getAction() == MotionEvent.ACTION_UP) {
             DatePickerDialog d = new DatePickerDialog(context, this, today_year, today_month, today_day);
-            d.getDatePicker().setMaxDate(new Date().getTime());
+            d.getDatePicker().setMaxDate(calendar.getTimeInMillis()); //calculateTimeInMillis(today_year, today_month, today_day));
             d.show();
         }
         return false;
@@ -86,18 +83,14 @@ public class BirthdayPicker implements OnTouchListener, DatePickerDialog.OnDateS
     }
 
     public long getSetDateInMillis() {
-
-        if (date_set) {
-            Calendar c = Calendar.getInstance();
-            c.set(year, month, day);
-            /*int diff = ;
-            c.add(Calendar.YEAR, 1);
-            c.add(Calendar.MONTH, 1);
-            c.add(Calendar.DAY_OF_MONTH, 1)*/
-            return c.getTimeInMillis();
-        }
-
+        if (date_set) return calculateTimeInMillis(year, month, day);
         return -1;
+    }
+
+    private long calculateTimeInMillis(int year, int month, int day) {
+        Calendar c = Calendar.getInstance();
+        c.set(year, month, day);
+        return c.getTimeInMillis();
     }
 
 }

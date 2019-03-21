@@ -51,7 +51,7 @@ import java.util.UUID;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class AccountRegisterActivity extends AppCompatActivity {
-    private String mail, pass, name, surname, bio, age, sex, relationship;
+    private String mail, pass, name, surname, bio, birthday, sex, relationship;
     private EditText namet, surnamet, biot;
     private CircleImageView profile;
     private ImageView cover;
@@ -111,12 +111,16 @@ public class AccountRegisterActivity extends AppCompatActivity {
         calendar = Calendar.getInstance();
         calendar.add(Calendar.YEAR,-18);
         final EditText data = (EditText) findViewById(R.id.age2_r);
-        data.setOnClickListener(new View.OnClickListener() {
+
+        nascita = new BirthdayPicker(contesto, data, calendar);
+
+        //EditTextDatePicker departure = new EditTextDatePicker(getContext(), departure_date, calendar);
+        /*data.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 nascita = new BirthdayPicker(contesto, data, calendar);
             }
-        });
+        });*/
 
         //foto
         profile = (CircleImageView) findViewById(R.id.profile_r);
@@ -144,13 +148,13 @@ public class AccountRegisterActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //sendRegistration();
-                PreparationAccount(mail, pass);
+                PreparationAccount();
             }
         });
     }
 
-    private void PreparationAccount(String email, String password) {
-        mAuth.createUserWithEmailAndPassword( email, password)
+    private void PreparationAccount() {
+        mAuth.createUserWithEmailAndPassword(mail, pass)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -241,28 +245,17 @@ public class AccountRegisterActivity extends AppCompatActivity {
         return Result.substring(0, Result.length() - 1);
     }
 
-    private static boolean checkAge(int month, int day, int year) {
-        calendar=Calendar.getInstance();
-        int today_day = calendar.get(Calendar.DAY_OF_MONTH);
-        int today_month = calendar.get(Calendar.MONTH);
-        int today_year = calendar.get(Calendar.YEAR);
-        return (today_year-year)>18 || (today_year-year==18 && (today_month-month>0 || (today_month-month==0 && today_day-day>=0))) ;
-    }
-
-
     private void sendRegistration() {
         name = String.valueOf(namet.getText());
         surname = String.valueOf(surnamet.getText());
         bio = String.valueOf(biot.getText());
-        age = nascita.getSetMonth() + "/" + nascita.getSetDay() + "/" + nascita.getSetYear();
+        birthday = nascita.getSetMonth() + "/" + nascita.getSetDay() + "/" + nascita.getSetYear();
         if (name.isEmpty()) {
             msgErrore("nome");
         } else if (surname.isEmpty()) {
             msgErrore("cognome");
         } else if (bio.isEmpty()) {
             msgErrore("una breve biografia");
-        } else if (!checkAge(nascita.getSetMonth(),nascita.getSetDay(),nascita.getSetYear())) {
-            Toast.makeText(contesto, "Devi essere maggiorenne", Toast.LENGTH_SHORT).show();
         } else if (sex.isEmpty()) {
             msgErrore("il sesso");
         } else if (relationship.isEmpty()) {
@@ -275,7 +268,7 @@ public class AccountRegisterActivity extends AppCompatActivity {
                 utente.put("name", processingUpperLowerString(name));
                 utente.put("surname", processingUpperLowerString(surname));
                 utente.put("description", bio.substring(0, 1).toUpperCase() + bio.substring(1).toLowerCase());
-                utente.put("birthday", "01/01/1970");
+                utente.put("birthday", birthday);
                 utente.put("gender", sex);
                 if (!relationship.equals("Single")) {
                     if (sex.equals("Uomo"))
@@ -301,14 +294,15 @@ public class AccountRegisterActivity extends AppCompatActivity {
                     if(getStatus().equals("OK")){
                         updateUserForChat();
                         sendEmail();
-                        new AlertDialog.Builder(contesto    )
+                        openLogin();
+                        /*new AlertDialog.Builder(contesto    )
                                 .setTitle("Registrazione completata")
                                 .setMessage("Ti è stata mandata una mail per attivare il tuo account")
                                 .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
 
                                     public void onClick(DialogInterface dialog, int whichButton) {
-                                        openHome();
-                                    }}).show();
+                                        openLogin();
+                                    }}).show();*/
                     }
                 }
             });
@@ -420,7 +414,7 @@ public class AccountRegisterActivity extends AppCompatActivity {
         }
     }
 
-    public void openHome(){
+    public void openLogin(){
         Intent intent=new Intent(this,LoginActivity.class);
         startActivity(intent);
         finish();
