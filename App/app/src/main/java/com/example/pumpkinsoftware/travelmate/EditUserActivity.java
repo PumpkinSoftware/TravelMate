@@ -9,6 +9,7 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -51,7 +52,7 @@ public class EditUserActivity extends AppCompatActivity {
     private FirebaseStorage storage;
     private StorageReference storageReference;
 
-    private static String status="";
+    private static String status = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,8 +101,8 @@ public class EditUserActivity extends AppCompatActivity {
         radioButton.setEnabled(false);
 
         gender = user.getGender();
-        if(gender.equals("Uomo"))   radioButtonMan.setChecked(true);
-        else                        radioButton.setChecked(true);
+        if (gender.equals("Uomo")) radioButtonMan.setChecked(true);
+        else radioButton.setChecked(true);
 
         // Values editables
         biot = (EditText) findViewById(R.id.bio_r);
@@ -111,8 +112,8 @@ public class EditUserActivity extends AppCompatActivity {
         mailview.setText(mail);
 
         String rel = user.getRelationship();
-        if(rel.equals("Single"))  radioButton = findViewById(R.id.single);
-        else                      radioButton = findViewById(R.id.fidanzato);
+        if (rel.equals("Single")) radioButton = findViewById(R.id.single);
+        else radioButton = findViewById(R.id.fidanzato);
         radioButton.setChecked(true);
         relationship = user.getRelationship();
 
@@ -120,7 +121,7 @@ public class EditUserActivity extends AppCompatActivity {
         profile = (CircleImageView) findViewById(R.id.profile_r);
         String img = user.getPhotoProfile();
 
-        if(!img.isEmpty())
+        if (!img.isEmpty())
             GlideApp.with(context)
                     .load(img)
                     .into(profile);
@@ -137,7 +138,7 @@ public class EditUserActivity extends AppCompatActivity {
         cover = (ImageView) findViewById(R.id.header_cover_image_r);
         img = user.getCover();
 
-        if(!img.isEmpty())
+        if (!img.isEmpty())
             GlideApp.with(context)
                     .load(img)
                     .into(cover);
@@ -160,9 +161,9 @@ public class EditUserActivity extends AppCompatActivity {
 
     }
 
-    private String inverseDate(String s){
-        String data[]=s.split("-");
-        return  data[2].substring(0,2)+"/"+data[1]+"/"+data[0];
+    private String inverseDate(String s) {
+        String data[] = s.split("-");
+        return data[2].substring(0, 2) + "/" + data[1] + "/" + data[0];
     }
 
     private void chooseImage() {
@@ -228,8 +229,8 @@ public class EditUserActivity extends AppCompatActivity {
             utente.put("description", bio);
 
             if (!relationship.equals("Single")) {
-                if (gender.equals("Uomo"))  relationship = "Fidanzato";
-                else                        relationship = "Fidanzata";
+                if (gender.equals("Uomo")) relationship = "Fidanzato";
+                else relationship = "Fidanzata";
             }
             utente.put("relationship", relationship);
             //utente.put("email", mail);
@@ -242,7 +243,7 @@ public class EditUserActivity extends AppCompatActivity {
         new PostUser(context).jsonParse(utente, PostUser.flag.UPDATE, new ServerCallback() {
             @Override
             public void onSuccess(JSONObject response) {
-                if(getStatus().equals("ERROR"))  deleteImages();
+                if (getStatus().equals("ERROR")) deleteImages();
                 else {
                     Intent intent = new Intent();
                     user.setDescr(bio);
@@ -258,9 +259,9 @@ public class EditUserActivity extends AppCompatActivity {
     }
 
     private void uploadImage(final JSONObject utente) {
-
+        Log.i("file",filePath1.toString());
         if (filePath1 != null) {
-            final StorageReference ref = storageReference.child("userImage/" + mail +"/avatar");
+            final StorageReference ref = storageReference.child("userImage/" + mail + "/avatar");
             ref.putFile(filePath1)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
@@ -270,6 +271,7 @@ public class EditUserActivity extends AppCompatActivity {
                                 public void onSuccess(Uri uri) {
                                     try {
                                         //Log.i("Dato",uri.toString());
+                                        Log.i("file",uri.toString());
                                         utente.put("avatar", (uri.toString()));
                                     } catch (JSONException e) {
                                         e.printStackTrace();
@@ -296,7 +298,7 @@ public class EditUserActivity extends AppCompatActivity {
         }
 
         if (filePath2 != null) {
-            final StorageReference ref = storageReference.child("userImage/" + mail +"/cover");
+            final StorageReference ref = storageReference.child("userImage/" + mail + "/cover");
             ref.putFile(filePath1)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
@@ -329,12 +331,18 @@ public class EditUserActivity extends AppCompatActivity {
                             // progressDialog.setMessage("Uploaded "+(int)progress+"%");
                         }
                     });
+            //if (!profile.toString().equals(filePath1.toString()) && !profile.toString().isEmpty()) {
+                //deleteImage(storage.getReferenceFromUrl(Uri.parse(profile.toString())));
+           // }
+          //  if (!cover.toString().equals(filePath2.toString()) && !cover.toString().isEmpty()) {
+               // deleteImage(storage.getReferenceFromUrl(cover.toString()));
+          //  }
 
         }
     }
 
-    public void deleteImages(){
-        if(filePath1 != null) {
+    public void deleteImages() {
+        /*if(filePath1 != null) {
             StorageReference storageRef = storageReference.child("tripUser/" + mail+"/avatar");
             storageRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
@@ -365,15 +373,39 @@ public class EditUserActivity extends AppCompatActivity {
                     // Log.d(TAG, "onFailure: did not delete file");
                 }
             });
+        }*/
+        if (filePath1 != null) {
+            deleteImage(storageReference.child("tripUser/" + mail + "/avatar"));
+        }
+        if (filePath2 != null) {
+            deleteImage(storageReference.child("tripUser/" + mail + "/cover"));
         }
         Toast.makeText(context, "Modifica del profilo fallita, riprovare", Toast.LENGTH_SHORT).show();
         finish();
     }
 
+    private void deleteImage(StorageReference storageRef) {
+        storageRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                // File deleted successfully
+                // Log.d(TAG, "onSuccess: deleted file");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Uh-oh, an error occurred!
+                // Log.d(TAG, "onFailure: did not delete file");
+            }
+        });
+    }
+
+
     public String getStatus() {
         return status;
     }
-    public static void setStatus(String s){
-        status=s;
+
+    public static void setStatus(String s) {
+        status = s;
     }
 }

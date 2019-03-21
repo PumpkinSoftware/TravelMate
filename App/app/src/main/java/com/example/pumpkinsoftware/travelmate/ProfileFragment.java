@@ -94,9 +94,9 @@ public class ProfileFragment extends Fragment {
                         }
             });
         }
-
+/*
         else {
-            /*Loading images with glide */
+            //Loading images with glide
             ImageView img = (ImageView) view.findViewById(R.id.profile);
 
             GlideApp.with(context)
@@ -108,7 +108,7 @@ public class ProfileFragment extends Fragment {
             Glide.with(context)
                     .load(R.drawable.blank_cover)
                     .into(img2);
-        }
+        }*/
 
         return view;
     }
@@ -128,16 +128,15 @@ public class ProfileFragment extends Fragment {
 
         ImageView img = (ImageView) view.findViewById(R.id.profile);
         GlideApp.with(context)
-                .load(mUser.getPhotoProfile())
+                .load((mUser.getPhotoProfile().isEmpty())?R.drawable.blank_avatar:mUser.getPhotoProfile())
                 .into(img);
 
         img = view.findViewById(R.id.header_cover_image);
-        String cover = mUser.getCover();
         GlideApp.with(context)
-                .load(cover)
+                .load(mUser.getCover().isEmpty()?R.drawable.blank_cover:mUser.getCover())
                 .into(img);
 
-        calculateColor(cover);
+        calculateColor(mUser.getCover());
 
         TextView txt = view.findViewById(R.id.name);
         String ns = mUser.getName()+ " "+ mUser.getSurname();

@@ -9,6 +9,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.pumpkinsoftware.travelmate.handle_error.ErrorServer;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -39,7 +40,7 @@ public class PostJoin {
                 try {
                     String status = response.getString("status");
 
-                    if(status.equals("ok")) {
+                    if(status.equals("success")) {
                         if(request.equals(PostJoin.request.JOIN))
                             Toast.makeText(context, "Aggiunto al viaggio con successo", Toast.LENGTH_SHORT).show();
                         else
@@ -48,7 +49,7 @@ public class PostJoin {
 
                     else {
                         String err = response.getString("type");
-                        handleError(err, request);
+                        new ErrorServer(context).handleError(err);
                     }
 
                 } catch (JSONException e) {
@@ -65,26 +66,31 @@ public class PostJoin {
         });
         mQueue.add(JORequest);
         mQueue.start();
+
     }
 
-    private void handleError(String err, request request) {
-        if(err.equals("-1"))
-            Toast.makeText(context, "Errore: riprovare", Toast.LENGTH_SHORT).show();
 
-        if(request.equals(PostJoin.request.JOIN)) {
-            if(err.equals("-7"))
-                Toast.makeText(context, "Errore: nessun posto a disposizione", Toast.LENGTH_SHORT).show();
-            else
-                Toast.makeText(context, "Errore: utente già aggiunto al viaggio", Toast.LENGTH_SHORT).show();
-        }
 
-        else {
-            if(err.equals("-2"))
-                Toast.makeText(context, "Errore: utente non trovato", Toast.LENGTH_SHORT).show();
-            else
-                Toast.makeText(context, "Errore: viaggio non trovato", Toast.LENGTH_SHORT).show();
-        }
-    }
+
+
+    /* private void handleError(String err, request request) {
+         if(err.equals("-1"))
+             Toast.makeText(context, "Errore: riprovare", Toast.LENGTH_SHORT).show();
+
+         if(request.equals(PostJoin.request.JOIN)) {
+             if(err.equals("-7"))
+                 Toast.makeText(context, "Errore: nessun posto a disposizione", Toast.LENGTH_SHORT).show();
+             else
+                 Toast.makeText(context, "Errore: utente già aggiunto al viaggio", Toast.LENGTH_SHORT).show();
+         }
+
+         else {
+             if(err.equals("-2"))
+                 Toast.makeText(context, "Errore: utente non trovato", Toast.LENGTH_SHORT).show();
+             else
+                 Toast.makeText(context, "Errore: viaggio non trovato", Toast.LENGTH_SHORT).show();
+         }
+     }*/
     private boolean isDeleted;
 
     public void delete(String query, final ServerCallback callback) {
@@ -95,7 +101,7 @@ public class PostJoin {
                 try {
                     String status = response.getString("status");
 
-                    if(status.equals("ok")) {
+                    if(status.equals("success")) {
                         Toast.makeText(context, "Viaggio eliminato con successo", Toast.LENGTH_SHORT).show();
                         isDeleted = true;
                     }

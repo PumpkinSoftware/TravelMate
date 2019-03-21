@@ -216,7 +216,7 @@ public class EditTravelActivity extends AppCompatActivity {
 
     private void uploadImage(final JSONObject viaggio) {
 
-        if (filePath != null) {
+        if (filePath != null ) {
             //final ProgressDialog progressDialog = new ProgressDialog(this.contesto);
             // progressDialog.setTitle("Creazione viaggio in corso...");
             // progressDialog.show();
@@ -278,7 +278,7 @@ public class EditTravelActivity extends AppCompatActivity {
                 try {
                     //da controllare l'update
                     String status = response.getString("status");
-                    if (status.equals("ok")) {
+                    if (status.equals("success")) {
                         Toast.makeText(context, "Evento modificato correttamente", Toast.LENGTH_SHORT).show();
                     } else {
                         String err = response.getString("type");

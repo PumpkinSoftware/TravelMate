@@ -27,6 +27,7 @@
         android:id="@+id/messageRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginStart="10dp"
         android:layout_above="@+id/linearLayout"
         android:layout_below="@+id/toolbar"/>
 
@@ -43,6 +44,7 @@
             android:id="@+id/addMessageImageView"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_marginStart="10dp"
             android:tint="@android:color/black"
             android:src="@drawable/ic_add_black_24dp"/>
 
