@@ -214,6 +214,7 @@ public class EditTravelActivity extends AppCompatActivity {
         });
     }
 
+
     private void uploadImage(final JSONObject viaggio) {
 
         if (filePath != null ) {
@@ -264,11 +265,13 @@ public class EditTravelActivity extends AppCompatActivity {
                             // progressDialog.setMessage("Uploaded "+(int)progress+"%");
                         }
                     });
+
         }
 
         else
             jsonParse(viaggio);
     }
+
 
     private void jsonParse(JSONObject viaggio) {
         RequestQueue mQueue = Volley.newRequestQueue(this);
@@ -280,6 +283,9 @@ public class EditTravelActivity extends AppCompatActivity {
                     String status = response.getString("status");
                     if (status.equals("success")) {
                         Toast.makeText(context, "Evento modificato correttamente", Toast.LENGTH_SHORT).show();
+                        if(!trip.getImage().equals("")){
+                            deleteMyImg(trip.getImage());
+                        }
                     } else {
                         String err = response.getString("type");
                         new ErrorServer(context).handleError(err);
@@ -377,6 +383,23 @@ public class EditTravelActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void deleteMyImg(String image) {
+        StorageReference my_image = storage.getReferenceFromUrl(image);
+        my_image.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                // File deleted successfully
+                // Log.d(TAG, "onSuccess: deleted file");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Uh-oh, an error occurred!
+                // Log.d(TAG, "onFailure: did not delete file");
+            }
+        });
     }
 
     private String inverseDate(String s){

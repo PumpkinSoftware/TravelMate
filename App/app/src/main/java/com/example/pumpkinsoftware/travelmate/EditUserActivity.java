@@ -225,7 +225,7 @@ public class EditUserActivity extends AppCompatActivity {
         bio = bio.substring(0, 1).toUpperCase() + bio.substring(1).toLowerCase();
         JSONObject utente = new JSONObject();
         try {
-            utente.put("uid", user.getUid());
+            utente.put("uid", "");
             utente.put("description", bio);
 
             if (!relationship.equals("Single")) {
@@ -374,17 +374,20 @@ public class EditUserActivity extends AppCompatActivity {
                 }
             });
         }*/
+        Log.i("filepath1",filePath1.toString());
         if (filePath1 != null) {
-            deleteImage(storageReference.child("tripUser/" + mail + "/avatar"));
+            Log.i("storage","userImage/" + mail + "/avatar");
+            deleteImage();
         }
         if (filePath2 != null) {
-            deleteImage(storageReference.child("tripUser/" + mail + "/cover"));
+            //deleteImage(storageReference.child("userImage/" + mail + "/cover"));
         }
         Toast.makeText(context, "Modifica del profilo fallita, riprovare", Toast.LENGTH_SHORT).show();
         finish();
     }
 
-    private void deleteImage(StorageReference storageRef) {
+    private void deleteImage() {
+        StorageReference storageRef =storageReference.child("userImage/" + mail + "/avatar");
         storageRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
