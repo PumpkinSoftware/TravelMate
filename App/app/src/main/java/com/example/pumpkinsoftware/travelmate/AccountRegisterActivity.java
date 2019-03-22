@@ -16,11 +16,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,6 +37,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.storage.FirebaseStorage;
@@ -100,9 +104,8 @@ public class AccountRegisterActivity extends AppCompatActivity {
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
 
-
-        final TextView mailview = (TextView) findViewById(R.id.email2_r);
-        mailview.setText(mail);
+        final EditText mailView = findViewById(R.id.email2_r);
+        mailView.setText(mail);
 
         namet = (EditText) findViewById(R.id.name_r);
         surnamet = (EditText) findViewById(R.id.surname_r);
@@ -113,14 +116,6 @@ public class AccountRegisterActivity extends AppCompatActivity {
         final EditText data = (EditText) findViewById(R.id.age2_r);
 
         nascita = new BirthdayPicker(contesto, data, calendar);
-
-        //EditTextDatePicker departure = new EditTextDatePicker(getContext(), departure_date, calendar);
-        /*data.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                nascita = new BirthdayPicker(contesto, data, calendar);
-            }
-        });*/
 
         //foto
         profile = (CircleImageView) findViewById(R.id.profile_r);
@@ -147,7 +142,7 @@ public class AccountRegisterActivity extends AppCompatActivity {
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //sendRegistration();
+                mail = mailView.getText().toString();
                 PreparationAccount();
             }
         });
@@ -163,7 +158,26 @@ public class AccountRegisterActivity extends AppCompatActivity {
                             userUid = user.getUid();
                             sendRegistration();
                         } else {
-                            Toast.makeText(contesto, "C'è un problema, riprova", Toast.LENGTH_SHORT).show();
+                            try
+                            {
+                                throw task.getException();
+                            }
+                            // if user enters wrong password.
+                            /*catch (FirebaseAuthWeakPasswordException weakPassword)
+                            {
+                                Log.d(TAG, "onComplete: weak_password");
+                            }
+                            // if user enters wrong email.
+                            catch (FirebaseAuthInvalidCredentialsException malformedEmail)
+                            {
+                                Log.d(TAG, "onComplete: malformed_email");
+                            }*/
+                            catch (FirebaseAuthUserCollisionException existEmail) {
+                                Toast.makeText(contesto, "Email già in uso", Toast.LENGTH_SHORT).show();
+                            }
+                            catch (Exception e) {
+                                Toast.makeText(contesto, "Si è verificato un problema, riprovare", Toast.LENGTH_SHORT).show();
+                            }
                         }
                     }
                 });

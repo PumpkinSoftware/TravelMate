@@ -168,7 +168,7 @@ public class LoginActivity extends AppCompatActivity {
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if(currentUser != null) {
-            if(currentUser.isEmailVerified())
+            //if(currentUser.isEmailVerified()) MODIFICATO PER TEST CON VECCHI ACCOUNT
                 openMain();
         }
     }
@@ -194,7 +194,6 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 });
     }*/
-
 
     public void openMain(){
         Intent intent=new Intent(this,MainActivity.class);

@@ -117,7 +117,8 @@ public class RegistrationActivity extends AppCompatActivity {
             Toast.makeText(context, "Inserire tutti i campi", Toast.LENGTH_SHORT).show();
         }else if(!validate(email)){
             Toast.makeText(context, "Email non valida", Toast.LENGTH_SHORT).show();
-        }else if(password.length()<8) {
+        }
+        else if(password.length()<8) {
             Toast.makeText(context, "Password troppo breve", Toast.LENGTH_SHORT).show();
         }else{
             Intent intent = new Intent(context,AccountRegisterActivity.class);
@@ -164,12 +165,6 @@ public class RegistrationActivity extends AppCompatActivity {
                     });*/
     }
 
-
-    public void openMain(){
-        Intent intent = new Intent(context,MainActivity.class);
-        startActivity(intent);
-    }
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -192,9 +187,11 @@ public class RegistrationActivity extends AppCompatActivity {
         View view = this.getCurrentFocus();
         if (view != null) view.clearFocus();
     }
+
     public static boolean validate(String emailStr) {
-        Matcher matcher = VALID_EMAIL_ADDRESS_REGEX .matcher(emailStr);
+        Matcher matcher = VALID_EMAIL_ADDRESS_REGEX.matcher(emailStr);
         return matcher.find();
     }
+
 }
 

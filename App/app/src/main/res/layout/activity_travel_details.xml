@@ -7,8 +7,8 @@
     android:layout_height="match_parent">
 
     <android.support.v4.widget.NestedScrollView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <RelativeLayout
             android:id="@+id/layout"
@@ -22,7 +22,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
-                android:indeterminateTint="@color/colorPrimary"/>
+                android:indeterminateTint="@color/colorPrimary" />
 
             <!-- Header -->
             <ImageView
@@ -30,8 +30,8 @@
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:layout_marginStart="10dp"
-                android:layout_marginEnd="13dp"
                 android:layout_marginTop="10dp"
+                android:layout_marginEnd="13dp"
                 android:elevation="10dp"
                 app:srcCompat="@drawable/baseline_arrow_back_black_24dp" />
 
@@ -40,18 +40,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:layout_marginEnd="13dp"
                 android:layout_marginTop="10dp"
-                app:cardElevation="10dp"
+                android:layout_marginEnd="13dp"
+                app:cardBackgroundColor="@color/transparent"
                 app:cardCornerRadius="0dp"
-                app:cardBackgroundColor="@color/transparent">
+                app:cardElevation="10dp">
 
                 <ImageView
                     android:id="@+id/back_image_for_old_sdk"
                     android:layout_width="32dp"
                     android:layout_height="32dp"
                     android:src="@drawable/baseline_arrow_back_black_24dp"
-                    android:visibility="gone"/>
+                    android:visibility="gone" />
 
             </android.support.v7.widget.CardView>
 
@@ -80,7 +80,7 @@
                 android:layout_toStartOf="@+id/sharing_image"
                 android:elevation="10dp"
                 android:src="@drawable/ic_baseline_create_24px"
-                android:visibility="gone"/>
+                android:visibility="gone" />
 
             <!-- edit img for old sdk -->
             <android.support.v7.widget.CardView
@@ -90,16 +90,16 @@
                 android:layout_alignBottom="@+id/sharing_image_card"
                 android:layout_marginEnd="10dp"
                 android:layout_toStartOf="@+id/sharing_image_card"
-                app:cardElevation="10dp"
+                app:cardBackgroundColor="@color/transparent"
                 app:cardCornerRadius="0dp"
-                app:cardBackgroundColor="@color/transparent">
+                app:cardElevation="10dp">
 
                 <ImageView
                     android:id="@+id/edit_image_for_old_sdk"
                     android:layout_width="32dp"
                     android:layout_height="32dp"
                     android:src="@drawable/ic_baseline_create_24px"
-                    android:visibility="gone"/>
+                    android:visibility="gone" />
 
             </android.support.v7.widget.CardView>
 
@@ -108,8 +108,8 @@
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:layout_alignParentEnd="true"
-                android:layout_marginEnd="13dp"
                 android:layout_marginTop="10dp"
+                android:layout_marginEnd="13dp"
                 android:elevation="10dp"
                 app:srcCompat="@drawable/outline_share_black_24dp" />
 
@@ -120,18 +120,18 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true"
-                android:layout_marginEnd="13dp"
                 android:layout_marginTop="10dp"
-                app:cardElevation="10dp"
+                android:layout_marginEnd="13dp"
+                app:cardBackgroundColor="@color/transparent"
                 app:cardCornerRadius="0dp"
-                app:cardBackgroundColor="@color/transparent">
+                app:cardElevation="10dp">
 
                 <ImageView
                     android:id="@+id/sharing_image_for_old_sdk"
                     android:layout_width="32dp"
                     android:layout_height="32dp"
                     android:src="@drawable/outline_share_black_24dp"
-                    android:visibility="gone"/>
+                    android:visibility="gone" />
 
             </android.support.v7.widget.CardView>
 
@@ -140,7 +140,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="210dp"
                 android:scaleType="centerCrop"
-                android:transitionName="travel_image"/>
+                android:transitionName="travel_image" />
 
             <View
                 android:layout_width="match_parent"
@@ -155,8 +155,8 @@
                 android:layout_below="@+id/header_cover_image"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="5dp"
-                android:transitionName="travel_name"
-                android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+                android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                android:transitionName="travel_name" />
 
             <TextView
                 android:id="@+id/descr"
@@ -164,11 +164,11 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/name"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="10dp"
                 android:layout_marginStart="12dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginEnd="12dp"
                 android:text="Description"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
             <!-- Descr alignment for sdk<26 -->
             <WebView
@@ -177,10 +177,10 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/name"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="10dp"
                 android:layout_marginStart="7dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginEnd="7dp"
-                android:visibility="gone"/>
+                android:visibility="gone" />
             <!--</RelativeLayout>-->
 
             <RelativeLayout
@@ -206,37 +206,36 @@
                     android:layout_marginStart="25dp"
                     android:layout_marginTop="8dp"
                     android:textColor="@color/white"
-                    android:textStyle="bold"
                     android:textSize="20dp"
-                    />
+                    android:textStyle="bold" />
 
                 <!-- Places section -->
                 <ImageView
                     android:id="@+id/from_icon"
                     android:layout_width="32dp"
                     android:layout_height="32dp"
-                    android:src="@drawable/ic_location_on_black_12dp"
+                    android:layout_below="@+id/tag"
                     android:layout_marginStart="12dp"
-                    android:layout_below="@+id/tag" />
+                    android:src="@drawable/ic_location_on_black_12dp" />
 
                 <TextView
                     android:id="@+id/from"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Roma"
+                    android:layout_alignBottom="@id/from_icon"
                     android:layout_marginStart="12dp"
                     android:layout_toEndOf="@id/from_icon"
-                    android:layout_alignBottom="@id/from_icon"
-                    android:textStyle="bold"
-                    android:textSize="20dp"/>
+                    android:text="Roma"
+                    android:textSize="20dp"
+                    android:textStyle="bold" />
 
                 <ImageView
                     android:id="@+id/swap"
                     android:layout_width="wrap_content"
                     android:layout_height="29dp"
                     android:layout_alignBottom="@id/from"
-                    android:layout_toEndOf="@id/from"
                     android:layout_marginStart="12dp"
+                    android:layout_toEndOf="@id/from"
                     app:srcCompat="@drawable/baseline_swap_horiz_black_24dp" />
 
                 <TextView
@@ -255,112 +254,112 @@
                     android:id="@+id/date1_image"
                     android:layout_width="32dp"
                     android:layout_height="32dp"
-                    android:layout_marginTop="12dp"
-                    android:src="@drawable/ic_date_range_black_12dp"
                     android:layout_below="@+id/from_icon"
-                    android:layout_marginStart="12dp"/>
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="12dp"
+                    android:src="@drawable/ic_date_range_black_12dp" />
 
                 <TextView
                     android:id="@+id/date1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
-                    android:text="20 Aprile 2018"
-                    android:textStyle="bold"
-                    android:layout_toEndOf="@id/date1_image"
                     android:layout_alignBottom="@id/date1_image"
-                    android:textSize="20dp"/>
+                    android:layout_marginStart="12dp"
+                    android:layout_toEndOf="@id/date1_image"
+                    android:text="20 Aprile 2018"
+                    android:textSize="20dp"
+                    android:textStyle="bold" />
 
                 <ImageView
                     android:id="@+id/date2_image"
                     android:layout_width="32dp"
                     android:layout_height="32dp"
-                    android:layout_marginTop="12dp"
-                    android:src="@drawable/ic_date_range_black_12dp"
                     android:layout_below="@id/date1_image"
                     android:layout_marginStart="12dp"
-                    android:textSize="20dp"/>
+                    android:layout_marginTop="12dp"
+                    android:src="@drawable/ic_date_range_black_12dp"
+                    android:textSize="20dp" />
 
                 <TextView
                     android:id="@+id/date2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
-                    android:text="23 Aprile 2018"
-                    android:textStyle="bold"
-                    android:layout_toEndOf="@id/date2_image"
                     android:layout_alignBottom="@id/date2_image"
-                    android:textSize="20dp" />
+                    android:layout_marginStart="12dp"
+                    android:layout_toEndOf="@id/date2_image"
+                    android:text="23 Aprile 2018"
+                    android:textSize="20dp"
+                    android:textStyle="bold" />
 
                 <!-- vehicle -->
                 <ImageView
                     android:id="@+id/vehicle_image"
                     android:layout_width="32dp"
                     android:layout_height="32dp"
-                    android:layout_marginTop="12dp"
-                    android:src="@drawable/ic_directions_car_black_12dp"
                     android:layout_below="@id/date2_image"
-                    android:layout_marginStart="12dp" />
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="12dp"
+                    android:src="@drawable/ic_directions_car_black_12dp" />
 
                 <TextView
                     android:id="@+id/vehicle_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
-                    android:text="Auto"
-                    android:textStyle="bold"
-                    android:layout_toEndOf="@id/vehicle_image"
                     android:layout_alignBottom="@id/vehicle_image"
-                    android:textSize="20dp" />
+                    android:layout_marginStart="12dp"
+                    android:layout_toEndOf="@id/vehicle_image"
+                    android:text="Auto"
+                    android:textSize="20dp"
+                    android:textStyle="bold" />
 
                 <!-- Budget section -->
                 <ImageView
                     android:id="@+id/budget_image"
                     android:layout_width="32dp"
                     android:layout_height="32dp"
+                    android:layout_below="@id/vehicle_image"
+                    android:layout_marginStart="12dp"
                     android:layout_marginTop="12dp"
                     android:src="@drawable/ic_euro_symbol_black_12dp"
-                    android:transitionName="budget_image"
-                    android:layout_below="@id/vehicle_image"
-                    android:layout_marginStart="12dp" />
+                    android:transitionName="budget_image" />
 
                 <TextView
                     android:id="@+id/budget"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
-                    android:textStyle="bold"
-                    android:transitionName="budget_number"
-                    android:layout_toEndOf="@id/budget_image"
                     android:layout_alignBottom="@id/budget_image"
-                    android:textSize="20dp"/>
+                    android:layout_marginStart="12dp"
+                    android:layout_toEndOf="@id/budget_image"
+                    android:textSize="20dp"
+                    android:textStyle="bold"
+                    android:transitionName="budget_number" />
 
                 <!-- owner -->
                 <TextView
                     android:id="@+id/owner"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="28dp"
-                    android:text="@string/organizzatore"
-                    android:textStyle="bold"
                     android:layout_below="@id/budget_image"
                     android:layout_marginStart="12dp"
-                    android:textSize="20dp"/>
+                    android:layout_marginTop="28dp"
+                    android:text="@string/organizzatore"
+                    android:textSize="20dp"
+                    android:textStyle="bold" />
 
 
                 <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
                     android:id="@+id/profile1"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
+                    android:layout_below="@+id/owner"
+                    android:layout_marginStart="12dp"
                     android:layout_marginTop="28dp"
                     android:clickable="true"
                     android:elevation="5dp"
                     android:scaleType="centerCrop"
+                    android:transitionName="image"
                     app:civ_border_color="#FF0000"
-                    app:civ_border_width="1dp"
-                    android:layout_below="@+id/owner"
-                    android:layout_marginStart="12dp"
-                    android:transitionName="image"/>
+                    app:civ_border_width="1dp" />
                 <!--
                     android:src="@drawable/girl"-->
 
@@ -368,13 +367,13 @@
                     android:id="@+id/user1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/profile1"
                     android:layout_marginStart="20dp"
+                    android:layout_toEndOf="@+id/profile1"
                     android:clickable="true"
                     android:padding="9dp"
-                    android:textStyle="bold"
-                    android:layout_toEndOf="@+id/profile1"
-                    android:layout_alignBottom="@+id/profile1"
-                    android:textSize="20sp"/>
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
                 <!--
                     android:text="User1"-->
 
@@ -383,23 +382,23 @@
                     android:id="@+id/users"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="28dp"
-                    android:text="@string/partecipanti"
-                    android:textStyle="bold"
                     android:layout_below="@id/profile1"
                     android:layout_marginStart="12dp"
-                    android:textSize="20dp"/>
+                    android:layout_marginTop="28dp"
+                    android:text="@string/partecipanti"
+                    android:textSize="20dp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/n_users"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
-                    android:textStyle="bold"
-                    android:transitionName="group_number"
-                    android:layout_toEndOf="@id/users"
                     android:layout_alignBottom="@id/users"
-                    android:textSize="20dp"/>
+                    android:layout_marginStart="12dp"
+                    android:layout_toEndOf="@id/users"
+                    android:textSize="20dp"
+                    android:textStyle="bold"
+                    android:transitionName="group_number" />
 
 
                 <!-- Users section -->
@@ -432,11 +431,11 @@
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/recyclerview"
-                    android:scrollbars="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_below="@+id/users"
-                    android:layout_marginTop="28dp"/>
+                    android:layout_marginTop="28dp"
+                    android:scrollbars="vertical" />
 
                 <!--
                 <RatingBar
@@ -464,6 +463,7 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="28dp"
                     android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="28dp"
                     app:cardBackgroundColor="@color/colorPrimary"
                     app:cardCornerRadius="25dp"
                     app:cardElevation="10dp"

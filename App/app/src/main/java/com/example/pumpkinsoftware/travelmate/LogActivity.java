@@ -25,6 +25,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.google.firebase.auth.FirebaseUser;
 
 public class LogActivity extends AppCompatActivity {
@@ -169,7 +171,7 @@ public class LogActivity extends AppCompatActivity {
                     .addOnCompleteListener((Activity) context, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) {
+                            if (task.isSuccessful()) { // MODIFICATO PER TEST CON VECCHI ACCOUNT
                                 if(true) {//mAuth.getCurrentUser().isEmailVerified()){
                                     openMain();
                                     finish();
@@ -182,7 +184,21 @@ public class LogActivity extends AppCompatActivity {
 
                             }
                             else {
-                                Toast.makeText(context, "Nome utente o password errati", Toast.LENGTH_SHORT).show();
+                                try
+                                {
+                                    throw task.getException();
+                                }
+                                // if user enters wrong email.
+                                catch (FirebaseAuthInvalidUserException invalidEmail) {
+                                    Toast.makeText(context, "Email errata", Toast.LENGTH_SHORT).show();
+                                }
+                                // if user enters wrong password.
+                                catch (FirebaseAuthInvalidCredentialsException wrongPassword) {
+                                    Toast.makeText(context, "Password errata", Toast.LENGTH_SHORT).show();
+                                }
+                                catch (Exception e) {
+                                    Toast.makeText(context, "Si è verificato un problema, riprovare", Toast.LENGTH_SHORT).show();
+                                }
                             }
                         }
 
