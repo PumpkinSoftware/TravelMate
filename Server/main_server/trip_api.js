@@ -325,8 +325,69 @@ router.post('/updateTrip', function(req, res){
 
 router.get('/deleteTrip', function(req, res){
 
-	var id = req.query.tripId;    
+	TripSchema.findById(req.query.tripId, function(err, resp){
+		
+		if(err){
+			res.send(JSON.stringify({ status: "error", type: "-1" }));
+			console.log(err);
+			console.log(JSON.stringify({ status: "error", type: "-1" }));
+		}
+		else{
+			
+			if(resp == null || resp.partecipants != 1){
+				res.send(JSON.stringify({ status: "error", message: "You can't delete this trip" }));
+				console.log(JSON.stringify({ status: "error", type: "You can't delete this trip" }));
+				return;
+			}
+		
+			var trip = {
+				"tripId": req.query.tripId
+			};
+		
+			var condition = {
+				uid : resp.owner
+			};
+		
+			var update = {
+				$pull: {trips: trip},
+			};
 
+			UserSchema.findOne(condition).exec(function(err, user){
+				if (err){
+					res.send(JSON.stringify({ status: "error", type: "-1" }));
+					console.log(err);
+					console.log(JSON.stringify({ status: "error", type: "-1" }));
+				}
+				else if (user == null){
+					res.send(JSON.stringify({ status: "error", type: "-2" }));
+					console.log(JSON.stringify({ status: "error", type: "-2" }));
+				}
+				else{
+					user.updateOne(update).exec(function(err, update) {
+						if (err){
+							res.send(JSON.stringify({ status: "error", type: "-1" }));
+							console.log(err);
+							console.log(JSON.stringify({ status: "error", type: "-1" }));
+						}
+						else{
+							TripSchema.remove({_id : req.query.tripId}, function(err){
+								if(err){
+									res.send(JSON.stringify({ status: "error", type: "-1" }));
+									console.log(err);
+									console.log(JSON.stringify({ status: "error", type: "-1" }));
+								}
+								else{
+									res.send(JSON.stringify({ status: "success", message: "The removal is a success"}));
+								}
+							});
+						}
+					});
+				}
+			});
+		}
+	
+
+	/*
 	TripSchema.remove({_id : id }, function(err){
 		if(err){
 			res.send(JSON.stringify({ status: "error", type: "-1" }));
@@ -363,6 +424,8 @@ router.get('/deleteTrip', function(req, res){
 				} 
 			});
 		}
+	});
+	*/
 	});
 });
 
