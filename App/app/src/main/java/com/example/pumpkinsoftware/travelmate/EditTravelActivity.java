@@ -408,3 +408,44 @@ public class EditTravelActivity extends AppCompatActivity {
     }
 
 }
+/*
+* from_q = from.getText().toString().toLowerCase();
+                to_q = to.getText().toString().toLowerCase();
+
+                nome_q = nome.getText().toString().toLowerCase();
+                program_q = program.getText().toString().toLowerCase();
+                departure_q = departure.getSetMonth() + "/" + departure.getSetDay() + "/" + departure.getSetYear();
+                return_q = ret.getSetMonth() + "/" + ret.getSetDay() + "/" + ret.getSetYear();
+                group=partecipats.getText();
+
+                if (from_q.isEmpty()) {
+                    msgErrore("la partenza");
+                } else if (to_q.isEmpty()) {
+                    msgErrore("la destinazione");
+                } else if (departure_q.equals("-1/-1/-1")) {
+                    msgErrore("la data di partenza");
+                } else if (return_q.equals("-1/-1/-1")) {
+                    msgErrore("la data di arrivo");
+                } else if (vehicle.isEmpty()) {
+                    msgErrore("il veicolo");
+                } else if (budget.getText().toString().isEmpty()) {
+                    msgErrore("il budget");
+                } else if (Integer.parseInt(budget) < 0 || (Integer.parseInt(budget) > 500)) {
+                    Toast.makeText(contesto, "Valore budget non valido", Toast.LENGTH_SHORT).show();
+                } else if (group.getText().toString().isEmpty()) {
+                    msgErrore("il numero del gruppo");
+                } else if (Integer.parseInt(group.getText().toString()) < 2 || (Integer.parseInt(group.getText().toString()) > 15)) {
+                    Toast.makeText(contesto, "Valore gruppo non valido", Toast.LENGTH_SHORT).show();
+                } else if (program_q.isEmpty()) {
+                    msgErrore("una sintesi del programma");
+                } else if (nome_q.isEmpty()) {
+                    msgErrore("il nome del viaggio");
+                } else if (tag.isEmpty()) {
+                    msgErrore("il tipo di evento");
+                } else {
+*
+* private void msgErrore(String datoMancante) {
+        Toast.makeText(contesto, "Inserisci " + datoMancante, Toast.LENGTH_SHORT).show();
+    }
+*
+* */

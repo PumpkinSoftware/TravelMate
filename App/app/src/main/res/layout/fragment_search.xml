@@ -54,7 +54,7 @@
 
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/from"
-                android:layout_width="120dp"
+                android:layout_width="123dp"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/places"
                 android:layout_alignParentStart="true"
@@ -85,7 +85,7 @@
 
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/to"
-                android:layout_width="141dp"
+                android:layout_width="123dp"
                 android:layout_height="wrap_content"
                 android:layout_alignTop="@+id/from"
                 android:layout_alignEnd="@+id/ret"
@@ -126,7 +126,7 @@
 
             <EditText
                 android:id="@+id/ret"
-                android:layout_width="143dp"
+                android:layout_width="123dp"
                 android:layout_height="wrap_content"
                 android:layout_alignTop="@+id/departure"
                 android:layout_alignEnd="@+id/budget_max_value"
