@@ -56,11 +56,10 @@ public class ProfileFragment extends Fragment {
         edit = view.findViewById(R.id.edit_image);
 
         // Old sdk hasn't elevation attribute
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            edit.setVisibility(View.GONE);
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP)
             edit = view.findViewById(R.id.edit_image_for_old_sdk);
-            edit.setVisibility(View.VISIBLE);
-        }
+
+        edit.setVisibility(View.VISIBLE);
 
         final RelativeLayout layout = view.findViewById(R.id.layout);
         layout.setVisibility(View.INVISIBLE);
