@@ -65,9 +65,11 @@ router.post('/newUser', function(req, res){
                 cover: clientInput.cover,
                 sumReview: 0,
                 numReview: 0,
+                sumReview1: 0,
+                numReview1: 0,
                 trips: [],
                 favouriteTrips: [],
-                comments: []
+                myReview: []
             	});
         	}
         	else{
@@ -84,9 +86,11 @@ router.post('/newUser', function(req, res){
                 cover: clientInput.cover,
                 sumReview: 0,
                 numReview: 0,
+                sumReview1: 0,
+                numReview1: 0,
                 trips: [],
                 favouriteTrips: [],
-                comments: []
+                myReview: []
             	});
         	}
             
@@ -887,6 +891,115 @@ router.get('/deleteAll', function(req, res){
 		}
 
 	});
+});
+
+/****************************************/
+//Api per inserire una recensione
+router.post('/addReview',function(req,res){
+	var input = req.body;
+
+	console.log(input);
+
+	UserSchema.findOne({uid:input.userToReview}).exec(function(err,user){
+		if (err){
+			res.send(JSON.stringify({ status: "error", type: "-1" }));
+			console.log(err);
+			console.log(JSON.stringify({ status: "error", type: "-1" }));
+		}
+		else if (user == null){
+			res.send(JSON.stringify({ status: "error", type: "-2" }));
+			console.log(JSON.stringify({ status: "error", type: "-2" }));
+		}			
+		else{
+
+			var updates = {
+				$inc: {sumReview: input.sumReview, numReview: +1, sumReview1: input.sumReview1, numReview1: +1}
+			};
+
+			user.updateOne(updates).exec(function(err, userupdate){
+				if (err){
+					res.send(JSON.stringify({ status: "error", type: "-1" }));
+					console.log(err);
+					console.log(JSON.stringify({ status: "error", type: "-1" }));
+				}
+				else{
+					var conditions_myReview = {
+						uid:input.userUid
+					};
+
+					UserSchema.findOne(conditions_myReview).exec(function(err,usermy){
+						if (err){
+							res.send(JSON.stringify({ status: "error", type: "-1" }));
+							console.log(err);
+							console.log(JSON.stringify({ status: "error", type: "-1" }));
+						}
+						else if (usermy == null){
+							res.send(JSON.stringify({ status: "error", type: "-11" }));
+							console.log(JSON.stringify({ status: "error", type: "-11" }));
+						}			
+						else{
+							var update_my = {
+								$push: {myReview: {userUid:input.userToReview,tripId:input.tripId,sumReview:input.sumReview,sumReview1:input.sumReview1,addDate:new Date()}}
+							};
+							usermy.updateOne(update_my).exec(function(err, userupdate){
+								if (err){
+									res.send(JSON.stringify({ status: "error", type: "-1" }));
+									console.log(err);
+									console.log(JSON.stringify({ status: "error", type: "-1" }));
+								}
+								else{
+									res.send(JSON.stringify({ status: "success", type: "Add review correctly" }));
+								}
+							});	
+						}
+				    });
+				}
+			});
+		}
+	});
+});
+
+/****************************************/
+//Api per ottenre la lista delle recensioni da fare
+router.get('/leftReviews',function(req,res){
+	var uid = req.query.userUid;
+
+	UserSchema.findOne({uid : uid}).exec( function(err, user){
+        
+        if (err){
+            res.send(JSON.stringify({ status: "error", typw: "-1" }));
+            console.log(err);
+            console.log(JSON.stringify({ status: "error", typw: "-1" }));
+        }
+        else if (user){
+
+        	var list_trips = user.trips.map(function(trip){
+        		return trip.tripId;
+        	});
+
+        	var conditions2 = {
+        		_id: { $in:  list_trips } 
+        	};
+
+			TripSchema.find(conditions2,'_id').where('endDate').lte(new Date()).exec(function(err,passed){
+				if(err){
+					console.log(err);
+					console.log(JSON.stringify({ status: "error", type: "-1" }));
+					res.send(JSON.stringify({ status: "error", type: "-1" }));
+				}
+				else{
+					/*BISOGNA CONTINUARE QUI*/
+					res.send(passed);
+				}
+			});
+
+		}
+		else{
+            res.send(JSON.stringify({ status: "error", type: "-2" }));
+            console.log(JSON.stringify({ status: "error", type: "-2" }));
+        }
+
+    });
 });
 
 

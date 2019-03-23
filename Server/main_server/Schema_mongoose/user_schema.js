@@ -13,9 +13,11 @@ var UserSchema = new mongoose.Schema({
         cover: String,
         sumReview: Number,
         numReview: Number,
+        sumReview1: Number,
+        numReview1: Number,
         trips: [{tripId: String}],
         favouriteTrips: [{tripId: String}],
-        comments: [{userId: String, comment: String, date: Date}]
+        myReview: [{userUid: String,tripId: String,sumReview: Number,sumReview1: Number,addDate:Date}]
 	}
 
 );
