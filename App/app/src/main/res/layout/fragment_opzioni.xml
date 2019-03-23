@@ -24,7 +24,7 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_below="@+id/toolbar" >
 
         <android.support.constraint.ConstraintLayout
@@ -108,8 +108,18 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.518" />-->
 
+            <!--<ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:src="@drawable/ic_baseline_bug_report_24px"
+                app:layout_constraintBottom_toBottomOf="@+id/contacts"
+                app:layout_constraintEnd_toEndOf="@+id/version2"
+                app:layout_constraintStart_toStartOf="@+id/version2"
+                app:layout_constraintTop_toTopOf="@+id/contacts" />-->
+
             <TextView
-                android:id="@+id/contacts"
+                android:id="@+id/bug"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -130,8 +140,8 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textColor="@android:color/black"
                 android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="@+id/contacts"
-                app:layout_constraintTop_toBottomOf="@+id/contacts" />
+                app:layout_constraintStart_toStartOf="@+id/bug"
+                app:layout_constraintTop_toBottomOf="@+id/bug" />
 
             <TextView
                 android:id="@+id/version2"
@@ -148,12 +158,24 @@
                 app:layout_constraintTop_toTopOf="@+id/version"
                 app:layout_constraintVertical_bias="0.0" />
 
+            <!-- Twitter feed -->
+            <WebView
+                android:id="@+id/twitterFeed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="28dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/version" />
+
             <TextView
                 android:id="@+id/dev"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="164dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="8dp"
                 android:text="@string/sofware"
@@ -163,7 +185,50 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/version" />
+                app:layout_constraintTop_toBottomOf="@+id/cardView" />
+
+            <!-- Social section -->
+            <ImageView
+                android:id="@+id/fb"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginTop="20dp"
+                android:src="@drawable/com_facebook_button_icon_blue"
+                app:layout_constraintStart_toStartOf="@+id/dev"
+                app:layout_constraintTop_toBottomOf="@+id/dev" />
+
+            <ImageView
+                android:id="@+id/twitter"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="8dp"
+                android:src="@drawable/tw__composer_logo_blue"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/dev" />
+
+            <ImageView
+                android:id="@+id/instagram"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginTop="20dp"
+                app:layout_constraintEnd_toEndOf="@+id/dev"
+                app:layout_constraintTop_toBottomOf="@+id/dev" />
+
+            <!-- Terms & Conditions -->
+            <TextView
+                android:id="@+id/terms"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="40dp"
+                android:text="@string/terms2"
+                android:textAppearance="@style/TextAppearance.Design.HelperText"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/fb" />
 
             <android.support.constraint.Guideline
                 android:id="@+id/guideline"
@@ -191,7 +256,7 @@
                 app:cardElevation="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/version">
+                app:layout_constraintTop_toBottomOf="@+id/twitterFeed">
 
                 <Button
                     android:id="@+id/button_logout"
@@ -203,7 +268,7 @@
                     android:background="@android:color/transparent"
                     android:text="@string/logout"
                     android:textColor="#fff"
-                    android:textSize="18sp"/>
+                    android:textSize="18sp" />
 
             </android.support.v7.widget.CardView>
 

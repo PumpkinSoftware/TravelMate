@@ -106,13 +106,16 @@
     <string name="logout">Logout</string>
     <string name="sofware">PumpkinSoftware</string>
     <string name="version2">Beta 1.0</string>
-    <string name="version">Versione:</string>
+    <string name="version">Versione</string>
     <string name="language">Lingua</string>
     <string name="sounds">Suoni</string>
     <string name="notifications">Notifiche</string>
     <string name="edit_profile">Modifica il profilo</string>
     <string name="rate">Valuta la nostra app</string>
-    <string name="contacts">Report bug</string>
+    <string name="contacts">Segnala un bug</string>
+    <string name="ourMail">pumpkin.software.italy@gmail.come</string>
+    <string name="terms2"><a href="https://pumpkinsoftware.github.io/terms.html">Termini e Condizioni</a> - <a href="https://pumpkinsoftware.github.io/privacy.html">Privacy</a></string>
+
 
 
     <!-- Travel page -->
@@ -137,10 +140,11 @@
     <string name="single">Single</string>
     <string name="fidanzato">Fidanzato/a</string>
     <string name="group2">Gruppo*</string>
-    <string name="terms">Cliccando su Conferma, accetti le nostre <a href="http://google.com">Condizioni</a> e confermi di aver letto la nostra normativa sulla <a href="http://google.com/">Privacy</a></string>
+    <string name="terms">Cliccando su Conferma, accetti le nostre <a href="https://pumpkinsoftware.github.io/terms.html">Condizioni</a> e confermi di aver letto la nostra normativa sulla <a href="https://pumpkinsoftware.github.io/privacy.html">Privacy</a></string>
 
     <string name="host">pumpkinsoftware.github.io</string>
     <string name="empty">Nessun viaggio da mostare</string>
+
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
