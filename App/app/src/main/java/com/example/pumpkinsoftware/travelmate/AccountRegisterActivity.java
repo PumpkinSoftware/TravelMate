@@ -15,6 +15,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
@@ -136,6 +137,8 @@ public class AccountRegisterActivity extends AppCompatActivity {
             }
         });
 
+        TextView terms = findViewById(R.id.terms);
+        terms.setMovementMethod(LinkMovementMethod.getInstance());
 
         //conferma
         confirm = (Button) findViewById(R.id.buttonRegister);

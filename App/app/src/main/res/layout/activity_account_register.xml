@@ -25,7 +25,10 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/toolbar" >
+        android:layout_below="@+id/toolbar"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="0dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -221,7 +224,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
-                    android:clickable="true"
                     android:text="@string/email"
                     android:textStyle="bold"
                     app:layout_constraintLeft_toLeftOf="parent"
@@ -230,21 +232,32 @@
 
                 <EditText
                     android:id="@+id/email2_r"
-                    android:layout_width="200dp"
+                    android:layout_width="230dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
                     android:layout_marginStart="8dp"
                     android:inputType="textEmailAddress"
                     app:layout_constraintBottom_toBottomOf="@+id/email_r"
                     app:layout_constraintLeft_toRightOf="@+id/email_r"
-                    app:layout_constraintTop_toTopOf="@+id/email_r"/>
+                    app:layout_constraintTop_toTopOf="@+id/email_r" />
+
+                <TextView
+                    android:id="@+id/terms"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="40dp"
+                    android:text="@string/terms"
+                    android:textAppearance="@style/TextAppearance.Design.HelperText"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/email_r"
+                    app:layout_constraintTop_toTopOf="@+id/email_r" />
 
                 <Button
                     android:id="@+id/buttonRegister"
                     style="@style/Widget.AppCompat.Button.Colored"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
+                    android:layout_marginTop="50dp"
                     android:text="@string/confirm"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
