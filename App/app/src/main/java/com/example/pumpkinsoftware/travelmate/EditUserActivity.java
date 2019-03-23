@@ -20,12 +20,23 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.pumpkinsoftware.travelmate.client_server_interaction.PostUser;
 import com.example.pumpkinsoftware.travelmate.client_server_interaction.ServerCallback;
 import com.example.pumpkinsoftware.travelmate.glide.GlideApp;
+import com.example.pumpkinsoftware.travelmate.handle_error.ErrorServer;
 import com.example.pumpkinsoftware.travelmate.user.User;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
@@ -41,6 +52,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class EditUserActivity extends AppCompatActivity {
     public final static String EXTRA_USER = "travelmate_extra_eua_USER";
+    private final static String URL = "https://debugtm.herokuapp.com/user/updateUser";
     private Context context;
     private User user;
     private String mail;
@@ -54,9 +66,10 @@ public class EditUserActivity extends AppCompatActivity {
     private int FOTO = 0;
     private FirebaseStorage storage;
     private StorageReference storageReference;
-
+    private String pathRandom1, pathRandom2;
     private static String status = "";
-
+  //  private int upload = 0;
+    FirebaseAuth mAuth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,6 +78,9 @@ public class EditUserActivity extends AppCompatActivity {
         context = (Context) this;
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
+        mAuth=FirebaseAuth.getInstance();
+        pathRandom1 = UUID.randomUUID().toString();
+        pathRandom2 = UUID.randomUUID().toString();
 
         Bundle b = getIntent().getExtras();
         user = (User) b.getSerializable(EXTRA_USER);
@@ -255,7 +271,7 @@ public class EditUserActivity extends AppCompatActivity {
         }
 
         uploadImage(utente);
-        new PostUser(context).jsonParse(utente, PostUser.flag.UPDATE, new ServerCallback() {
+       /* new PostUser(context).jsonParse(utente, PostUser.flag.UPDATE, new ServerCallback() {
             @Override
             public void onSuccess(JSONObject response) {
                if (getStatus().equals("ERROR")){
@@ -278,14 +294,20 @@ public class EditUserActivity extends AppCompatActivity {
                     finish();
                }
             }
-        });
+        });*/
+        Intent intent = new Intent();
+        user.setDescr(bio);
+        user.setRelationship(relationship);
+        // TODO set all editable values
+        intent.putExtra(ProfileFragment.EXTRA_USER, user);
+        setResult(RESULT_OK, intent);
+        finish();
 
     }
 
     private void uploadImage(final JSONObject utente) {
-        Log.i("file", filePath1.toString());
         if (filePath1 != null) {
-            final StorageReference ref = storageReference.child("userImage/" + mail + "/avatar");
+            final StorageReference ref = storageReference.child("userImage/" + mail + "/" + pathRandom1);
             ref.putFile(filePath1)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
@@ -295,11 +317,12 @@ public class EditUserActivity extends AppCompatActivity {
                                 public void onSuccess(Uri uri) {
                                     try {
                                         //Log.i("Dato",uri.toString());
-                                        Log.i("file in upload", uri.toString());
                                         utente.put("avatar", (uri.toString()));
                                     } catch (JSONException e) {
                                         e.printStackTrace();
                                     }
+                                  //  upload++;
+                                    jsonParse(utente);
                                 }
                             });
                         }
@@ -308,6 +331,11 @@ public class EditUserActivity extends AppCompatActivity {
                         @Override
                         public void onFailure(@NonNull Exception e) {
                             //progressDialog.dismiss();
+                            try {
+                                utente.put("avatar", "");
+                            } catch (JSONException e1) {
+                                e1.printStackTrace();
+                            }
                             Toast.makeText(context, "Failed " + e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     })
@@ -320,14 +348,13 @@ public class EditUserActivity extends AppCompatActivity {
                         }
                     });
         }
-
         if (filePath2 != null) {
-            final StorageReference ref = storageReference.child("userImage/" + mail + "/cover");
-            ref.putFile(filePath1)
+            final StorageReference ref2 = storageReference.child("userImage/" + mail + "/" + pathRandom2);
+            ref2.putFile(filePath2)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            ref2.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                 @Override
                                 public void onSuccess(Uri uri) {
                                     try {
@@ -336,6 +363,8 @@ public class EditUserActivity extends AppCompatActivity {
                                     } catch (JSONException e) {
                                         e.printStackTrace();
                                     }
+                                  //  upload++;
+                                    jsonParse(utente);
                                 }
                             });
                         }
@@ -344,6 +373,11 @@ public class EditUserActivity extends AppCompatActivity {
                         @Override
                         public void onFailure(@NonNull Exception e) {
                             //progressDialog.dismiss();
+                            try {
+                                utente.put("cover", "");
+                            } catch (JSONException e1) {
+                                e1.printStackTrace();
+                            }
                             Toast.makeText(context, "Failed " + e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     })
@@ -355,14 +389,54 @@ public class EditUserActivity extends AppCompatActivity {
                             // progressDialog.setMessage("Uploaded "+(int)progress+"%");
                         }
                     });
-            //if (!profile.toString().equals(filePath1.toString()) && !profile.toString().isEmpty()) {
-            //deleteImage(storage.getReferenceFromUrl(Uri.parse(profile.toString())));
-            // }
-            //  if (!cover.toString().equals(filePath2.toString()) && !cover.toString().isEmpty()) {
-            // deleteImage(storage.getReferenceFromUrl(cover.toString()));
-            //  }
-
         }
+        if (filePath1 == null && filePath2 == null) {
+            jsonParse(utente);
+        }
+
+
+    }
+
+    private void jsonParse(final JSONObject utente) {
+        RequestQueue mQueue = Volley.newRequestQueue(this);
+        final JsonObjectRequest JORequest = new JsonObjectRequest(Request.Method.POST, URL, utente, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    String status = response.getString("status");
+                    if (status.equals("success")) {
+                        Toast.makeText(context, "Modifica completata", Toast.LENGTH_SHORT).show();
+                        //nel caso che venga chiamata due volte non trova le foto da firebase ma l'app funziona lo stesso
+                      //  if (upload < 2) {
+                            if (filePath1 != null && !user.getPhotoProfile().equals("")) {
+                                deleteImg(storage.getReferenceFromUrl(user.getPhotoProfile()));
+                            }
+                            if (filePath2 != null && !user.getCover().equals("")) {
+                                deleteImg(storage.getReferenceFromUrl(user.getCover()));
+                            }
+                            updateUserForChat();
+                   //     }
+
+                    } else {
+                        String err = response.getString("type");
+                        new ErrorServer(context).handleError(err);
+                    }
+
+                } catch (JSONException e) {
+                    Toast.makeText(context, "Errore: riprovare", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                // error
+                Toast.makeText(context, "Errore ", Toast.LENGTH_SHORT).show();
+            }
+        });
+        // Add the request to the RequestQueue.
+        mQueue.add(JORequest);
+        mQueue.start();
+
     }
 
 
@@ -389,5 +463,24 @@ public class EditUserActivity extends AppCompatActivity {
 
     public static void setStatus(String s) {
         status = s;
+    }
+    private void updateUserForChat() {
+        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                .setDisplayName(user.getName()+" "+user.getSurname()) //QUI GLI PASSI IL NOME E COGNOME
+                .setPhotoUri(
+
+                                //"userImage/"+mail+"/"+
+                        filePath1) //QUI IL LINK DELL'AVATAR
+                .build();
+
+        mAuth.getCurrentUser().updateProfile(profileUpdates)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            //Log.d(TAG, "User profile updated.");
+                        }
+                    }
+                });
     }
 }
