@@ -426,13 +426,6 @@ public class TravelDetailsActivity extends AppCompatActivity {
                                         });
 
                             animate(joinBtn);
-
-                            /*new Handler().postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    updateLayout();
-                                }
-                            },200);*/
                         }})
                     .setNegativeButton(android.R.string.no, null).show();
         }
@@ -487,6 +480,7 @@ public class TravelDetailsActivity extends AppCompatActivity {
                         public void onSuccess(JSONObject result) {
                             card.setCardBackgroundColor(colorTo);
                             joinBtn.setText("Abbandona");
+                            updateLayout();
                             // Open chat
                             Intent intent = new Intent(context, ChatActivityInside.class);
                             intent.putExtra(ChatActivityInside.EXTRA_TRIPID, trip.getId());
@@ -496,13 +490,6 @@ public class TravelDetailsActivity extends AppCompatActivity {
                     });
 
             animate(joinBtn);
-
-           /* new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    updateLayout();
-                }
-            },200);*/
         }
     }
 

@@ -93,21 +93,6 @@ public class ProfileFragment extends Fragment {
                         }
             });
         }
-/*
-        else {
-            //Loading images with glide
-            ImageView img = (ImageView) view.findViewById(R.id.profile);
-
-            GlideApp.with(context)
-                    .load(R.drawable.blank_avatar)
-                    .into(img);
-
-            ImageView img2=(ImageView) view.findViewById(R.id.header_cover_image);
-
-            Glide.with(context)
-                    .load(R.drawable.blank_cover)
-                    .into(img2);
-        }*/
 
         return view;
     }
