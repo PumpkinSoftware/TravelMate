@@ -32,11 +32,11 @@ public class PostUser {
     }
 
     public void jsonParse(JSONObject utente, final flag myflag, final ServerCallback callback) {
-       /* try {
-            Log.i("dato",utente.getString("avatar"));
+       try {
+            Log.i("sto per inviare il file",utente.getString("avatar"));
         } catch (JSONException e) {
-            e.printStackTrace();
-        }*/
+           Log.i("non ho inviato il file","errore");
+        }
         mQueue = Volley.newRequestQueue(contesto);
         final JsonObjectRequest JORequest = new JsonObjectRequest(Request.Method.POST, (myflag.equals(flag.NEW) ? URLNEW : URLUPDATE), utente, new Response.Listener<JSONObject>() {
             @Override

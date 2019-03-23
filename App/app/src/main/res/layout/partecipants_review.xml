@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/users"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+        <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/profile"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:clickable="true"
+        android:elevation="5dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="12dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/blank_avatar"
+        android:transitionName="image"
+        app:civ_border_color="#FFFFFFFF"
+        app:civ_border_width="1dp"
+        app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_alignTop="@+id/profile"
+            android:layout_alignBottom="@+id/profile"
+            android:layout_marginStart="90dp"
+            android:layout_marginBottom="20dp"
+            android:clickable="true"
+            android:padding="7dp"
+            android:text="Nome utente"
+            android:textSize="19sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/trip_name"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_below="@+id/user_name"
+            android:layout_alignTop="@+id/profile"
+            android:layout_alignBottom="@+id/profile"
+            android:layout_marginStart="90dp"
+            android:layout_marginTop="35dp"
+            android:clickable="true"
+            android:padding="7dp"
+            android:text="Nome viaggio"
+            android:textSize="15sp" />
+
+</RelativeLayout>

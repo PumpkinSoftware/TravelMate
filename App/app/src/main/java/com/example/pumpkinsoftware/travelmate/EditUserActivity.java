@@ -33,6 +33,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.UUID;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -110,6 +111,7 @@ public class EditUserActivity extends AppCompatActivity {
         final TextView mailview = (TextView) findViewById(R.id.email2_r);
         mail = user.getEmail();
         mailview.setText(mail);
+        mailview.setEnabled(false);
 
         String rel = user.getRelationship();
         if (rel.equals("Single")) radioButton = findViewById(R.id.single);
@@ -225,7 +227,7 @@ public class EditUserActivity extends AppCompatActivity {
         bio = bio.substring(0, 1).toUpperCase() + bio.substring(1).toLowerCase();
         JSONObject utente = new JSONObject();
         try {
-            utente.put("uid", "");
+            utente.put("uid", user.getUid());
             utente.put("description", bio);
 
             if (!relationship.equals("Single")) {
@@ -243,8 +245,17 @@ public class EditUserActivity extends AppCompatActivity {
         new PostUser(context).jsonParse(utente, PostUser.flag.UPDATE, new ServerCallback() {
             @Override
             public void onSuccess(JSONObject response) {
-                if (getStatus().equals("ERROR")) deleteImages();
+               if (getStatus().equals("ERROR")){
+                   deleteImg(storageReference.child("userImage/"+mail+"/avatar"));
+                   deleteImg(storageReference.child("userImage/"+mail+"/cover"));
+               }
                 else {
+                    if(!profile.toString().isEmpty()){
+                        deleteImg(storageReference.child("userImage/"+mail+"/"+profile.toString()));
+                    }
+                    if(!cover.toString().isEmpty()){
+                        deleteImg(storageReference.child("userImage/"+mail+"/"+cover.toString()));
+                    }
                     Intent intent = new Intent();
                     user.setDescr(bio);
                     user.setRelationship(relationship);
@@ -252,14 +263,14 @@ public class EditUserActivity extends AppCompatActivity {
                     intent.putExtra(ProfileFragment.EXTRA_USER, user);
                     setResult(RESULT_OK, intent);
                     finish();
-                }
+               }
             }
         });
 
     }
 
     private void uploadImage(final JSONObject utente) {
-        Log.i("file",filePath1.toString());
+        Log.i("file", filePath1.toString());
         if (filePath1 != null) {
             final StorageReference ref = storageReference.child("userImage/" + mail + "/avatar");
             ref.putFile(filePath1)
@@ -271,7 +282,7 @@ public class EditUserActivity extends AppCompatActivity {
                                 public void onSuccess(Uri uri) {
                                     try {
                                         //Log.i("Dato",uri.toString());
-                                        Log.i("file",uri.toString());
+                                        Log.i("file in upload", uri.toString());
                                         utente.put("avatar", (uri.toString()));
                                     } catch (JSONException e) {
                                         e.printStackTrace();
@@ -332,63 +343,18 @@ public class EditUserActivity extends AppCompatActivity {
                         }
                     });
             //if (!profile.toString().equals(filePath1.toString()) && !profile.toString().isEmpty()) {
-                //deleteImage(storage.getReferenceFromUrl(Uri.parse(profile.toString())));
-           // }
-          //  if (!cover.toString().equals(filePath2.toString()) && !cover.toString().isEmpty()) {
-               // deleteImage(storage.getReferenceFromUrl(cover.toString()));
-          //  }
+            //deleteImage(storage.getReferenceFromUrl(Uri.parse(profile.toString())));
+            // }
+            //  if (!cover.toString().equals(filePath2.toString()) && !cover.toString().isEmpty()) {
+            // deleteImage(storage.getReferenceFromUrl(cover.toString()));
+            //  }
 
         }
     }
 
-    public void deleteImages() {
-        /*if(filePath1 != null) {
-            StorageReference storageRef = storageReference.child("tripUser/" + mail+"/avatar");
-            storageRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
-                @Override
-                public void onSuccess(Void aVoid) {
-                    // File deleted successfully
-                    // Log.d(TAG, "onSuccess: deleted file");
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception exception) {
-                    // Uh-oh, an error occurred!
-                    // Log.d(TAG, "onFailure: did not delete file");
-                }
-            });
-        }
-        if(filePath2!=null) {
-            StorageReference storageRef = storageReference.child("tripUser/" + mail+"/cover");
-            storageRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
-                @Override
-                public void onSuccess(Void aVoid) {
-                    // File deleted successfully
-                    // Log.d(TAG, "onSuccess: deleted file");
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception exception) {
-                    // Uh-oh, an error occurred!
-                    // Log.d(TAG, "onFailure: did not delete file");
-                }
-            });
-        }*/
-        Log.i("filepath1",filePath1.toString());
-        if (filePath1 != null) {
-            Log.i("storage","userImage/" + mail + "/avatar");
-            deleteImage();
-        }
-        if (filePath2 != null) {
-            //deleteImage(storageReference.child("userImage/" + mail + "/cover"));
-        }
-        Toast.makeText(context, "Modifica del profilo fallita, riprovare", Toast.LENGTH_SHORT).show();
-        finish();
-    }
 
-    private void deleteImage() {
-        StorageReference storageRef =storageReference.child("userImage/" + mail + "/avatar");
-        storageRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+    private void deleteImg(StorageReference image) {
+        image.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
                 // File deleted successfully

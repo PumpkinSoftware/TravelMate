@@ -238,7 +238,6 @@ public class EditTravelActivity extends AppCompatActivity {
                                     //Qui richiami mongoDB per creare il trip
                                     jsonParse(viaggio);
                                     //Ricorda di lasciare un commento qui per ricordarci di gestire l'errore lato MongoDB
-
                                     // progressDialog.dismiss();
                                     //Toast.makeText(contesto, "Viaggio creato correttamente.", Toast.LENGTH_SHORT).show();
                                 }
@@ -284,12 +283,12 @@ public class EditTravelActivity extends AppCompatActivity {
                     if (status.equals("success")) {
                         Toast.makeText(context, "Evento modificato correttamente", Toast.LENGTH_SHORT).show();
                         if(!trip.getImage().equals("")){
-                            deleteMyImg(trip.getImage());
+                            deleteImg( storage.getReferenceFromUrl(trip.getImage()));
                         }
                     } else {
                         String err = response.getString("type");
                         new ErrorServer(context).handleError(err);
-                        deleteImg();
+                        deleteImg(storageReference.child("tripImage/"+pathrandom));
                     }
 
                 } catch (JSONException e) {
@@ -367,27 +366,9 @@ public class EditTravelActivity extends AppCompatActivity {
         }
     }
 
-    private void deleteImg() {
-        StorageReference storageRef = storageReference.child("tripImage/"+pathrandom);
-        storageRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                // File deleted successfully
-                // Log.d(TAG, "onSuccess: deleted file");
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-                // Uh-oh, an error occurred!
-                // Log.d(TAG, "onFailure: did not delete file");
-            }
-        });
 
-    }
-
-    private void deleteMyImg(String image) {
-        StorageReference my_image = storage.getReferenceFromUrl(image);
-        my_image.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+    private void deleteImg(StorageReference image) {
+        image.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
                 // File deleted successfully
