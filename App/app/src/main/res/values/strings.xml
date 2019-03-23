@@ -105,13 +105,14 @@
     <!-- Settings -->
     <string name="logout">Logout</string>
     <string name="sofware">PumpkinSoftware</string>
-    <string name="version2">Nightly build 1.0</string>
+    <string name="version2">Beta 1.0</string>
     <string name="version">Versione:</string>
     <string name="language">Lingua</string>
     <string name="sounds">Suoni</string>
     <string name="notifications">Notifiche</string>
     <string name="edit_profile">Modifica il profilo</string>
     <string name="rate">Valuta la nostra app</string>
+    <string name="contacts">Report bug</string>
 
 
     <!-- Travel page -->
@@ -136,9 +137,10 @@
     <string name="single">Single</string>
     <string name="fidanzato">Fidanzato/a</string>
     <string name="group2">Gruppo*</string>
-
+    <string name="terms">Cliccando su Conferma, accetti le nostre <a href="http://google.com">Condizioni</a> e confermi di aver letto la nostra normativa sulla <a href="http://google.com/">Privacy</a></string>
 
     <string name="host">pumpkinsoftware.github.io</string>
+    <string name="empty">Nessun viaggio da mostare</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

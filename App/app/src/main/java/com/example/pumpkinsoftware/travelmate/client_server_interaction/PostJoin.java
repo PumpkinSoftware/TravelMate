@@ -23,7 +23,7 @@ public class PostJoin {
 
     public enum request {JOIN, ABANDON, DELETE, CHANGE};
 
-    public void send(String url, String tripId, String userId, final request request) {
+    public void send(String url, String tripId, String userId, final request request, final ServerCallback callback) {
         final RequestQueue mQueue = Volley.newRequestQueue(context);
         JSONObject jsonBody = new JSONObject();
 
@@ -52,6 +52,8 @@ public class PostJoin {
                         new ErrorServer(context).handleError(err);
                     }
 
+                    callback.onSuccess(response);
+
                 } catch (JSONException e) {
                     Toast.makeText(context, "Errore: riprovare", Toast.LENGTH_SHORT).show();
                 }
@@ -69,28 +71,6 @@ public class PostJoin {
 
     }
 
-
-
-
-
-    /* private void handleError(String err, request request) {
-         if(err.equals("-1"))
-             Toast.makeText(context, "Errore: riprovare", Toast.LENGTH_SHORT).show();
-
-         if(request.equals(PostJoin.request.JOIN)) {
-             if(err.equals("-7"))
-                 Toast.makeText(context, "Errore: nessun posto a disposizione", Toast.LENGTH_SHORT).show();
-             else
-                 Toast.makeText(context, "Errore: utente già aggiunto al viaggio", Toast.LENGTH_SHORT).show();
-         }
-
-         else {
-             if(err.equals("-2"))
-                 Toast.makeText(context, "Errore: utente non trovato", Toast.LENGTH_SHORT).show();
-             else
-                 Toast.makeText(context, "Errore: viaggio non trovato", Toast.LENGTH_SHORT).show();
-         }
-     }*/
     private boolean isDeleted;
 
     public void delete(String query, final ServerCallback callback) {

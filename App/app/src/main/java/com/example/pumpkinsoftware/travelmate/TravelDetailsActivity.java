@@ -418,18 +418,21 @@ public class TravelDetailsActivity extends AppCompatActivity {
                             // Remove user from travel
                             else
                                 new PostJoin(context).send("https://debugtm.herokuapp.com/user/removeTrip/",
-                                        travelId, userUid, PostJoin.request.ABANDON);
+                                        travelId, userUid, PostJoin.request.ABANDON, new ServerCallback() {
+                                            @Override
+                                            public void onSuccess(JSONObject result) {
+                                                removeUserOnSuccess();
+                                            }
+                                        });
 
                             animate(joinBtn);
-                            card.setCardBackgroundColor(getResources().getColor(colorFrom));
-                            joinBtn.setText("Unisciti");
 
-                            new Handler().postDelayed(new Runnable() {
+                            /*new Handler().postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
                                     updateLayout();
                                 }
-                            },200);
+                            },200);*/
                         }})
                     .setNegativeButton(android.R.string.no, null).show();
         }
@@ -479,24 +482,27 @@ public class TravelDetailsActivity extends AppCompatActivity {
         else {
             // Add user to travel
             new PostJoin(this).send("https://debugtm.herokuapp.com/user/addTrip/", travelId,
-                    userUid, PostJoin.request.JOIN);
+                    userUid, PostJoin.request.JOIN, new ServerCallback() {
+                        @Override
+                        public void onSuccess(JSONObject result) {
+                            card.setCardBackgroundColor(colorTo);
+                            joinBtn.setText("Abbandona");
+                            // Open chat
+                            Intent intent = new Intent(context, ChatActivityInside.class);
+                            intent.putExtra(ChatActivityInside.EXTRA_TRIPID, trip.getId());
+                            intent.putExtra(ChatActivityInside.EXTRA_TRIPNAME, trip.getName());
+                            context.startActivity(intent);
+                        }
+                    });
+
             animate(joinBtn);
-            card.setCardBackgroundColor(colorTo);
-            joinBtn.setText("Abbandona");
 
-            // Open chat
-            Intent intent = new Intent(context, ChatActivityInside.class);
-            intent.putExtra(ChatActivityInside.EXTRA_TRIPID, trip.getId());
-            intent.putExtra(ChatActivityInside.EXTRA_TRIPNAME, trip.getName());
-            context.startActivity(intent);
-
-            // TODO add server callback to all PostJoin calls
-            new Handler().postDelayed(new Runnable() {
+           /* new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     updateLayout();
                 }
-            },200);
+            },200);*/
         }
     }
 
@@ -507,11 +513,22 @@ public class TravelDetailsActivity extends AppCompatActivity {
         set.start();
     }
 
+    private void removeUserOnSuccess() {
+        card.setCardBackgroundColor(getResources().getColor(colorFrom));
+        joinBtn.setText("Unisciti");
+        updateLayout();
+    }
+
     private void changeOwner() {
         User user = partecipants.get(0);
         owner_uid = user.getUid();
         new PostJoin(this).send("https://debugtm.herokuapp.com/user/changeOwnerAndRemoveLast", travelId,
-                owner_uid, PostJoin.request.CHANGE);
+                owner_uid, PostJoin.request.CHANGE, new ServerCallback() {
+                    @Override
+                    public void onSuccess(JSONObject result) {
+                        removeUserOnSuccess();
+                    }
+                });
     }
 
     private void deleteTrip() {

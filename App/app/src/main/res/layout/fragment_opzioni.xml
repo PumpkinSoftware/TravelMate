@@ -31,7 +31,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <Switch
+            <!--<Switch
                 android:id="@+id/notifications_switch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -79,27 +79,6 @@
                 app:layout_constraintTop_toTopOf="@+id/sounds" />
 
             <TextView
-                android:id="@+id/edit_profile"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:text="@string/edit_profile"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textColor="@android:color/black"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="@+id/sounds"
-                app:layout_constraintTop_toBottomOf="@+id/sounds" />
-
-            <ImageView
-                android:id="@+id/edit"
-                android:layout_width="28dp"
-                android:layout_height="28dp"
-                android:src="@drawable/ic_baseline_create_24px"
-                app:layout_constraintBottom_toBottomOf="@+id/edit_profile"
-                app:layout_constraintStart_toStartOf="@+id/sounds_switch"
-                app:layout_constraintTop_toTopOf="@+id/edit_profile" />
-
-            <TextView
                 android:id="@+id/rate"
                 android:layout_width="wrap_content"
                 android:layout_height="41dp"
@@ -110,7 +89,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.511"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/edit_profile"
+                app:layout_constraintTop_toBottomOf="@+id/sounds_switch"
                 app:layout_constraintVertical_bias="1.0" />
 
             <RatingBar
@@ -127,7 +106,20 @@
                 app:layout_constraintHorizontal_bias="0.496"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.518" />
+                app:layout_constraintVertical_bias="0.518" />-->
+
+            <TextView
+                android:id="@+id/contacts"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="32dp"
+                android:text="@string/contacts"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textColor="@android:color/black"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/guideline2" />
 
             <TextView
                 android:id="@+id/version"
@@ -138,8 +130,8 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textColor="@android:color/black"
                 android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="@+id/sounds"
-                app:layout_constraintTop_toBottomOf="@+id/ratingBar" />
+                app:layout_constraintStart_toStartOf="@+id/contacts"
+                app:layout_constraintTop_toBottomOf="@+id/contacts" />
 
             <TextView
                 android:id="@+id/version2"
@@ -150,8 +142,11 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textColor="@android:color/darker_gray"
                 app:layout_constraintBottom_toBottomOf="@+id/version"
-                app:layout_constraintEnd_toEndOf="@+id/sounds_switch"
-                app:layout_constraintTop_toTopOf="@+id/version" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.86"
+                app:layout_constraintStart_toEndOf="@+id/version"
+                app:layout_constraintTop_toTopOf="@+id/version"
+                app:layout_constraintVertical_bias="0.0" />
 
             <TextView
                 android:id="@+id/dev"
@@ -208,7 +203,7 @@
                     android:background="@android:color/transparent"
                     android:text="@string/logout"
                     android:textColor="#fff"
-                    android:textSize="18sp"></Button>
+                    android:textSize="18sp"/>
 
             </android.support.v7.widget.CardView>
 
