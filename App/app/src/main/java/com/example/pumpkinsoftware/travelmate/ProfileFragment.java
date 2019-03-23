@@ -248,7 +248,9 @@ public class ProfileFragment extends Fragment {
         int n = 0;
         int[] pixels = new int[width * height];
         bitmap.getPixels(pixels, 0, width, 0, 0, width, height);
+        int half = width/2;
         for (int i = 0; i < pixels.length; i += skipPixel) {
+            if((i - (i/width)*width) < half) continue; // I take only right half of image because my icon is put there
             int color = pixels[i];
             R += Color.red(color);
             G += Color.green(color);

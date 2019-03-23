@@ -7,10 +7,12 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -105,13 +107,16 @@ public class EditUserActivity extends AppCompatActivity {
         if (gender.equals("Uomo")) radioButtonMan.setChecked(true);
         else radioButton.setChecked(true);
 
+        TextView terms = findViewById(R.id.terms);
+        terms.setVisibility(View.GONE);
+
         // Values editables
         biot = (EditText) findViewById(R.id.bio_r);
         biot.setText(user.getDescr());
         final TextView mailview = (TextView) findViewById(R.id.email2_r);
         mail = user.getEmail();
         mailview.setText(mail);
-        mailview.setEnabled(false);
+        mailview.setEnabled(false); // TEMPORANEO
 
         String rel = user.getRelationship();
         if (rel.equals("Single")) radioButton = findViewById(R.id.single);
@@ -153,7 +158,15 @@ public class EditUserActivity extends AppCompatActivity {
             }
         });
 
+       /* ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        params.topMargin = 28;
+        params.endToEnd = ;
+        params.startToStart = ;
+        params.horizontalBias = (float) 0.5;
+        params.bottomToBottom = ;*/
+
         Button confirm = (Button) findViewById(R.id.buttonRegister);
+        //confirm.setLayoutParams(params);
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
