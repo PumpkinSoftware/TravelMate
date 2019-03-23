@@ -414,7 +414,7 @@ public class EditUserActivity extends AppCompatActivity {
                             if (filePath2 != null && !user.getCover().equals("")) {
                                 deleteImg(storage.getReferenceFromUrl(user.getCover()));
                             }
-                            updateUserForChat();
+                            updateUserForChat(utente);
                    //     }
 
                     } else {
@@ -464,13 +464,20 @@ public class EditUserActivity extends AppCompatActivity {
     public static void setStatus(String s) {
         status = s;
     }
-    private void updateUserForChat() {
+    private void updateUserForChat(JSONObject utente)  {
+        String foto = null;
+        try {
+             foto=utente.getString("avatar");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        if(foto!=null){
         UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                 .setDisplayName(user.getName()+" "+user.getSurname()) //QUI GLI PASSI IL NOME E COGNOME
-                .setPhotoUri(
+                .setPhotoUri(Uri.parse(foto)
 
                                 //"userImage/"+mail+"/"+
-                        filePath1) //QUI IL LINK DELL'AVATAR
+                       ) //QUI IL LINK DELL'AVATAR
                 .build();
 
         mAuth.getCurrentUser().updateProfile(profileUpdates)
@@ -482,5 +489,5 @@ public class EditUserActivity extends AppCompatActivity {
                         }
                     }
                 });
-    }
+    }}
 }
