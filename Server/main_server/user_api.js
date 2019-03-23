@@ -981,7 +981,7 @@ router.get('/leftReviews',function(req,res){
         		_id: { $in:  list_trips } 
         	};
 
-			TripSchema.find(conditions2,'_id').where('endDate').lte(new Date()).exec(function(err,passed){
+			TripSchema.find(conditions2, '_id').where('endDate').lte(new Date()).exec(function(err,passed){
 				if(err){
 					console.log(err);
 					console.log(JSON.stringify({ status: "error", type: "-1" }));
@@ -989,7 +989,30 @@ router.get('/leftReviews',function(req,res){
 				}
 				else{
 					/*BISOGNA CONTINUARE QUI*/
-					res.send(passed);
+					//res.send(passed);
+					
+					var list_passed_trips = passed.map(function(trip){
+						return trip._id;
+					});
+					
+					var conditions3 = {
+						"trips.tripId": {$in: list_passed_trips},
+						$and: [
+						{uid: {$ne: uid}}, //il secondo uid in questa condizione è quello di req.query.userUid
+						{uid: {$nin: user.myReview}} //verifica che l'utente non sia nell'array delle review già fatte
+						]
+					}
+					
+					UserSchema.find(conditions3, 'name surname uid trips').exec(function(err,usertoreview){
+						if(err){
+							console.log(err);
+							console.log(JSON.stringify({ status: "error", type: "-2" }));
+							res.send(JSON.stringify({ status: "error", type: "-2" }));
+						}
+						else {
+							res.send(usertoreview);
+						}
+					});
 				}
 			});
 
