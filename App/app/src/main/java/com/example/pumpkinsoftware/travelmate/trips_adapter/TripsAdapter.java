@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.support.v7.widget.RecyclerView;
 
+import com.example.pumpkinsoftware.travelmate.MainActivity;
 import com.example.pumpkinsoftware.travelmate.TravelDetailsActivity;
 import com.example.pumpkinsoftware.travelmate.glide.GlideApp;
 import com.example.pumpkinsoftware.travelmate.trip.Trip;
@@ -158,14 +159,6 @@ public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.ViewHolder> 
             intent.putExtra(TravelDetailsActivity.EXTRA_TAG, t.getTag());
             intent.putExtra(TravelDetailsActivity.EXTRA_VEHICLE, t.getVehicle());
             intent.putExtra(TravelDetailsActivity.EXTRA_OWNER_UID, t.getOwner());
-            intent.putExtra(TravelDetailsActivity.EXTRA_ADAPTER, getTripsAdapter());
-            intent.putExtra(TravelDetailsActivity.EXTRA_ADAPTER_POS, pos);
-
-            /*String extraUserIsAPartecipant;
-            if(currentUser.getTrips().contains(travelId))  extraUserIsAPartecipant = "true";
-            else                                           extraUserIsAPartecipant = "false";
-
-            intent.putExtra(TravelDetailsActivity.EXTRA_USER, extraUserIsAPartecipant);*/
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 // create the transition animation - the images in the layouts
@@ -174,7 +167,7 @@ public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.ViewHolder> 
                         Pair.create((View)trip_image, "travel_image"));
                 //Pair.create((View)trip_name, "travel_name"));
                 // start the new activity
-                context.startActivity(intent, options.toBundle());
+                ((Activity) context).startActivityForResult(intent, MainActivity.REQUEST_CODE, options.toBundle());
             }
 
             else {

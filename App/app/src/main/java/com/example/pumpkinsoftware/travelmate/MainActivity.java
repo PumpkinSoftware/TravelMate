@@ -1,6 +1,8 @@
 package com.example.pumpkinsoftware.travelmate;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -8,10 +10,11 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.RadioButton;
-public class MainActivity extends AppCompatActivity  {
+
+public class MainActivity extends AppCompatActivity {
     public static final String FREE_QUERY = "com.example.pumpkinsoftware.travelmate.FREE_QUERY";
     public static final String FILTERED_QUERY = "com.example.pumpkinsoftware.travelmate.FILTERED_QUERY";
+    public static final int REQUEST_CODE = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +71,13 @@ public class MainActivity extends AppCompatActivity  {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+        // Check if Intent comes from TravelDetailsActivity
+        if(requestCode == REQUEST_CODE){
+            if(resultCode == RESULT_OK) recreate();
+        }
+        // Else intent comes from EditUserActivity
+        else    super.onActivityResult(requestCode, resultCode, data);
+
     }
 
 }

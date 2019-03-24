@@ -121,10 +121,7 @@ public class TravelDetailsActivity extends AppCompatActivity {
     private Button joinBtn;
     private RecyclerView rvUsers;
     private ProgressBar progress;
-    private TripsAdapter adapter;
-    private int adapterPos;
     private Trip trip;
-    private ArrayList<Trip> trips;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -147,8 +144,6 @@ public class TravelDetailsActivity extends AppCompatActivity {
         final String tag = b.getString(EXTRA_TAG);
         final String vehicle = b.getString(EXTRA_VEHICLE);*/
         owner_uid = b.getString(EXTRA_OWNER_UID);
-        adapter = (TripsAdapter) b.getSerializable(EXTRA_ADAPTER);
-        adapterPos = b.getInt(EXTRA_ADAPTER_POS);
 
         // TODO substitute all calls in updateLayout() to findView in private variables initialized here
         /*edit = findViewById(R.id.edit_image);
@@ -190,15 +185,7 @@ public class TravelDetailsActivity extends AppCompatActivity {
         back_image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // NON FUNZIONA, trips risulta null
-                /*if(trip != null && adapter != null) {
-                    trips = new ArrayList<Trip>(adapter.getTrips());
-                    trips.set(adapterPos, trip);
-                    adapter.notifyItemChanged(adapterPos);
-                }*/
-
-                if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)    finishAfterTransition();
-                else    finish();
+                close();
             }
         });
 
@@ -526,9 +513,7 @@ public class TravelDetailsActivity extends AppCompatActivity {
                 // Check if trip is really deleted from server
                 if (server.isDeleted()) {
                     // TODO delete travel img from server
-                    if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-                        finishAfterTransition();
-                    else finish();
+                    close();
                 }
             }
         });
@@ -669,6 +654,7 @@ public class TravelDetailsActivity extends AppCompatActivity {
 
     }
 
+    // Useful for edit trip
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -786,12 +772,15 @@ public class TravelDetailsActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if(trip != null && adapter != null) {
-            adapter.notifyDataSetChanged();
-        }
+        close();
+    }
 
+    private void close() {
+        Intent intent = new Intent();
+        setResult(RESULT_OK, intent);
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)    finishAfterTransition();
         else    finish();
+        //MainActivity.getInstance().recreate();
     }
 
     private void calculateColor(String photoPath) {
