@@ -235,8 +235,9 @@
                     android:layout_width="230dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
-                    android:layout_marginStart="8dp"
+                    android:enabled="false"
                     android:inputType="textEmailAddress"
+                    android:visibility="visible"
                     app:layout_constraintBottom_toBottomOf="@+id/email_r"
                     app:layout_constraintLeft_toRightOf="@+id/email_r"
                     app:layout_constraintTop_toTopOf="@+id/email_r" />
@@ -264,6 +265,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/email2_r" />
             </android.support.constraint.ConstraintLayout>
+
         </RelativeLayout>
     </ScrollView>
 </RelativeLayout>

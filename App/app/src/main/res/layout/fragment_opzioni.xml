@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -13,13 +13,15 @@
         android:layout_height="?attr/actionBarSize"
         android:background="@color/colorPrimary"
         android:theme="@style/toolbar">
+
         <TextView
+            android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/title"
-            android:text="@string/settings"
+            android:text="Opzioni"
             android:textColor="@color/white"
-            android:textSize="22dp"/>
+            android:textSize="22dp" />
+
     </android.support.v7.widget.Toolbar>
 
     <ScrollView
@@ -29,7 +31,9 @@
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_below="@+id/toolbar"
+            android:layout_marginEnd="8dp">
 
             <!--<Switch
                 android:id="@+id/notifications_switch"
@@ -123,7 +127,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="1dp"
                 android:text="@string/contacts"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textColor="@android:color/black"
@@ -214,6 +218,7 @@
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:layout_marginTop="20dp"
+                android:src="@drawable/instagram"
                 app:layout_constraintEnd_toEndOf="@+id/dev"
                 app:layout_constraintTop_toBottomOf="@+id/dev" />
 
@@ -276,4 +281,4 @@
 
     </ScrollView>
 
-</android.support.constraint.ConstraintLayout>
+</RelativeLayout>

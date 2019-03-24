@@ -23,6 +23,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -32,6 +33,7 @@ import com.example.pumpkinsoftware.travelmate.client_server_interaction.PostJoin
 import com.example.pumpkinsoftware.travelmate.client_server_interaction.PostUser;
 import com.example.pumpkinsoftware.travelmate.client_server_interaction.ServerCallback;
 import com.example.pumpkinsoftware.travelmate.date_picker.BirthdayPicker;
+import com.gc.materialdesign.widgets.ProgressDialog;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -67,6 +69,7 @@ public class AccountRegisterActivity extends AppCompatActivity {
     private BirthdayPicker nascita;
     private String userUid;
     private static Calendar calendar;
+    private String avatar = "";
 
     public static String status="";
 
@@ -152,6 +155,7 @@ public class AccountRegisterActivity extends AppCompatActivity {
     }
 
     private void PreparationAccount() {
+
         mAuth.createUserWithEmailAndPassword(mail, pass)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -300,29 +304,9 @@ public class AccountRegisterActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-            uploadImage(utente);
+            uploadImage1(utente);
 
-            new PostUser(contesto).jsonParse(utente, PostUser.flag.NEW, new ServerCallback() {
-                @Override
-                public void onSuccess(JSONObject response) {
-                    if(getStatus().equals("ERROR")){
-                        deleteUser();
-                    }
-                    if(getStatus().equals("OK")){
-                        updateUserForChat();
-                        sendEmail();
-                        openLogin();
-                        /*new AlertDialog.Builder(contesto    )
-                                .setTitle("Registrazione completata")
-                                .setMessage("Ti è stata mandata una mail per attivare il tuo account")
-                                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
 
-                                    public void onClick(DialogInterface dialog, int whichButton) {
-                                        openLogin();
-                                    }}).show();*/
-                    }
-                }
-            });
 
         }
     }
@@ -341,7 +325,125 @@ public class AccountRegisterActivity extends AppCompatActivity {
         }
     }
 
+    private void uploadImage1(final JSONObject utente){
+        if (filePath1 != null) {
+            final StorageReference ref = storageReference.child("userImage/" + mail+"/avatar");
+            ref.putFile(filePath1)
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(Uri uri) {
+                                    try {
+                                        //Log.i("Dato",uri.toString());
+                                        utente.put("avatar", (uri.toString()));
+                                        avatar = uri.toString();
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                    uploadImage2(utente);
+                                }
+                            });
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            //progressDialog.dismiss();
+                            Toast.makeText(contesto, "Failed " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                            double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot
+                                    .getTotalByteCount());
+                            // progressDialog.setMessage("Uploaded "+(int)progress+"%");
+                        }
+                    });
+        } else {
+            try {
+                utente.put("avatar", "");
+                avatar="";
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            uploadImage2(utente);
+        }
+    }
 
+    private void uploadImage2(final JSONObject utente){
+        if (filePath2 != null) {
+            final StorageReference ref = storageReference.child("userImage/" + mail+"/cover");
+            ref.putFile(filePath1)
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(Uri uri) {
+                                    try {
+                                        //Log.i("Dato",uri.toString());
+                                        utente.put("cover", (uri.toString()));
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                    sendPostServer(utente);
+                                }
+                            });
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            //progressDialog.dismiss();
+                            Toast.makeText(contesto, "Failed " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                            double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot
+                                    .getTotalByteCount());
+                            // progressDialog.setMessage("Uploaded "+(int)progress+"%");
+                        }
+                    });
+
+        } else {
+            try {
+                utente.put("cover", "");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            sendPostServer(utente);
+        }
+    }
+
+    private void sendPostServer(final JSONObject utente){
+        new PostUser(contesto).jsonParse(utente, PostUser.flag.NEW, new ServerCallback() {
+            @Override
+            public void onSuccess(JSONObject response) {
+                if(getStatus().equals("ERROR")){
+                    deleteUser();
+                }
+                if(getStatus().equals("OK")){
+                    updateUserForChat();
+                    sendEmail();
+                        new AlertDialog.Builder(contesto    )
+                                .setTitle("Registrazione completata")
+                                .setMessage("Ti è stata mandata una mail per attivare il tuo account")
+                                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+
+                                    public void onClick(DialogInterface dialog, int whichButton) {
+                                        openLogin();
+                                    }}).show();
+                }
+            }
+        });
+    }
+
+    /*
     private void uploadImage(final JSONObject utente) {
 
         if (filePath1 != null) {
@@ -356,6 +458,7 @@ public class AccountRegisterActivity extends AppCompatActivity {
                                     try {
                                         //Log.i("Dato",uri.toString());
                                         utente.put("avatar", (uri.toString()));
+                                        avatar = uri.toString();
                                     } catch (JSONException e) {
                                         e.printStackTrace();
                                     }
@@ -381,6 +484,7 @@ public class AccountRegisterActivity extends AppCompatActivity {
         } else {
             try {
                 utente.put("avatar", "");
+                avatar="";
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -430,6 +534,7 @@ public class AccountRegisterActivity extends AppCompatActivity {
             }
         }
     }
+    */
 
     public void openLogin(){
         Intent intent=new Intent(this,LoginActivity.class);
@@ -486,8 +591,8 @@ public class AccountRegisterActivity extends AppCompatActivity {
 
     private void updateUserForChat() {
         UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                .setDisplayName(name+" "+surname) //QUI GLI PASSI IL NOME E COGNOME
-                .setPhotoUri(Uri.parse("userImage/"+mail+"/avatar")) //QUI IL LINK DELL'AVATAR
+                .setDisplayName(processingUpperLowerString(name)+" "+processingUpperLowerString(surname)) //QUI GLI PASSI IL NOME E COGNOME
+                .setPhotoUri(Uri.parse(avatar)) //QUI IL LINK DELL'AVATAR
                 .build();
 
         user.updateProfile(profileUpdates)

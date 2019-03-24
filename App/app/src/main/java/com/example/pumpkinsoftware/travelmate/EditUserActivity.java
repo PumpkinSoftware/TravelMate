@@ -303,7 +303,7 @@ public class EditUserActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        uploadImage(utente);
+        uploadImage1(utente);
        /* new PostUser(context).jsonParse(utente, PostUser.flag.UPDATE, new ServerCallback() {
             @Override
             public void onSuccess(JSONObject response) {
@@ -328,16 +328,105 @@ public class EditUserActivity extends AppCompatActivity {
                }
             }
         });*/
-        Intent intent = new Intent();
-        user.setDescr(bio);
-        user.setRelationship(relationship);
-        // TODO set all editable values
-        intent.putExtra(ProfileFragment.EXTRA_USER, user);
-        setResult(RESULT_OK, intent);
-        finish();
+
 
     }
 
+    private void uploadImage1(final JSONObject utente){
+        if (filePath1 != null) {
+            final StorageReference ref = storageReference.child("userImage/" + mail + "/" + pathRandom1);
+            ref.putFile(filePath1)
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(Uri uri) {
+                                    try {
+                                        //Log.i("Dato",uri.toString());
+                                        utente.put("avatar", (uri.toString()));
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                    //  upload++;
+                                    uploadImage2(utente);
+                                }
+                            });
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            //progressDialog.dismiss();
+                            try {
+                                utente.put("avatar", "");
+                            } catch (JSONException e1) {
+                                e1.printStackTrace();
+                            }
+                            Toast.makeText(context, "Failed " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                            double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot
+                                    .getTotalByteCount());
+                            // progressDialog.setMessage("Uploaded "+(int)progress+"%");
+                        }
+                    });
+        }
+        else
+            uploadImage2(utente);
+    }
+
+    private void uploadImage2(final JSONObject utente){
+        if (filePath2 != null) {
+            final StorageReference ref2 = storageReference.child("userImage/" + mail + "/" + pathRandom2);
+            ref2.putFile(filePath2)
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            ref2.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(Uri uri) {
+                                    try {
+                                        //Log.i("Dato",uri.toString());
+                                        utente.put("cover", (uri.toString()));
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                    //  upload++;
+                                    jsonParse(utente);
+                                }
+                            });
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            //progressDialog.dismiss();
+                            try {
+                                utente.put("cover", "");
+                            } catch (JSONException e1) {
+                                e1.printStackTrace();
+                            }
+                            Toast.makeText(context, "Failed " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                            double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot
+                                    .getTotalByteCount());
+                            // progressDialog.setMessage("Uploaded "+(int)progress+"%");
+                        }
+                    });
+        }
+        else
+            jsonParse(utente);
+    }
+
+/*
     private void uploadImage(final JSONObject utente) {
         if (filePath1 != null) {
             final StorageReference ref = storageReference.child("userImage/" + mail + "/" + pathRandom1);
@@ -429,7 +518,7 @@ public class EditUserActivity extends AppCompatActivity {
 
 
     }
-
+*/
     private void jsonParse(final JSONObject utente) {
         RequestQueue mQueue = Volley.newRequestQueue(this);
         final JsonObjectRequest JORequest = new JsonObjectRequest(Request.Method.POST, URL, utente, new Response.Listener<JSONObject>() {
@@ -522,5 +611,12 @@ public class EditUserActivity extends AppCompatActivity {
                         }
                     }
                 });
+            Intent intent = new Intent();
+            user.setDescr(bio);
+            user.setRelationship(relationship);
+            // TODO set all editable values
+            intent.putExtra(ProfileFragment.EXTRA_USER, user);
+            setResult(RESULT_OK, intent);
+            finish();
     }}
 }

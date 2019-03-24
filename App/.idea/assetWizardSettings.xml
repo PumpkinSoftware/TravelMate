@@ -29,12 +29,13 @@
                                           </PersistentState>
                                         </value>
                                       </entry>
-                                      <entry key="clipartAsset">
+                                      <entry key="image">
                                         <value>
                                           <PersistentState>
                                             <option name="values">
                                               <map>
-                                                <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/content/ic_add_circle_black_24dp.xml" />
+                                                <entry key="color" value="000000" />
+                                                <entry key="paddingPercent" value="10" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -44,6 +45,8 @@
                                   </option>
                                   <option name="values">
                                     <map>
+                                      <entry key="assetType" value="IMAGE" />
+                                      <entry key="imageAsset" value="$PROJECT_DIR$/../1.png" />
                                       <entry key="theme" value="CUSTOM" />
                                       <entry key="themeColor" value="1d5d9c" />
                                     </map>
@@ -72,7 +75,7 @@
                                           <PersistentState>
                                             <option name="values">
                                               <map>
-                                                <entry key="scalingPercent" value="102" />
+                                                <entry key="scalingPercent" value="78" />
                                                 <entry key="trimmed" value="true" />
                                               </map>
                                             </option>
@@ -85,8 +88,8 @@
                                     <map>
                                       <entry key="backgroundAssetType" value="COLOR" />
                                       <entry key="backgroundColor" value="eaf4ff" />
-                                      <entry key="backgroundImage" value="C:\Users\andre\Desktop\back.png" />
-                                      <entry key="foregroundImage" value="C:\Users\andre\Desktop\logo.png" />
+                                      <entry key="backgroundImage" value="$USER_HOME$/C:\Users\andre\Desktop\back.png" />
+                                      <entry key="foregroundImage" value="$PROJECT_DIR$/../1.png" />
                                       <entry key="legacyIconShape" value="CIRCLE" />
                                       <entry key="webIconShape" value="CIRCLE" />
                                     </map>
@@ -128,7 +131,7 @@
                                     <map>
                                       <entry key="assetType" value="IMAGE" />
                                       <entry key="iconShape" value="NONE" />
-                                      <entry key="imageAsset" value="C:\Users\andre\Desktop\ic_launcher-web.png" />
+                                      <entry key="imageAsset" value="$PROJECT_DIR$/../1.png" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -150,6 +153,34 @@
                                           </PersistentState>
                                         </value>
                                       </entry>
+                                      <entry key="image">
+                                        <value>
+                                          <PersistentState>
+                                            <option name="values">
+                                              <map>
+                                                <entry key="color" value="000000" />
+                                              </map>
+                                            </option>
+                                          </PersistentState>
+                                        </value>
+                                      </entry>
+                                      <entry key="text">
+                                        <value>
+                                          <PersistentState>
+                                            <option name="values">
+                                              <map>
+                                                <entry key="color" value="000000" />
+                                              </map>
+                                            </option>
+                                          </PersistentState>
+                                        </value>
+                                      </entry>
+                                    </map>
+                                  </option>
+                                  <option name="values">
+                                    <map>
+                                      <entry key="assetType" value="IMAGE" />
+                                      <entry key="imageAsset" value="$PROJECT_DIR$/../1.png" />
                                     </map>
                                   </option>
                                 </PersistentState>
