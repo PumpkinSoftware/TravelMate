@@ -108,8 +108,8 @@ public class EditTravelActivity extends AppCompatActivity {
         departure.setOther(ret);
 
         RadioButton radioButton;
-        if(trip.getVehicle().equals("treno")) radioButton = findViewById(R.id.treno);
-        else                                  radioButton = findViewById(R.id.auto);
+        if (trip.getVehicle().equals("treno")) radioButton = findViewById(R.id.treno);
+        else radioButton = findViewById(R.id.auto);
         radioButton.setChecked(true);
         vehicle = trip.getVehicle();
 
@@ -126,16 +126,16 @@ public class EditTravelActivity extends AppCompatActivity {
         name.setText(trip.getName());
 
         String t_tag = trip.getTag();
-        if(t_tag.equals("cultura"))                 radioButton = findViewById(R.id.tag1);
-        else if(t_tag.equals("intrattenimento"))    radioButton = findViewById(R.id.tag2);
-        else if(t_tag.equals("musica"))             radioButton = findViewById(R.id.tag3);
-        else                                        radioButton = findViewById(R.id.tag4);
+        if (t_tag.equals("cultura")) radioButton = findViewById(R.id.tag1);
+        else if (t_tag.equals("intrattenimento")) radioButton = findViewById(R.id.tag2);
+        else if (t_tag.equals("musica")) radioButton = findViewById(R.id.tag3);
+        else radioButton = findViewById(R.id.tag4);
         radioButton.setChecked(true);
 
         b_upload = findViewById(R.id.photo_upload);
         String img = trip.getImage();
         GlideApp.with(context)
-                .load(img.isEmpty()?(R.mipmap.default_trip):img)
+                .load(img.isEmpty() ? (R.mipmap.default_trip) : img)
                 .into(b_upload);
         b_upload.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -201,7 +201,7 @@ public class EditTravelActivity extends AppCompatActivity {
                 }
                 uploadImage(viaggio);
                 Intent intent = new Intent();
-                trip.setBudget(String.valueOf((int)budget_q));
+                trip.setBudget(String.valueOf((int) budget_q));
                 trip.setDescr(program_q);
                 trip.setGroup_number(group_q);
                 trip.setVehicle(vehicle);
@@ -217,7 +217,7 @@ public class EditTravelActivity extends AppCompatActivity {
 
     private void uploadImage(final JSONObject viaggio) {
 
-        if (filePath != null ) {
+        if (filePath != null) {
             //final ProgressDialog progressDialog = new ProgressDialog(this.contesto);
             // progressDialog.setTitle("Creazione viaggio in corso...");
             // progressDialog.show();
@@ -265,9 +265,7 @@ public class EditTravelActivity extends AppCompatActivity {
                         }
                     });
 
-        }
-
-        else
+        } else
             jsonParse(viaggio);
     }
 
@@ -282,13 +280,13 @@ public class EditTravelActivity extends AppCompatActivity {
                     String status = response.getString("status");
                     if (status.equals("success")) {
                         Toast.makeText(context, "Evento modificato correttamente", Toast.LENGTH_SHORT).show();
-                        if(!trip.getImage().equals("")){
-                            deleteImg( storage.getReferenceFromUrl(trip.getImage()));
+                        if (!trip.getImage().equals("")) {
+                            deleteImg(storage.getReferenceFromUrl(trip.getImage()));
                         }
                     } else {
                         String err = response.getString("type");
                         new ErrorServer(context).handleError(err);
-                        deleteImg(storageReference.child("tripImage/"+pathrandom));
+                        deleteImg(storageReference.child("tripImage/" + pathrandom));
                     }
 
                 } catch (JSONException e) {
@@ -353,16 +351,14 @@ public class EditTravelActivity extends AppCompatActivity {
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK
                 && data != null && data.getData() != null) {
             filePath = data.getData();
-            try {
-                //codice per mostrare l'anteprima
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
-                b_upload.setImageBitmap(bitmap);
-                // codice per mostrare il path
-                //TextView path = findViewById(R.id.photo_text);
-                //path.setText(filePath.getLastPathSegment());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+
+            //codice per mostrare l'anteprima
+
+            GlideApp.with(context).load(filePath).into(b_upload);
+            // codice per mostrare il path
+            //TextView path = findViewById(R.id.photo_text);
+            //path.setText(filePath.getLastPathSegment());
+
         }
     }
 
@@ -383,9 +379,9 @@ public class EditTravelActivity extends AppCompatActivity {
         });
     }
 
-    private String inverseDate(String s){
-        String data[]=s.split("-");
-        return  data[2].substring(0,2)+"/"+data[1]+"/"+data[0];
+    private String inverseDate(String s) {
+        String data[] = s.split("-");
+        return data[2].substring(0, 2) + "/" + data[1] + "/" + data[0];
     }
 
 }

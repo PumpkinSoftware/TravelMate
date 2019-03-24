@@ -70,8 +70,9 @@ public class EditUserActivity extends AppCompatActivity {
     private String pathRandom1, pathRandom2;
     private ProgressBar progressBar;
     private static String status = "";
-  //  private int upload = 0;
+    //  private int upload = 0;
     FirebaseAuth mAuth;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,7 +81,7 @@ public class EditUserActivity extends AppCompatActivity {
         context = (Context) this;
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
-        mAuth=FirebaseAuth.getInstance();
+        mAuth = FirebaseAuth.getInstance();
         pathRandom1 = UUID.randomUUID().toString();
         pathRandom2 = UUID.randomUUID().toString();
 
@@ -221,24 +222,18 @@ public class EditUserActivity extends AppCompatActivity {
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
             if (FOTO == 1) {
                 filePath1 = data.getData();
-                try {
-                    //codice per mostrare l'anteprima
-                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath1);
-                    profile.setImageBitmap(bitmap);
-                    // codice per mostrare il path
-                    //TextView path = findViewById(R.id.photo_text);
-                    //path.setText(filePath.getLastPathSegment());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+
+                //codice per mostrare l'anteprima
+                GlideApp.with(context).load(filePath1).into(profile);
+                // codice per mostrare il path
+                //TextView path = findViewById(R.id.photo_text);
+                //path.setText(filePath.getLastPathSegment());
+
             } else {
                 filePath2 = data.getData();
-                try {
-                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath2);
-                    cover.setImageBitmap(bitmap);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+
+                GlideApp.with(context).load(filePath2).into(cover);
+
             }
         }
     }
@@ -310,7 +305,7 @@ public class EditUserActivity extends AppCompatActivity {
 
     }
 
-    private void uploadImage1(final JSONObject utente){
+    private void uploadImage1(final JSONObject utente) {
         if (filePath1 != null) {
             final StorageReference ref = storageReference.child("userImage/" + mail + "/" + pathRandom1);
             ref.putFile(filePath1)
@@ -352,12 +347,11 @@ public class EditUserActivity extends AppCompatActivity {
                             // progressDialog.setMessage("Uploaded "+(int)progress+"%");
                         }
                     });
-        }
-        else
+        } else
             uploadImage2(utente);
     }
 
-    private void uploadImage2(final JSONObject utente){
+    private void uploadImage2(final JSONObject utente) {
         if (filePath2 != null) {
             final StorageReference ref2 = storageReference.child("userImage/" + mail + "/" + pathRandom2);
             ref2.putFile(filePath2)
@@ -399,104 +393,103 @@ public class EditUserActivity extends AppCompatActivity {
                             // progressDialog.setMessage("Uploaded "+(int)progress+"%");
                         }
                     });
-        }
-        else
+        } else
             jsonParse(utente);
     }
 
-/*
-    private void uploadImage(final JSONObject utente) {
-        if (filePath1 != null) {
-            final StorageReference ref = storageReference.child("userImage/" + mail + "/" + pathRandom1);
-            ref.putFile(filePath1)
-                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                @Override
-                                public void onSuccess(Uri uri) {
-                                    try {
-                                        //Log.i("Dato",uri.toString());
-                                        utente.put("avatar", (uri.toString()));
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
+    /*
+        private void uploadImage(final JSONObject utente) {
+            if (filePath1 != null) {
+                final StorageReference ref = storageReference.child("userImage/" + mail + "/" + pathRandom1);
+                ref.putFile(filePath1)
+                        .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                            @Override
+                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                    @Override
+                                    public void onSuccess(Uri uri) {
+                                        try {
+                                            //Log.i("Dato",uri.toString());
+                                            utente.put("avatar", (uri.toString()));
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
+                                      //  upload++;
+                                        jsonParse(utente);
                                     }
-                                  //  upload++;
-                                    jsonParse(utente);
-                                }
-                            });
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            //progressDialog.dismiss();
-                            try {
-                                utente.put("avatar", "");
-                            } catch (JSONException e1) {
-                                e1.printStackTrace();
+                                });
                             }
-                            Toast.makeText(context, "Failed " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    })
-                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                            double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot
-                                    .getTotalByteCount());
-                            // progressDialog.setMessage("Uploaded "+(int)progress+"%");
-                        }
-                    });
-        }
-        if (filePath2 != null) {
-            final StorageReference ref2 = storageReference.child("userImage/" + mail + "/" + pathRandom2);
-            ref2.putFile(filePath2)
-                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            ref2.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                @Override
-                                public void onSuccess(Uri uri) {
-                                    try {
-                                        //Log.i("Dato",uri.toString());
-                                        utente.put("cover", (uri.toString()));
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                //progressDialog.dismiss();
+                                try {
+                                    utente.put("avatar", "");
+                                } catch (JSONException e1) {
+                                    e1.printStackTrace();
+                                }
+                                Toast.makeText(context, "Failed " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                            @Override
+                            public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                                double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot
+                                        .getTotalByteCount());
+                                // progressDialog.setMessage("Uploaded "+(int)progress+"%");
+                            }
+                        });
+            }
+            if (filePath2 != null) {
+                final StorageReference ref2 = storageReference.child("userImage/" + mail + "/" + pathRandom2);
+                ref2.putFile(filePath2)
+                        .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                            @Override
+                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                ref2.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                    @Override
+                                    public void onSuccess(Uri uri) {
+                                        try {
+                                            //Log.i("Dato",uri.toString());
+                                            utente.put("cover", (uri.toString()));
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
+                                      //  upload++;
+                                        jsonParse(utente);
                                     }
-                                  //  upload++;
-                                    jsonParse(utente);
-                                }
-                            });
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            //progressDialog.dismiss();
-                            try {
-                                utente.put("cover", "");
-                            } catch (JSONException e1) {
-                                e1.printStackTrace();
+                                });
                             }
-                            Toast.makeText(context, "Failed " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    })
-                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                            double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot
-                                    .getTotalByteCount());
-                            // progressDialog.setMessage("Uploaded "+(int)progress+"%");
-                        }
-                    });
-        }
-        if (filePath1 == null && filePath2 == null) {
-            jsonParse(utente);
-        }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                //progressDialog.dismiss();
+                                try {
+                                    utente.put("cover", "");
+                                } catch (JSONException e1) {
+                                    e1.printStackTrace();
+                                }
+                                Toast.makeText(context, "Failed " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                            @Override
+                            public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                                double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot
+                                        .getTotalByteCount());
+                                // progressDialog.setMessage("Uploaded "+(int)progress+"%");
+                            }
+                        });
+            }
+            if (filePath1 == null && filePath2 == null) {
+                jsonParse(utente);
+            }
 
 
-    }
-*/
+        }
+    */
     private void jsonParse(final JSONObject utente) {
         RequestQueue mQueue = Volley.newRequestQueue(this);
         final JsonObjectRequest JORequest = new JsonObjectRequest(Request.Method.POST, URL, utente, new Response.Listener<JSONObject>() {
@@ -507,15 +500,15 @@ public class EditUserActivity extends AppCompatActivity {
                     if (status.equals("success")) {
                         Toast.makeText(context, "Modifica completata", Toast.LENGTH_SHORT).show();
                         //nel caso che venga chiamata due volte non trova le foto da firebase ma l'app funziona lo stesso
-                      //  if (upload < 2) {
-                            if (filePath1 != null && !user.getPhotoProfile().equals("")) {
-                                deleteImg(storage.getReferenceFromUrl(user.getPhotoProfile()));
-                            }
-                            if (filePath2 != null && !user.getCover().equals("")) {
-                                deleteImg(storage.getReferenceFromUrl(user.getCover()));
-                            }
-                            updateUserForChat(utente);
-                   //     }
+                        //  if (upload < 2) {
+                        if (filePath1 != null && !user.getPhotoProfile().equals("")) {
+                            deleteImg(storage.getReferenceFromUrl(user.getPhotoProfile()));
+                        }
+                        if (filePath2 != null && !user.getCover().equals("")) {
+                            deleteImg(storage.getReferenceFromUrl(user.getCover()));
+                        }
+                        updateUserForChat(utente);
+                        //     }
 
                     } else {
                         String err = response.getString("type");
@@ -565,31 +558,31 @@ public class EditUserActivity extends AppCompatActivity {
         status = s;
     }
 
-    private void updateUserForChat(JSONObject utente)  {
+    private void updateUserForChat(JSONObject utente) {
         String foto = null;
         try {
-             foto=utente.getString("avatar");
+            foto = utente.getString("avatar");
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        if(foto!=null){
-        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                .setDisplayName(user.getName()+" "+user.getSurname()) //QUI GLI PASSI IL NOME E COGNOME
-                .setPhotoUri(Uri.parse(foto)
+        if (foto != null) {
+            UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                    .setDisplayName(user.getName() + " " + user.getSurname()) //QUI GLI PASSI IL NOME E COGNOME
+                    .setPhotoUri(Uri.parse(foto)
 
-                                //"userImage/"+mail+"/"+
-                       ) //QUI IL LINK DELL'AVATAR
-                .build();
+                            //"userImage/"+mail+"/"+
+                    ) //QUI IL LINK DELL'AVATAR
+                    .build();
 
-        mAuth.getCurrentUser().updateProfile(profileUpdates)
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-                            //Log.d(TAG, "User profile updated.");
+            mAuth.getCurrentUser().updateProfile(profileUpdates)
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                //Log.d(TAG, "User profile updated.");
+                            }
                         }
-                    }
-                });
+                    });
             Intent intent = new Intent();
             user.setDescr(bio);
             user.setRelationship(relationship);

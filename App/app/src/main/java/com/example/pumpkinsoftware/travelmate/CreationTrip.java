@@ -28,6 +28,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.pumpkinsoftware.travelmate.date_picker.EditTextDatePicker;
+import com.example.pumpkinsoftware.travelmate.glide.GlideApp;
 import com.example.pumpkinsoftware.travelmate.handle_error.ErrorServer;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -87,7 +88,7 @@ public class CreationTrip extends AppCompatActivity {
         // file per firebase
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
-        pathrandom=UUID.randomUUID().toString();
+        pathrandom = UUID.randomUUID().toString();
         // campi
         final EditText budget = findViewById(R.id.budget_max_value);
         final EditText group = findViewById(R.id.group_max_value);
@@ -220,16 +221,16 @@ public class CreationTrip extends AppCompatActivity {
             b_upload.setImageBitmap(image);*/
 
             filePath = data.getData();
-            try {
-                //codice per mostrare l'anteprima
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
-                b_upload.setImageBitmap(bitmap);
-                // codice per mostrare il path
-                //TextView path = findViewById(R.id.photo_text);
-                //path.setText(filePath.getLastPathSegment());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+
+            //codice per mostrare l'anteprima
+                /*Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
+                b_upload.setImageBitmap(bitmap);*/
+            GlideApp.with(contesto).load(filePath).into(b_upload);
+
+            // codice per mostrare il path
+            //TextView path = findViewById(R.id.photo_text);
+            //path.setText(filePath.getLastPathSegment());
+
         }
     }
 
@@ -365,18 +366,18 @@ public class CreationTrip extends AppCompatActivity {
     }
 
     private void deleteTrip() {
-        StorageReference storageRef = storageReference.child("tripImage/"+pathrandom);
+        StorageReference storageRef = storageReference.child("tripImage/" + pathrandom);
         storageRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
                 // File deleted successfully
-               // Log.d(TAG, "onSuccess: deleted file");
+                // Log.d(TAG, "onSuccess: deleted file");
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception exception) {
                 // Uh-oh, an error occurred!
-               // Log.d(TAG, "onFailure: did not delete file");
+                // Log.d(TAG, "onFailure: did not delete file");
             }
         });
 

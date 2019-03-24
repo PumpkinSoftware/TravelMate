@@ -33,6 +33,7 @@ import com.example.pumpkinsoftware.travelmate.client_server_interaction.PostJoin
 import com.example.pumpkinsoftware.travelmate.client_server_interaction.PostUser;
 import com.example.pumpkinsoftware.travelmate.client_server_interaction.ServerCallback;
 import com.example.pumpkinsoftware.travelmate.date_picker.BirthdayPicker;
+import com.example.pumpkinsoftware.travelmate.glide.GlideApp;
 import com.gc.materialdesign.widgets.ProgressDialog;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -71,7 +72,7 @@ public class AccountRegisterActivity extends AppCompatActivity {
     private static Calendar calendar;
     private String avatar = "";
 
-    public static String status="";
+    public static String status = "";
 
     Context contesto;
     FirebaseStorage storage;
@@ -116,7 +117,7 @@ public class AccountRegisterActivity extends AppCompatActivity {
         biot = (EditText) findViewById(R.id.bio_r);
 
         calendar = Calendar.getInstance();
-        calendar.add(Calendar.YEAR,-18);
+        calendar.add(Calendar.YEAR, -18);
         final EditText data = (EditText) findViewById(R.id.age2_r);
 
         nascita = new BirthdayPicker(contesto, data, calendar);
@@ -138,7 +139,7 @@ public class AccountRegisterActivity extends AppCompatActivity {
                 FOTO = 2;
                 chooseImage();
             }
-});
+        });
 
         TextView terms = findViewById(R.id.terms);
         terms.setMovementMethod(LinkMovementMethod.getInstance());
@@ -165,8 +166,7 @@ public class AccountRegisterActivity extends AppCompatActivity {
                             userUid = user.getUid();
                             sendRegistration();
                         } else {
-                            try
-                            {
+                            try {
                                 throw task.getException();
                             }
                             // if user enters wrong password.
@@ -178,11 +178,9 @@ public class AccountRegisterActivity extends AppCompatActivity {
                             catch (FirebaseAuthInvalidCredentialsException malformedEmail)
                             {
                                 Log.d(TAG, "onComplete: malformed_email");
-                            }*/
-                            catch (FirebaseAuthUserCollisionException existEmail) {
+                            }*/ catch (FirebaseAuthUserCollisionException existEmail) {
                                 Toast.makeText(contesto, "Email già in uso", Toast.LENGTH_SHORT).show();
-                            }
-                            catch (Exception e) {
+                            } catch (Exception e) {
                                 Toast.makeText(contesto, "Si è verificato un problema, riprovare", Toast.LENGTH_SHORT).show();
                             }
                         }
@@ -204,24 +202,17 @@ public class AccountRegisterActivity extends AppCompatActivity {
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
             if (FOTO == 1) {
                 filePath1 = data.getData();
-                try {
-                    //codice per mostrare l'anteprima
-                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath1);
-                    profile.setImageBitmap(bitmap);
-                    // codice per mostrare il path
-                    //TextView path = findViewById(R.id.photo_text);
-                    //path.setText(filePath.getLastPathSegment());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+
+                //codice per mostrare l'anteprima
+
+                GlideApp.with(contesto).load(filePath1).into(profile);
+                // codice per mostrare il path
+                //TextView path = findViewById(R.id.photo_text);
+                //path.setText(filePath.getLastPathSegment());
+
             } else {
                 filePath2 = data.getData();
-                try {
-                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath2);
-                    cover.setImageBitmap(bitmap);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                GlideApp.with(contesto).load(filePath2).into(cover);
             }
         }
     }
@@ -307,10 +298,8 @@ public class AccountRegisterActivity extends AppCompatActivity {
             uploadImage1(utente);
 
 
-
         }
     }
-
 
 
     private void sendEmail() {
@@ -325,9 +314,9 @@ public class AccountRegisterActivity extends AppCompatActivity {
         }
     }
 
-    private void uploadImage1(final JSONObject utente){
+    private void uploadImage1(final JSONObject utente) {
         if (filePath1 != null) {
-            final StorageReference ref = storageReference.child("userImage/" + mail+"/avatar");
+            final StorageReference ref = storageReference.child("userImage/" + mail + "/avatar");
             ref.putFile(filePath1)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
@@ -372,7 +361,7 @@ public class AccountRegisterActivity extends AppCompatActivity {
         } else {
             try {
                 utente.put("avatar", "");
-                avatar="";
+                avatar = "";
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -380,9 +369,9 @@ public class AccountRegisterActivity extends AppCompatActivity {
         }
     }
 
-    private void uploadImage2(final JSONObject utente){
+    private void uploadImage2(final JSONObject utente) {
         if (filePath2 != null) {
-            final StorageReference ref = storageReference.child("userImage/" + mail+"/cover");
+            final StorageReference ref = storageReference.child("userImage/" + mail + "/cover");
             ref.putFile(filePath1)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
@@ -433,24 +422,25 @@ public class AccountRegisterActivity extends AppCompatActivity {
         }
     }
 
-    private void sendPostServer(final JSONObject utente){
+    private void sendPostServer(final JSONObject utente) {
         new PostUser(contesto).jsonParse(utente, PostUser.flag.NEW, new ServerCallback() {
             @Override
             public void onSuccess(JSONObject response) {
-                if(getStatus().equals("ERROR")){
+                if (getStatus().equals("ERROR")) {
                     deleteUser();
                 }
-                if(getStatus().equals("OK")){
+                if (getStatus().equals("OK")) {
                     updateUserForChat();
                     sendEmail();
-                        new AlertDialog.Builder(contesto    )
-                                .setTitle("Registrazione completata")
-                                .setMessage("Ti è stata mandata una mail per attivare il tuo account")
-                                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    new AlertDialog.Builder(contesto)
+                            .setTitle("Registrazione completata")
+                            .setMessage("Ti è stata mandata una mail per attivare il tuo account")
+                            .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
 
-                                    public void onClick(DialogInterface dialog, int whichButton) {
-                                        openLogin();
-                                    }}).show();
+                                public void onClick(DialogInterface dialog, int whichButton) {
+                                    openLogin();
+                                }
+                            }).show();
                 }
             }
         });
@@ -549,24 +539,24 @@ public class AccountRegisterActivity extends AppCompatActivity {
     }
     */
 
-    public void openLogin(){
-        Intent intent=new Intent(this,LoginActivity.class);
+    public void openLogin() {
+        Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
         finish();
     }
 
-    public void deleteUser(){
+    public void deleteUser() {
         user.delete()
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
-                           // Log.d(TAG, "User account deleted.");
+                            // Log.d(TAG, "User account deleted.");
                         }
                     }
                 });
-        if(filePath1 != null) {
-            StorageReference storageRef = storageReference.child("tripUser/" + mail+"/avatar");
+        if (filePath1 != null) {
+            StorageReference storageRef = storageReference.child("tripUser/" + mail + "/avatar");
             storageRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
@@ -581,8 +571,8 @@ public class AccountRegisterActivity extends AppCompatActivity {
                 }
             });
         }
-        if(filePath2!=null) {
-            StorageReference storageRef = storageReference.child("tripUser/" + mail+"/cover");
+        if (filePath2 != null) {
+            StorageReference storageRef = storageReference.child("tripUser/" + mail + "/cover");
             storageRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
@@ -599,12 +589,14 @@ public class AccountRegisterActivity extends AppCompatActivity {
         }
         Toast.makeText(contesto, "Registrazione fallita, riprovare", Toast.LENGTH_SHORT).show();
         finish();
-    };
+    }
+
+    ;
 
 
     private void updateUserForChat() {
         UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                .setDisplayName(processingUpperLowerString(name)+" "+processingUpperLowerString(surname)) //QUI GLI PASSI IL NOME E COGNOME
+                .setDisplayName(processingUpperLowerString(name) + " " + processingUpperLowerString(surname)) //QUI GLI PASSI IL NOME E COGNOME
                 .setPhotoUri(Uri.parse(avatar)) //QUI IL LINK DELL'AVATAR
                 .build();
 
@@ -623,7 +615,8 @@ public class AccountRegisterActivity extends AppCompatActivity {
     public String getStatus() {
         return status;
     }
-    public static void setStatus(String s){
-        status=s;
+
+    public static void setStatus(String s) {
+        status = s;
     }
 }
