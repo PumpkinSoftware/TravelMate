@@ -988,8 +988,6 @@ router.get('/leftReviews',function(req,res){
 					res.send(JSON.stringify({ status: "error", type: "-1" }));
 				}
 				else{
-					/*BISOGNA CONTINUARE QUI*/
-					//res.send(passed);
 					
 					var list_passed_trips = passed.map(function(trip){
 						return trip._id;
@@ -998,12 +996,12 @@ router.get('/leftReviews',function(req,res){
 					var conditions3 = {
 						"trips.tripId": {$in: list_passed_trips},
 						$and: [
-						{uid: {$ne: uid}}, //il secondo uid in questa condizione è quello di req.query.userUid
-						{uid: {$nin: user.myReview}} //verifica che l'utente non sia nell'array delle review già fatte
+						{'uid': {$ne: uid}}, //il secondo uid in questa condizione è quello di req.query.userUid
+						{'uid': {$nin: user.myReview.userUid}} //verifica che l'utente non sia nell'array delle review già fatte
 						]
 					}
 					
-					UserSchema.find(conditions3, 'name surname uid trips').exec(function(err,usertoreview){
+					UserSchema.find(conditions3, 'name surname uid image').exec(function(err,usertoreview){
 						if(err){
 							console.log(err);
 							console.log(JSON.stringify({ status: "error", type: "-2" }));
