@@ -351,7 +351,14 @@ public class AccountRegisterActivity extends AppCompatActivity {
                         @Override
                         public void onFailure(@NonNull Exception e) {
                             //progressDialog.dismiss();
-                            Toast.makeText(contesto, "Failed " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            try {
+                                //Log.i("Dato",uri.toString());
+                                utente.put("avatar", "");
+                                avatar = "";
+                            } catch (JSONException ex) {
+                                ex.printStackTrace();
+                            }
+                            uploadImage2(utente);
                         }
                     })
                     .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
@@ -398,7 +405,13 @@ public class AccountRegisterActivity extends AppCompatActivity {
                         @Override
                         public void onFailure(@NonNull Exception e) {
                             //progressDialog.dismiss();
-                            Toast.makeText(contesto, "Failed " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            try {
+                                //Log.i("Dato",uri.toString());
+                                utente.put("cover", "");
+                            } catch (JSONException ex) {
+                                ex.printStackTrace();
+                            }
+                            sendPostServer(utente);
                         }
                     })
                     .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {

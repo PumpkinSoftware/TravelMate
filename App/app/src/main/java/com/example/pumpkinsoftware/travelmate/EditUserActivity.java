@@ -363,7 +363,7 @@ public class EditUserActivity extends AppCompatActivity {
                             } catch (JSONException e1) {
                                 e1.printStackTrace();
                             }
-                            Toast.makeText(context, "Failed " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            uploadImage2(utente);
                         }
                     })
                     .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
@@ -410,7 +410,7 @@ public class EditUserActivity extends AppCompatActivity {
                             } catch (JSONException e1) {
                                 e1.printStackTrace();
                             }
-                            Toast.makeText(context, "Failed " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            jsonParse(utente);
                         }
                     })
                     .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {

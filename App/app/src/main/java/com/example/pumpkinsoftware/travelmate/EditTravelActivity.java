@@ -253,7 +253,7 @@ public class EditTravelActivity extends AppCompatActivity {
                             } catch (JSONException e1) {
                                 e1.printStackTrace();
                             }
-                            Toast.makeText(context, "Failed " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            jsonParse(viaggio);
                         }
                     })
                     .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
