@@ -10,7 +10,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
@@ -27,7 +29,6 @@ public class Tab3 extends Fragment {
     private final static String URL="https://debugtm.herokuapp.com/user/getPassedTripsByUser?userUid=";
     private Context context;
     private RequestQueue mRequestQueue;
-    private ArrayList<Trip> trips;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -39,13 +40,15 @@ public class Tab3 extends Fragment {
         if(user == null) return view;
         final String uid=user.getUid();
 
+        final TextView noTripText = view.findViewById(R.id.noTripText);
+        final ImageView noTripImg = view.findViewById(R.id.noTripImg);
+
         final RecyclerView rvTrips = (RecyclerView) view.findViewById(R.id.recyclerview);
         // Set layout manager to position the items
         rvTrips.setLayoutManager(new LinearLayoutManager(context));
-        trips=new ArrayList<Trip>();
 
-        mRequestQueue= Volley.newRequestQueue(context);
-        new GetTripInteraction(context, rvTrips, progress).getTripsFromServer(URL+uid, mRequestQueue, trips);
+        mRequestQueue = Volley.newRequestQueue(context);
+        new GetTripInteraction(context, rvTrips, progress).getTripsFromServer(URL+uid, mRequestQueue, noTripText, noTripImg);
 
         //swipe da finire
         final SwipeRefreshLayout swipe = (SwipeRefreshLayout) view.findViewById(R.id.swiperefresh);
@@ -58,9 +61,8 @@ public class Tab3 extends Fragment {
                     public void run() {
                         //temporaneo
                         rvTrips.setLayoutManager(new LinearLayoutManager(context));
-                        trips=new ArrayList<Trip>();
-                        mRequestQueue= Volley.newRequestQueue(context);
-                        new GetTripInteraction(context, rvTrips, progress).getTripsFromServer(URL+uid,mRequestQueue,trips);
+                        mRequestQueue = Volley.newRequestQueue(context);
+                        new GetTripInteraction(context, rvTrips, progress).getTripsFromServer(URL+uid, mRequestQueue, noTripText, noTripImg);
                         swipe.setRefreshing(false);
 
                     }

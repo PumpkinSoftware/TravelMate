@@ -10,16 +10,21 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.example.pumpkinsoftware.travelmate.R;
 import com.example.pumpkinsoftware.travelmate.client_server_interaction.GetTripInteraction;
+import com.example.pumpkinsoftware.travelmate.client_server_interaction.ServerCallback;
 import com.example.pumpkinsoftware.travelmate.trip.Trip;
 import com.example.pumpkinsoftware.travelmate.trips_adapter.TripsAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -30,21 +35,23 @@ public class Tab1 extends Fragment {
     private ArrayList<Trip> trips;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_recyclerview_travel, container, false);
         context = getContext();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if(user == null) return view;
         final String uid=user.getUid();
 
+        final TextView noTripText = view.findViewById(R.id.noTripText);
+        final ImageView noTripImg = view.findViewById(R.id.noTripImg);
+
         final ProgressBar progress = view.findViewById(R.id.indeterminateBar);
         final RecyclerView rvTrips = (RecyclerView) view.findViewById(R.id.recyclerview);
         // Set layout manager to position the items
         rvTrips.setLayoutManager(new LinearLayoutManager(context));
-        trips=new ArrayList<Trip>();
 
-        mRequestQueue= Volley.newRequestQueue(context);
-        new GetTripInteraction(context, rvTrips, progress).getTripsFromServer(URL+uid, mRequestQueue, trips);
+        mRequestQueue = Volley.newRequestQueue(context);
+        new GetTripInteraction(context, rvTrips, progress).getTripsFromServer(URL + uid, mRequestQueue, noTripText, noTripImg);
 
         //swipe da finire
         final SwipeRefreshLayout swipe = (SwipeRefreshLayout) view.findViewById(R.id.swiperefresh);
@@ -57,15 +64,16 @@ public class Tab1 extends Fragment {
                     public void run() {
                         //temporaneo
                         rvTrips.setLayoutManager(new LinearLayoutManager(context));
-                        trips=new ArrayList<Trip>();
-                        mRequestQueue= Volley.newRequestQueue(context);
-                        new GetTripInteraction(context, rvTrips, progress).getTripsFromServer(URL+uid,mRequestQueue,trips);
+                        mRequestQueue = Volley.newRequestQueue(context);
+                        new GetTripInteraction(context, rvTrips, progress).getTripsFromServer(URL+uid,mRequestQueue,
+                                noTripText, noTripImg);
                         swipe.setRefreshing(false);
 
                     }
                 },1500);
             }
         });
+
         return view;
     }
 

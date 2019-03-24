@@ -11,6 +11,27 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true" />
 
+    <TextView
+        android:id="@+id/noTripText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:text="@string/empty"
+        android:visibility="gone" />
+
+    <ImageView
+        android:id="@+id/noTripImg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/noTripText"
+        android:layout_alignBottom="@+id/noTripText"
+        android:layout_marginStart="4dp"
+        android:layout_toEndOf="@+id/noTripText"
+        android:src="@drawable/ic_baseline_sentiment_very_dissatisfied_24px"
+        android:tint="#708090"
+        android:visibility="gone" />
+
     <android.support.v4.widget.SwipeRefreshLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/swiperefresh"
