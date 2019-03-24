@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -67,6 +68,7 @@ public class EditUserActivity extends AppCompatActivity {
     private FirebaseStorage storage;
     private StorageReference storageReference;
     private String pathRandom1, pathRandom2;
+    private ProgressBar progressBar;
     private static String status = "";
   //  private int upload = 0;
     FirebaseAuth mAuth;
@@ -99,6 +101,14 @@ public class EditUserActivity extends AppCompatActivity {
 
         final TextView title = findViewById(R.id.title);
         title.setText("Modifica profilo");
+
+        progressBar = findViewById(R.id.indeterminateBar); // GIA' AGGIUNTA NELL'XML
+        // PROCEDURA
+        // 1. CARICO IMMAGINE
+        // 2. progressBar.setVisibility(View.VISIBLE);
+        // 3. FINE CARICAMENTO
+        // 4. progressBar.setVisibility(View.GONE);
+        // NON USARE LA PROGRESS DIALOG CHE BLOCCA L'INTERATTIVITA'
 
         // Values not editables
         final EditText name = (EditText) findViewById(R.id.name_r);
@@ -134,38 +144,6 @@ public class EditUserActivity extends AppCompatActivity {
         mail = user.getEmail();
         mailview.setText(mail);
         mailview.setEnabled(false); // TEMPORANEO
-
-        // TODO add possibility to change password
-        /*FirebaseUser user = mAuth.getCurrentUser();
-        final TextView pass = (TextView) findViewById(R.id.pass);
-        final String newPass = pass.getText();
-
-        // Get auth credentials from the user for re-authentication. The example below shows
-        // email and password credentials but there are multiple possible providers,
-        // such as GoogleAuthProvider or FacebookAuthProvider.
-        AuthCredential credential = EmailAuthProvider.getCredential(mail, "password1234");
-
-        // Prompt the user to re-provide their sign-in credentials
-        user.reauthenticate(credential)
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-                            user.updatePassword(newPass).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    if (task.isSuccessful()) {
-                                        Log.d(TAG, "Password updated");
-                                    } else {
-                                        Log.d(TAG, "Error password not updated")
-                                    }
-                                }
-                            });
-                        } else {
-                            Log.d(TAG, "Error auth failed")
-                        }
-                    }
-                });*/
 
         String rel = user.getRelationship();
         if (rel.equals("Single")) radioButton = findViewById(R.id.single);
@@ -586,6 +564,7 @@ public class EditUserActivity extends AppCompatActivity {
     public static void setStatus(String s) {
         status = s;
     }
+
     private void updateUserForChat(JSONObject utente)  {
         String foto = null;
         try {
@@ -618,5 +597,7 @@ public class EditUserActivity extends AppCompatActivity {
             intent.putExtra(ProfileFragment.EXTRA_USER, user);
             setResult(RESULT_OK, intent);
             finish();
-    }}
+        }
+    }
+
 }

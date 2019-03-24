@@ -138,7 +138,7 @@ public class AccountRegisterActivity extends AppCompatActivity {
                 FOTO = 2;
                 chooseImage();
             }
-        });
+});
 
         TextView terms = findViewById(R.id.terms);
         terms.setMovementMethod(LinkMovementMethod.getInstance());

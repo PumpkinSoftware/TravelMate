@@ -115,8 +115,11 @@
     <string name="contacts">Segnala un bug</string>
     <string name="ourMail">pumpkin.software.italy@gmail.come</string>
     <string name="terms2"><a href="https://pumpkinsoftware.github.io/terms.html">Termini e Condizioni</a> - <a href="https://pumpkinsoftware.github.io/privacy.html">Privacy</a></string>
+    <string name="changePass">Cambia password</string>
 
-
+    <!-- Change pass -->
+    <string name="oldPassword">Vecchia password</string>
+    <string name="newPassword">Nuova password</string>
 
     <!-- Travel page -->
     <string name="tab1">In corso</string>
@@ -142,8 +145,8 @@
     <string name="group2">Gruppo*</string>
     <string name="terms">Cliccando su Conferma, accetti le nostre <a href="https://pumpkinsoftware.github.io/terms.html">Condizioni</a> e confermi di aver letto la nostra normativa sulla <a href="https://pumpkinsoftware.github.io/privacy.html">Privacy</a></string>
 
-    <string name="host">pumpkinsoftware.github.io</string>
-    <string name="empty">Nessun viaggio da mostare</string>
+    <string name="host">pumpkinsoftware.github.io/trip</string>
+    <string name="empty">Nessun viaggio da visualizzare</string>
 
 
     <!-- TODO: Remove or change this placeholder text -->
