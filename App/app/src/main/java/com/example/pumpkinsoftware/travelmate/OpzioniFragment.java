@@ -46,6 +46,15 @@ public class OpzioniFragment extends Fragment {
             }
         });
 
+        final TextView changePass = inflate.findViewById(R.id.changePass);
+        changePass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent (context, ChangePassActivity.class);
+                context.startActivity(intent);
+            }
+        });
+
         final WebView view = (WebView) inflate.findViewById(R.id.twitterFeed);
         view.getSettings().setAppCacheEnabled(true);
         view.getSettings().setJavaScriptEnabled(true);
