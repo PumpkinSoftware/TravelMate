@@ -78,7 +78,7 @@ public class UserDetailsActivity extends AppCompatActivity {
 
         img = findViewById(R.id.header_cover_image);
         GlideApp.with(context)
-                .load(mUser.getCover())
+                .load(mUser.getCover().isEmpty()?R.drawable.blank_cover:mUser.getCover())
                 .into(img);
 
         TextView txt = findViewById(R.id.name);
@@ -123,7 +123,7 @@ public class UserDetailsActivity extends AppCompatActivity {
         }
 
         GlideApp.with(this)
-                .load((img.isEmpty())?(R.mipmap.placeholder_image):(img))
+                .load((img.isEmpty())?(R.drawable.blank_avatar):(img))
                 .placeholder(R.mipmap.placeholder_image)
                 .listener(new RequestListener<Drawable>() {
                     @Override
