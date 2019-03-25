@@ -8,4 +8,5 @@
 -8 : User not found or trip already added
 -9 : User not found or favouriteTrip already added
 -10 : User not found or favouriteTrip not found
+-11 : User already reviewed
 
