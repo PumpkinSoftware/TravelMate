@@ -1008,7 +1008,7 @@ router.get('/leftReviews',function(req,res){
 					var list_passed_trips = passed.map(function(trip){
 						return trip._id;
 					});
-
+					
 					var list_user_already_reviewed = user.myReview.map(function(res){
 						return res.userUid;
 					});
@@ -1021,7 +1021,7 @@ router.get('/leftReviews',function(req,res){
 						]
 					}
 					
-					UserSchema.find(conditions3, 'name surname uid image').exec(function(err,usertoreview){
+					UserSchema.find(conditions3, 'name surname uid avatar').exec(function(err,usertoreview){
 						if(err){
 							console.log(err);
 							console.log(JSON.stringify({ status: "error", type: "-2" }));
@@ -1089,7 +1089,7 @@ router.get('/leftReviewsNumbers',function(req,res){
 						]
 					}
 					
-					UserSchema.find(conditions3, 'name surname uid image').exec(function(err,usertoreview){
+					UserSchema.find(conditions3, '_id').exec(function(err,usertoreview){
 						if(err){
 							console.log(err);
 							console.log(JSON.stringify({ status: "error", type: "-2" }));
