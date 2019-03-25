@@ -12,7 +12,9 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
@@ -34,6 +36,7 @@ public class ChatActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
+
         //toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -44,9 +47,15 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
         context = this;
+
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if(user == null) return ;
         final String uid=user.getUid();
+
+
+        final TextView noTripText = findViewById(R.id.noTripText);
+        final ImageView noTripImg = findViewById(R.id.noTripImg);
+
         final ProgressBar progress = findViewById(R.id.indeterminateBar);
         final RecyclerView rvTrips = (RecyclerView) findViewById(R.id.recyclerview_chat);
         // Set layout manager to position the items
@@ -55,30 +64,8 @@ public class ChatActivity extends AppCompatActivity {
         trips = new ArrayList<Trip>();
 
         mRequestQueue = Volley.newRequestQueue(context);
-        new GetTripInteraction(context, rvTrips, progress).getChatTripsFromServer(URL+uid, mRequestQueue, trips);
-/*
-        //swipe da finire
-        final SwipeRefreshLayout swipe = (SwipeRefreshLayout) findViewById(R.id.swiperefresh);
-        swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                swipe.setRefreshing(true);
-                (new Handler()).postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        //temporaneo
-                        rvTrips.setLayoutManager(new LinearLayoutManager(context));
-                        trips=new ArrayList<Trip>();
-
-                        mRequestQueue = Volley.newRequestQueue(context);
-                        new GetTripInteraction(context, rvTrips, progress).getChatTripsFromServer(URL+uid,mRequestQueue,trips);
-                        swipe.setRefreshing(false);
-
-                    }
-                },1500);
-            }
-        });*/
-
+        new GetTripInteraction(context, rvTrips, progress).getChatTripsFromServer(URL+uid, mRequestQueue, trips, noTripText,
+                noTripImg);
 
     }
 }

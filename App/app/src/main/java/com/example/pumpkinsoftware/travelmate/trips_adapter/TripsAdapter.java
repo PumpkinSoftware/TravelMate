@@ -159,6 +159,7 @@ public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.ViewHolder> 
             intent.putExtra(TravelDetailsActivity.EXTRA_TAG, t.getTag());
             intent.putExtra(TravelDetailsActivity.EXTRA_VEHICLE, t.getVehicle());
             intent.putExtra(TravelDetailsActivity.EXTRA_OWNER_UID, t.getOwner());
+            intent.putExtra(TravelDetailsActivity.EXTRA_ADAPTER_POS, pos);
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 // create the transition animation - the images in the layouts

@@ -122,6 +122,8 @@ public class TravelDetailsActivity extends AppCompatActivity {
     private RecyclerView rvUsers;
     private ProgressBar progress;
     private Trip trip;
+    private boolean isFirstLoading;
+    private int rvPos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -131,7 +133,7 @@ public class TravelDetailsActivity extends AppCompatActivity {
 
         Bundle b = getIntent().getExtras();
         travelId =  b.getString(EXTRA_ID);
-        //final String img =  b.getString(EXTRA_IMG);
+        final String img =  b.getString(EXTRA_IMG);
         final String name =  b.getString(EXTRA_NAME);
         /*final String descr =  b.getString(EXTRA_DESCR);
         final String dep =  b.getString(EXTRA_DEPARTURE);
@@ -144,6 +146,11 @@ public class TravelDetailsActivity extends AppCompatActivity {
         final String tag = b.getString(EXTRA_TAG);
         final String vehicle = b.getString(EXTRA_VEHICLE);*/
         owner_uid = b.getString(EXTRA_OWNER_UID);
+        rvPos = b.getInt(EXTRA_ADAPTER_POS);
+
+        isFirstLoading = true;
+        final ImageView imgv = (ImageView) findViewById(R.id.header_cover_image);
+        loadImg(img, imgv);
 
         // TODO substitute all calls in updateLayout() to findView in private variables initialized here
         /*edit = findViewById(R.id.edit_image);
@@ -591,8 +598,12 @@ public class TravelDetailsActivity extends AppCompatActivity {
         else
             edit.setVisibility(View.GONE);
 
-        final ImageView imgv = (ImageView) findViewById(R.id.header_cover_image);
-        loadImg(t.getImage(), imgv);
+        if(!isFirstLoading) {
+            final ImageView imgv = (ImageView) findViewById(R.id.header_cover_image);
+            loadImg(t.getImage(), imgv);
+        }
+        isFirstLoading = false;
+
         final TextView n = (TextView) findViewById(R.id.name);
         n.setText(t.getName());
         final TextView dsc = (TextView) findViewById(R.id.descr);
@@ -777,6 +788,7 @@ public class TravelDetailsActivity extends AppCompatActivity {
 
     private void close() {
         Intent intent = new Intent();
+        intent.putExtra(HomeFragment.EXTRA_RV_POS, rvPos);
         setResult(RESULT_OK, intent);
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)    finishAfterTransition();
         else    finish();

@@ -72,11 +72,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         // Check if Intent comes from TravelDetailsActivity
-        if(requestCode == REQUEST_CODE){
+        /*if(requestCode == REQUEST_CODE){
             if(resultCode == RESULT_OK) recreate();
         }
         // Else intent comes from EditUserActivity
-        else    super.onActivityResult(requestCode, resultCode, data);
+        else*/    super.onActivityResult(requestCode, resultCode, data);
 
     }
 
