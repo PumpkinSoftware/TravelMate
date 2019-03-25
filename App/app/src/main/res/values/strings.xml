@@ -147,6 +147,7 @@
 
     <string name="host">pumpkinsoftware.github.io/trip</string>
     <string name="empty">Nessun viaggio da visualizzare</string>
+    <string name="emptyChat">Nessuna chat da visualizzare</string>
 
 
     <!-- TODO: Remove or change this placeholder text -->
