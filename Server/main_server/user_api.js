@@ -67,6 +67,14 @@ router.post('/newUser', function(req, res){
                 numReview: 0,
                 sumReview1: 0,
                 numReview1: 0,
+                sumReview2: 0,
+                numReview2: 0,
+                sumReview3: 0,
+                numReview3: 0,
+                sumReview4: 0,
+                numReview4: 0,
+                sumReview5: 0,
+                numReview5: 0,
                 trips: [],
                 favouriteTrips: [],
                 myReview: []
@@ -88,6 +96,14 @@ router.post('/newUser', function(req, res){
                 numReview: 0,
                 sumReview1: 0,
                 numReview1: 0,
+                sumReview2: 0,
+                numReview2: 0,
+                sumReview3: 0,
+                numReview3: 0,
+                sumReview4: 0,
+                numReview4: 0,
+                sumReview5: 0,
+                numReview5: 0,
                 trips: [],
                 favouriteTrips: [],
                 myReview: []
@@ -913,7 +929,7 @@ router.post('/addReview',function(req,res){
 		else{
 
 			var updates = {
-				$inc: {sumReview: input.sumReview, numReview: +1, sumReview1: input.sumReview1, numReview1: +1}
+				$inc: {sumReview: input.sumReview, numReview: +1, sumReview1: input.sumReview1, numReview1: +1,sumReview2: input.sumReview2, numReview2: +1,sumReview3: input.sumReview3, numReview3: +1,sumReview4: input.sumReview4, numReview4: +1,sumReview5: input.sumReview5, numReview5: +1}
 			};
 
 			user.updateOne(updates).exec(function(err, userupdate){
@@ -939,7 +955,7 @@ router.post('/addReview',function(req,res){
 						}			
 						else{
 							var update_my = {
-								$push: {myReview: {userUid:input.userToReview,tripId:input.tripId,sumReview:input.sumReview,sumReview1:input.sumReview1,addDate:new Date()}}
+								$push: {myReview: {userUid:input.userToReview,addDate:new Date()}}
 							};
 							usermy.updateOne(update_my).exec(function(err, userupdate){
 								if (err){
@@ -992,12 +1008,16 @@ router.get('/leftReviews',function(req,res){
 					var list_passed_trips = passed.map(function(trip){
 						return trip._id;
 					});
+
+					var list_user_already_reviewed = user.myReview.map(function(res){
+						return res.userUid;
+					});
 					
 					var conditions3 = {
 						"trips.tripId": {$in: list_passed_trips},
 						$and: [
 						{'uid': {$ne: uid}}, //il secondo uid in questa condizione è quello di req.query.userUid
-						{'uid': {$nin: user.myReview.userUid}} //verifica che l'utente non sia nell'array delle review già fatte
+						{'uid': {$nin: list_user_already_reviewed}} //verifica che l'utente non sia nell'array delle review già fatte
 						]
 					}
 					
@@ -1009,6 +1029,74 @@ router.get('/leftReviews',function(req,res){
 						}
 						else {
 							res.send(usertoreview);
+						}
+					});
+				}
+			});
+
+		}
+		else{
+            res.send(JSON.stringify({ status: "error", type: "-2" }));
+            console.log(JSON.stringify({ status: "error", type: "-2" }));
+        }
+
+    });
+});
+
+/****************************************/
+//Api per ottenre la lista delle recensioni da fare, numero
+router.get('/leftReviewsNumbers',function(req,res){
+	var uid = req.query.userUid;
+
+	UserSchema.findOne({uid : uid}).exec( function(err, user){
+        
+        if (err){
+            res.send(JSON.stringify({ status: "error", typw: "-1" }));
+            console.log(err);
+            console.log(JSON.stringify({ status: "error", typw: "-1" }));
+        }
+        else if (user){
+
+        	var list_trips = user.trips.map(function(trip){
+        		return trip.tripId;
+        	});
+
+        	var conditions2 = {
+        		_id: { $in:  list_trips } 
+        	};
+
+			TripSchema.find(conditions2, '_id').where('endDate').lte(new Date()).exec(function(err,passed){
+				if(err){
+					console.log(err);
+					console.log(JSON.stringify({ status: "error", type: "-1" }));
+					res.send(JSON.stringify({ status: "error", type: "-1" }));
+				}
+				else{
+					
+					var list_passed_trips = passed.map(function(trip){
+						return trip._id;
+					});
+					
+					var list_user_already_reviewed = user.myReview.map(function(res){
+						return res.userUid;
+					});
+					
+					var conditions3 = {
+						"trips.tripId": {$in: list_passed_trips},
+						$and: [
+						{'uid': {$ne: uid}}, //il secondo uid in questa condizione è quello di req.query.userUid
+						{'uid': {$nin: list_user_already_reviewed}} //verifica che l'utente non sia nell'array delle review già fatte
+						]
+					}
+					
+					UserSchema.find(conditions3, 'name surname uid image').exec(function(err,usertoreview){
+						if(err){
+							console.log(err);
+							console.log(JSON.stringify({ status: "error", type: "-2" }));
+							res.send(JSON.stringify({ status: "error", type: "-2" }));
+						}
+						else {
+							res.send({"numbers":usertoreview.length});
 						}
 					});
 				}
