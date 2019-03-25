@@ -44,6 +44,14 @@ public class User implements Serializable {
         comments = new LinkedList<String>();
     }
 
+    public User(String u, String n, String s, String p) {
+        uid=u;
+        name=n;
+        surname=s;
+        photoProfile=p;
+        birthday="";
+    }
+
     public String getUid() { return uid; }
 
     public String getName() { return name; }

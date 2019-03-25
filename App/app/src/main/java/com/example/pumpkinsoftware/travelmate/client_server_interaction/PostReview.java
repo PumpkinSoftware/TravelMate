@@ -11,6 +11,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.gson.JsonObject;
+
+import org.json.JSONObject;
 
 public class PostReview {
     private Context context;
@@ -21,7 +24,8 @@ public class PostReview {
         progressBar = progress;
     }
 
-    public void send(String url) {
+    //TODO: FARE LA POST
+    public void send(String url, JSONObject recensione) {
         final RequestQueue mQueue = Volley.newRequestQueue(context);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override

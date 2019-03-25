@@ -94,6 +94,16 @@ public class HomeFragment extends Fragment {
                 startActivity(intent);
             }
         });
+
+        ImageButton review=(ImageButton) view.findViewById(R.id.button_review);
+        review.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context,ReviewListActivity.class);
+                startActivity(intent);
+            }
+        });
+
         return view;
     }
 

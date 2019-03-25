@@ -44,6 +44,10 @@ public class ErrorServer {
                 Toast.makeText(contesto, "Viaggio già aggiunto", Toast.LENGTH_SHORT).show();
                 break;
             }
+            case "-11": {
+                Toast.makeText(contesto, "Utente già recensito", Toast.LENGTH_SHORT).show();
+                break;
+            }
             default:
                 Toast.makeText(contesto, "Errore sconosciuto", Toast.LENGTH_SHORT).show();
         }

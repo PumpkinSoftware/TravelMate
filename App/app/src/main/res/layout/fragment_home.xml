@@ -32,6 +32,18 @@
             android:scaleX="-1"
             android:background="@color/transparent"
             android:src="@drawable/ic_message_white_32dp" />
+
+        <ImageButton
+            android:id="@+id/button_review"
+            android:layout_gravity="right"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:clickable="true"
+            android:layout_marginEnd="30dp"
+            android:scaleX="-1"
+            android:background="@color/transparent"
+            android:src="@drawable/ic_star_black_24dp" />
+
     </android.support.v7.widget.Toolbar>
     <!-- Fine header -->
 

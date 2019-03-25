@@ -75,11 +75,12 @@
 
             <RatingBar
                 android:id="@+id/ratingBar1"
-                style="@style/Widget.AppCompat.RatingBar.Indicator"
+                style="@style/Widget.AppCompat.RatingBar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_below="@+id/question1"
+                android:clickable="true"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="28dp"
                 android:layout_marginEnd="8dp"
@@ -100,10 +101,11 @@
 
             <RatingBar
                 android:id="@+id/ratingBar2"
-                style="@style/Widget.AppCompat.RatingBar.Indicator"
+                style="@style/Widget.AppCompat.RatingBar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
+                android:clickable="true"
                 android:layout_below="@+id/question2"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="28dp"
@@ -125,11 +127,12 @@
 
             <RatingBar
                 android:id="@+id/ratingBar3"
-                style="@style/Widget.AppCompat.RatingBar.Indicator"
+                style="@style/Widget.AppCompat.RatingBar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_below="@+id/question3"
+                android:clickable="true"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="28dp"
                 android:layout_marginEnd="8dp"
@@ -150,11 +153,38 @@
 
             <RatingBar
                 android:id="@+id/ratingBar4"
-                style="@style/Widget.AppCompat.RatingBar.Indicator"
+                style="@style/Widget.AppCompat.RatingBar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_below="@+id/question4"
+                android:clickable="true"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="28dp"
+                android:layout_marginEnd="8dp"
+                android:progressTint="@color/gold"
+                android:secondaryProgressTint="@color/gold" />
+
+            <TextView
+                android:id="@+id/question5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ratingBar4"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="30dp"
+                android:text="@string/q4"
+                android:textColor="@android:color/black"
+                android:textSize="22sp" />
+
+            <RatingBar
+                android:id="@+id/ratingBar5"
+                style="@style/Widget.AppCompat.RatingBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/question5"
+                android:clickable="true"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="28dp"
                 android:layout_marginEnd="8dp"
@@ -165,7 +195,7 @@
                 android:id="@+id/cardView"
                 android:layout_width="300dp"
                 android:layout_height="50dp"
-                android:layout_below="@+id/ratingBar4"
+                android:layout_below="@+id/ratingBar5"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="28dp"
                 android:layout_marginBottom="28dp"

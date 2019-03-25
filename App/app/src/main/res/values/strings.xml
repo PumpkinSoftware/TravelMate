@@ -127,12 +127,19 @@
     <string name="tab3">Conclusi</string>
 
     <!-- Reviews -->
+    <string name="review_home">I travel mates da recensire</string>
     <string name="review">Recensione</string>
     <string name="experience">Condividi la tua esperienza per migliorare il servizio</string>
-    <string name="q1">Domanda 1</string>
-    <string name="q2">Domanda 2</string>
-    <string name="q3">Domanda 3</string>
-    <string name="q4">Domanda 4</string>
+    <string name="q1">Valutazione del viaggio</string>
+    <string name="q2">Solidarietà e rispetto</string>
+    <string name="q3">Flessibilità e spirito di adattamento</string>
+    <string name="q4">Interessi comuni</string>
+    <string name="q5">Curiosità</string>
+    <string name="r1">1</string>
+    <string name="r2">2</string>
+    <string name="r3">3</string>
+    <string name="r4">4</string>
+    <string name="r5">5</string>
     <string name="send">Invia</string>
 
     <!-- Register -->
@@ -155,6 +162,8 @@
     <string name="partecipanti">Partecipanti:</string>
     <string name="organizzatore">Organizzatore:</string>
     <string name="chat">Chat</string>
+
+
 
 
 </resources>
