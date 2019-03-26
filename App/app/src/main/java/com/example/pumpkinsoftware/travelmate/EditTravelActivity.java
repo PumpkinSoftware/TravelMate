@@ -11,6 +11,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.InputFilter;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -30,6 +31,7 @@ import com.android.volley.toolbox.Volley;
 import com.example.pumpkinsoftware.travelmate.date_picker.EditTextDatePicker;
 import com.example.pumpkinsoftware.travelmate.glide.GlideApp;
 import com.example.pumpkinsoftware.travelmate.handle_error.ErrorServer;
+import com.example.pumpkinsoftware.travelmate.min_max_filter.MinMaxFilter;
 import com.example.pumpkinsoftware.travelmate.trip.Trip;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -62,6 +64,11 @@ public class EditTravelActivity extends AppCompatActivity {
     FirebaseStorage storage;
     StorageReference storageReference;
     private String pathrandom;
+    // Filters on input
+    private final static int MIN_BUDGET = 0;
+    private final static int MAX_BUDGET = 500;
+    private final static int MIN_PARTECIPANTS = 1;
+    private final static int MAX_PARTECIPANTS = 15;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,16 +119,19 @@ public class EditTravelActivity extends AppCompatActivity {
         departure.setOther(ret);
 
         RadioButton radioButton;
-        if (trip.getVehicle().equals("treno")) radioButton = findViewById(R.id.treno);
+        String vehicle_t = trip.getVehicle();
+        if (vehicle_t.equals("treno")) radioButton = findViewById(R.id.treno);
         else radioButton = findViewById(R.id.auto);
         radioButton.setChecked(true);
-        vehicle = trip.getVehicle();
+        vehicle = vehicle_t;
 
         final EditText budget = findViewById(R.id.budget_max_value);
         budget.setText(trip.getBudget());
+        budget.setFilters(new InputFilter[]{new MinMaxFilter(MIN_BUDGET, MAX_BUDGET)});
 
         final EditText partecipants = findViewById(R.id.group_max_value);
         partecipants.setText(String.valueOf(trip.getGroupNumber()));
+        partecipants.setFilters(new InputFilter[]{new MinMaxFilter(MIN_PARTECIPANTS, MAX_PARTECIPANTS)});
 
         final TextInputEditText descr = findViewById(R.id.plantext);
         descr.setText(trip.getDescr());
@@ -135,6 +145,7 @@ public class EditTravelActivity extends AppCompatActivity {
         else if (t_tag.equals("musica")) radioButton = findViewById(R.id.tag3);
         else radioButton = findViewById(R.id.tag4);
         radioButton.setChecked(true);
+        tag = t_tag;
 
         b_upload = findViewById(R.id.photo_upload);
         String img = trip.getImage();
@@ -161,42 +172,88 @@ public class EditTravelActivity extends AppCompatActivity {
                 String departure_q = departure.getSetMonth() + "/" + departure.getSetDay() + "/" + departure.getSetYear();
                 String return_q = ret.getSetMonth() + "/" + ret.getSetDay() + "/" + ret.getSetYear();
 
-                // Useful to check server side
+                // Useful to check server side if current user is actually owner (Ridundant)
                 /*FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 String userUid = null;
                 if (user != null)
                     userUid = user.getUid();*/
 
-                double budget_q = Double.parseDouble(budget.getText().toString());
-                int group_q = Integer.parseInt(partecipants.getText().toString());
+                String budget_t = budget.getText().toString();
+                double budget_q = 0;
+                int group_q = 0;
+                try {
+                    budget_q = Double.parseDouble(budget_t);
+                    group_q = Integer.parseInt(partecipants.getText().toString());
+                }
+                catch (Exception e) {
+                    e.printStackTrace();
+                }
 
                 JSONObject viaggio = new JSONObject();
+                // Check if values have been modified
                 if (!departure_q.equals("-1/-1/-1")) {
 
                     try {
                         viaggio.put("startDate", departure_q);
+                        trip.setStartDate(departure_q);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 }
+
                 if (!return_q.equals("-1/-1/-1")) {
                     try {
                         viaggio.put("endDate", return_q);
+                        trip.setEndDate(return_q);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 }
+
                 try {
                     //viaggio.put("userUid", userUid);
                     viaggio.put("_id", trip.getId());
-                    viaggio.put("name", nome_q);
-                    viaggio.put("description", program_q);
-                    viaggio.put("departure", from_q);
-                    viaggio.put("destination", to_q);
-                    viaggio.put("budget", budget_q);
-                    viaggio.put("vehicle", vehicle);
-                    viaggio.put("tag", tag);
-                    viaggio.put("maxPartecipant", group_q);
+
+                    if(!nome_q.isEmpty() && !nome_q.equals(trip.getName())) {
+                        viaggio.put("name", nome_q);
+                        trip.setName(nome_q);
+                    }
+
+                    if(!program_q.isEmpty() && !program_q.equals(trip.getDescr())) {
+                        viaggio.put("description", program_q);
+                        trip.setDescr(program_q);
+                    }
+
+                    if(!from_q.isEmpty() && !from_q.equals(trip.getDeparture())) {
+                        viaggio.put("departure", from_q);
+                        trip.setDeparture(from_q);
+                    }
+
+                    if(!to_q.isEmpty() && !to_q.equals(trip.getDest())) {
+                        viaggio.put("destination", to_q);
+                        trip.setDest(to_q);
+                    }
+
+                    if(!budget_t.isEmpty() && !budget_t.equals(trip.getBudget())) {
+                        viaggio.put("budget", budget_q);
+                        trip.setBudget(String.valueOf((int) budget_q));
+                    }
+
+                    if(!vehicle.equals(trip.getVehicle())) {
+                        viaggio.put("vehicle", vehicle);
+                        trip.setVehicle(vehicle);
+                    }
+
+                    if(!tag.equals(trip.getTag())) {
+                        viaggio.put("tag", tag);
+                        trip.setTag(tag);
+                    }
+
+                    if(group_q > 1 && group_q != trip.getPartecipantsNumber()) {
+                        viaggio.put("maxPartecipant", group_q);
+                        trip.setGroup_number(group_q);
+                    }
+
                     //FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                     //if (user != null) viaggio.put("owner", user.getUid());
 
@@ -205,11 +262,6 @@ public class EditTravelActivity extends AppCompatActivity {
                 }
                 uploadImage(viaggio);
                 Intent intent = new Intent();
-                trip.setBudget(String.valueOf((int) budget_q));
-                trip.setDescr(program_q);
-                trip.setGroup_number(group_q);
-                trip.setVehicle(vehicle);
-                // TODO set all editable values
                 intent.putExtra(TravelDetailsActivity.EXTRA_TRIP, trip);
                 setResult(RESULT_OK, intent);
                 finish();
@@ -225,6 +277,7 @@ public class EditTravelActivity extends AppCompatActivity {
             //final ProgressDialog progressDialog = new ProgressDialog(this.contesto);
             // progressDialog.setTitle("Creazione viaggio in corso...");
             // progressDialog.show();
+            trip.setImage(filePath.toString());
             final StorageReference ref = storageReference.child("tripImage/" + pathrandom);
             ref.putFile(filePath)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {

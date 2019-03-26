@@ -267,13 +267,23 @@ public class EditUserActivity extends AppCompatActivity {
         JSONObject utente = new JSONObject();
         try {
             utente.put("uid", user.getUid());
-            utente.put("description", bio);
+
+            // Check if values have been modified
+            if(!bio.equals(user.getDescr())) {
+                utente.put("description", bio);
+                user.setDescr(bio);
+            }
 
             if (!relationship.equals("Single")) {
                 if (gender.equals("Uomo")) relationship = "Fidanzato";
                 else relationship = "Fidanzata";
             }
-            utente.put("relationship", relationship);
+
+            if(!relationship.equals(user.getRelationship())) {
+                utente.put("relationship", relationship);
+                user.setRelationship(relationship);
+            }
+
             //utente.put("email", mail);
 
         } catch (JSONException e) {
@@ -282,12 +292,14 @@ public class EditUserActivity extends AppCompatActivity {
 
         uploadImage1(utente);
         Intent intent = new Intent();
-        user.setDescr(bio);
-        user.setRelationship(relationship);
-        // TODO set all editable values
+
+        if(filePath2 != null)
+            user.setCover(filePath2.toString());
+
         intent.putExtra(ProfileFragment.EXTRA_USER, user);
         setResult(RESULT_OK, intent);
         finish();
+
        /* new PostUser(context).jsonParse(utente, PostUser.flag.UPDATE, new ServerCallback() {
             @Override
             public void onSuccess(JSONObject response) {
@@ -318,6 +330,7 @@ public class EditUserActivity extends AppCompatActivity {
 
     private void uploadImage1(final JSONObject utente) {
         if (filePath1 != null) {
+            user.setPhotoProfile(filePath1.toString());
             final StorageReference ref = storageReference.child("userImage/" + mail + "/" + pathRandom1);
             ref.putFile(filePath1)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {

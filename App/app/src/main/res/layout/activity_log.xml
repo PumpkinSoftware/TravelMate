@@ -27,7 +27,7 @@
         android:backgroundTint="@color/white"
         android:drawableLeft="@drawable/ic_baseline_person_24px"
         android:ems="10"
-        android:hint="@string/username"
+        android:hint="@string/mail"
         android:inputType="textPersonName"
         android:nextFocusForward="@+id/password"
         android:textColor="@color/white"
