@@ -63,7 +63,7 @@ public class EditTravelActivity extends AppCompatActivity {
     //Firebase
     FirebaseStorage storage;
     StorageReference storageReference;
-    private String pathrandom;
+
     // Filters on input
     private final static int MIN_BUDGET = 0;
     private final static int MAX_BUDGET = 500;
@@ -79,7 +79,6 @@ public class EditTravelActivity extends AppCompatActivity {
         // file per firebase
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
-        pathrandom = UUID.randomUUID().toString();
 
         Bundle b = getIntent().getExtras();
         trip = (Trip) b.getSerializable(EXTRA_TRAVEL);
@@ -278,7 +277,7 @@ public class EditTravelActivity extends AppCompatActivity {
             // progressDialog.setTitle("Creazione viaggio in corso...");
             // progressDialog.show();
             trip.setImage(filePath.toString());
-            final StorageReference ref = storageReference.child("tripImage/" + pathrandom);
+            final StorageReference ref = storageReference.child("tripImage/" + UUID.randomUUID().toString());
             ref.putFile(filePath)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
@@ -327,7 +326,7 @@ public class EditTravelActivity extends AppCompatActivity {
     }
 
 
-    private void jsonParse(JSONObject viaggio) {
+    private void jsonParse(final JSONObject viaggio) {
         RequestQueue mQueue = Volley.newRequestQueue(this);
         final JsonObjectRequest JORequest = new JsonObjectRequest(Request.Method.POST, URL, viaggio, new Response.Listener<JSONObject>() {
             @Override
@@ -343,7 +342,7 @@ public class EditTravelActivity extends AppCompatActivity {
                     } else {
                         String err = response.getString("type");
                         new ErrorServer(context).handleError(err);
-                        deleteImg(storageReference.child("tripImage/" + pathrandom));
+                        deleteImg(storage.getReferenceFromUrl(viaggio.getString("image")));
                     }
 
                 } catch (JSONException e) {
