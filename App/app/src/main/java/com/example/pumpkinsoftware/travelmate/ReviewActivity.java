@@ -25,8 +25,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class ReviewActivity extends AppCompatActivity {
-    public static final String EXTRA_PHOTO ="";
-    public static final String EXTRA_UIDUU ="";
+    public static final String EXTRA_PHOTO ="travelmate_extra_ra_photo";
+    public static final String EXTRA_UIDUU ="travelmate_extra_ra_uid";
     private Context context;
     private final short N = 5;  // N questions
     private boolean[] isSetted = new boolean[N];
@@ -52,9 +52,9 @@ public class ReviewActivity extends AppCompatActivity {
 
         Bundle b = getIntent().getExtras();
         uid2 = b.getString(EXTRA_UIDUU);
-        Log.i("useruid2",uid2);
+        //Log.i("useruid2",uid2);
         photo=b.getString(EXTRA_PHOTO);
-        Log.i("photo2",photo);
+        //Log.i("photo2",photo);
 
         user = FirebaseAuth.getInstance().getCurrentUser();
         if(user == null) return;
@@ -112,7 +112,7 @@ public class ReviewActivity extends AppCompatActivity {
                     try {
                         recensione.put("userUid",uid);
                         recensione.put("userToReview",uid2);
-                        recensione.put("sumReview",sum);
+                        recensione.put("sumReview",sum/N);
                         recensione.put("sumReview1",ratingBars[0].getRating());
                         recensione.put("sumReview2",ratingBars[1].getRating());
                         recensione.put("sumReview3",ratingBars[2].getRating());
@@ -124,9 +124,11 @@ public class ReviewActivity extends AppCompatActivity {
                     }
 
                     new PostReview(context, progress,mQueue).send(URL,recensione);
-                    Log.i("useruid3",uid2);
+                    //Log.i("useruid3",uid2);
+                    finish();
                 }else{
                     Toast.makeText(context,"Devi rispondere a tutte le domande", Toast.LENGTH_SHORT).show();
+
                 }
             }
         });

@@ -169,7 +169,7 @@ public class ProfileFragment extends Fragment {
         txt.setText(n);
 
         txt = view.findViewById(R.id.rating);
-        txt.setText(String.valueOf(roundToHalf(mUser.getRank())));
+        txt.setText(String.valueOf(mUser.getRank()));
 
         RatingBar ratingBar = view.findViewById(R.id.ratingBar);
         ratingBar.setRating((float) mUser.getRank());

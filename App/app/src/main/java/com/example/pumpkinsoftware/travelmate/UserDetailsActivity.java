@@ -105,7 +105,7 @@ public class UserDetailsActivity extends AppCompatActivity {
         txt.setText(n);
 
         txt = findViewById(R.id.rating);
-        txt.setText(String.valueOf(ProfileFragment.roundToHalf(mUser.getRank())));
+        txt.setText(String.valueOf((mUser.getRank())));
 
         RatingBar ratingBar = findViewById(R.id.ratingBar);
         ratingBar.setRating((float) mUser.getRank());

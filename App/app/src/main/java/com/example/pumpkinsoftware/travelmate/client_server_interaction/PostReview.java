@@ -29,7 +29,6 @@ public class PostReview {
         mQueue=rq;
     }
 
-    //TODO: FARE LA POST
     public void send(String url, JSONObject review) {
         final JsonObjectRequest JORequest = new JsonObjectRequest(Request.Method.POST, url, review, new Response.Listener<JSONObject>() {
             @Override

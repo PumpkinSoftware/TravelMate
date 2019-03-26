@@ -63,7 +63,7 @@ public class GetUserByUid {
                     String descr = user.getString("description");
                     String photo = user.getString("avatar");
                     String cover = user.getString("cover");
-                    int sumReviews = user.getInt("sumReview");
+                    double sumReviews = user.getDouble("sumReview");
                     int numReviews = user.getInt("numReview");
 
                     // Per ora non serve, vediamo se in futuro può essere utile

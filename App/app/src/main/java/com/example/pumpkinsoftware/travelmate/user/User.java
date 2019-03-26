@@ -10,7 +10,8 @@ import java.util.LinkedList;
 public class User implements Serializable {
     private final String uid, name, surname, birthday;
     private String gender, relationship, email, descr, photoProfile, cover;
-    private short sumReviews, numReviews;
+    private short  numReviews;
+    private double sumReviews;
     private LinkedList<String> trips;
     private LinkedList<String> favTrips; // String because we need only travel id
     private LinkedList<String> comments;
@@ -26,7 +27,7 @@ public class User implements Serializable {
 
     // Useful when we need info about a user
     public User(String uid, String name, String surname, String birthday, String gender, String relationship, String email,
-                String descr, String photoProfile, String cover, int sumReviews, int numReviews) {
+                String descr, String photoProfile, String cover, double sumReviews, int numReviews) {
         this.uid = uid;
         this.name = name;
         this.surname = surname;
@@ -37,7 +38,7 @@ public class User implements Serializable {
         this.descr = descr;
         this.photoProfile = photoProfile;
         this.cover = cover;
-        this.sumReviews = (short) sumReviews;
+        this.sumReviews = sumReviews;
         this.numReviews = (short) numReviews;
         this.trips = new LinkedList<String>();
         favTrips = new LinkedList<String>();
@@ -73,7 +74,7 @@ public class User implements Serializable {
     public String getCover() { return cover; }
 
     // Sum of all votes received by user
-    public short getSumReviews() { return sumReviews; }
+    public double getSumReviews() { return sumReviews; }
 
     public short getNumReviews() { return numReviews; }
 
@@ -146,7 +147,7 @@ public class User implements Serializable {
     }
 
     public double getRank() {
-        return (sumReviews==0 && numReviews==0)?0:sumReviews / numReviews ;
+        return (sumReviews==0 && numReviews==0)?0: sumReviews / numReviews ;
     }
 
 }
