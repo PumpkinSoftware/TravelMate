@@ -11,6 +11,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.example.pumpkinsoftware.travelmate.content_fragment_travels.Tab1;
+
 public class MainActivity extends AppCompatActivity {
     public static final String FREE_QUERY = "com.example.pumpkinsoftware.travelmate.FREE_QUERY";
     public static final String FILTERED_QUERY = "com.example.pumpkinsoftware.travelmate.FILTERED_QUERY";
@@ -69,15 +71,10 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    // Included to allow fragments to receive onActivityResult
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        // Check if Intent comes from TravelDetailsActivity
-        /*if(requestCode == REQUEST_CODE){
-            if(resultCode == RESULT_OK) recreate();
-        }
-        // Else intent comes from EditUserActivity
-        else*/    super.onActivityResult(requestCode, resultCode, data);
-
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
 }

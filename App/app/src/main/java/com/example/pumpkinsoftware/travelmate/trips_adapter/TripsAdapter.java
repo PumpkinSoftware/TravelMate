@@ -8,6 +8,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,9 +22,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.support.v7.widget.RecyclerView;
 
+import com.example.pumpkinsoftware.travelmate.HomeFragment;
 import com.example.pumpkinsoftware.travelmate.MainActivity;
 import com.example.pumpkinsoftware.travelmate.TravelDetailsActivity;
+import com.example.pumpkinsoftware.travelmate.ViaggiFragment;
+import com.example.pumpkinsoftware.travelmate.content_fragment_travels.Tab1;
+import com.example.pumpkinsoftware.travelmate.content_fragment_travels.Tab3;
 import com.example.pumpkinsoftware.travelmate.glide.GlideApp;
+import com.example.pumpkinsoftware.travelmate.pager_adapter.SlidePagerAdapter;
 import com.example.pumpkinsoftware.travelmate.trip.Trip;
 import com.example.pumpkinsoftware.travelmate.R;
 
@@ -168,12 +179,38 @@ public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.ViewHolder> 
                         Pair.create((View)trip_image, "travel_image"));
                 //Pair.create((View)trip_name, "travel_name"));
                 // start the new activity
-                ((Activity) context).startActivityForResult(intent, MainActivity.REQUEST_CODE, options.toBundle());
+                Fragment f = getVisibleFragment();
+                if(f != null) { // Here I can handle properly the return intent
+                    if (f instanceof HomeFragment)
+                        f.startActivityForResult(intent, HomeFragment.REQUEST_CODE, options.toBundle());
+
+                    else if(f instanceof ViaggiFragment) {
+                        ViewPager viewPager = ((ViaggiFragment) f).getViewPager();
+                        if(viewPager.getCurrentItem() == 0) // In corso
+                            f.startActivityForResult(intent, Tab1.REQUEST_CODE, options.toBundle());
+                    }
+                }
+
+                else
+                    ((Activity)context).startActivityForResult(intent, HomeFragment.REQUEST_CODE, options.toBundle());
             }
 
             else {
                 context.startActivity(intent);
             }
+        }
+
+        // Get current fragment
+        private Fragment getVisibleFragment(){
+            FragmentManager fragmentManager = ((AppCompatActivity)context).getSupportFragmentManager();
+            List<Fragment> fragments = fragmentManager.getFragments();
+            if(fragments != null){
+                for(Fragment fragment : fragments){
+                    if(fragment != null && fragment.isVisible())
+                        return fragment;
+                }
+            }
+            return null;
         }
 
     }

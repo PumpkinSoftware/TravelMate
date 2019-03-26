@@ -46,6 +46,7 @@ public class HomeFragment extends Fragment {
     private TextView noTripText;
     private ImageView noTripImg;
     public final static String EXTRA_RV_POS = "travelmate_extra_hf_RV_POS";
+    public static final int REQUEST_CODE = 2;
 
     @Nullable
     @Override
@@ -145,19 +146,13 @@ public class HomeFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 2) {
+        if (requestCode == REQUEST_CODE) {
             if(resultCode == Activity.RESULT_OK) {
                 Bundle b = data.getExtras();
                 int pos = b.getInt(EXTRA_RV_POS);
                 updateLayout(pos);
             }
         }
-    }
-
-    @Override
-    public void onResume(){
-        super.onResume();
-        updateLayout();
     }
 
 }

@@ -792,7 +792,6 @@ public class TravelDetailsActivity extends AppCompatActivity {
         setResult(RESULT_OK, intent);
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)    finishAfterTransition();
         else    finish();
-        //MainActivity.getInstance().recreate();
     }
 
     private void calculateColor(String photoPath) {

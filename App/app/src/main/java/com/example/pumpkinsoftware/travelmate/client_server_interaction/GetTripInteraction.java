@@ -1,6 +1,7 @@
 package com.example.pumpkinsoftware.travelmate.client_server_interaction;
 
 import android.content.Context;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
@@ -143,10 +144,18 @@ public class GetTripInteraction {
         mQueue.add(request);
     }
 
+    //private int lastSize;
+
     // EXCLUSIVELY USAGE WHEN USER RETURNS FROM TRAVEL DETAILS
     public void getTripsFromServer(String query, RequestQueue mQueue, final int pos) {
-        if(mTrips == null)    mTrips = new ArrayList<Trip>();
-        else                  mTrips.clear();
+        if(mTrips == null) {
+            mTrips = new ArrayList<Trip>();
+            //lastSize = 0;
+        }
+        else {
+            //lastSize = mTrips.size();
+            mTrips.clear();
+        }
 
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, query, null, new Response.Listener<JSONArray>() {
             public void onResponse(JSONArray response) {
@@ -174,7 +183,15 @@ public class GetTripInteraction {
                     adapter = new TripsAdapter(mTrips);
                     // Attach the adapter to the recyclerview to populate items
                     rvTrips.setAdapter(adapter);
-                    rvTrips.scrollToPosition(pos);
+
+                    // Check if last position is still in Array
+                    int newSize = mTrips.size();
+                    int newPos = pos;
+
+                    if(pos >= newSize) // => newSize < lastSize
+                        newPos = newSize-1;
+
+                    rvTrips.scrollToPosition(newPos);
                     hideProgressBar();
                 } catch (JSONException e) {
                     e.printStackTrace();
