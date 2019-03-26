@@ -102,9 +102,21 @@ public class Trip implements Serializable {
         for(int i=0; i<group_number; i++)
     }*/
 
-    public void setDescr(String description) {
-        descr = description;
-    }
+    public void setImage(String image) { trip_image = image; }
+
+    public void setName(String name) { trip_name = name; }
+
+    public void setDescr(String description) { descr = description; }
+
+    public void setDeparture(String dep) { departure = dep; }
+
+    public void setDest(String destination) { dest = destination; }
+
+    public void setBudget(String budget) { budget_number = budget; }
+
+    public void setStartDate(String startDate) { start_date = startDate; }
+
+    public void setEndDate(String endDate) { end_date = endDate; }
 
     public void setPartecipantsNumber(int p) {
         partecipants_number = p;
@@ -114,15 +126,15 @@ public class Trip implements Serializable {
         group_number = group;
     }
 
-    public void setBudget(String budget) {
-        budget_number = budget;
-    }
-
-    public void setOwner(String o) {
-        owner = o;
+    public void setTag(String t) {
+        tag = t;
     }
 
     public void setVehicle(String v) {
         vehicle = v;
+    }
+
+    public void setOwner(String o) {
+        owner = o;
     }
 }

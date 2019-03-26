@@ -16,7 +16,7 @@ public class SlidePagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int index) {
-        Fragment fragment = null;
+        Fragment fragment;
         if (index == 0)         fragment = new Tab1();
         //else if (index == 1)    fragment = new Tab2();
         else                    fragment = new Tab3();
@@ -27,7 +27,6 @@ public class SlidePagerAdapter extends FragmentPagerAdapter {
     public int getCount() {
         return 2;
     }
-
 
     @Override
     public CharSequence getPageTitle(int index) {

@@ -1,4 +1,5 @@
 package com.example.pumpkinsoftware.travelmate;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -26,6 +27,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ViaggiFragment extends Fragment implements View.OnClickListener {
     public FloatingActionButton fabBtn;
@@ -33,6 +35,7 @@ public class ViaggiFragment extends Fragment implements View.OnClickListener {
     private TabLayout tabLayout;
     private Context context;
     private static final String URL="https://debugtm.herokuapp.com/user/getTripByUserSplit?userUid=";
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)  {
@@ -75,6 +78,7 @@ public class ViaggiFragment extends Fragment implements View.OnClickListener {
 
     }
 
+    public ViewPager getViewPager() { return viewPager; }
 
     //necessario per implements del tutorial
     public void onClick(View v) {
@@ -82,5 +86,17 @@ public class ViaggiFragment extends Fragment implements View.OnClickListener {
         startActivity(intent);
     };
     //il metodo run this è dichiarato nel main, l'activity genitore
+
+    // Included to allow fragments to receive onActivityResult
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        List<Fragment> fragments = getChildFragmentManager().getFragments();
+        if(fragments != null){
+            for(Fragment fragment : fragments){
+                fragment.onActivityResult(requestCode, resultCode, data);
+            }
+        }
+    }
 
 }

@@ -1,6 +1,8 @@
 package com.example.pumpkinsoftware.travelmate.content_fragment_travels;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -32,7 +34,13 @@ public class Tab1 extends Fragment {
     private final static String URL="https://debugtm.herokuapp.com/user/getProgressTripsByUser?userUid=";
     private Context context;
     private RequestQueue mRequestQueue;
-    private ArrayList<Trip> trips;
+    private String uid;
+    private ProgressBar progress;
+    private RecyclerView rvTrips;
+    private TextView noTripText;
+    private ImageView noTripImg;
+    public final static String EXTRA_RV_POS = "travelmate_extra_hf_RV_POS";
+    public static final int REQUEST_CODE = 3;
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
@@ -40,18 +48,16 @@ public class Tab1 extends Fragment {
         context = getContext();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if(user == null) return view;
-        final String uid=user.getUid();
+        uid = user.getUid();
 
-        final TextView noTripText = view.findViewById(R.id.noTripText);
-        final ImageView noTripImg = view.findViewById(R.id.noTripImg);
+        noTripText = view.findViewById(R.id.noTripText);
+        noTripImg = view.findViewById(R.id.noTripImg);
 
-        final ProgressBar progress = view.findViewById(R.id.indeterminateBar);
-        final RecyclerView rvTrips = (RecyclerView) view.findViewById(R.id.recyclerview);
+        progress = view.findViewById(R.id.indeterminateBar);
+        rvTrips = (RecyclerView) view.findViewById(R.id.recyclerview);
         // Set layout manager to position the items
         rvTrips.setLayoutManager(new LinearLayoutManager(context));
-
-        mRequestQueue = Volley.newRequestQueue(context);
-        new GetTripInteraction(context, rvTrips, progress).getTripsFromServer(URL + uid, mRequestQueue, noTripText, noTripImg);
+        updateLayout();
 
         //swipe da finire
         final SwipeRefreshLayout swipe = (SwipeRefreshLayout) view.findViewById(R.id.swiperefresh);
@@ -63,10 +69,7 @@ public class Tab1 extends Fragment {
                     @Override
                     public void run() {
                         //temporaneo
-                        rvTrips.setLayoutManager(new LinearLayoutManager(context));
-                        mRequestQueue = Volley.newRequestQueue(context);
-                        new GetTripInteraction(context, rvTrips, progress).getTripsFromServer(URL+uid,mRequestQueue,
-                                noTripText, noTripImg);
+                        updateLayout();
                         swipe.setRefreshing(false);
 
                     }
@@ -77,5 +80,27 @@ public class Tab1 extends Fragment {
         return view;
     }
 
+    private void updateLayout() {
+        mRequestQueue = Volley.newRequestQueue(context);
+        new GetTripInteraction(context, rvTrips, progress).getTripsFromServer(URL+uid, mRequestQueue, noTripText, noTripImg);
+    }
+
+    // To call exclusively when user cames back from TravelDetailsActivity
+    private void updateLayout(int pos) {
+        mRequestQueue = Volley.newRequestQueue(context);
+        new GetTripInteraction(context, rvTrips, progress).getTripsFromServer(URL+uid, mRequestQueue, pos);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE) {
+            if(resultCode == Activity.RESULT_OK) {
+                Bundle b = data.getExtras();
+                int pos = b.getInt(EXTRA_RV_POS);
+                updateLayout(pos);
+            }
+        }
+    }
 
 }
