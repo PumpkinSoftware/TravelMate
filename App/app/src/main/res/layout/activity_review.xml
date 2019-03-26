@@ -173,7 +173,7 @@
                 android:layout_alignParentStart="true"
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="30dp"
-                android:text="@string/q4"
+                android:text="@string/q5"
                 android:textColor="@android:color/black"
                 android:textSize="22sp" />
 

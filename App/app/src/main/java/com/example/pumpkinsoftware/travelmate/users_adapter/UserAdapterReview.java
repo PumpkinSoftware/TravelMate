@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -101,8 +102,10 @@ public class UserAdapterReview extends RecyclerView.Adapter<UserAdapterReview.Vi
     private void apriReview(User u) {
             //passa foto e uid
         Intent intent = new Intent(context, ReviewActivity.class);
-        intent.putExtra(ReviewActivity.EXTRA_UID,u.getUid());
+        intent.putExtra(ReviewActivity.EXTRA_UIDUU,u.getUid());
+        Log.i("useruid",u.getUid());
         intent.putExtra(ReviewActivity.EXTRA_PHOTO, u.getPhotoProfile());
+        Log.i("photo1",u.getPhotoProfile());
         context.startActivity(intent);
 
     }

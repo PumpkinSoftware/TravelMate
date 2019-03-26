@@ -63,7 +63,7 @@ public class CreationTrip extends AppCompatActivity {
     //Firebase
     FirebaseStorage storage;
     StorageReference storageReference;
-    private String pathrandom;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,7 +88,7 @@ public class CreationTrip extends AppCompatActivity {
         // file per firebase
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
-        pathrandom = UUID.randomUUID().toString();
+
         // campi
         final EditText budget = findViewById(R.id.budget_max_value);
         final EditText group = findViewById(R.id.group_max_value);
@@ -240,7 +240,7 @@ public class CreationTrip extends AppCompatActivity {
             //final ProgressDialog progressDialog = new ProgressDialog(this.contesto);
             // progressDialog.setTitle("Creazione viaggio in corso...");
             // progressDialog.show();
-            final StorageReference ref = storageReference.child("tripImage/" + pathrandom);
+            final StorageReference ref = storageReference.child("tripImage/" + UUID.randomUUID().toString());
             ref.putFile(filePath)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
@@ -297,7 +297,7 @@ public class CreationTrip extends AppCompatActivity {
     }
 
 
-    private void jsonParse(JSONObject viaggio) {
+    private void jsonParse(final JSONObject viaggio) {
         final JsonObjectRequest JORequest = new JsonObjectRequest(Request.Method.POST, URL, viaggio, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -309,7 +309,7 @@ public class CreationTrip extends AppCompatActivity {
                     } else {
                         String err = response.getString("type");
                         new ErrorServer(contesto).handleError(err);
-                        deleteTrip();
+                        deleteImg(storage.getReferenceFromUrl(viaggio.getString("image")));
                     }
 
                 } catch (JSONException e) {
@@ -365,9 +365,8 @@ public class CreationTrip extends AppCompatActivity {
         }
     }
 
-    private void deleteTrip() {
-        StorageReference storageRef = storageReference.child("tripImage/" + pathrandom);
-        storageRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+    private void deleteImg(StorageReference image) {
+        image.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
                 // File deleted successfully
@@ -380,7 +379,6 @@ public class CreationTrip extends AppCompatActivity {
                 // Log.d(TAG, "onFailure: did not delete file");
             }
         });
-
     }
 }
 

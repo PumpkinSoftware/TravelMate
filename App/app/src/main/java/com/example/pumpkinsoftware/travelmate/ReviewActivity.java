@@ -5,6 +5,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -12,6 +13,8 @@ import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.Toast;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.Volley;
 import com.example.pumpkinsoftware.travelmate.client_server_interaction.PostReview;
 import com.example.pumpkinsoftware.travelmate.glide.GlideApp;
 import com.google.firebase.auth.FirebaseAuth;
@@ -22,13 +25,15 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class ReviewActivity extends AppCompatActivity {
-    public static final String EXTRA_PHOTO ="", EXTRA_UID = "";
+    public static final String EXTRA_PHOTO ="";
+    public static final String EXTRA_UIDUU ="";
     private Context context;
     private final short N = 5;  // N questions
     private boolean[] isSetted = new boolean[N];
-    private final static String URL = "";
+    private final static String URL = "https://debugtm.herokuapp.com/user/addReview";
     FirebaseUser user;
     private String uid,uid2,photo;
+    private RequestQueue mQueue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,13 +51,16 @@ public class ReviewActivity extends AppCompatActivity {
         });
 
         Bundle b = getIntent().getExtras();
-        uid2 = b.getString(EXTRA_UID);
+        uid2 = b.getString(EXTRA_UIDUU);
+        Log.i("useruid2",uid2);
         photo=b.getString(EXTRA_PHOTO);
+        Log.i("photo2",photo);
 
         user = FirebaseAuth.getInstance().getCurrentUser();
         if(user == null) return;
         uid = user.getUid();
 
+        mQueue = Volley.newRequestQueue(context);
 
         ImageView img = (ImageView) findViewById(R.id.profile);
         GlideApp.with(context)
@@ -105,17 +113,18 @@ public class ReviewActivity extends AppCompatActivity {
                         recensione.put("userUid",uid);
                         recensione.put("userToReview",uid2);
                         recensione.put("sumReview",sum);
-                        recensione.put("sumReview1",ratingBars[0]);
-                        recensione.put("sumReview2",ratingBars[1]);
-                        recensione.put("sumReview3",ratingBars[2]);
-                        recensione.put("sumReview4",ratingBars[3]);
-                        recensione.put("sumReview5",ratingBars[4]);
+                        recensione.put("sumReview1",ratingBars[0].getRating());
+                        recensione.put("sumReview2",ratingBars[1].getRating());
+                        recensione.put("sumReview3",ratingBars[2].getRating());
+                        recensione.put("sumReview4",ratingBars[3].getRating());
+                        recensione.put("sumReview5",ratingBars[4].getRating());
 
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
 
-                    //new PostReview(context, progress).send(URL,recensione);
+                    new PostReview(context, progress,mQueue).send(URL,recensione);
+                    Log.i("useruid3",uid2);
                 }else{
                     Toast.makeText(context,"Devi rispondere a tutte le domande", Toast.LENGTH_SHORT).show();
                 }

@@ -69,7 +69,6 @@ public class EditUserActivity extends AppCompatActivity {
     private int FOTO = 0;
     private FirebaseStorage storage;
     private StorageReference storageReference;
-    private String pathRandom1, pathRandom2;
     private ProgressBar progressBar;
     private static String status = "";
     //  private int upload = 0;
@@ -84,8 +83,7 @@ public class EditUserActivity extends AppCompatActivity {
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
         mAuth = FirebaseAuth.getInstance();
-        pathRandom1 = UUID.randomUUID().toString();
-        pathRandom2 = UUID.randomUUID().toString();
+
 
         Bundle b = getIntent().getExtras();
         user = (User) b.getSerializable(EXTRA_USER);
@@ -331,7 +329,7 @@ public class EditUserActivity extends AppCompatActivity {
     private void uploadImage1(final JSONObject utente) {
         if (filePath1 != null) {
             user.setPhotoProfile(filePath1.toString());
-            final StorageReference ref = storageReference.child("userImage/" + mail + "/" + pathRandom1);
+            final StorageReference ref = storageReference.child("userImage/" + mail + "/" + UUID.randomUUID().toString());
             ref.putFile(filePath1)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
@@ -377,7 +375,7 @@ public class EditUserActivity extends AppCompatActivity {
 
     private void uploadImage2(final JSONObject utente) {
         if (filePath2 != null) {
-            final StorageReference ref2 = storageReference.child("userImage/" + mail + "/" + pathRandom2);
+            final StorageReference ref2 = storageReference.child("userImage/" + mail + "/" + UUID.randomUUID().toString());
             ref2.putFile(filePath2)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override

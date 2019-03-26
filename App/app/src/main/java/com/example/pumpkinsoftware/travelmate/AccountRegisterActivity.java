@@ -316,7 +316,7 @@ public class AccountRegisterActivity extends AppCompatActivity {
 
     private void uploadImage1(final JSONObject utente) {
         if (filePath1 != null) {
-            final StorageReference ref = storageReference.child("userImage/" + mail + "/avatar");
+            final StorageReference ref = storageReference.child("userImage/" + mail+"/"+UUID.randomUUID().toString());
             ref.putFile(filePath1)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
@@ -371,7 +371,7 @@ public class AccountRegisterActivity extends AppCompatActivity {
 
     private void uploadImage2(final JSONObject utente) {
         if (filePath2 != null) {
-            final StorageReference ref = storageReference.child("userImage/" + mail + "/cover");
+            final StorageReference ref = storageReference.child("userImage/" + mail + "/"+UUID.randomUUID().toString());
             ref.putFile(filePath1)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
@@ -427,7 +427,7 @@ public class AccountRegisterActivity extends AppCompatActivity {
             @Override
             public void onSuccess(JSONObject response) {
                 if (getStatus().equals("ERROR")) {
-                    deleteUser();
+                    deleteUser(utente);
                 }
                 if (getStatus().equals("OK")) {
                     updateUserForChat();
@@ -545,7 +545,7 @@ public class AccountRegisterActivity extends AppCompatActivity {
         finish();
     }
 
-    public void deleteUser() {
+    public void deleteUser(final JSONObject utente) {
         user.delete()
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
@@ -556,42 +556,38 @@ public class AccountRegisterActivity extends AppCompatActivity {
                     }
                 });
         if (filePath1 != null) {
-            StorageReference storageRef = storageReference.child("tripUser/" + mail + "/avatar");
-            storageRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
-                @Override
-                public void onSuccess(Void aVoid) {
-                    // File deleted successfully
-                    // Log.d(TAG, "onSuccess: deleted file");
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception exception) {
-                    // Uh-oh, an error occurred!
-                    // Log.d(TAG, "onFailure: did not delete file");
-                }
-            });
+            try {
+                deleteImg(storage.getReferenceFromUrl(utente.getString("avatar")));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
         if (filePath2 != null) {
-            StorageReference storageRef = storageReference.child("tripUser/" + mail + "/cover");
-            storageRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
-                @Override
-                public void onSuccess(Void aVoid) {
-                    // File deleted successfully
-                    // Log.d(TAG, "onSuccess: deleted file");
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception exception) {
-                    // Uh-oh, an error occurred!
-                    // Log.d(TAG, "onFailure: did not delete file");
-                }
-            });
+            try {
+                deleteImg(storage.getReferenceFromUrl(utente.getString("cover")));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
         Toast.makeText(contesto, "Registrazione fallita, riprovare", Toast.LENGTH_SHORT).show();
         finish();
     }
 
-    ;
+    private void deleteImg(StorageReference image) {
+        image.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                // File deleted successfully
+                // Log.d(TAG, "onSuccess: deleted file");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Uh-oh, an error occurred!
+                // Log.d(TAG, "onFailure: did not delete file");
+            }
+        });
+    }
 
 
     private void updateUserForChat() {
