@@ -3,6 +3,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
@@ -16,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
@@ -23,8 +25,11 @@ import com.example.pumpkinsoftware.travelmate.client_server_interaction.GetTripI
 import com.example.pumpkinsoftware.travelmate.content_fragment_travels.Tab1;
 import com.example.pumpkinsoftware.travelmate.pager_adapter.SlidePagerAdapter;
 import com.example.pumpkinsoftware.travelmate.trip.Trip;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GetTokenResult;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +39,6 @@ public class ViaggiFragment extends Fragment implements View.OnClickListener {
     private ViewPager viewPager;
     private TabLayout tabLayout;
     private Context context;
-    private static final String URL="https://debugtm.herokuapp.com/user/getTripByUserSplit?userUid=";
 
     @Nullable
     @Override
@@ -74,6 +78,19 @@ public class ViaggiFragment extends Fragment implements View.OnClickListener {
             }
         });
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        user.getIdToken(true)
+                .addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
+                    public void onComplete(@NonNull Task<GetTokenResult> task) {
+                        if (task.isSuccessful()) {
+                            String idToken = task.getResult().getToken();
+                            // Send token to your backend via HTTPS
+                            // ...
+                        } else {
+                            // Handle error -> task.getException();
+                            Toast.makeText(context, "Riprova", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
         return view;
 
     }

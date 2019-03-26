@@ -22,6 +22,7 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -33,10 +34,13 @@ import com.example.pumpkinsoftware.travelmate.glide.GlideApp;
 import com.example.pumpkinsoftware.travelmate.handle_error.ErrorServer;
 import com.example.pumpkinsoftware.travelmate.min_max_filter.MinMaxFilter;
 import com.example.pumpkinsoftware.travelmate.trip.Trip;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GetTokenResult;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
@@ -47,6 +51,8 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 public class EditTravelActivity extends AppCompatActivity {
@@ -63,7 +69,7 @@ public class EditTravelActivity extends AppCompatActivity {
     //Firebase
     FirebaseStorage storage;
     StorageReference storageReference;
-
+    FirebaseUser user;
     // Filters on input
     private final static int MIN_BUDGET = 0;
     private final static int MAX_BUDGET = 500;
@@ -76,9 +82,11 @@ public class EditTravelActivity extends AppCompatActivity {
         setContentView(R.layout.activity_creation_trip);
 
         context = (Context) this;
+
         // file per firebase
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
+        user = FirebaseAuth.getInstance().getCurrentUser();
 
         Bundle b = getIntent().getExtras();
         trip = (Trip) b.getSerializable(EXTRA_TRAVEL);
@@ -158,6 +166,7 @@ public class EditTravelActivity extends AppCompatActivity {
             }
         });
 
+
         Button b_confirm = (Button) findViewById(R.id.confirm_button);
         b_confirm.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -183,8 +192,7 @@ public class EditTravelActivity extends AppCompatActivity {
                 try {
                     budget_q = Double.parseDouble(budget_t);
                     group_q = Integer.parseInt(partecipants.getText().toString());
-                }
-                catch (Exception e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
 
@@ -213,42 +221,42 @@ public class EditTravelActivity extends AppCompatActivity {
                     //viaggio.put("userUid", userUid);
                     viaggio.put("_id", trip.getId());
 
-                    if(!nome_q.isEmpty() && !nome_q.equals(trip.getName())) {
+                    if (!nome_q.isEmpty() && !nome_q.equals(trip.getName())) {
                         viaggio.put("name", nome_q);
                         trip.setName(nome_q);
                     }
 
-                    if(!program_q.isEmpty() && !program_q.equals(trip.getDescr())) {
+                    if (!program_q.isEmpty() && !program_q.equals(trip.getDescr())) {
                         viaggio.put("description", program_q);
                         trip.setDescr(program_q);
                     }
 
-                    if(!from_q.isEmpty() && !from_q.equals(trip.getDeparture())) {
+                    if (!from_q.isEmpty() && !from_q.equals(trip.getDeparture())) {
                         viaggio.put("departure", from_q);
                         trip.setDeparture(from_q);
                     }
 
-                    if(!to_q.isEmpty() && !to_q.equals(trip.getDest())) {
+                    if (!to_q.isEmpty() && !to_q.equals(trip.getDest())) {
                         viaggio.put("destination", to_q);
                         trip.setDest(to_q);
                     }
 
-                    if(!budget_t.isEmpty() && !budget_t.equals(trip.getBudget())) {
+                    if (!budget_t.isEmpty() && !budget_t.equals(trip.getBudget())) {
                         viaggio.put("budget", budget_q);
                         trip.setBudget(String.valueOf((int) budget_q));
                     }
 
-                    if(!vehicle.equals(trip.getVehicle())) {
+                    if (!vehicle.equals(trip.getVehicle())) {
                         viaggio.put("vehicle", vehicle);
                         trip.setVehicle(vehicle);
                     }
 
-                    if(!tag.equals(trip.getTag())) {
+                    if (!tag.equals(trip.getTag())) {
                         viaggio.put("tag", tag);
                         trip.setTag(tag);
                     }
 
-                    if(group_q > 1 && group_q != trip.getPartecipantsNumber()) {
+                    if (group_q > 1 && group_q != trip.getPartecipantsNumber()) {
                         viaggio.put("maxPartecipant", group_q);
                         trip.setGroup_number(group_q);
                     }
@@ -292,7 +300,20 @@ public class EditTravelActivity extends AppCompatActivity {
                                         e.printStackTrace();
                                     }
                                     //Qui richiami mongoDB per creare il trip
-                                    jsonParse(viaggio);
+                                    user.getIdToken(true)
+                                            .addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
+                                                public void onComplete(@NonNull Task<GetTokenResult> task) {
+                                                    if (task.isSuccessful()) {
+                                                        String idToken = task.getResult().getToken();
+                                                        // Send token to your backend via HTTPS
+                                                        jsonParse(viaggio, idToken);
+                                                        // ...
+                                                    } else {
+                                                        // Handle error -> task.getException();
+                                                        Toast.makeText(context, "Riprova", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                }
+                                            });
                                     //Ricorda di lasciare un commento qui per ricordarci di gestire l'errore lato MongoDB
                                     // progressDialog.dismiss();
                                     //Toast.makeText(contesto, "Viaggio creato correttamente.", Toast.LENGTH_SHORT).show();
@@ -309,7 +330,20 @@ public class EditTravelActivity extends AppCompatActivity {
                             } catch (JSONException e1) {
                                 e1.printStackTrace();
                             }
-                            jsonParse(viaggio);
+                            user.getIdToken(true)
+                                    .addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
+                                        public void onComplete(@NonNull Task<GetTokenResult> task) {
+                                            if (task.isSuccessful()) {
+                                                String idToken = task.getResult().getToken();
+                                                // Send token to your backend via HTTPS
+                                                jsonParse(viaggio, idToken);
+                                                // ...
+                                            } else {
+                                                // Handle error -> task.getException();
+                                                Toast.makeText(context, "Riprova", Toast.LENGTH_SHORT).show();
+                                            }
+                                        }
+                                    });
                         }
                     })
                     .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
@@ -322,11 +356,24 @@ public class EditTravelActivity extends AppCompatActivity {
                     });
 
         } else
-            jsonParse(viaggio);
+            user.getIdToken(true)
+                    .addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
+                        public void onComplete(@NonNull Task<GetTokenResult> task) {
+                            if (task.isSuccessful()) {
+                                String idToken = task.getResult().getToken();
+                                // Send token to your backend via HTTPS
+                                jsonParse(viaggio, idToken);
+                                // ...
+                            } else {
+                                // Handle error -> task.getException();
+                                Toast.makeText(context, "Riprova", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
     }
 
 
-    private void jsonParse(final JSONObject viaggio) {
+    private void jsonParse(final JSONObject viaggio, final String idToken) {
         RequestQueue mQueue = Volley.newRequestQueue(this);
         final JsonObjectRequest JORequest = new JsonObjectRequest(Request.Method.POST, URL, viaggio, new Response.Listener<JSONObject>() {
             @Override
@@ -355,7 +402,15 @@ public class EditTravelActivity extends AppCompatActivity {
                 // error
                 Toast.makeText(context, "Errore ", Toast.LENGTH_SHORT).show();
             }
-        });
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Content-Type", "application/json; charset=UTF-8");
+                params.put("access_token", idToken);
+                return params;
+            }
+        };
         // Add the request to the RequestQueue.
         mQueue.add(JORequest);
         mQueue.start();

@@ -48,6 +48,10 @@ public class ErrorServer {
                 Toast.makeText(contesto, "Utente già recensito", Toast.LENGTH_SHORT).show();
                 break;
             }
+            case "-12": {
+                Toast.makeText(contesto, "Accesso negato", Toast.LENGTH_SHORT).show();
+                break;
+            }
             default:
                 Toast.makeText(contesto, "Errore sconosciuto", Toast.LENGTH_SHORT).show();
         }

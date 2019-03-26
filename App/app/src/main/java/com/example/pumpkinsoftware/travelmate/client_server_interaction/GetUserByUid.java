@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -23,6 +24,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class GetUserByUid {
@@ -32,19 +35,24 @@ public class GetUserByUid {
     private ArrayList<User> users;
     UserAdapterReview adapterReview;
     private RecyclerView rvUser;
+    private String idToken;
 
-    public GetUserByUid(Context c) {
-        context = c;
-    }
-
-    public GetUserByUid(Context c, ProgressBar progress) {
+    public GetUserByUid(Context c, ProgressBar progress, String id) {
         context = c;
         progressBar = progress;
+        idToken = id;
     }
 
-    public GetUserByUid(Context c, RecyclerView r) {
+    public GetUserByUid(Context c, RecyclerView r, String id) {
         context = c;
         rvUser = r;
+        idToken = id;
+    }
+
+    //DA ELIMINARE
+    public GetUserByUid(Context c, ProgressBar p) {
+        context = c;
+        progressBar = p;
     }
 
     public void getUserFromServer(String query, RequestQueue mQueue, final ServerCallback callback) {
@@ -89,7 +97,15 @@ public class GetUserByUid {
                 hideProgressBar();
                 Toast.makeText(context, "Errore: connessione assente", Toast.LENGTH_SHORT).show();
             }
-        });
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Content-Type", "application/json; charset=UTF-8");
+                params.put("access_token", idToken);
+                return params;
+            }
+        };
         mQueue.add(request);
     }
 
@@ -125,7 +141,15 @@ public class GetUserByUid {
                 hideProgressBar();
                 Toast.makeText(context, "Errore: connessione assente", Toast.LENGTH_SHORT).show();
             }
-        });
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Content-Type", "application/json; charset=UTF-8");
+                params.put("access_token", idToken);
+                return params;
+            }
+        };
         mQueue.add(request);
     }
 

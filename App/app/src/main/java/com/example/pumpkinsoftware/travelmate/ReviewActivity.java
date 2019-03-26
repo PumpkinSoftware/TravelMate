@@ -3,6 +3,7 @@ package com.example.pumpkinsoftware.travelmate;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -17,8 +18,11 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.example.pumpkinsoftware.travelmate.client_server_interaction.PostReview;
 import com.example.pumpkinsoftware.travelmate.glide.GlideApp;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GetTokenResult;
 import com.google.gson.JsonObject;
 
 import org.json.JSONException;
@@ -32,7 +36,7 @@ public class ReviewActivity extends AppCompatActivity {
     private boolean[] isSetted = new boolean[N];
     private final static String URL = "https://debugtm.herokuapp.com/user/addReview";
     FirebaseUser user;
-    private String uid,uid2,photo;
+    private String uid2,photo;
     private RequestQueue mQueue;
 
     @Override
@@ -57,8 +61,7 @@ public class ReviewActivity extends AppCompatActivity {
         //Log.i("photo2",photo);
 
         user = FirebaseAuth.getInstance().getCurrentUser();
-        if(user == null) return;
-        uid = user.getUid();
+
 
         mQueue = Volley.newRequestQueue(context);
 
@@ -108,9 +111,8 @@ public class ReviewActivity extends AppCompatActivity {
                     findViewById(R.id.scroll).setVisibility(View.GONE);
                     progress.setVisibility(View.VISIBLE);
                     // Double.toString(sum); // TODO
-                    JSONObject recensione=new JSONObject();
+                    final JSONObject recensione=new JSONObject();
                     try {
-                        recensione.put("userUid",uid);
                         recensione.put("userToReview",uid2);
                         recensione.put("sumReview",sum/N);
                         recensione.put("sumReview1",ratingBars[0].getRating());
@@ -122,8 +124,22 @@ public class ReviewActivity extends AppCompatActivity {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
+                    user.getIdToken(true)
+                            .addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
+                                public void onComplete(@NonNull Task<GetTokenResult> task) {
+                                    if (task.isSuccessful()) {
+                                        String idToken = task.getResult().getToken();
+                                        // Send token to your backend via HTTPS
+                                        new PostReview(context, progress,mQueue,idToken).send(URL,recensione);
+                                        // ...
+                                    } else {
+                                        // Handle error -> task.getException();
+                                        Toast.makeText(context, "Riprova", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
 
-                    new PostReview(context, progress,mQueue).send(URL,recensione);
+
                     //Log.i("useruid3",uid2);
                     finish();
                 }else{

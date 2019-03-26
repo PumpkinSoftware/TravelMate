@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -18,15 +19,20 @@ import com.google.gson.JsonObject;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class PostReview {
     private Context context;
     private ProgressBar progressBar;
     private RequestQueue mQueue;
+    private String idToken;
 
-    public PostReview(Context c, ProgressBar progress, RequestQueue rq) {
+    public PostReview(Context c, ProgressBar progress, RequestQueue rq, String id) {
         context = c;
         progressBar = progress;
-        mQueue=rq;
+        mQueue = rq;
+        idToken = id;
     }
 
     public void send(String url, JSONObject review) {
@@ -53,11 +59,21 @@ public class PostReview {
                 // error
                 Toast.makeText(context, "Errore ", Toast.LENGTH_SHORT).show();
             }
-        });
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Content-Type", "application/json; charset=UTF-8");
+                params.put("access_token", idToken);
+                return params;
+            }
+        };
         // Add the request to the RequestQueue.
         mQueue.add(JORequest);
         mQueue.start();
     }
 
-    private void hideProgressBar() { if (progressBar != null) progressBar.setVisibility(View.GONE); }
+    private void hideProgressBar() {
+        if (progressBar != null) progressBar.setVisibility(View.GONE);
+    }
 }

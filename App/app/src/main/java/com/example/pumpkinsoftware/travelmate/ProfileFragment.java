@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.Layout;
@@ -20,6 +21,7 @@ import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
@@ -33,19 +35,23 @@ import com.example.pumpkinsoftware.travelmate.client_server_interaction.GetUserB
 import com.example.pumpkinsoftware.travelmate.client_server_interaction.ServerCallback;
 import com.example.pumpkinsoftware.travelmate.glide.GlideApp;
 import com.example.pumpkinsoftware.travelmate.user.User;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GetTokenResult;
 
 import org.json.JSONObject;
 
 
 public class ProfileFragment extends Fragment {
-    private final static String URL = "https://debugtm.herokuapp.com/user/getUserByUid?userUid=";
+    private final static String URL = "https://debugtm.herokuapp.com/user/getUserByUid?";
     public final static String EXTRA_USER = "travelmate_extra_pf_USER";
     private Context context;
     private View view;
     private User User;
     private ImageView edit;
+    private String idToken;
 
     @Nullable
     @Override
@@ -72,26 +78,39 @@ public class ProfileFragment extends Fragment {
             // The user's ID, unique to the Firebase project. Do NOT use this value to
             // authenticate with your backend server, if you have one. Use
             // FirebaseUser.getIdToken() instead.
-            final String uid = user.getUid();
-            RequestQueue mRequestQueue = Volley.newRequestQueue(context);
-            final GetUserByUid server =  new GetUserByUid(context, progressBar);
-            server.getUserFromServer(URL+uid, mRequestQueue, new ServerCallback() {
-                        @Override
-                        public void onSuccess(JSONObject response) {
-                            User = server.getUser();
-                            loadUser(User);
+            user.getIdToken(true)
+                    .addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
+                        public void onComplete(@NonNull Task<GetTokenResult> task) {
+                            if (task.isSuccessful()) {
+                                idToken = task.getResult().getToken();
+                                // Send token to your backend via HTTPS
+                                RequestQueue mRequestQueue = Volley.newRequestQueue(context);
+                                final GetUserByUid server = new GetUserByUid(context, progressBar, idToken);
+                                server.getUserFromServer(URL, mRequestQueue, new ServerCallback() {
+                                    @Override
+                                    public void onSuccess(JSONObject response) {
+                                        User = server.getUser();
+                                        loadUser(User);
 
-                            edit.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    Intent i = new Intent(context, EditUserActivity.class);
-                                    i.putExtra(EditUserActivity.EXTRA_USER, User);
-                                    startActivityForResult(i, 1);
-                                }
-                            });
-                            layout.setVisibility(View.VISIBLE);
+                                        edit.setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                Intent i = new Intent(context, EditUserActivity.class);
+                                                i.putExtra(EditUserActivity.EXTRA_USER, User);
+                                                startActivityForResult(i, 1);
+                                            }
+                                        });
+                                        layout.setVisibility(View.VISIBLE);
+                                    }
+                                });
+                                // ...
+                            } else {
+                                // Handle error -> task.getException();
+                                Toast.makeText(context, "Riprova", Toast.LENGTH_SHORT).show();
+                            }
                         }
-            });
+                    });
+
         }
 
         return view;
@@ -99,7 +118,7 @@ public class ProfileFragment extends Fragment {
 
     private boolean loadUser(User mUser) {
 
-        if(mUser == null) return false;
+        if (mUser == null) return false;
 
         edit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -112,18 +131,18 @@ public class ProfileFragment extends Fragment {
 
         ImageView img = (ImageView) view.findViewById(R.id.profile);
         GlideApp.with(context)
-                .load((mUser.getPhotoProfile().isEmpty())?R.drawable.blank_avatar:mUser.getPhotoProfile())
+                .load((mUser.getPhotoProfile().isEmpty()) ? R.drawable.blank_avatar : mUser.getPhotoProfile())
                 .into(img);
 
         img = view.findViewById(R.id.header_cover_image);
         GlideApp.with(context)
-                .load(mUser.getCover().isEmpty()?R.drawable.blank_cover:mUser.getCover())
+                .load(mUser.getCover().isEmpty() ? R.drawable.blank_cover : mUser.getCover())
                 .into(img);
 
         calculateColor(mUser.getCover());
 
         TextView txt = view.findViewById(R.id.name);
-        String ns = mUser.getName()+ " "+ mUser.getSurname();
+        String ns = mUser.getName() + " " + mUser.getSurname();
         txt.setText(ns);
 
         txt = view.findViewById(R.id.bio);
@@ -132,13 +151,11 @@ public class ProfileFragment extends Fragment {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             txt.setText(mUser.getDescr());
             txt.setJustificationMode(Layout.JUSTIFICATION_MODE_INTER_WORD);
-        }
-
-        else {
+        } else {
             final WebView v = (WebView) view.findViewById(R.id.bio_for_older_versions);
             String text = "<html><body><p align=\"justify\">";
-            text+= mUser.getDescr();
-            text+= "</p></body></html>";
+            text += mUser.getDescr();
+            text += "</p></body></html>";
             /*
             v.loadData(text, "text/html", "utf-8");
             v.setVisibility(View.VISIBLE);
@@ -165,7 +182,7 @@ public class ProfileFragment extends Fragment {
         txt.setText(mUser.getEmail());
 
         txt = view.findViewById(R.id.n_review);
-        String n="( "+(String.valueOf(mUser.getNumReviews()))+" )"; //così non rompe
+        String n = "( " + (String.valueOf(mUser.getNumReviews())) + " )"; //così non rompe
         txt.setText(n);
 
         txt = view.findViewById(R.id.rating);
@@ -185,7 +202,7 @@ public class ProfileFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1) {
-            if(resultCode == Activity.RESULT_OK) {
+            if (resultCode == Activity.RESULT_OK) {
                 User u = (User) data.getSerializableExtra(EXTRA_USER);
                 User = u;
                 loadUser(u);
@@ -198,23 +215,23 @@ public class ProfileFragment extends Fragment {
                 .asBitmap()
                 .load(photoPath)
                 .listener(new RequestListener<Bitmap>() {
-                    @Override
-                    public boolean onLoadFailed(@Nullable GlideException e, Object o, Target<Bitmap> target, boolean b) {
-                        return false;
-                    }
+                              @Override
+                              public boolean onLoadFailed(@Nullable GlideException e, Object o, Target<Bitmap> target, boolean b) {
+                                  return false;
+                              }
 
-                    @Override
-                    public boolean onResourceReady(Bitmap bitmap, Object o, Target<Bitmap> target, DataSource dataSource,
-                                                   boolean b) {
-                        int brightness = calculateBrightness(bitmap, 20);
-                        int iconColor;
-                        if(brightness > 127)    iconColor = Color.BLACK;
-                        else                    iconColor = Color.WHITE;
+                              @Override
+                              public boolean onResourceReady(Bitmap bitmap, Object o, Target<Bitmap> target, DataSource dataSource,
+                                                             boolean b) {
+                                  int brightness = calculateBrightness(bitmap, 20);
+                                  int iconColor;
+                                  if (brightness > 127) iconColor = Color.BLACK;
+                                  else iconColor = Color.WHITE;
 
-                        edit.setColorFilter(iconColor);
-                        return false;
-                    }
-                }
+                                  edit.setColorFilter(iconColor);
+                                  return false;
+                              }
+                          }
                 ).submit();
     }
 
@@ -227,15 +244,18 @@ public class ProfileFragment extends Fragment {
      The function returns a brightness level between 0 and 255, where 0 = totally black and 255 = totally bright
     */
     private int calculateBrightness(android.graphics.Bitmap bitmap, int skipPixel) {
-        int R = 0; int G = 0; int B = 0;
+        int R = 0;
+        int G = 0;
+        int B = 0;
         int height = 5; //bitmap.getHeight();
         int width = bitmap.getWidth();
         int n = 0;
         int[] pixels = new int[width * height];
         bitmap.getPixels(pixels, 0, width, 0, 0, width, height);
-        int half = width/2;
+        int half = width / 2;
         for (int i = 0; i < pixels.length; i += skipPixel) {
-            if((i - (i/width)*width) < half) continue; // I take only right half of image because my icon is put there
+            if ((i - (i / width) * width) < half)
+                continue; // I take only right half of image because my icon is put there
             int color = pixels[i];
             R += Color.red(color);
             G += Color.green(color);

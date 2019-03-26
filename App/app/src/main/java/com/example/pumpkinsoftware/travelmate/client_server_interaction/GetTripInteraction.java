@@ -3,12 +3,14 @@ package com.example.pumpkinsoftware.travelmate.client_server_interaction;
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -25,6 +27,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class GetTripInteraction {
     private Context context;
@@ -33,13 +37,23 @@ public class GetTripInteraction {
     TripsAdapterChat adapterChat;
     private ProgressBar progressBar;
     private ArrayList<Trip> mTrips;
+    private String idToken;
 
+    //DA ELIMINARE
     public GetTripInteraction(Context c, RecyclerView rv, ProgressBar progress) {
         context = c;
         rvTrips = rv;
         progressBar = progress;
     }
 
+    public GetTripInteraction(Context c, RecyclerView rv, ProgressBar progress, String id) {
+        context = c;
+        rvTrips = rv;
+        progressBar = progress;
+        idToken=id;
+    }
+
+    //usata dalla search
     public void getTripsFromServer(String query, RequestQueue mQueue, ArrayList<Trip> trips) {
         mTrips = new ArrayList<Trip>();
 
@@ -85,7 +99,15 @@ public class GetTripInteraction {
                 hideProgressBar();
                 Toast.makeText(context, "Errore: connessione assente", Toast.LENGTH_SHORT).show();
             }
-        });
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Content-Type", "application/json; charset=UTF-8");
+                params.put("access_token", idToken);
+                return params;
+            }
+        };
         mQueue.add(request);
     }
 
@@ -140,7 +162,16 @@ public class GetTripInteraction {
                 hideProgressBar();
                 Toast.makeText(context, "Errore: connessione assente", Toast.LENGTH_SHORT).show();
             }
-        });
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Content-Type", "application/json; charset=UTF-8");
+                params.put("access_token", idToken);
+                return params;
+            }
+        };
+
         mQueue.add(request);
     }
 
@@ -206,7 +237,15 @@ public class GetTripInteraction {
                 hideProgressBar();
                 Toast.makeText(context, "Errore: connessione assente", Toast.LENGTH_SHORT).show();
             }
-        });
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Content-Type", "application/json; charset=UTF-8");
+                params.put("access_token", idToken);
+                return params;
+            }
+        };
         mQueue.add(request);
     }
 
@@ -236,7 +275,6 @@ public class GetTripInteraction {
                                 partecipants, group_max, tag, vehicle, owner));
                     }
 
-
                     if(trips.isEmpty()) {
                         text.setVisibility(View.VISIBLE);
                         img.setVisibility(View.VISIBLE);
@@ -259,7 +297,15 @@ public class GetTripInteraction {
                 hideProgressBar();
                 Toast.makeText(context, "Errore: connessione assente", Toast.LENGTH_SHORT).show();
             }
-        });
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Content-Type", "application/json; charset=UTF-8");
+                params.put("access_token", idToken);
+                return params;
+            }
+        };
         mQueue.add(request);
     }
 

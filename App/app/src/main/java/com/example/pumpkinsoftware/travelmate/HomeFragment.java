@@ -5,9 +5,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -20,6 +22,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
@@ -28,8 +31,11 @@ import com.example.pumpkinsoftware.travelmate.client_server_interaction.GetUserB
 import com.example.pumpkinsoftware.travelmate.client_server_interaction.ServerCallback;
 import com.example.pumpkinsoftware.travelmate.trip.Trip;
 import com.example.pumpkinsoftware.travelmate.user.User;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GetTokenResult;
 
 import org.json.JSONObject;
 
@@ -38,9 +44,8 @@ import java.util.ArrayList;
 public class HomeFragment extends Fragment {
     private Context context;
     private RequestQueue mRequestQueue;
-    private String URL="https://debugtm.herokuapp.com/trip/lastTripsCreatedWithUser?limit=50&userUid=";
+    private String URL="https://debugtm.herokuapp.com/trip/lastTripsCreatedWithUser?limit=50";
     FirebaseUser user;
-    private String uid;
     private ProgressBar progress;
     private RecyclerView rvTrips;
     private TextView noTripText;
@@ -63,9 +68,7 @@ public class HomeFragment extends Fragment {
         // Set layout manager to position the items
         rvTrips.setLayoutManager(new LinearLayoutManager(context));
 
-        user = FirebaseAuth.getInstance().getCurrentUser();
-        if(user == null) return view;
-        uid = user.getUid();
+
 
         updateLayout();
 
@@ -110,13 +113,42 @@ public class HomeFragment extends Fragment {
 
     private void updateLayout() {
         mRequestQueue = Volley.newRequestQueue(context);
-        new GetTripInteraction(context, rvTrips, progress).getTripsFromServer(URL+uid, mRequestQueue, noTripText, noTripImg);
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        user.getIdToken(true)
+                .addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
+                    public void onComplete(@NonNull Task<GetTokenResult> task) {
+                        if (task.isSuccessful()) {
+                            String idToken = task.getResult().getToken();
+                            // Send token to your backend via HTTPS
+                            new GetTripInteraction(context, rvTrips, progress,idToken).getTripsFromServer(URL, mRequestQueue, noTripText, noTripImg);
+                            // ...
+                        } else {
+                            // Handle error -> task.getException();
+                            Toast.makeText(context, "Riprova", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
     }
 
     // To call exclusively when user cames back from TravelDetailsActivity
-    private void updateLayout(int pos) {
+    private void updateLayout(final int pos) {
         mRequestQueue = Volley.newRequestQueue(context);
-        new GetTripInteraction(context, rvTrips, progress).getTripsFromServer(URL+uid, mRequestQueue, pos);
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        user.getIdToken(true)
+                .addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
+                    public void onComplete(@NonNull Task<GetTokenResult> task) {
+                        if (task.isSuccessful()) {
+                            String idToken = task.getResult().getToken();
+                            // Send token to your backend via HTTPS
+                            new GetTripInteraction(context, rvTrips, progress).getTripsFromServer(URL, mRequestQueue, pos);
+                            // ...
+                        } else {
+                            // Handle error -> task.getException();
+                            Toast.makeText(context, "Riprova", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
     }
 
     @Override

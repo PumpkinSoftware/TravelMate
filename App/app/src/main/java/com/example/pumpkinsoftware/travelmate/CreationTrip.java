@@ -21,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -30,10 +31,13 @@ import com.android.volley.toolbox.Volley;
 import com.example.pumpkinsoftware.travelmate.date_picker.EditTextDatePicker;
 import com.example.pumpkinsoftware.travelmate.glide.GlideApp;
 import com.example.pumpkinsoftware.travelmate.handle_error.ErrorServer;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GetTokenResult;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
@@ -44,6 +48,8 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 @RequiresApi(api = Build.VERSION_CODES.M)
@@ -63,6 +69,7 @@ public class CreationTrip extends AppCompatActivity {
     //Firebase
     FirebaseStorage storage;
     StorageReference storageReference;
+    FirebaseUser user;
 
 
     @Override
@@ -88,6 +95,7 @@ public class CreationTrip extends AppCompatActivity {
         // file per firebase
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
+        user = FirebaseAuth.getInstance().getCurrentUser();
 
         // campi
         final EditText budget = findViewById(R.id.budget_max_value);
@@ -115,6 +123,7 @@ public class CreationTrip extends AppCompatActivity {
             }
         });
 
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
         Button b_confirm = (Button) findViewById(R.id.confirm_button);
         b_confirm.setOnClickListener(new View.OnClickListener() {
@@ -172,10 +181,6 @@ public class CreationTrip extends AppCompatActivity {
                         viaggio.put("vehicle", vehicle);
                         viaggio.put("tag", tag);
                         viaggio.put("maxPartecipant", group_q);
-                        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                        if (user != null) viaggio.put("owner", user.getUid());
-                        else
-                            viaggio.put("owner", "");
 
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -255,7 +260,21 @@ public class CreationTrip extends AppCompatActivity {
                                         e.printStackTrace();
                                     }
                                     //Qui richiami mongoDB per creare il trip
-                                    jsonParse(viaggio);
+                                    user.getIdToken(true)
+                                            .addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
+                                                public void onComplete(@NonNull Task<GetTokenResult> task) {
+                                                    if (task.isSuccessful()) {
+                                                        String idToken = task.getResult().getToken();
+                                                        // Send token to your backend via HTTPS
+                                                        jsonParse(viaggio, idToken);
+                                                        // ...
+                                                    } else {
+                                                        // Handle error -> task.getException();
+                                                        Toast.makeText(contesto, "Riprova", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                }
+                                            });
+
                                     //Ricorda di lasciare un commento qui per ricordarci di gestire l'errore lato MongoDB
 
                                     // progressDialog.dismiss();
@@ -292,12 +311,25 @@ public class CreationTrip extends AppCompatActivity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            jsonParse(viaggio);
+            user.getIdToken(true)
+                    .addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
+                        public void onComplete(@NonNull Task<GetTokenResult> task) {
+                            if (task.isSuccessful()) {
+                                String idToken = task.getResult().getToken();
+                                // Send token to your backend via HTTPS
+                                jsonParse(viaggio, idToken);
+                                // ...
+                            } else {
+                                // Handle error -> task.getException();
+                                Toast.makeText(contesto, "Riprova", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
         }
     }
 
 
-    private void jsonParse(final JSONObject viaggio) {
+    private void jsonParse(final JSONObject viaggio, final String idToken) {
         final JsonObjectRequest JORequest = new JsonObjectRequest(Request.Method.POST, URL, viaggio, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -322,7 +354,15 @@ public class CreationTrip extends AppCompatActivity {
                 // error
                 Toast.makeText(contesto, "Errore ", Toast.LENGTH_SHORT).show();
             }
-        });
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Content-Type", "application/json; charset=UTF-8");
+                params.put("access_token", idToken);
+                return params;
+            }
+        };
         // Add the request to the RequestQueue.
         mQueue.add(JORequest);
         mQueue.start();
