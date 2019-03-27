@@ -15,6 +15,7 @@ import android.widget.ProgressBar;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.example.pumpkinsoftware.travelmate.R;
+import com.example.pumpkinsoftware.travelmate.Utils;
 import com.example.pumpkinsoftware.travelmate.client_server_interaction.GetTripInteraction;
 import com.example.pumpkinsoftware.travelmate.trip.Trip;
 import com.example.pumpkinsoftware.travelmate.trips_adapter.TripsAdapter;
@@ -24,7 +25,7 @@ import com.google.firebase.auth.FirebaseUser;
 import java.util.ArrayList;
 
 public class Tab2 extends Fragment {
-    private final static String URL="https://debugtm.herokuapp.com/trip/allTrips/";
+    private final static String URL= Utils.SERVER_PATH + "trip/allTrips/";
     private Context context;
     private RequestQueue mRequestQueue;
     private ArrayList<Trip> trips;

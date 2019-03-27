@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.example.pumpkinsoftware.travelmate.R;
+import com.example.pumpkinsoftware.travelmate.Utils;
 import com.example.pumpkinsoftware.travelmate.client_server_interaction.GetTripInteraction;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -29,7 +30,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GetTokenResult;
 
 public class Tab1 extends Fragment {
-    private final static String URL="https://debugtm.herokuapp.com/user/getProgressTripsByUser?";
+    private final static String URL= Utils.SERVER_PATH + "user/getProgressTripsByUser?";
     private Context context;
     private RequestQueue mRequestQueue;
     private String idToken;

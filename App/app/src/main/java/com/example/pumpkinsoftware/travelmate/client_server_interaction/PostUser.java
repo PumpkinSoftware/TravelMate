@@ -13,6 +13,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.pumpkinsoftware.travelmate.AccountRegisterActivity;
 import com.example.pumpkinsoftware.travelmate.EditUserActivity;
+import com.example.pumpkinsoftware.travelmate.Utils;
 import com.example.pumpkinsoftware.travelmate.handle_error.ErrorServer;
 
 
@@ -23,8 +24,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class PostUser {
-    private final static String URLNEW = "https://debugtm.herokuapp.com/user/newUser";
-    private final static String URLUPDATE = "https://debugtm.herokuapp.com/user/updateUser";
+    private final static String URLNEW = Utils.SERVER_PATH + "user/newUser";
+    private final static String URLUPDATE = Utils.SERVER_PATH + "user/updateUser";
     private Context contesto;
 
     public enum flag {NEW, UPDATE}

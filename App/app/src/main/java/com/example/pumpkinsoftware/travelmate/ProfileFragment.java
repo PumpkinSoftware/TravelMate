@@ -43,9 +43,11 @@ import com.google.firebase.auth.GetTokenResult;
 
 import org.json.JSONObject;
 
+import io.apptik.widget.Util;
+
 
 public class ProfileFragment extends Fragment {
-    private final static String URL = "https://debugtm.herokuapp.com/user/getUserByUid?";
+    private final static String URL = Utils.SERVER_PATH + "user/getUserByUid?";
     public final static String EXTRA_USER = "travelmate_extra_pf_USER";
     private Context context;
     private View view;

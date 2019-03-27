@@ -32,10 +32,12 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GetTokenResult;
 
+import io.apptik.widget.Util;
+
 public class HomeFragment extends Fragment {
     private Context context;
     private RequestQueue mRequestQueue;
-    private String URL="https://debugtm.herokuapp.com/trip/lastTripsCreatedWithUser?limit=50";
+    private String URL= Utils.SERVER_PATH + "trip/lastTripsCreatedWithUser?limit=50";
     FirebaseUser user;
     private ProgressBar progress;
     private RecyclerView rvTrips;

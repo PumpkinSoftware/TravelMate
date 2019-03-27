@@ -18,7 +18,6 @@ import com.android.volley.toolbox.JsonObjectRequest;
 
 import com.example.pumpkinsoftware.travelmate.user.User;
 import com.example.pumpkinsoftware.travelmate.users_adapter.UserAdapterReview;
-import com.google.gson.JsonArray;
 
 
 import org.json.JSONArray;

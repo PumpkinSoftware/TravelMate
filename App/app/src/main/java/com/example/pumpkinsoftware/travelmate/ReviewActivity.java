@@ -23,7 +23,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GetTokenResult;
-import com.google.gson.JsonObject;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -34,7 +33,7 @@ public class ReviewActivity extends AppCompatActivity {
     private Context context;
     private final short N = 5;  // N questions
     private boolean[] isSetted = new boolean[N];
-    private final static String URL = "https://debugtm.herokuapp.com/user/addReview";
+    private final static String URL = Utils.SERVER_PATH + "user/addReview";
     FirebaseUser user;
     private String uid2,photo;
     private RequestQueue mQueue;

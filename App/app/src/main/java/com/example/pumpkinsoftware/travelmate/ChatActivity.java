@@ -33,7 +33,7 @@ import java.util.ArrayList;
 public class ChatActivity extends AppCompatActivity {
     private Context context;
     private RequestQueue mRequestQueue;
-    private String URL="https://debugtm.herokuapp.com/user/getProgressTripsByUser?";
+    private String URL=Utils.SERVER_PATH + "user/getProgressTripsByUser?";
     private ArrayList<Trip> trips;
     private String idToken;
 

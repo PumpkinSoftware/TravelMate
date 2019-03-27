@@ -146,7 +146,7 @@ public class RegistrationActivity extends AppCompatActivity {
                                 // TODO Add user to db
                                 /*RequestQueue mRequestQueue = Volley.newRequestQueue(context);
                                 final newUser server =  new newUser(context);
-                                server.addUser("https://debugtm.herokuapp.com/user/newUser, mRequestQueue, new ServerCallback() {
+                                server.addUser(Utils.SERVER_PATH + "user/newUser, mRequestQueue, new ServerCallback() {
                                             @Override
                                             public void onSuccess(JSONObject response) {
                                                 openMain();

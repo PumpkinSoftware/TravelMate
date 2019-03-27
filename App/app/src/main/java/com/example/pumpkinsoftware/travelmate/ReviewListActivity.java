@@ -31,7 +31,7 @@ public class ReviewListActivity extends AppCompatActivity {
     private RequestQueue mRequestQueue;
     private TextView noTripText;
     private ImageView noTripImg;
-    private String URL="https://debugtm.herokuapp.com/user/leftReviews?";
+    private String URL=Utils.SERVER_PATH + "user/leftReviews?";
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {

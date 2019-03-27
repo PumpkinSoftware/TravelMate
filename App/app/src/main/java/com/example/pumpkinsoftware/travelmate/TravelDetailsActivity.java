@@ -107,7 +107,7 @@ public class TravelDetailsActivity extends AppCompatActivity {
     private Context context;
     private boolean so_prev_lol; // Useful for transitions
 
-    private final static String QUERY= "https://debugtm.herokuapp.com/user/getUsersByTrip?tripId=";
+    private final static String QUERY= Utils.SERVER_PATH + "user/getUsersByTrip?tripId=";
     private ArrayList<User> partecipants;
     private ImageView back_image;
     private ImageView edit;
@@ -421,7 +421,7 @@ public class TravelDetailsActivity extends AppCompatActivity {
                                                     String idToken = task.getResult().getToken();
                                                     // Send token to your backend via HTTPS
 
-                                                    new PostJoin(context).send("https://debugtm.herokuapp.com/user/removeTrip/",
+                                                    new PostJoin(context).send(Utils.SERVER_PATH + "user/removeTrip/",
                                                             travelId, /*userUid*/ null, PostJoin.request.ABANDON, idToken, new ServerCallback() {
                                                                 @Override
                                                                 public void onSuccess(JSONObject result) {
@@ -490,7 +490,7 @@ public class TravelDetailsActivity extends AppCompatActivity {
                             if (task.isSuccessful()) {
                                 String idToken = task.getResult().getToken();
                                 // Send token to your backend via HTTPS
-                                new PostJoin(TravelDetailsActivity.this).send("https://debugtm.herokuapp.com/user/addTrip/", travelId,
+                                new PostJoin(TravelDetailsActivity.this).send(Utils.SERVER_PATH + "user/addTrip/", travelId,
                                         /*userUid*/ null, PostJoin.request.JOIN, idToken, new ServerCallback() {
                                             @Override
                                             public void onSuccess(JSONObject result) {
@@ -539,7 +539,7 @@ public class TravelDetailsActivity extends AppCompatActivity {
                             String idToken = task.getResult().getToken();
                             // Send token to your backend via HTTPS
 
-                            new PostJoin(TravelDetailsActivity.this).send("https://debugtm.herokuapp.com/user/changeOwnerAndRemoveLast", travelId,
+                            new PostJoin(TravelDetailsActivity.this).send(Utils.SERVER_PATH + "user/changeOwnerAndRemoveLast", travelId,
                                     owner_uid, PostJoin.request.CHANGE, idToken, new ServerCallback() {
                                         @Override
                                         public void onSuccess(JSONObject result) {
@@ -562,7 +562,7 @@ public class TravelDetailsActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             String idToken = task.getResult().getToken();
                             // Send token to your backend via HTTPS
-                            server.delete("https://debugtm.herokuapp.com/trip/deleteTrip?tripId="+travelId/*+"&userUid="+userUid*/,
+                            server.delete(Utils.SERVER_PATH + "trip/deleteTrip?tripId="+travelId/*+"&userUid="+userUid*/,
                                     idToken, new ServerCallback() {
                                 @Override
                                 public void onSuccess(JSONObject response) {
@@ -593,7 +593,7 @@ public class TravelDetailsActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             String idToken = task.getResult().getToken();
                             // Send token to your backend via HTTPS
-                            server.getTripFromServer("https://debugtm.herokuapp.com/trip/getTripByIdWithUsers?id="+travelId,
+                            server.getTripFromServer(Utils.SERVER_PATH + "trip/getTripByIdWithUsers?id="+travelId,
                                     partecipants, userUid, idToken,
                                     new ServerCallback(){
                                         @Override
