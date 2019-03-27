@@ -16,7 +16,6 @@ import com.example.pumpkinsoftware.travelmate.content_fragment_travels.Tab1;
 public class MainActivity extends AppCompatActivity {
     public static final String FREE_QUERY = "com.example.pumpkinsoftware.travelmate.FREE_QUERY";
     public static final String FILTERED_QUERY = "com.example.pumpkinsoftware.travelmate.FILTERED_QUERY";
-    public static final int REQUEST_CODE = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

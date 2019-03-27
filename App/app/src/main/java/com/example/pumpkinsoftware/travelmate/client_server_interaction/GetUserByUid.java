@@ -38,6 +38,7 @@ public class GetUserByUid {
     private RecyclerView rvUser;
     private String idToken;
 
+    // Useful for UserDetailsActivity
     public GetUserByUid(Context c, ProgressBar progress, String id) {
         context = c;
         progressBar = progress;
@@ -48,12 +49,6 @@ public class GetUserByUid {
         context = c;
         rvUser = r;
         idToken = id;
-    }
-
-    //DA ELIMINARE
-    public GetUserByUid(Context c, ProgressBar p) {
-        context = c;
-        progressBar = p;
     }
 
     public void getUserFromServer(String query, RequestQueue mQueue, final ServerCallback callback) {

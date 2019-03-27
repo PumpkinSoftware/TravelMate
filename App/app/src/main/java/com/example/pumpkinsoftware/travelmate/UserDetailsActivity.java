@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -14,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
@@ -21,10 +23,16 @@ import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
+import com.example.pumpkinsoftware.travelmate.client_server_interaction.GetTripInteraction;
 import com.example.pumpkinsoftware.travelmate.client_server_interaction.GetUserByUid;
 import com.example.pumpkinsoftware.travelmate.client_server_interaction.ServerCallback;
 import com.example.pumpkinsoftware.travelmate.glide.GlideApp;
 import com.example.pumpkinsoftware.travelmate.user.User;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GetTokenResult;
 
 import org.json.JSONObject;
 
@@ -44,15 +52,29 @@ public class UserDetailsActivity extends AppCompatActivity {
         final String uid = b.getString(EXTRA_UID);
         final ProgressBar progressBar = findViewById(R.id.indeterminateBar);
 
-        RequestQueue mRequestQueue = Volley.newRequestQueue(context);
-        final GetUserByUid server =  new GetUserByUid(context, progressBar);
-        server.getUserFromServer(URL+uid, mRequestQueue, new ServerCallback() {
-                    @Override
-                    public void onSuccess(JSONObject response) {
-                        loadUser(server);
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        user.getIdToken(true)
+                .addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
+                    public void onComplete(@NonNull Task<GetTokenResult> task) {
+                        if (task.isSuccessful()) {
+                            String idToken = task.getResult().getToken();
+                            // Send token to your backend via HTTPS
+                            RequestQueue mRequestQueue = Volley.newRequestQueue(context);
+                            final GetUserByUid server =  new GetUserByUid(context, progressBar, idToken);
+                            server.getUserFromServer(URL+uid, mRequestQueue, new ServerCallback() {
+                                        @Override
+                                        public void onSuccess(JSONObject response) {
+                                            loadUser(server);
+                                        }
+                                    }
+                            );
+                        } else {
+                            // Handle error -> task.getException();
+                            Toast.makeText(context, "Riprova", Toast.LENGTH_SHORT).show();
+                        }
                     }
-                }
-        );
+                });
+
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {

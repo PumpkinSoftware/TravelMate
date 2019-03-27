@@ -884,7 +884,7 @@ public class TravelDetailsActivity extends AppCompatActivity {
 
                                   back_image.setColorFilter(iconColor);
                                   sharing_image.setColorFilter(iconColor);
-                                  if(edit.getVisibility() == View.VISIBLE)
+                                  if(userUid.equals(owner_uid))
                                       edit.setColorFilter(iconColor);
                                   return false;
                               }

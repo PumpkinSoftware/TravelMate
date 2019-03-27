@@ -191,10 +191,10 @@ public class CreationTrip extends AppCompatActivity {
                         e.printStackTrace();
                     }
                     uploadImage(viaggio);
-                    progressBar.setVisibility(View.GONE);
+                    /*progressBar.setVisibility(View.GONE);
                     Intent intent = new Intent();
                     setResult(RESULT_OK, intent);
-                    finish();
+                    finish();*/
                 }
             }
         });
@@ -361,6 +361,8 @@ public class CreationTrip extends AppCompatActivity {
                     progressBar.setVisibility(View.GONE);
                     Toast.makeText(contesto, "Errore: riprovare", Toast.LENGTH_SHORT).show();
                 }
+
+                close();
             }
         }, new Response.ErrorListener() {
             @Override
@@ -381,6 +383,13 @@ public class CreationTrip extends AppCompatActivity {
         // Add the request to the RequestQueue.
         mQueue.add(JORequest);
         mQueue.start();
+    }
+
+    private void close() {
+        progressBar.setVisibility(View.GONE);
+        Intent intent = new Intent();
+        setResult(RESULT_OK, intent);
+        finish();
     }
 
     private void msgErrore(String datoMancante) {
