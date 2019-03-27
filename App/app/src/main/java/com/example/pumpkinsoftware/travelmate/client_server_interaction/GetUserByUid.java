@@ -3,7 +3,9 @@ package com.example.pumpkinsoftware.travelmate.client_server_interaction;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -109,8 +111,10 @@ public class GetUserByUid {
         mQueue.add(request);
     }
 
-    public void getUserReviewFromServer(String query, RequestQueue mQueue) {
-        users = new ArrayList<User>();
+    public void getUserReviewFromServer(String query, RequestQueue mQueue, final TextView text, final ImageView img) {
+        if(users == null)  users = new ArrayList<User>();
+        else               users.clear();
+
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, query, null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
@@ -123,6 +127,12 @@ public class GetUserByUid {
                         String photo = user.getString("avatar");
                         users.add(new User(uid, name, surname, photo));
                     }
+
+                    if(users.isEmpty()) {
+                        text.setVisibility(View.VISIBLE);
+                        img.setVisibility(View.VISIBLE);
+                    }
+
                     adapterReview = new UserAdapterReview(users);
                     // Attach the adapter to the recyclerview to populate items
                     rvUser.setAdapter(adapterReview);

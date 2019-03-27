@@ -123,8 +123,6 @@ public class CreationTrip extends AppCompatActivity {
             }
         });
 
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
         Button b_confirm = (Button) findViewById(R.id.confirm_button);
         b_confirm.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -186,6 +184,8 @@ public class CreationTrip extends AppCompatActivity {
                         e.printStackTrace();
                     }
                     uploadImage(viaggio);
+                    Intent intent = new Intent();
+                    setResult(RESULT_OK, intent);
                     finish();
                 }
             }

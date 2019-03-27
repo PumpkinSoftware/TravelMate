@@ -43,6 +43,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GetTokenResult;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
@@ -163,7 +164,7 @@ public class AccountRegisterActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             user = mAuth.getCurrentUser();
-                            userUid = user.getUid();
+                            //userUid = user.getUid();
                             sendRegistration();
                         } else {
                             try {
@@ -276,7 +277,7 @@ public class AccountRegisterActivity extends AppCompatActivity {
 
             JSONObject utente = new JSONObject();
             try {
-                utente.put("uid", userUid);
+                //utente.put("uid", userUid);
                 utente.put("name", processingUpperLowerString(name));
                 utente.put("surname", processingUpperLowerString(surname));
                 utente.put("description", bio.substring(0, 1).toUpperCase() + bio.substring(1).toLowerCase());
@@ -423,27 +424,42 @@ public class AccountRegisterActivity extends AppCompatActivity {
     }
 
     private void sendPostServer(final JSONObject utente) {
-        new PostUser(contesto).jsonParse(utente, PostUser.flag.NEW, new ServerCallback() {
-            @Override
-            public void onSuccess(JSONObject response) {
-                if (getStatus().equals("ERROR")) {
-                    deleteUser(utente);
-                }
-                if (getStatus().equals("OK")) {
-                    updateUserForChat();
-                    sendEmail();
-                    new AlertDialog.Builder(contesto)
-                            .setTitle("Registrazione completata")
-                            .setMessage("Ti è stata mandata una mail per attivare il tuo account")
-                            .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+        user.getIdToken(true)
+                .addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
+                    public void onComplete(@NonNull Task<GetTokenResult> task) {
+                        if (task.isSuccessful()) {
+                            String idToken = task.getResult().getToken();
+                            // Send token to your backend via HTTPS
+                            new PostUser(contesto).jsonParse(utente, PostUser.flag.NEW, idToken, new ServerCallback() {
+                                @Override
+                                public void onSuccess(JSONObject response) {
+                                    if (getStatus().equals("ERROR")) {
+                                        deleteUser(utente);
+                                    }
+                                    if (getStatus().equals("OK")) {
+                                        updateUserForChat();
+                                        sendEmail();
+                                        new AlertDialog.Builder(contesto)
+                                                .setTitle("Registrazione completata")
+                                                .setMessage("Ti è stata mandata una mail per attivare il tuo account")
+                                                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
 
-                                public void onClick(DialogInterface dialog, int whichButton) {
-                                    openLogin();
+                                                    public void onClick(DialogInterface dialog, int whichButton) {
+                                                        openLogin();
+                                                    }
+                                                }).show();
+                                    }
                                 }
-                            }).show();
-                }
-            }
-        });
+                            });
+
+                        } else {
+                            // Handle error -> task.getException();
+                            Toast.makeText(contesto, "Riprova", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
+
     }
 
     /*

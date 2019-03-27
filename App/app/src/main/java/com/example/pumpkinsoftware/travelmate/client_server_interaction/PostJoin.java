@@ -3,6 +3,7 @@ package com.example.pumpkinsoftware.travelmate.client_server_interaction;
 import android.content.Context;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -14,6 +15,9 @@ import com.example.pumpkinsoftware.travelmate.handle_error.ErrorServer;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class PostJoin {
     private Context context;
 
@@ -21,15 +25,16 @@ public class PostJoin {
         context = c;
     }
 
-    public enum request {JOIN, ABANDON, DELETE, CHANGE};
+    public enum request {JOIN, ABANDON, CHANGE};
 
-    public void send(String url, String tripId, String userId, final request request, final ServerCallback callback) {
+    public void send(String url, String tripId, String userId, final request request, final String idToken, final ServerCallback callback) {
         final RequestQueue mQueue = Volley.newRequestQueue(context);
         JSONObject jsonBody = new JSONObject();
 
         try {
             jsonBody.put("tripId", tripId);
-            jsonBody.put("userUid", userId);
+            if(request.equals(PostJoin.request.CHANGE))
+                jsonBody.put("userUid", userId);
         } catch (JSONException e) {
             Toast.makeText(context, "Errore: riprovare", Toast.LENGTH_SHORT).show();
         }
@@ -65,15 +70,22 @@ public class PostJoin {
                 // error
                 Toast.makeText(context, "Errore ", Toast.LENGTH_SHORT).show();
             }
-        });
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Content-Type", "application/json; charset=UTF-8");
+                params.put("access_token", idToken);
+                return params;
+            }
+        };
         mQueue.add(JORequest);
         mQueue.start();
-
     }
 
     private boolean isDeleted;
 
-    public void delete(String query, final ServerCallback callback) {
+    public void delete(String query, final String idToken, final ServerCallback callback) {
         final RequestQueue mQueue = Volley.newRequestQueue(context);
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, query, null, new Response.Listener<JSONObject>() {
             public void onResponse(JSONObject response) {
@@ -100,7 +112,15 @@ public class PostJoin {
                 error.printStackTrace();
                 Toast.makeText(context, "Errore: connessione assente", Toast.LENGTH_SHORT).show();
             }
-        });
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Content-Type", "application/json; charset=UTF-8");
+                params.put("access_token", idToken);
+                return params;
+            }
+        };
         mQueue.add(request);
     }
 

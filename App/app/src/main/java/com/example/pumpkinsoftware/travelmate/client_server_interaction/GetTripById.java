@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -22,6 +23,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class GetTripById {
     private Context context;
@@ -43,7 +46,7 @@ public class GetTripById {
     }
 
     public void getTripFromServer(String query, final ArrayList<User> users,
-                                  final String currentUserUid, final ServerCallback callback) {
+                                  final String currentUserUid, final String idToken, final ServerCallback callback) {
         this.users = users;
         this.currentUserUid = currentUserUid;
         final RequestQueue mQueue = Volley.newRequestQueue(context);
@@ -85,7 +88,15 @@ public class GetTripById {
                 hideProgressBar();
                 Toast.makeText(context, "Errore: connessione assente", Toast.LENGTH_SHORT).show();
             }
-        });
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Content-Type", "application/json; charset=UTF-8");
+                params.put("access_token", idToken);
+                return params;
+            }
+        };
         mQueue.add(request);
     }
 

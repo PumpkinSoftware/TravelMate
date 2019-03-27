@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -18,6 +19,9 @@ import com.example.pumpkinsoftware.travelmate.handle_error.ErrorServer;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class PostUser {
     private final static String URLNEW = "https://debugtm.herokuapp.com/user/newUser";
     private final static String URLUPDATE = "https://debugtm.herokuapp.com/user/updateUser";
@@ -31,7 +35,7 @@ public class PostUser {
         contesto = c;
     }
 
-    public void jsonParse(JSONObject utente, final flag myflag, final ServerCallback callback) {
+    public void jsonParse(JSONObject utente, final flag myflag, final String idToken, final ServerCallback callback) {
        try {
             Log.i("sto per inviare il file",utente.getString("avatar"));
         } catch (JSONException e) {
@@ -79,11 +83,18 @@ public class PostUser {
                 Toast.makeText(contesto, "Errore ", Toast.LENGTH_SHORT).show();
             }
 
-        });
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Content-Type", "application/json; charset=UTF-8");
+                params.put("access_token", idToken);
+                return params;
+            }
+        };
         // Add the request to the RequestQueue.
         mQueue.add(JORequest);
         mQueue.start();
-
     }
 
 }

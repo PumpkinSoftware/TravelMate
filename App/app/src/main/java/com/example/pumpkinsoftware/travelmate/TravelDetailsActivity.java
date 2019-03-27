@@ -53,6 +53,7 @@ import com.bumptech.glide.request.target.Target;
 import com.example.pumpkinsoftware.travelmate.chat.ChatActivityInside;
 import com.example.pumpkinsoftware.travelmate.client_server_interaction.GetPartecipantIteration;
 import com.example.pumpkinsoftware.travelmate.client_server_interaction.GetTripById;
+import com.example.pumpkinsoftware.travelmate.client_server_interaction.GetTripInteraction;
 import com.example.pumpkinsoftware.travelmate.client_server_interaction.GetUserByUid;
 import com.example.pumpkinsoftware.travelmate.client_server_interaction.PostJoin;
 import com.example.pumpkinsoftware.travelmate.client_server_interaction.ServerCallback;
@@ -66,6 +67,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GetTokenResult;
 import com.google.firebase.dynamiclinks.DynamicLink;
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
 import com.google.firebase.dynamiclinks.PendingDynamicLinkData;
@@ -124,6 +126,7 @@ public class TravelDetailsActivity extends AppCompatActivity {
     private Trip trip;
     private boolean isFirstLoading;
     private int rvPos;
+    private FirebaseUser user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -169,7 +172,7 @@ public class TravelDetailsActivity extends AppCompatActivity {
         o_image = findViewById(R.id.profile1);
         o_name = findViewById(R.id.user1);
 
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null)
             userUid = user.getUid();
 
@@ -411,11 +414,24 @@ public class TravelDetailsActivity extends AppCompatActivity {
 
                             // Remove user from travel
                             else
-                                new PostJoin(context).send("https://debugtm.herokuapp.com/user/removeTrip/",
-                                        travelId, userUid, PostJoin.request.ABANDON, new ServerCallback() {
-                                            @Override
-                                            public void onSuccess(JSONObject result) {
-                                                removeUserOnSuccess();
+                                user.getIdToken(true)
+                                        .addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
+                                            public void onComplete(@NonNull Task<GetTokenResult> task) {
+                                                if (task.isSuccessful()) {
+                                                    String idToken = task.getResult().getToken();
+                                                    // Send token to your backend via HTTPS
+
+                                                    new PostJoin(context).send("https://debugtm.herokuapp.com/user/removeTrip/",
+                                                            travelId, /*userUid*/ null, PostJoin.request.ABANDON, idToken, new ServerCallback() {
+                                                                @Override
+                                                                public void onSuccess(JSONObject result) {
+                                                                    removeUserOnSuccess();
+                                                                }
+                                                            });
+                                                } else {
+                                                    // Handle error -> task.getException();
+                                                    Toast.makeText(context, "Riprova", Toast.LENGTH_SHORT).show();
+                                                }
                                             }
                                         });
 
@@ -468,20 +484,33 @@ public class TravelDetailsActivity extends AppCompatActivity {
 
         else {
             // Add user to travel
-            new PostJoin(this).send("https://debugtm.herokuapp.com/user/addTrip/", travelId,
-                    userUid, PostJoin.request.JOIN, new ServerCallback() {
-                        @Override
-                        public void onSuccess(JSONObject result) {
-                            card.setCardBackgroundColor(colorTo);
-                            joinBtn.setText("Abbandona");
-                            updateLayout();
-                            // Open chat
-                            Intent intent = new Intent(context, ChatActivityInside.class);
-                            intent.putExtra(ChatActivityInside.EXTRA_TRIPID, trip.getId());
-                            intent.putExtra(ChatActivityInside.EXTRA_TRIPNAME, trip.getName());
-                            context.startActivity(intent);
+            user.getIdToken(true)
+                    .addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
+                        public void onComplete(@NonNull Task<GetTokenResult> task) {
+                            if (task.isSuccessful()) {
+                                String idToken = task.getResult().getToken();
+                                // Send token to your backend via HTTPS
+                                new PostJoin(TravelDetailsActivity.this).send("https://debugtm.herokuapp.com/user/addTrip/", travelId,
+                                        /*userUid*/ null, PostJoin.request.JOIN, idToken, new ServerCallback() {
+                                            @Override
+                                            public void onSuccess(JSONObject result) {
+                                                card.setCardBackgroundColor(colorTo);
+                                                joinBtn.setText("Abbandona");
+                                                updateLayout();
+                                                // Open chat
+                                                Intent intent = new Intent(context, ChatActivityInside.class);
+                                                intent.putExtra(ChatActivityInside.EXTRA_TRIPID, trip.getId());
+                                                intent.putExtra(ChatActivityInside.EXTRA_TRIPNAME, trip.getName());
+                                                context.startActivity(intent);
+                                            }
+                                        });
+                            } else {
+                                // Handle error -> task.getException();
+                                Toast.makeText(context, "Riprova", Toast.LENGTH_SHORT).show();
+                            }
                         }
                     });
+
 
             animate(joinBtn);
         }
@@ -501,29 +530,56 @@ public class TravelDetailsActivity extends AppCompatActivity {
     }
 
     private void changeOwner() {
-        User user = partecipants.get(0);
-        owner_uid = user.getUid();
-        new PostJoin(this).send("https://debugtm.herokuapp.com/user/changeOwnerAndRemoveLast", travelId,
-                owner_uid, PostJoin.request.CHANGE, new ServerCallback() {
-                    @Override
-                    public void onSuccess(JSONObject result) {
-                        removeUserOnSuccess();
+        User mUser = partecipants.get(0);
+        owner_uid = mUser.getUid();
+        user.getIdToken(true)
+                .addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
+                    public void onComplete(@NonNull Task<GetTokenResult> task) {
+                        if (task.isSuccessful()) {
+                            String idToken = task.getResult().getToken();
+                            // Send token to your backend via HTTPS
+
+                            new PostJoin(TravelDetailsActivity.this).send("https://debugtm.herokuapp.com/user/changeOwnerAndRemoveLast", travelId,
+                                    owner_uid, PostJoin.request.CHANGE, idToken, new ServerCallback() {
+                                        @Override
+                                        public void onSuccess(JSONObject result) {
+                                            removeUserOnSuccess();
+                                        }
+                                    });
+                        } else {
+                            // Handle error -> task.getException();
+                            Toast.makeText(context, "Riprova", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
     }
 
     private void deleteTrip() {
         final PostJoin server = new PostJoin(context);
-        server.delete("https://debugtm.herokuapp.com/trip/deleteTrip?tripId="+travelId+"&userUid="+userUid, new ServerCallback() {
-            @Override
-            public void onSuccess(JSONObject response) {
-                // Check if trip is really deleted from server
-                if (server.isDeleted()) {
-                    // TODO delete travel img from server
-                    close();
-                }
-            }
-        });
+        user.getIdToken(true)
+                .addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
+                    public void onComplete(@NonNull Task<GetTokenResult> task) {
+                        if (task.isSuccessful()) {
+                            String idToken = task.getResult().getToken();
+                            // Send token to your backend via HTTPS
+                            server.delete("https://debugtm.herokuapp.com/trip/deleteTrip?tripId="+travelId/*+"&userUid="+userUid*/,
+                                    idToken, new ServerCallback() {
+                                @Override
+                                public void onSuccess(JSONObject response) {
+                                    // Check if trip is really deleted from server
+                                    if (server.isDeleted()) {
+                                        // TODO delete travel img from server
+                                        close();
+                                    }
+                                }
+                            });
+                        } else {
+                            // Handle error -> task.getException();
+                            Toast.makeText(context, "Riprova", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
     }
 
     private void updateLayout() {
@@ -531,52 +587,66 @@ public class TravelDetailsActivity extends AppCompatActivity {
         else                        partecipants.clear();
 
         final GetTripById server = new GetTripById(this, rvUsers, progress);
-        server.getTripFromServer("https://debugtm.herokuapp.com/trip/getTripByIdWithUsers?id="+travelId,
-                partecipants, userUid,
-                new ServerCallback(){
-                    @Override
-                    public void onSuccess(JSONObject response) {
-                        trip = server.getTrip();
-                        // TODO handle trip deleted by owner when I'm viewing it
-                        loadTrip(trip);
+        user.getIdToken(true)
+                .addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
+                    public void onComplete(@NonNull Task<GetTokenResult> task) {
+                        if (task.isSuccessful()) {
+                            String idToken = task.getResult().getToken();
+                            // Send token to your backend via HTTPS
+                            server.getTripFromServer("https://debugtm.herokuapp.com/trip/getTripByIdWithUsers?id="+travelId,
+                                    partecipants, userUid, idToken,
+                                    new ServerCallback(){
+                                        @Override
+                                        public void onSuccess(JSONObject response) {
+                                            trip = server.getTrip();
+                                            // TODO handle trip deleted by owner when I'm viewing it
+                                            loadTrip(trip);
 
-                        final String img = server.getOwnerImg();
-                        o_image = findViewById(R.id.profile1);
+                                            final String img = server.getOwnerImg();
+                                            o_image = findViewById(R.id.profile1);
 
-                        GlideApp.with(context)
-                                .load((img.isEmpty())?(R.drawable.blank_avatar):(img))
-                                .placeholder(R.mipmap.placeholder_image)
-                                .into(o_image);
-                        TextView o_name = findViewById(R.id.user1);
-                        o_name.setText(server.getOwnerName());
+                                            GlideApp.with(context)
+                                                    .load((img.isEmpty())?(R.drawable.blank_avatar):(img))
+                                                    .placeholder(R.mipmap.placeholder_image)
+                                                    .into(o_image);
+                                            TextView o_name = findViewById(R.id.user1);
+                                            o_name.setText(server.getOwnerName());
 
-                        View.OnClickListener lis = new View.OnClickListener(){
-                            @Override
-                            public void onClick(View v) {
-                                openUser(owner_uid);
-                            }
-                        };
+                                            View.OnClickListener lis = new View.OnClickListener(){
+                                                @Override
+                                                public void onClick(View v) {
+                                                    openUser(owner_uid);
+                                                }
+                                            };
 
-                        o_image.setOnClickListener(lis);
-                        o_name.setOnClickListener(lis);
-                        partecipantsNumber = trip.getPartecipantsNumber();
+                                            o_image.setOnClickListener(lis);
+                                            o_name.setOnClickListener(lis);
+                                            partecipantsNumber = trip.getPartecipantsNumber();
 
-                        if(partecipantsNumber == group) card.setVisibility(View.GONE);
+                                            if(partecipantsNumber == group) card.setVisibility(View.GONE);
 
-                        if(userUid.equals(owner_uid)) {
-                            if(partecipantsNumber == 1)   joinBtn.setText("Elimina");
-                            else                          joinBtn.setText("Abbandona");
-                            card.setCardBackgroundColor(colorTo);
+                                            if(userUid.equals(owner_uid)) {
+                                                if(partecipantsNumber == 1)   joinBtn.setText("Elimina");
+                                                else                          joinBtn.setText("Abbandona");
+                                                card.setCardBackgroundColor(colorTo);
+                                            }
+
+                                            else if(server.isUserAPartecipant()) {
+                                                joinBtn.setText("Abbandona");
+                                                card.setCardBackgroundColor(colorTo);
+                                            }
+
+                                            else joinBtn.setText("Unisciti");
+                                        }
+                                    });
+
+                        } else {
+                            // Handle error -> task.getException();
+                            Toast.makeText(context, "Riprova", Toast.LENGTH_SHORT).show();
                         }
-
-                        else if(server.isUserAPartecipant()) {
-                            joinBtn.setText("Abbandona");
-                            card.setCardBackgroundColor(colorTo);
-                        }
-
-                        else joinBtn.setText("Unisciti");
                     }
                 });
+
     }
 
     private void loadTrip(Trip t) {
@@ -600,7 +670,7 @@ public class TravelDetailsActivity extends AppCompatActivity {
 
         if(!isFirstLoading) {
             final ImageView imgv = (ImageView) findViewById(R.id.header_cover_image);
-            loadImg(t.getImage(), imgv);
+            loadImg(image, imgv);
         }
         isFirstLoading = false;
 

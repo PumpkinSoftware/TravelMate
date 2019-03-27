@@ -188,6 +188,8 @@ public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.ViewHolder> 
                         ViewPager viewPager = ((ViaggiFragment) f).getViewPager();
                         if(viewPager.getCurrentItem() == 0) // In corso
                             f.startActivityForResult(intent, Tab1.REQUEST_CODE, options.toBundle());
+                        else
+                            ((Activity)context).startActivityForResult(intent, HomeFragment.REQUEST_CODE, options.toBundle());
                     }
                 }
 

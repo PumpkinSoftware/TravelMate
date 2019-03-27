@@ -23,6 +23,7 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -39,6 +40,8 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GetTokenResult;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
@@ -49,6 +52,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -374,6 +379,7 @@ public class EditUserActivity extends AppCompatActivity {
     }
 
     private void uploadImage2(final JSONObject utente) {
+        final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         if (filePath2 != null) {
             final StorageReference ref2 = storageReference.child("userImage/" + mail + "/" + UUID.randomUUID().toString());
             ref2.putFile(filePath2)
@@ -390,7 +396,20 @@ public class EditUserActivity extends AppCompatActivity {
                                         e.printStackTrace();
                                     }
                                     //  upload++;
-                                    jsonParse(utente);
+                                    firebaseUser.getIdToken(true)
+                                            .addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
+                                                public void onComplete(@NonNull Task<GetTokenResult> task) {
+                                                    if (task.isSuccessful()) {
+                                                        String idToken = task.getResult().getToken();
+                                                        // Send token to your backend via HTTPS
+                                                        jsonParse(utente, idToken);
+                                                        // ...
+                                                    } else {
+                                                        // Handle error -> task.getException();
+                                                        Toast.makeText(context, "Riprova", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                }
+                                            });
                                 }
                             });
                         }
@@ -404,7 +423,21 @@ public class EditUserActivity extends AppCompatActivity {
                             } catch (JSONException e1) {
                                 e1.printStackTrace();
                             }
-                            jsonParse(utente);
+
+                            firebaseUser.getIdToken(true)
+                                    .addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
+                                        public void onComplete(@NonNull Task<GetTokenResult> task) {
+                                            if (task.isSuccessful()) {
+                                                String idToken = task.getResult().getToken();
+                                                // Send token to your backend via HTTPS
+                                                jsonParse(utente, idToken);
+                                                // ...
+                                            } else {
+                                                // Handle error -> task.getException();
+                                                Toast.makeText(context, "Riprova", Toast.LENGTH_SHORT).show();
+                                            }
+                                        }
+                                    });
                         }
                     })
                     .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
@@ -416,7 +449,20 @@ public class EditUserActivity extends AppCompatActivity {
                         }
                     });
         } else
-            jsonParse(utente);
+            firebaseUser.getIdToken(true)
+                    .addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
+                        public void onComplete(@NonNull Task<GetTokenResult> task) {
+                            if (task.isSuccessful()) {
+                                String idToken = task.getResult().getToken();
+                                // Send token to your backend via HTTPS
+                                jsonParse(utente, idToken);
+                                // ...
+                            } else {
+                                // Handle error -> task.getException();
+                                Toast.makeText(context, "Riprova", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
     }
 
     /*
@@ -512,7 +558,7 @@ public class EditUserActivity extends AppCompatActivity {
 
         }
     */
-    private void jsonParse(final JSONObject utente) {
+    private void jsonParse(final JSONObject utente, final String idToken) {
         RequestQueue mQueue = Volley.newRequestQueue(this);
         final JsonObjectRequest JORequest = new JsonObjectRequest(Request.Method.POST, URL, utente, new Response.Listener<JSONObject>() {
             @Override
@@ -547,7 +593,15 @@ public class EditUserActivity extends AppCompatActivity {
                 // error
                 Toast.makeText(context, "Errore ", Toast.LENGTH_SHORT).show();
             }
-        });
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Content-Type", "application/json; charset=UTF-8");
+                params.put("access_token", idToken);
+                return params;
+            }
+        };
         // Add the request to the RequestQueue.
         mQueue.add(JORequest);
         mQueue.start();

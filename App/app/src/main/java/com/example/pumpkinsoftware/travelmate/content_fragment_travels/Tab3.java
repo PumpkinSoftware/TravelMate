@@ -35,24 +35,26 @@ public class Tab3 extends Fragment {
     private Context context;
     private RequestQueue mRequestQueue;
     private String idToken;
-    FirebaseUser user;
+    private ProgressBar progress;
+    private RecyclerView rvTrips;
+    private TextView noTripText;
+    private ImageView noTripImg;
+    private FirebaseUser user;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_recyclerview_travel, container, false);
         context = getContext();
 
-        final ProgressBar progress = view.findViewById(R.id.indeterminateBar);
-        final TextView noTripText = view.findViewById(R.id.noTripText);
-        final ImageView noTripImg = view.findViewById(R.id.noTripImg);
+        progress = view.findViewById(R.id.indeterminateBar);
+        noTripText = view.findViewById(R.id.noTripText);
+        noTripImg = view.findViewById(R.id.noTripImg);
 
-        final RecyclerView rvTrips = (RecyclerView) view.findViewById(R.id.recyclerview);
+        rvTrips = (RecyclerView) view.findViewById(R.id.recyclerview);
         // Set layout manager to position the items
         rvTrips.setLayoutManager(new LinearLayoutManager(context));
-
-        mRequestQueue = Volley.newRequestQueue(context);
         user = FirebaseAuth.getInstance().getCurrentUser();
-
+        updateLayout();
 
         //swipe da finire
         final SwipeRefreshLayout swipe = (SwipeRefreshLayout) view.findViewById(R.id.swiperefresh);
@@ -63,24 +65,7 @@ public class Tab3 extends Fragment {
                 (new Handler()).postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        //temporaneo
-                        rvTrips.setLayoutManager(new LinearLayoutManager(context));
-                        mRequestQueue = Volley.newRequestQueue(context);
-                        user.getIdToken(true)
-                                .addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
-                                    public void onComplete(@NonNull Task<GetTokenResult> task) {
-                                        if (task.isSuccessful()) {
-                                            idToken = task.getResult().getToken();
-                                            // Send token to your backend via HTTPS
-                                            new GetTripInteraction(context, rvTrips, progress, idToken).getTripsFromServer(URL, mRequestQueue, noTripText, noTripImg);
-                                            // ...
-                                        } else {
-                                            // Handle error -> task.getException();
-                                            Toast.makeText(context, "Riprova", Toast.LENGTH_SHORT).show();
-                                        }
-                                    }
-                                });
-
+                        updateLayout();
                         swipe.setRefreshing(false);
 
                     }
@@ -90,5 +75,23 @@ public class Tab3 extends Fragment {
         return view;
     }
 
+    private void updateLayout() {
+        mRequestQueue = Volley.newRequestQueue(context);
+        user.getIdToken(true)
+                .addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
+                    public void onComplete(@NonNull Task<GetTokenResult> task) {
+                        if (task.isSuccessful()) {
+                            idToken = task.getResult().getToken();
+                            // Send token to your backend via HTTPS
+                            new GetTripInteraction(context, rvTrips, progress,idToken).getTripsFromServer(URL, mRequestQueue, noTripText, noTripImg);
+                            // ...
+                        } else {
+                            // Handle error -> task.getException();
+                            Toast.makeText(context, "Riprova", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
+    }
 
 }
