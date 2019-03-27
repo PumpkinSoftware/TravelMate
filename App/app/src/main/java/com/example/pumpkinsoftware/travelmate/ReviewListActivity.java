@@ -32,6 +32,8 @@ public class ReviewListActivity extends AppCompatActivity {
     private TextView noTripText;
     private ImageView noTripImg;
     private String URL=Utils.SERVER_PATH + "user/leftReviews?";
+    FirebaseUser user;
+    RecyclerView rvUser;
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
@@ -52,13 +54,13 @@ public class ReviewListActivity extends AppCompatActivity {
             noTripText = findViewById(R.id.noTripText);
             noTripImg = findViewById(R.id.noTripImg);
 
-            final RecyclerView rvUser = (RecyclerView) findViewById(R.id.recyclerview_review);
+            rvUser = (RecyclerView) findViewById(R.id.recyclerview_review);
             // Set layout manager to position the items
             rvUser.setLayoutManager(new LinearLayoutManager(context));
             rvUser.addItemDecoration(new DividerItemDecoration(rvUser.getContext(), DividerItemDecoration.VERTICAL));
 
             mRequestQueue= Volley.newRequestQueue(context);
-            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+            user = FirebaseAuth.getInstance().getCurrentUser();
             user.getIdToken(true)
                     .addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
                         public void onComplete(@NonNull Task<GetTokenResult> task) {
@@ -77,4 +79,27 @@ public class ReviewListActivity extends AppCompatActivity {
 
 
         }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        user.getIdToken(true)
+                .addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
+                    public void onComplete(@NonNull Task<GetTokenResult> task) {
+                        if (task.isSuccessful()) {
+                            String idToken = task.getResult().getToken();
+                            // Send token to your backend via HTTPS
+                            new GetUserByUid(context,rvUser,idToken).getUserReviewFromServer(URL, mRequestQueue,
+                                    noTripText, noTripImg);
+                            // ...
+                        } else {
+                            // Handle error -> task.getException();
+                            Toast.makeText(context, "Riprova", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
+
+
+    }
 }
