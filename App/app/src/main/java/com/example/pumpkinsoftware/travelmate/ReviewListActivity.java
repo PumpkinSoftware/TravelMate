@@ -10,6 +10,8 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
@@ -27,6 +29,8 @@ import java.util.ArrayList;
 public class ReviewListActivity extends AppCompatActivity {
     private Context context;
     private RequestQueue mRequestQueue;
+    private TextView noTripText;
+    private ImageView noTripImg;
     private String URL="https://debugtm.herokuapp.com/user/leftReviews?";
 
         @Override
@@ -45,6 +49,9 @@ public class ReviewListActivity extends AppCompatActivity {
             });
             context = this;
 
+            noTripText = findViewById(R.id.noTripText);
+            noTripImg = findViewById(R.id.noTripImg);
+
             final RecyclerView rvUser = (RecyclerView) findViewById(R.id.recyclerview_review);
             // Set layout manager to position the items
             rvUser.setLayoutManager(new LinearLayoutManager(context));
@@ -58,7 +65,8 @@ public class ReviewListActivity extends AppCompatActivity {
                             if (task.isSuccessful()) {
                                  String idToken = task.getResult().getToken();
                                 // Send token to your backend via HTTPS
-                                new GetUserByUid(context,rvUser,idToken).getUserReviewFromServer(URL,mRequestQueue);
+                                new GetUserByUid(context,rvUser,idToken).getUserReviewFromServer(URL, mRequestQueue,
+                                        noTripText, noTripImg);
                                 // ...
                             } else {
                                 // Handle error -> task.getException();
