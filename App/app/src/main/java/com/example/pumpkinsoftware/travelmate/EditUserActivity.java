@@ -60,7 +60,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class EditUserActivity extends AppCompatActivity {
     public final static String EXTRA_USER = "travelmate_extra_eua_USER";
-    private final static String URL = "https://debugtm.herokuapp.com/user/updateUser";
+    private final static String URL = Utils.SERVER_PATH + "user/updateUser";
     private Context context;
     private User user;
     private String mail;
@@ -265,6 +265,7 @@ public class EditUserActivity extends AppCompatActivity {
     private String bio;
 
     public void update() {
+        progressBar.setVisibility(View.VISIBLE);
         bio = String.valueOf(biot.getText());
         bio = bio.substring(0, 1).toUpperCase() + bio.substring(1).toLowerCase();
         JSONObject utente = new JSONObject();
@@ -291,6 +292,7 @@ public class EditUserActivity extends AppCompatActivity {
 
         } catch (JSONException e) {
             e.printStackTrace();
+            progressBar.setVisibility(View.GONE);
         }
 
         uploadImage1(utente);
@@ -301,6 +303,7 @@ public class EditUserActivity extends AppCompatActivity {
 
         intent.putExtra(ProfileFragment.EXTRA_USER, user);
         setResult(RESULT_OK, intent);
+        progressBar.setVisibility(View.GONE);
         finish();
 
        /* new PostUser(context).jsonParse(utente, PostUser.flag.UPDATE, new ServerCallback() {
@@ -346,6 +349,7 @@ public class EditUserActivity extends AppCompatActivity {
                                         //Log.i("Dato",uri.toString());
                                         utente.put("avatar", (uri.toString()));
                                     } catch (JSONException e) {
+                                        progressBar.setVisibility(View.GONE);
                                         e.printStackTrace();
                                     }
                                     //  upload++;
@@ -361,6 +365,7 @@ public class EditUserActivity extends AppCompatActivity {
                             try {
                                 utente.put("avatar", "");
                             } catch (JSONException e1) {
+                                progressBar.setVisibility(View.GONE);
                                 e1.printStackTrace();
                             }
                             uploadImage2(utente);
@@ -393,6 +398,7 @@ public class EditUserActivity extends AppCompatActivity {
                                         //Log.i("Dato",uri.toString());
                                         utente.put("cover", (uri.toString()));
                                     } catch (JSONException e) {
+                                        progressBar.setVisibility(View.GONE);
                                         e.printStackTrace();
                                     }
                                     //  upload++;
@@ -406,6 +412,7 @@ public class EditUserActivity extends AppCompatActivity {
                                                         // ...
                                                     } else {
                                                         // Handle error -> task.getException();
+                                                        progressBar.setVisibility(View.GONE);
                                                         Toast.makeText(context, "Riprova", Toast.LENGTH_SHORT).show();
                                                     }
                                                 }
@@ -421,6 +428,7 @@ public class EditUserActivity extends AppCompatActivity {
                             try {
                                 utente.put("cover", "");
                             } catch (JSONException e1) {
+                                progressBar.setVisibility(View.GONE);
                                 e1.printStackTrace();
                             }
 
@@ -434,6 +442,7 @@ public class EditUserActivity extends AppCompatActivity {
                                                 // ...
                                             } else {
                                                 // Handle error -> task.getException();
+                                                progressBar.setVisibility(View.GONE);
                                                 Toast.makeText(context, "Riprova", Toast.LENGTH_SHORT).show();
                                             }
                                         }
@@ -459,6 +468,7 @@ public class EditUserActivity extends AppCompatActivity {
                                 // ...
                             } else {
                                 // Handle error -> task.getException();
+                                progressBar.setVisibility(View.GONE);
                                 Toast.makeText(context, "Riprova", Toast.LENGTH_SHORT).show();
                             }
                         }
@@ -585,6 +595,7 @@ public class EditUserActivity extends AppCompatActivity {
 
                 } catch (JSONException e) {
                     Toast.makeText(context, "Errore: riprovare", Toast.LENGTH_SHORT).show();
+                    progressBar.setVisibility(View.GONE);
                 }
             }
         }, new Response.ErrorListener() {
@@ -592,6 +603,7 @@ public class EditUserActivity extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
                 // error
                 Toast.makeText(context, "Errore ", Toast.LENGTH_SHORT).show();
+                progressBar.setVisibility(View.GONE);
             }
         }) {
             @Override

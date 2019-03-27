@@ -74,6 +74,7 @@ public class AccountRegisterActivity extends AppCompatActivity {
     private String avatar = "";
 
     public static String status = "";
+    private ProgressBar progressBar;
 
     Context contesto;
     FirebaseStorage storage;
@@ -105,6 +106,8 @@ public class AccountRegisterActivity extends AppCompatActivity {
         // file per firebase
 
         mAuth = FirebaseAuth.getInstance();
+
+        progressBar = findViewById(R.id.indeterminateBar);
 
         //PreparationAccount(mail,pass);
         storage = FirebaseStorage.getInstance();
@@ -157,6 +160,7 @@ public class AccountRegisterActivity extends AppCompatActivity {
     }
 
     private void PreparationAccount() {
+        progressBar.setVisibility(View.VISIBLE);
 
         mAuth.createUserWithEmailAndPassword(mail, pass)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -168,6 +172,7 @@ public class AccountRegisterActivity extends AppCompatActivity {
                             sendRegistration();
                         } else {
                             try {
+                                progressBar.setVisibility(View.GONE);
                                 throw task.getException();
                             }
                             // if user enters wrong password.
@@ -181,8 +186,10 @@ public class AccountRegisterActivity extends AppCompatActivity {
                                 Log.d(TAG, "onComplete: malformed_email");
                             }*/ catch (FirebaseAuthUserCollisionException existEmail) {
                                 Toast.makeText(contesto, "Email già in uso", Toast.LENGTH_SHORT).show();
+                                progressBar.setVisibility(View.GONE);
                             } catch (Exception e) {
                                 Toast.makeText(contesto, "Si è verificato un problema, riprovare", Toast.LENGTH_SHORT).show();
+                                progressBar.setVisibility(View.GONE);
                             }
                         }
                     }
@@ -293,6 +300,7 @@ public class AccountRegisterActivity extends AppCompatActivity {
                 utente.put("email", mail);
 
             } catch (JSONException e) {
+                progressBar.setVisibility(View.GONE);
                 e.printStackTrace();
             }
 
@@ -330,6 +338,7 @@ public class AccountRegisterActivity extends AppCompatActivity {
                                         utente.put("avatar", (uri.toString()));
                                         avatar = uri.toString();
                                     } catch (JSONException e) {
+                                        progressBar.setVisibility(View.GONE);
                                         e.printStackTrace();
                                     }
                                     uploadImage2(utente);
@@ -346,6 +355,7 @@ public class AccountRegisterActivity extends AppCompatActivity {
                                 utente.put("avatar", "");
                                 avatar = "";
                             } catch (JSONException ex) {
+                                progressBar.setVisibility(View.GONE);
                                 ex.printStackTrace();
                             }
                             uploadImage2(utente);
@@ -364,6 +374,7 @@ public class AccountRegisterActivity extends AppCompatActivity {
                 utente.put("avatar", "");
                 avatar = "";
             } catch (JSONException e) {
+                progressBar.setVisibility(View.GONE);
                 e.printStackTrace();
             }
             uploadImage2(utente);
@@ -384,6 +395,7 @@ public class AccountRegisterActivity extends AppCompatActivity {
                                         //Log.i("Dato",uri.toString());
                                         utente.put("cover", (uri.toString()));
                                     } catch (JSONException e) {
+                                        progressBar.setVisibility(View.GONE);
                                         e.printStackTrace();
                                     }
                                     sendPostServer(utente);
@@ -399,6 +411,7 @@ public class AccountRegisterActivity extends AppCompatActivity {
                                 //Log.i("Dato",uri.toString());
                                 utente.put("cover", "");
                             } catch (JSONException ex) {
+                                progressBar.setVisibility(View.GONE);
                                 ex.printStackTrace();
                             }
                             sendPostServer(utente);
@@ -417,6 +430,7 @@ public class AccountRegisterActivity extends AppCompatActivity {
             try {
                 utente.put("cover", "");
             } catch (JSONException e) {
+                progressBar.setVisibility(View.GONE);
                 e.printStackTrace();
             }
             sendPostServer(utente);
@@ -439,6 +453,7 @@ public class AccountRegisterActivity extends AppCompatActivity {
                                     if (getStatus().equals("OK")) {
                                         updateUserForChat();
                                         sendEmail();
+                                        progressBar.setVisibility(View.GONE);
                                         new AlertDialog.Builder(contesto)
                                                 .setTitle("Registrazione completata")
                                                 .setMessage("Ti è stata mandata una mail per attivare il tuo account")
@@ -454,6 +469,7 @@ public class AccountRegisterActivity extends AppCompatActivity {
 
                         } else {
                             // Handle error -> task.getException();
+                            progressBar.setVisibility(View.GONE);
                             Toast.makeText(contesto, "Riprova", Toast.LENGTH_SHORT).show();
                         }
                     }

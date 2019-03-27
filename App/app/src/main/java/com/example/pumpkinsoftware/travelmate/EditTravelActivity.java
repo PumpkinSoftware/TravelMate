@@ -18,6 +18,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -57,7 +58,7 @@ import java.util.UUID;
 
 public class EditTravelActivity extends AppCompatActivity {
     public final static String EXTRA_TRAVEL = "travelmate_extra_eta_TRIP";
-    private final static String URL = "https://debugtm.herokuapp.com/trip/updateTrip/";
+    private final static String URL = Utils.SERVER_PATH + "trip/updateTrip/";
     private Context context;
     private Trip trip;
     private String vehicle;
@@ -75,6 +76,7 @@ public class EditTravelActivity extends AppCompatActivity {
     private final static int MAX_BUDGET = 500;
     private final static int MIN_PARTECIPANTS = 1;
     private final static int MAX_PARTECIPANTS = 15;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,6 +92,8 @@ public class EditTravelActivity extends AppCompatActivity {
 
         Bundle b = getIntent().getExtras();
         trip = (Trip) b.getSerializable(EXTRA_TRAVEL);
+
+        progressBar = findViewById(R.id.indeterminateBar);
 
         //Toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -172,6 +176,8 @@ public class EditTravelActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                progressBar.setVisibility(View.VISIBLE);
+
                 // valori da passare
                 String from_q = from.getText().toString().toLowerCase();
                 String to_q = to.getText().toString().toLowerCase();
@@ -193,6 +199,7 @@ public class EditTravelActivity extends AppCompatActivity {
                     budget_q = Double.parseDouble(budget_t);
                     group_q = Integer.parseInt(partecipants.getText().toString());
                 } catch (Exception e) {
+                    progressBar.setVisibility(View.GONE);
                     e.printStackTrace();
                 }
 
@@ -204,6 +211,7 @@ public class EditTravelActivity extends AppCompatActivity {
                         viaggio.put("startDate", departure_q);
                         trip.setStartDate(departure_q);
                     } catch (JSONException e) {
+                        progressBar.setVisibility(View.GONE);
                         e.printStackTrace();
                     }
                 }
@@ -213,6 +221,7 @@ public class EditTravelActivity extends AppCompatActivity {
                         viaggio.put("endDate", return_q);
                         trip.setEndDate(return_q);
                     } catch (JSONException e) {
+                        progressBar.setVisibility(View.GONE);
                         e.printStackTrace();
                     }
                 }
@@ -265,9 +274,11 @@ public class EditTravelActivity extends AppCompatActivity {
                     //if (user != null) viaggio.put("owner", user.getUid());
 
                 } catch (JSONException e) {
+                    progressBar.setVisibility(View.GONE);
                     e.printStackTrace();
                 }
                 uploadImage(viaggio);
+                progressBar.setVisibility(View.GONE);
                 Intent intent = new Intent();
                 intent.putExtra(TravelDetailsActivity.EXTRA_TRIP, trip);
                 setResult(RESULT_OK, intent);
@@ -297,6 +308,7 @@ public class EditTravelActivity extends AppCompatActivity {
                                         //Log.i("Dato",uri.toString());
                                         viaggio.put("image", (uri.toString()));
                                     } catch (JSONException e) {
+                                        progressBar.setVisibility(View.GONE);
                                         e.printStackTrace();
                                     }
                                     //Qui richiami mongoDB per creare il trip
@@ -310,6 +322,7 @@ public class EditTravelActivity extends AppCompatActivity {
                                                         // ...
                                                     } else {
                                                         // Handle error -> task.getException();
+                                                        progressBar.setVisibility(View.GONE);
                                                         Toast.makeText(context, "Riprova", Toast.LENGTH_SHORT).show();
                                                     }
                                                 }
@@ -328,6 +341,7 @@ public class EditTravelActivity extends AppCompatActivity {
                             try {
                                 viaggio.put("image", (""));
                             } catch (JSONException e1) {
+                                progressBar.setVisibility(View.GONE);
                                 e1.printStackTrace();
                             }
                             user.getIdToken(true)
@@ -340,6 +354,7 @@ public class EditTravelActivity extends AppCompatActivity {
                                                 // ...
                                             } else {
                                                 // Handle error -> task.getException();
+                                                progressBar.setVisibility(View.GONE);
                                                 Toast.makeText(context, "Riprova", Toast.LENGTH_SHORT).show();
                                             }
                                         }
@@ -366,6 +381,7 @@ public class EditTravelActivity extends AppCompatActivity {
                                 // ...
                             } else {
                                 // Handle error -> task.getException();
+                                progressBar.setVisibility(View.GONE);
                                 Toast.makeText(context, "Riprova", Toast.LENGTH_SHORT).show();
                             }
                         }
@@ -393,6 +409,7 @@ public class EditTravelActivity extends AppCompatActivity {
                     }
 
                 } catch (JSONException e) {
+                    progressBar.setVisibility(View.GONE);
                     Toast.makeText(context, "Errore: riprovare", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -400,6 +417,7 @@ public class EditTravelActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 // error
+                progressBar.setVisibility(View.GONE);
                 Toast.makeText(context, "Errore ", Toast.LENGTH_SHORT).show();
             }
         }) {

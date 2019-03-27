@@ -18,6 +18,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
@@ -54,7 +55,7 @@ import java.util.UUID;
 
 @RequiresApi(api = Build.VERSION_CODES.M)
 public class CreationTrip extends AppCompatActivity {
-    private final static String URL = "https://debugtm.herokuapp.com/trip/newTrip/";
+    private final static String URL = Utils.SERVER_PATH + "trip/newTrip/";
     protected String from_q, to_q, departure_q, return_q, nome_q, program_q, vehicle = "", tag = "";
     protected Double budget_q;
     protected int group_q;
@@ -65,6 +66,7 @@ public class CreationTrip extends AppCompatActivity {
     private Uri filePath;
     private final int PICK_IMAGE_REQUEST = 71;
     final int PIC_CROP = 2;
+    private ProgressBar progressBar;
 
     //Firebase
     FirebaseStorage storage;
@@ -97,6 +99,8 @@ public class CreationTrip extends AppCompatActivity {
         storageReference = storage.getReference();
         user = FirebaseAuth.getInstance().getCurrentUser();
 
+        progressBar = findViewById(R.id.indeterminateBar);
+
         // campi
         final EditText budget = findViewById(R.id.budget_max_value);
         final EditText group = findViewById(R.id.group_max_value);
@@ -127,6 +131,8 @@ public class CreationTrip extends AppCompatActivity {
         b_confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                progressBar.setVisibility(View.VISIBLE);
 
                 // valori da passare
                 from_q = from.getText().toString().toLowerCase();
@@ -181,9 +187,11 @@ public class CreationTrip extends AppCompatActivity {
                         viaggio.put("maxPartecipant", group_q);
 
                     } catch (JSONException e) {
+                        progressBar.setVisibility(View.GONE);
                         e.printStackTrace();
                     }
                     uploadImage(viaggio);
+                    progressBar.setVisibility(View.GONE);
                     Intent intent = new Intent();
                     setResult(RESULT_OK, intent);
                     finish();
@@ -257,6 +265,7 @@ public class CreationTrip extends AppCompatActivity {
                                         //Log.i("Dato",uri.toString());
                                         viaggio.put("image", (uri.toString()));
                                     } catch (JSONException e) {
+                                        progressBar.setVisibility(View.GONE);
                                         e.printStackTrace();
                                     }
                                     //Qui richiami mongoDB per creare il trip
@@ -270,6 +279,7 @@ public class CreationTrip extends AppCompatActivity {
                                                         // ...
                                                     } else {
                                                         // Handle error -> task.getException();
+                                                        progressBar.setVisibility(View.GONE);
                                                         Toast.makeText(contesto, "Riprova", Toast.LENGTH_SHORT).show();
                                                     }
                                                 }
@@ -290,6 +300,7 @@ public class CreationTrip extends AppCompatActivity {
                             try {
                                 viaggio.put("image", (""));
                             } catch (JSONException e1) {
+                                progressBar.setVisibility(View.GONE);
                                 e1.printStackTrace();
                             }
                             Toast.makeText(contesto, "Failed " + e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -309,6 +320,7 @@ public class CreationTrip extends AppCompatActivity {
                 //Log.i("Dato",uri.toString());
                 viaggio.put("image", "");
             } catch (JSONException e) {
+                progressBar.setVisibility(View.GONE);
                 e.printStackTrace();
             }
             user.getIdToken(true)
@@ -321,6 +333,7 @@ public class CreationTrip extends AppCompatActivity {
                                 // ...
                             } else {
                                 // Handle error -> task.getException();
+                                progressBar.setVisibility(View.GONE);
                                 Toast.makeText(contesto, "Riprova", Toast.LENGTH_SHORT).show();
                             }
                         }
@@ -345,6 +358,7 @@ public class CreationTrip extends AppCompatActivity {
                     }
 
                 } catch (JSONException e) {
+                    progressBar.setVisibility(View.GONE);
                     Toast.makeText(contesto, "Errore: riprovare", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -352,6 +366,7 @@ public class CreationTrip extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 // error
+                progressBar.setVisibility(View.GONE);
                 Toast.makeText(contesto, "Errore ", Toast.LENGTH_SHORT).show();
             }
         }) {
