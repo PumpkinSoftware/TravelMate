@@ -9,4 +9,5 @@
 -9 : User not found or favouriteTrip already added
 -10 : User not found or favouriteTrip not found
 -11 : User already reviewed
+-12 : User non logged, access denied
 
