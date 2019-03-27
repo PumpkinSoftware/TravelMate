@@ -82,7 +82,7 @@ router.post('/newUser', function(req, res){
                 	gender: clientInput.gender,
                 	relationship: clientInput.relationship,
                 	email: clientInput.email,
-                	uid: /*userUid*/, clientInput.uid,
+                	uid: /*userUid,*/ clientInput.uid,
                 	description: clientInput.description,
                 	avatar: clientInput.avatar,
                 	cover: clientInput.cover,

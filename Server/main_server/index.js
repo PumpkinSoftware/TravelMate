@@ -3,7 +3,7 @@ var http = require('http');
 var https = require('https');
 var fs = require('fs');
 var database = require('./database');
-var admin = require('./firebase');
+//var admin = require('./firebase');
 
 var url = process.env.DATA || "mongodb://127.0.0.1:27017/TravelMate";
 const PORT = process.env.PORT || 8095;

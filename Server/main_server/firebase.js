@@ -1,4 +1,4 @@
-var admin = require("firebase-admin");
+/*var admin = require("firebase-admin");
 
 var serviceAccount = require("./firebase/serviceAccountKey.json");
 
@@ -13,3 +13,4 @@ exports.initializeFirebase = function(){
 exports.getAdmin = function(){
 	return admin;
 }
+*/
