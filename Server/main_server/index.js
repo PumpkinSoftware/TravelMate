@@ -3,6 +3,7 @@ var http = require('http');
 var https = require('https');
 var fs = require('fs');
 var database = require('./database');
+//var admin = require('./firebase');
 
 var url = process.env.DATA || "mongodb://127.0.0.1:27017/TravelMate";
 const PORT = process.env.PORT || 8095;
@@ -19,6 +20,8 @@ console.log("Server Start");
 var server = http.createServer(app);
 var httpsServer = https.createServer(credentials, app);
 
+//Only for firebase 
+//admin.initializeFirebase();
 
 database.connect(url);
 
@@ -32,6 +35,13 @@ httpsServer.listen(8442,function(err){
 	console.log('server https listening on http://%s:%d',address.address,address.port);
 	console.log('press CTRL+C to exit');
 });
+
+//Only for Heroku
+/*
+setInterval(function() {
+    https.get("https://debugtm.herokuapp.com");
+}, 300000); // every 5 minutes (300000)
+*/
 
 process.on('SIGINT',function(){
 	server.close();
