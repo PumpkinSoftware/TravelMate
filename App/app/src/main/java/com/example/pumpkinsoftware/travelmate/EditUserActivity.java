@@ -414,6 +414,20 @@ public class EditUserActivity extends AppCompatActivity {
                                                         // Handle error -> task.getException();
                                                         progressBar.setVisibility(View.GONE);
                                                         Toast.makeText(context, "Riprova", Toast.LENGTH_SHORT).show();
+                                                        try {
+                                                            if(filePath1!=null) {
+                                                                deleteImg(storage.getReferenceFromUrl(utente.getString("avatar")));
+                                                            }
+                                                        } catch (JSONException e) {
+                                                            e.printStackTrace();
+                                                        }
+                                                        try {
+                                                            if(filePath2!= null) {
+                                                                deleteImg(storageReference.child(utente.getString("cover")));
+                                                            }
+                                                        } catch (JSONException e) {
+                                                            e.printStackTrace();
+                                                        }
                                                     }
                                                 }
                                             });
@@ -444,6 +458,20 @@ public class EditUserActivity extends AppCompatActivity {
                                                 // Handle error -> task.getException();
                                                 progressBar.setVisibility(View.GONE);
                                                 Toast.makeText(context, "Riprova", Toast.LENGTH_SHORT).show();
+                                                try {
+                                                    if(filePath1!=null) {
+                                                        deleteImg(storage.getReferenceFromUrl(utente.getString("avatar")));
+                                                    }
+                                                } catch (JSONException e) {
+                                                    e.printStackTrace();
+                                                }
+                                                try {
+                                                    if(filePath2!= null) {
+                                                        deleteImg(storageReference.child(utente.getString("cover")));
+                                                    }
+                                                } catch (JSONException e) {
+                                                    e.printStackTrace();
+                                                }
                                             }
                                         }
                                     });
@@ -470,104 +498,25 @@ public class EditUserActivity extends AppCompatActivity {
                                 // Handle error -> task.getException();
                                 progressBar.setVisibility(View.GONE);
                                 Toast.makeText(context, "Riprova", Toast.LENGTH_SHORT).show();
+                                try {
+                                    if(filePath1!=null) {
+                                        deleteImg(storage.getReferenceFromUrl(utente.getString("avatar")));
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                                try {
+                                    if(filePath2!= null) {
+                                        deleteImg(storageReference.child(utente.getString("cover")));
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
                             }
                         }
                     });
     }
 
-    /*
-        private void uploadImage(final JSONObject utente) {
-            if (filePath1 != null) {
-                final StorageReference ref = storageReference.child("userImage/" + mail + "/" + pathRandom1);
-                ref.putFile(filePath1)
-                        .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                            @Override
-                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                                ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                    @Override
-                                    public void onSuccess(Uri uri) {
-                                        try {
-                                            //Log.i("Dato",uri.toString());
-                                            utente.put("avatar", (uri.toString()));
-                                        } catch (JSONException e) {
-                                            e.printStackTrace();
-                                        }
-                                      //  upload++;
-                                        jsonParse(utente);
-                                    }
-                                });
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                //progressDialog.dismiss();
-                                try {
-                                    utente.put("avatar", "");
-                                } catch (JSONException e1) {
-                                    e1.printStackTrace();
-                                }
-                                Toast.makeText(context, "Failed " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                            }
-                        })
-                        .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-                            @Override
-                            public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                                double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot
-                                        .getTotalByteCount());
-                                // progressDialog.setMessage("Uploaded "+(int)progress+"%");
-                            }
-                        });
-            }
-            if (filePath2 != null) {
-                final StorageReference ref2 = storageReference.child("userImage/" + mail + "/" + pathRandom2);
-                ref2.putFile(filePath2)
-                        .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                            @Override
-                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                                ref2.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                    @Override
-                                    public void onSuccess(Uri uri) {
-                                        try {
-                                            //Log.i("Dato",uri.toString());
-                                            utente.put("cover", (uri.toString()));
-                                        } catch (JSONException e) {
-                                            e.printStackTrace();
-                                        }
-                                      //  upload++;
-                                        jsonParse(utente);
-                                    }
-                                });
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                //progressDialog.dismiss();
-                                try {
-                                    utente.put("cover", "");
-                                } catch (JSONException e1) {
-                                    e1.printStackTrace();
-                                }
-                                Toast.makeText(context, "Failed " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                            }
-                        })
-                        .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-                            @Override
-                            public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                                double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot
-                                        .getTotalByteCount());
-                                // progressDialog.setMessage("Uploaded "+(int)progress+"%");
-                            }
-                        });
-            }
-            if (filePath1 == null && filePath2 == null) {
-                jsonParse(utente);
-            }
-
-
-        }
-    */
     private void jsonParse(final JSONObject utente, final String idToken) {
         RequestQueue mQueue = Volley.newRequestQueue(this);
         final JsonObjectRequest JORequest = new JsonObjectRequest(Request.Method.POST, URL, utente, new Response.Listener<JSONObject>() {

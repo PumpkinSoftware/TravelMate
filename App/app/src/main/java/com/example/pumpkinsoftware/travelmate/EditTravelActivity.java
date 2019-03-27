@@ -324,6 +324,13 @@ public class EditTravelActivity extends AppCompatActivity {
                                                         // Handle error -> task.getException();
                                                         progressBar.setVisibility(View.GONE);
                                                         Toast.makeText(context, "Riprova", Toast.LENGTH_SHORT).show();
+                                                        try {
+                                                            if(filePath!=null) {
+                                                                deleteImg(storage.getReferenceFromUrl(viaggio.getString("image")));
+                                                            }
+                                                        } catch (JSONException e) {
+                                                            e.printStackTrace();
+                                                        }
                                                     }
                                                 }
                                             });
@@ -356,6 +363,13 @@ public class EditTravelActivity extends AppCompatActivity {
                                                 // Handle error -> task.getException();
                                                 progressBar.setVisibility(View.GONE);
                                                 Toast.makeText(context, "Riprova", Toast.LENGTH_SHORT).show();
+                                                try {
+                                                    if(filePath!=null) {
+                                                        deleteImg(storage.getReferenceFromUrl(viaggio.getString("image")));
+                                                    }
+                                                } catch (JSONException e1) {
+                                                    e1.printStackTrace();
+                                                }
                                             }
                                         }
                                     });
@@ -383,6 +397,14 @@ public class EditTravelActivity extends AppCompatActivity {
                                 // Handle error -> task.getException();
                                 progressBar.setVisibility(View.GONE);
                                 Toast.makeText(context, "Riprova", Toast.LENGTH_SHORT).show();
+                                try {
+                                    if(filePath!=null) {
+                                        deleteImg(storage.getReferenceFromUrl(viaggio.getString("image")));
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+
                             }
                         }
                     });

@@ -471,105 +471,13 @@ public class AccountRegisterActivity extends AppCompatActivity {
                             // Handle error -> task.getException();
                             progressBar.setVisibility(View.GONE);
                             Toast.makeText(contesto, "Riprova", Toast.LENGTH_SHORT).show();
+                            deleteUser(utente);
                         }
                     }
                 });
 
 
     }
-
-    /*
-    private void uploadImage(final JSONObject utente) {
-
-        if (filePath1 != null) {
-            final StorageReference ref = storageReference.child("userImage/" + mail+"/avatar");
-            ref.putFile(filePath1)
-                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                @Override
-                                public void onSuccess(Uri uri) {
-                                    try {
-                                        //Log.i("Dato",uri.toString());
-                                        utente.put("avatar", (uri.toString()));
-                                        avatar = uri.toString();
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-                            });
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            //progressDialog.dismiss();
-                            Toast.makeText(contesto, "Failed " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    })
-                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                            double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot
-                                    .getTotalByteCount());
-                            // progressDialog.setMessage("Uploaded "+(int)progress+"%");
-                        }
-                    });
-        } else {
-            try {
-                utente.put("avatar", "");
-                avatar="";
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-
-        if (filePath2 != null) {
-            final StorageReference ref = storageReference.child("userImage/" + mail+"/cover");
-            ref.putFile(filePath1)
-                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                @Override
-                                public void onSuccess(Uri uri) {
-                                    try {
-                                        //Log.i("Dato",uri.toString());
-                                        utente.put("cover", (uri.toString()));
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-                            });
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            //progressDialog.dismiss();
-                            Toast.makeText(contesto, "Failed " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    })
-                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                            double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot
-                                    .getTotalByteCount());
-                            // progressDialog.setMessage("Uploaded "+(int)progress+"%");
-                        }
-                    });
-
-        } else {
-            try {
-                utente.put("cover", "");
-            } catch (JSONException e) {
-                e.printStackTrace();
-
-            }
-        }
-    }
-    */
 
     public void openLogin() {
         Intent intent = new Intent(this, LoginActivity.class);

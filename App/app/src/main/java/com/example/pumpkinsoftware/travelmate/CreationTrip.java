@@ -335,6 +335,15 @@ public class CreationTrip extends AppCompatActivity {
                                 // Handle error -> task.getException();
                                 progressBar.setVisibility(View.GONE);
                                 Toast.makeText(contesto, "Riprova", Toast.LENGTH_SHORT).show();
+
+                                try {
+                                    if (filePath != null) {
+                                        deleteImg(storage.getReferenceFromUrl(viaggio.getString("image")));
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+
                             }
                         }
                     });
@@ -354,7 +363,9 @@ public class CreationTrip extends AppCompatActivity {
                     } else {
                         String err = response.getString("type");
                         new ErrorServer(contesto).handleError(err);
-                        deleteImg(storage.getReferenceFromUrl(viaggio.getString("image")));
+                        if(filePath!=null) {
+                            deleteImg(storage.getReferenceFromUrl(viaggio.getString("image")));
+                        }
                     }
 
                 } catch (JSONException e) {
