@@ -198,7 +198,7 @@ public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.ViewHolder> 
             }
 
             else {
-                context.startActivity(intent);
+                ((Activity)context).startActivityForResult(intent, HomeFragment.REQUEST_CODE);
             }
         }
 

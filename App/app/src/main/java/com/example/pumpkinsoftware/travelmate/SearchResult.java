@@ -1,11 +1,10 @@
 package com.example.pumpkinsoftware.travelmate;
 
-import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -27,12 +26,10 @@ import com.google.firebase.auth.GetTokenResult;
 
 import java.util.ArrayList;
 
-public class SearchResult extends Activity {
+public class SearchResult extends AppCompatActivity {
     private RequestQueue mRequestQueue;
-    private ArrayList<Trip> trips;
     public final static String EXTRA_QUERY = "travelmate_extra_sr_QUERY";
     private String query;
-    private String idToken;
     private ProgressBar progress;
     private RecyclerView rvTrips;
     private TextView noTripText;
@@ -65,7 +62,6 @@ public class SearchResult extends Activity {
         rvTrips = (RecyclerView) findViewById(R.id.recyclerview);
         // Set layout manager to position the items
         rvTrips.setLayoutManager(new LinearLayoutManager(this));
-        trips = new ArrayList<Trip>();
 
         progress = findViewById(R.id.indeterminateBar);
         user = FirebaseAuth.getInstance().getCurrentUser();
@@ -96,7 +92,7 @@ public class SearchResult extends Activity {
                             String idToken = task.getResult().getToken();
                             // Send token to your backend via HTTPS
                             new GetTripInteraction(SearchResult.this, rvTrips, progress, idToken).getTripsFromServer(query, mRequestQueue, noTripText, noTripImg);
-                            // ...
+
                         } else {
                             // Handle error -> task.getException();
                             Toast.makeText(SearchResult.this, "Riprova", Toast.LENGTH_SHORT).show();
