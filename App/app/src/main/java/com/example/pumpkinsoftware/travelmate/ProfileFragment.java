@@ -47,7 +47,7 @@ import io.apptik.widget.Util;
 
 
 public class ProfileFragment extends Fragment {
-    private final static String URL = Utils.SERVER_PATH + "user/getUserByUid?";
+    private final static String URL = Utils.SERVER_PATH + "user/getUserByUid";
     public final static String EXTRA_USER = "travelmate_extra_pf_USER";
     private Context context;
     private View view;
@@ -86,9 +86,8 @@ public class ProfileFragment extends Fragment {
                             if (task.isSuccessful()) {
                                 idToken = task.getResult().getToken();
                                 // Send token to your backend via HTTPS
-                                RequestQueue mRequestQueue = Volley.newRequestQueue(context);
                                 final GetUserByUid server = new GetUserByUid(context, progressBar, idToken);
-                                server.getUserFromServer(URL, mRequestQueue, new ServerCallback() {
+                                server.getUserFromServer(URL, null, GetUserByUid.request.CURRENT, new ServerCallback() {
                                     @Override
                                     public void onSuccess(JSONObject response) {
                                         User = server.getUser();

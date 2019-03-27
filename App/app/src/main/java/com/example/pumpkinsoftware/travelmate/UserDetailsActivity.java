@@ -38,7 +38,7 @@ import org.json.JSONObject;
 
 public class UserDetailsActivity extends AppCompatActivity {
     public final static String EXTRA_UID = "travelmate_extra_uda_USER_UID";
-    private final static String URL = Utils.SERVER_PATH + "user/getUserByUid?userUid=";
+    private final static String URL = Utils.SERVER_PATH + "user/getUserByUid";
     private Context context;
     private boolean so_prev_lol;
 
@@ -59,9 +59,9 @@ public class UserDetailsActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             String idToken = task.getResult().getToken();
                             // Send token to your backend via HTTPS
-                            RequestQueue mRequestQueue = Volley.newRequestQueue(context);
+                            // TODO POST INSTEAD OF GET TO GET PARTECIPANT
                             final GetUserByUid server =  new GetUserByUid(context, progressBar, idToken);
-                            server.getUserFromServer(URL+uid, mRequestQueue, new ServerCallback() {
+                            server.getUserFromServer(URL, uid, GetUserByUid.request.PARTECIPANT, new ServerCallback() {
                                         @Override
                                         public void onSuccess(JSONObject response) {
                                             loadUser(server);

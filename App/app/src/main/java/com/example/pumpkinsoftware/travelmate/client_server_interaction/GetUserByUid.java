@@ -16,6 +16,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 
+import com.android.volley.toolbox.Volley;
 import com.example.pumpkinsoftware.travelmate.user.User;
 import com.example.pumpkinsoftware.travelmate.users_adapter.UserAdapterReview;
 
@@ -34,11 +35,11 @@ public class GetUserByUid {
     private ProgressBar progressBar;
     private User mUser;
     private ArrayList<User> users;
-    UserAdapterReview adapterReview;
+    private UserAdapterReview adapterReview;
     private RecyclerView rvUser;
     private String idToken;
 
-    // Useful for UserDetailsActivity
+    // Useful for UserDetailsActivity & ProfileFragment
     public GetUserByUid(Context c, ProgressBar progress, String id) {
         context = c;
         progressBar = progress;
@@ -51,8 +52,22 @@ public class GetUserByUid {
         idToken = id;
     }
 
-    public void getUserFromServer(String query, RequestQueue mQueue, final ServerCallback callback) {
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, query, null, new Response.Listener<JSONObject>() {
+    public enum request {PARTECIPANT, CURRENT};
+
+    // UserId is passed only if I want open a partecipant profile
+    public void getUserFromServer(String query, final String userId, final request mRequest, final ServerCallback callback) {
+        JSONObject jsonBody = new JSONObject();
+
+        try {
+            if(mRequest.equals(request.PARTECIPANT))
+                jsonBody.put("userUid", userId);
+        } catch (JSONException e) {
+            Toast.makeText(context, "Errore: riprovare", Toast.LENGTH_SHORT).show();
+        }
+
+        RequestQueue mQueue = Volley.newRequestQueue(context);
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, query, jsonBody, new Response.Listener<JSONObject>() {
+            @Override
             public void onResponse(JSONObject response) {
 
                 try {
