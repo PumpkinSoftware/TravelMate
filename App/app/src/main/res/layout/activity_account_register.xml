@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorAccent"
+        android:theme="@style/toolbar"
+        app:navigationIcon="?attr/homeAsUpIndicator">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/account"
+            android:textColor="@color/white"
+            android:textSize="22sp" />
+    </android.support.v7.widget.Toolbar>
+
+    <ProgressBar
+        android:id="@+id/indeterminateBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:visibility="gone" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/toolbar"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="0dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/header_cover_image_r"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/blank_cover_add"
+                tools:ignore="ContentDescription" />
+
+            <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/profile_r"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="50dp"
+                android:clickable="true"
+                android:elevation="5dp"
+                android:padding="20dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/blank_avatar_add"
+                app:civ_border_color="#FFFFFFFF"
+                app:civ_border_width="3dp" />
+
+
+            <EditText
+                android:id="@+id/name_r"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/header_cover_image_r"
+                android:layout_alignStart="@+id/profile_r"
+                android:layout_marginStart="-50dp"
+                android:layout_marginTop="100dp"
+                android:gravity="center_horizontal"
+                android:hint="Nome"
+                android:textAppearance="@android:style/TextAppearance.Medium"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <EditText
+                android:id="@+id/surname_r"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/header_cover_image_r"
+                android:layout_alignStart="@+id/profile_r"
+                android:layout_marginStart="130dp"
+                android:layout_marginTop="100dp"
+                android:gravity="center_horizontal"
+                android:hint="Cognome"
+                android:textAppearance="@android:style/TextAppearance.Medium"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <EditText
+                android:id="@+id/bio_r"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/name_r"
+                android:layout_centerHorizontal="true"
+                android:layout_marginStart="30dp"
+                android:gravity="center_horizontal"
+                android:hint="Biografia"
+                android:textColor="@android:color/black" />
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/bio_r"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:background="#fff"
+                android:elevation="4dp"
+                android:orientation="vertical"
+                android:paddingLeft="5dp"
+                android:paddingTop="20dp"
+                android:paddingRight="5dp"
+                android:paddingBottom="20dp">
+
+
+                <!-- Info section -->
+                <TextView
+                    android:id="@+id/age_r"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/nascita"
+                    android:textStyle="bold"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <EditText
+                    android:id="@+id/age2_r"
+                    android:layout_width="105dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:layout_marginStart="8dp"
+                    android:focusable="false"
+                    android:inputType="date"
+                    app:layout_constraintBottom_toBottomOf="@+id/age_r"
+                    app:layout_constraintLeft_toRightOf="@+id/age_r"
+                    app:layout_constraintStart_toEndOf="@+id/age_r"
+                    app:layout_constraintTop_toTopOf="@+id/age_r" />
+
+                <TextView
+                    android:id="@+id/gender_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:text="@string/gender"
+                    android:textStyle="bold"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/age_r"
+                    app:layout_constraintTop_toBottomOf="@+id/age_r" />
+
+                <RadioGroup
+                    android:id="@+id/gender_r"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/gender_text"
+                    android:layout_alignStart="@+id/age_r"
+                    android:layout_marginStart="30dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/gender_text"
+                    app:layout_constraintTop_toBottomOf="@+id/gender_text">
+
+                    <RadioButton
+                        android:id="@+id/uomo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:onClick="onRadioButtonClicked"
+                        android:text="@string/uomo" />
+
+                    <RadioButton
+                        android:id="@+id/donna"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:onClick="onRadioButtonClicked"
+                        android:text="@string/donna" />
+
+                </RadioGroup>
+
+                <TextView
+                    android:id="@+id/rel_r"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:clickable="true"
+                    android:text="@string/relationship"
+                    android:textStyle="bold"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/gender_text"
+                    app:layout_constraintTop_toBottomOf="@+id/gender_r" />
+
+
+                <RadioGroup
+                    android:id="@+id/rel2_r"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/rel_r"
+                    android:layout_alignStart="@+id/age_r"
+                    android:layout_marginStart="30dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/rel_r"
+                    app:layout_constraintTop_toBottomOf="@+id/rel_r">
+
+                    <RadioButton
+                        android:id="@+id/single"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:onClick="onRadioButtonClicked"
+                        android:text="@string/single" />
+
+                    <RadioButton
+                        android:id="@+id/fidanzato"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:onClick="onRadioButtonClicked"
+                        android:text="@string/fidanzato" />
+
+                </RadioGroup>
+
+                <TextView
+                    android:id="@+id/email_r"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:text="@string/email"
+                    android:textStyle="bold"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/rel_r"
+                    app:layout_constraintTop_toBottomOf="@+id/rel2_r" />
+
+                <EditText
+                    android:id="@+id/email2_r"
+                    android:layout_width="230dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:enabled="false"
+                    android:inputType="textEmailAddress"
+                    android:visibility="visible"
+                    app:layout_constraintBottom_toBottomOf="@+id/email_r"
+                    app:layout_constraintLeft_toRightOf="@+id/email_r"
+                    app:layout_constraintTop_toTopOf="@+id/email_r" />
+
+                <TextView
+                    android:id="@+id/terms"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="40dp"
+                    android:text="@string/terms"
+                    android:textAppearance="@style/TextAppearance.Design.HelperText"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/email_r"
+                    app:layout_constraintTop_toTopOf="@+id/email_r" />
+
+                <Button
+                    android:id="@+id/buttonRegister"
+                    style="@style/Widget.AppCompat.Button.Colored"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="50dp"
+                    android:text="@string/confirm"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/email2_r" />
+            </android.support.constraint.ConstraintLayout>
+
+        </RelativeLayout>
+    </ScrollView>
+</RelativeLayout>

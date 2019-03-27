@@ -27,7 +27,7 @@
         android:backgroundTint="@color/white"
         android:drawableLeft="@drawable/ic_baseline_person_24px"
         android:ems="10"
-        android:hint="@string/username"
+        android:hint="@string/mail"
         android:inputType="textPersonName"
         android:nextFocusForward="@+id/password"
         android:textColor="@color/white"
@@ -57,10 +57,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/password"
-        android:layout_alignStart="@+id/password"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="15dp"
-        android:layout_marginEnd="-80dp"
+        android:layout_centerHorizontal="true"
         android:text="@string/forgot_password"
         android:textColor="@color/white" />
 

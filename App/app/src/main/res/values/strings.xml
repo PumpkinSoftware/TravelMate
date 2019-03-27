@@ -34,6 +34,9 @@
     <!-- Travel details -->
     <string name="join">Unisciti</string>
 
+    <!-- User details -->
+    <string name="partecipant">Partecipante</string>
+
     <!-- Travel page-->
     <string name="travel_title">I tuoi eventi</string>
 
@@ -44,9 +47,9 @@
     <string name="to">Destinazione</string>
     <string name="date">Data</string>
     <string name="departure">Partenza</string>
-    <string name="ret">Arrivo</string>
+    <string name="ret">Ritorno</string>
     <string name="car">Treno/auto</string>
-    <string name="car_text">Mezzo di trasporto</string>
+    <string name="car_text">Selezionare il mezzo di trasporto</string>
     <string name="budget">Budget</string>
     <string name="budget_text">Minimo e massimo spendibili nel viaggio</string>
     <string name="n0">0</string>
@@ -57,15 +60,20 @@
     <!-- Only creation-->
     <string name="creation_title">Nuovo evento</string>
     <string name="group">Gruppo</string>
-    <string name="buddies2">Persone necessarie per partire</string>
-    <string name="budget_text2">Cifra approssimativa</string>
-    <string name="plan">Programma</string>
+    <string name="buddies2">Numero massimo di partecipanti(min 2, max 15)</string>
+    <string name="budget_text2">Spesa approssimativa per il viaggio(min 0, max 500)</string>
+    <string name="plan">Programma*</string>
     <string name="plan_text">Scrivi qualche dettaglio in più sul viaggio</string>
-    <string name="name">Nome</string>
+    <string name="name">Nome*</string>
     <string name="name_text">Inserisci il nome dell\' evento per concludere</string>
     <string name="confirm">Conferma</string>
     <string name="photo_upload">scegli</string>
-    <string name="photo_name">Carica una foto (facoltativo)</string>
+    <string name="photo_name">Carica una foto</string>
+    <string name="budget2">Budget*</string>
+    <string name="car2">Treno/auto*</string>
+    <string name="date2">Data*</string>
+    <string name="place2">Luoghi*</string>
+    <string name="tag_text2">Tipo di evento*</string>
 
     <!-- Mezzi -->
     <string name="treno">Treno</string>
@@ -97,23 +105,67 @@
     <!-- Settings -->
     <string name="logout">Logout</string>
     <string name="sofware">PumpkinSoftware</string>
-    <string name="version2">Nightly build 1.0</string>
-    <string name="version">Versione:</string>
+    <string name="version2">Beta 1.1</string>
+    <string name="version">Versione</string>
     <string name="language">Lingua</string>
     <string name="sounds">Suoni</string>
     <string name="notifications">Notifiche</string>
+    <string name="edit_profile">Modifica il profilo</string>
+    <string name="rate">Valuta la nostra app</string>
+    <string name="contacts">Segnala un bug</string>
+    <string name="ourMail">pumpkin.software.italy@gmail.come</string>
+    <string name="terms2"><a href="https://pumpkinsoftware.github.io/terms.html">Termini e Condizioni</a> - <a href="https://pumpkinsoftware.github.io/privacy.html">Privacy</a></string>
+    <string name="changePass">Cambia password</string>
 
+    <!-- Change pass -->
+    <string name="oldPassword">Vecchia password</string>
+    <string name="newPassword">Nuova password</string>
 
-    <!-- Travel page-->
+    <!-- Travel page -->
     <string name="tab1">In corso</string>
     <string name="tab2">Favoriti</string>
     <string name="tab3">Conclusi</string>
+
+    <!-- Reviews -->
+    <string name="review_home">I travel mates da recensire</string>
+    <string name="review">Recensione</string>
+    <string name="experience">Condividi la tua esperienza per migliorare il servizio</string>
+    <string name="q1">Valutazione del viaggio</string>
+    <string name="q2">Solidarietà e rispetto</string>
+    <string name="q3">Flessibilità e spirito di adattamento</string>
+    <string name="q4">Interessi comuni</string>
+    <string name="q5">Curiosità</string>
+    <string name="r1">1</string>
+    <string name="r2">2</string>
+    <string name="r3">3</string>
+    <string name="r4">4</string>
+    <string name="r5">5</string>
+    <string name="send">Invia</string>
+
+    <!-- Register -->
+    <string name="account">Nuovo account</string>
+    <string name="nascita">Data di nascita: </string>
+    <string name="uomo">Uomo</string>
+    <string name="donna">Donna</string>
+    <string name="single">Single</string>
+    <string name="fidanzato">Fidanzato/a</string>
+    <string name="group2">Gruppo*</string>
+    <string name="terms">Cliccando su Conferma, accetti le nostre <a href="https://pumpkinsoftware.github.io/terms.html">Condizioni</a> e confermi di aver letto la nostra normativa sulla <a href="https://pumpkinsoftware.github.io/privacy.html">Privacy</a></string>
+
+    <!-- General -->
+    <string name="host">pumpkinsoftware.github.io/trip</string>
+    <string name="empty">Nessun viaggio da visualizzare</string>
+    <string name="emptyChat">Nessuna chat da visualizzare</string>
+    <string name="emptyReview">Nessun compagno da visualizzare</string>
 
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="partecipanti">Partecipanti:</string>
     <string name="organizzatore">Organizzatore:</string>
+    <string name="chat">Chat</string>
+
+
 
 
 </resources>

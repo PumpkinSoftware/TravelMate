@@ -1,15 +1,16 @@
 package com.example.pumpkinsoftware.travelmate;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.RadioButton;
-public class MainActivity extends AppCompatActivity  {
+
+public class MainActivity extends AppCompatActivity {
     public static final String FREE_QUERY = "com.example.pumpkinsoftware.travelmate.FREE_QUERY";
     public static final String FILTERED_QUERY = "com.example.pumpkinsoftware.travelmate.FILTERED_QUERY";
 
@@ -61,10 +62,10 @@ public class MainActivity extends AppCompatActivity  {
                 }
             };
 
-    public void runThis(View v) {
-        Intent intent = new Intent(this, CreationTrip.class);
-        startActivity(intent);
+    // Included to allow fragments to receive onActivityResult
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
     }
-
 
 }

@@ -27,33 +27,52 @@ public class GetPartecipantIteration {
     private RecyclerView rvUsers;
     UsersAdapter adapter;
     private ProgressBar progressBar;
+    private String ownerName;
+    private String ownerImg;
+    private boolean userIsAPartecipant;
 
-    public GetPartecipantIteration(Context c, RecyclerView rv) {
+    public GetPartecipantIteration(Context c, RecyclerView rv, ProgressBar progress) {
         context = c;
         rvUsers = rv;
+        progressBar = progress;
     }
 
-    public void getPartecipantFromServer(String query, RequestQueue mQueue, final ArrayList<User> users) {
-       /* if(this.trips == null)    this.trips = new ArrayList<Trip>();
-        else                 this.trips.clear();*/
-
+    public void getPartecipantFromServer(String query, final String owner_uid, RequestQueue mQueue, final ArrayList<User> users,
+                                         final String currentUserUid, final ServerCallback callback) {
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, query, null, new Response.Listener<JSONArray>() {
             public void onResponse(JSONArray response) {
 
                 try {
-                    //JSONArray jsonArray=response.getJSONArray("viaggi")
+                    JSONObject user = null;
                     for (int i = 0; i < response.length(); i++) {
-                        JSONObject user = response.getJSONObject(i);
-                        String name=user.getString("name");
-                        String profile=user.getString("avatar");
-                        users.add(new User(name,profile));
+                        user = response.getJSONObject(i);
+                        String uid = user.getString("uid");
+                        String name;
+
+                        if(uid.equals(currentUserUid)) {
+                            userIsAPartecipant = true;
+                            name = "Tu";
+                        }
+                        else  name = user.getString("name");
+
+                        String profile = user.getString("avatar");
+
+                        if(uid.equals(owner_uid)) {
+                            ownerName = name;
+                            ownerImg = profile;
+                        }
+                        else
+                            users.add(new User(uid, name, profile));
                     }
+                    callback.onSuccess(user);
                     adapter = new UsersAdapter(users);
                     // Attach the adapter to the recyclerview to populate items
                     rvUsers.setAdapter(adapter);
+                    hideProgressBar();
 
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    hideProgressBar();
                     Toast.makeText(context, "Errore: connessione fallita", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -61,10 +80,18 @@ public class GetPartecipantIteration {
             @Override
             public void onErrorResponse(VolleyError error) {
                 error.printStackTrace();
+                hideProgressBar();
                 Toast.makeText(context, "Errore: connessione assente", Toast.LENGTH_SHORT).show();
             }
         });
         mQueue.add(request);
     }
 
+    private void hideProgressBar() { if (progressBar != null) progressBar.setVisibility(View.GONE); }
+
+    public String getOwnerName() { return ownerName; }
+
+    public String getOwnerImg() { return ownerImg; }
+
+    public boolean isUserAPartecipant() { return userIsAPartecipant; }
 }

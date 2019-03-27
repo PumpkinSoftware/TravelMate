@@ -1,4 +1,4 @@
-package com.example.pumpkinsoftware.travelmate.edit_text_date_picker;
+package com.example.pumpkinsoftware.travelmate.date_picker;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
@@ -30,8 +30,6 @@ public class EditTextDatePicker implements OnTouchListener, DatePickerDialog.OnD
 
     // Constructor without other, it will be set next
     public EditTextDatePicker(Context c, EditText editTextViewID, Calendar cal) {
-        /*Activity act = (Activity) context;
-        edit_text = (EditText) act.findViewById(editTextViewID);*/
         edit_text = editTextViewID;
         edit_text.setOnTouchListener(this);
         context = c;
@@ -43,8 +41,6 @@ public class EditTextDatePicker implements OnTouchListener, DatePickerDialog.OnD
 
     // Constructor with other
     public EditTextDatePicker(Context c, EditText editTextViewID, Calendar cal, EditTextDatePicker  o) {
-        /*Activity act = (Activity) context;
-        edit_text = (EditText) act.findViewById(editTextViewID);*/
         edit_text = editTextViewID;
         edit_text.setOnTouchListener(this);
         context = c;
@@ -108,7 +104,7 @@ public class EditTextDatePicker implements OnTouchListener, DatePickerDialog.OnD
     }
 
     public int getSetMonth() {
-        if(date_set)    return month;
+        if(date_set)    return month+1;
         return -1;
     }
 
@@ -122,10 +118,6 @@ public class EditTextDatePicker implements OnTouchListener, DatePickerDialog.OnD
         if(date_set) {
             Calendar c = Calendar.getInstance();
             c.set(year, month, day);
-            /*int diff = ;
-            c.add(Calendar.YEAR, 1);
-            c.add(Calendar.MONTH, 1);
-            c.add(Calendar.DAY_OF_MONTH, 1)*/
             return c.getTimeInMillis();
         }
 

@@ -38,11 +38,6 @@
 
 
         <android.support.design.widget.TabItem
-            android:text="@string/tab2"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content" />
-
-        <android.support.design.widget.TabItem
             android:text="@string/tab3"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content" />
@@ -69,7 +64,6 @@
         android:backgroundTint="@color/colorPrimary"
         android:clickable="true"
         android:elevation="8dp"
-        android:onClick="runThis"
         android:src="@drawable/ic_add_black_24dp"
         app:backgroundTint="@color/colorPrimary"
         app:fabSize="normal" />

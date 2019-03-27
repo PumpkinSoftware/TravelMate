@@ -144,12 +144,14 @@ router.post('/newUser', function(req, res){
                 	}
             	});
         	}
+
     	});
     /*
     }).catch(function(error) {
     		res.send(JSON.stringify({"status":"error","type":"-12"}));
   		});
   	}*/
+
 });
 
 /****************************************/

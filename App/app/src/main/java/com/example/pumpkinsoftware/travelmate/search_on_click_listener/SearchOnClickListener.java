@@ -14,12 +14,12 @@ import android.widget.RadioGroup;
 
 import com.android.volley.RequestQueue;
 import com.example.pumpkinsoftware.travelmate.SearchResult;
-import com.example.pumpkinsoftware.travelmate.edit_text_date_picker.EditTextDatePicker;
-import com.example.pumpkinsoftware.travelmate.R;
+import com.example.pumpkinsoftware.travelmate.Utils;
+import com.example.pumpkinsoftware.travelmate.date_picker.EditTextDatePicker;
 
 
 public class SearchOnClickListener implements View.OnClickListener {
-    private final static String URL = "https://debugtm.herokuapp.com/trip/getTripsWithFilter?";
+    private final static String URL = Utils.SERVER_PATH + "trip/getTripsWithFilter?";
     private final static String MIN_BUDGET = "0";
     private final static String MAX_BUDGET = "2000";
     private final static String MIN_GROUP = "1";

@@ -1,8 +1,8 @@
 package com.example.pumpkinsoftware.travelmate.trip;
 
-import java.util.ArrayList;
+import java.io.Serializable;
 
-public class Trip {
+public class Trip implements Serializable {
     private final String id;
     private String trip_image;
     private String trip_name;
@@ -12,14 +12,16 @@ public class Trip {
     private String budget_number;
     private String start_date;
     private String end_date;
-    private String group_number;
+    private int partecipants_number;
+    private int group_number;
     private String tag;
     private String vehicle;
     private String owner;
-    //private User[] partecipants;
+    //private String[] partecipants; // String because we need only users' id
 
     public Trip(String id, String t_image, String name, String description, String dep,
-                String destination, int budget, String start, String end, String group, String s, String v, String ow) {
+                String destination, int budget, String start, String end, int partecipants_number, int group_number,
+                String s, String v, String ow) {
         this.id = id;
         trip_image = t_image;
         trip_name = name;
@@ -29,10 +31,11 @@ public class Trip {
         budget_number = Integer.toString(budget);
         start_date = start;
         end_date = end;
-        group_number = group;
+        this.partecipants_number = partecipants_number;
+        this.group_number = group_number;
         tag=s;
         vehicle=v;
-        owner=ow;
+        owner = ow;
     }
 
     public String getId() {
@@ -71,8 +74,16 @@ public class Trip {
         return end_date;
     }
 
-    public String getGroup() {
+    public int getPartecipantsNumber() {
+        return partecipants_number;
+    }
+
+    public int getGroupNumber() {
         return group_number;
+    }
+
+    public String getGroup() {
+        return partecipants_number+"/"+group_number;
     }
 
     public String getTag(){
@@ -91,18 +102,39 @@ public class Trip {
         for(int i=0; i<group_number; i++)
     }*/
 
-    public void setDescr(String description) {
-        descr = description;
+    public void setImage(String image) { trip_image = image; }
+
+    public void setName(String name) { trip_name = name; }
+
+    public void setDescr(String description) { descr = description; }
+
+    public void setDeparture(String dep) { departure = dep; }
+
+    public void setDest(String destination) { dest = destination; }
+
+    public void setBudget(String budget) { budget_number = budget; }
+
+    public void setStartDate(String startDate) { start_date = startDate; }
+
+    public void setEndDate(String endDate) { end_date = endDate; }
+
+    public void setPartecipantsNumber(int p) {
+        partecipants_number = p;
     }
 
-    public void setGroup(String group) {
+    public void setGroup_number(int group) {
         group_number = group;
     }
 
-    public void setBudget(String budget) {
-        budget_number = budget;
+    public void setTag(String t) {
+        tag = t;
     }
 
-    private static int lastTripId = 0;
+    public void setVehicle(String v) {
+        vehicle = v;
+    }
 
+    public void setOwner(String o) {
+        owner = o;
+    }
 }

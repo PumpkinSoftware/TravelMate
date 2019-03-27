@@ -168,12 +168,13 @@ public class LoginActivity extends AppCompatActivity {
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if(currentUser != null) {
-            openMain();
+            //if(currentUser.isEmailVerified()) MODIFICATO PER TEST CON VECCHI ACCOUNT
+                openMain();
         }
     }
     // [END on_start_check_user]
 
-    public void login(){
+    /*public void login(){
         String username = ((EditText) findViewById(R.id.username)).getText().toString();
         String password = ((EditText) findViewById(R.id.password)).getText().toString();
 
@@ -192,8 +193,7 @@ public class LoginActivity extends AppCompatActivity {
                         }
                     }
                 });
-    }
-
+    }*/
 
     public void openMain(){
         Intent intent=new Intent(this,MainActivity.class);
@@ -232,9 +232,9 @@ public class LoginActivity extends AppCompatActivity {
         if(type == 0)   intent = new Intent(this, LogActivity.class);
         else            intent = new Intent(this, RegistrationActivity.class);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
-            videoView.stopPlayback();
+            //videoView.stopPlayback();
             if(so_prev_oreo) {
                 ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(this,
                         Pair.create((View) mVideoView, "bg_video"));
@@ -248,7 +248,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         }
 
-        else
+        else*/
             startActivity(intent);
 
     }

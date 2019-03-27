@@ -2,45 +2,48 @@ package com.example.pumpkinsoftware.travelmate.trips_adapter;
 
 import android.animation.AnimatorInflater;
 import android.animation.AnimatorSet;
-import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
-import android.support.v4.content.ContextCompat;
-import android.transition.TransitionManager;
-import android.util.DisplayMetrics;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
-import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.CardView;
-import android.widget.Toast;
 
+import com.example.pumpkinsoftware.travelmate.HomeFragment;
+import com.example.pumpkinsoftware.travelmate.MainActivity;
 import com.example.pumpkinsoftware.travelmate.TravelDetailsActivity;
+import com.example.pumpkinsoftware.travelmate.ViaggiFragment;
+import com.example.pumpkinsoftware.travelmate.content_fragment_travels.Tab1;
+import com.example.pumpkinsoftware.travelmate.content_fragment_travels.Tab3;
 import com.example.pumpkinsoftware.travelmate.glide.GlideApp;
+import com.example.pumpkinsoftware.travelmate.pager_adapter.SlidePagerAdapter;
 import com.example.pumpkinsoftware.travelmate.trip.Trip;
 import com.example.pumpkinsoftware.travelmate.R;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.ViewHolder> {
-    private List<Trip> trips;
-    private Context context = null;
+public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.ViewHolder> implements Serializable {
+    private transient List<Trip> trips;
+    private transient Context context = null;
+    private boolean fav;
 
     // Provide a direct reference to each of the views within a data item
     // Used to cache the views within the item layout for fast access
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements Serializable {
         // Your holder should contain a member variable
         // for any view that will be set as you render a row
         public ImageView trip_image,fav_image;
@@ -71,7 +74,7 @@ public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.ViewHolder> 
             trip_name = (TextView) v.findViewById(R.id.travel_name);
             trip_name.setOnClickListener(lis);
 
-            trip_tag=(TextView) v.findViewById(R.id.travel_tag);
+            trip_tag = (TextView) v.findViewById(R.id.travel_tag);
 
             group_number = (TextView) v.findViewById(R.id.group_number);
             /*
@@ -88,8 +91,28 @@ public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.ViewHolder> 
                     .into(budget_image);*/
             //more_button = (Button) v.findViewById(R.id.button);
 
+            /*
             fav_image = (ImageView) v.findViewById(R.id.fav_image);
             // Handling animation on click
+            fav_image.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(fav) {
+                        fav_image.setImageResource(R.drawable.fav_icon);
+                        fav = false;
+                        // TODO remove travel from user favs
+                    }
+                    else {
+                        fav_image.setImageResource(R.drawable.red_heart);
+                        fav = true;
+                        // TODO add travel to user favs
+                    }
+                    AnimatorSet set = (AnimatorSet) AnimatorInflater.loadAnimator(context, R.animator.zoom_in);
+                    set.setTarget(v); // set the view you want to animate
+                    set.start();
+                }
+            });
+
             /*fav_image.setOnChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -99,8 +122,8 @@ public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.ViewHolder> 
                 }
             });*/
 
-            destinazione=(TextView) v.findViewById(R.id.destinazione);
-            data=(TextView) v.findViewById(R.id.data);
+            destinazione = (TextView) v.findViewById(R.id.destinazione);
+            data = (TextView) v.findViewById(R.id.data);
             /*
             sharing_image = (ImageView) v.findViewById(R.id.sharing_image);
             GlideApp.with(context)
@@ -120,9 +143,11 @@ public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.ViewHolder> 
 
         }
 
+        private int pos;
+
         // Returns trip in the list
         private Trip getTrip(){
-            int pos = getAdapterPosition();
+            pos = getAdapterPosition();
 
             // check if item still exists
             if(pos != RecyclerView.NO_POSITION) return trips.get(pos);
@@ -140,9 +165,12 @@ public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.ViewHolder> 
             intent.putExtra(TravelDetailsActivity.EXTRA_BUDGET, t.getBudget());
             intent.putExtra(TravelDetailsActivity.EXTRA_START, t.getStartDate());
             intent.putExtra(TravelDetailsActivity.EXTRA_END, t.getEndDate());
-            intent.putExtra(TravelDetailsActivity.EXTRA_GROUP, t.getGroup());
+            intent.putExtra(TravelDetailsActivity.EXTRA_PARTECIPANTS_NUMBER, t.getPartecipantsNumber());
+            intent.putExtra(TravelDetailsActivity.EXTRA_GROUP_NUMBER, t.getGroupNumber());
             intent.putExtra(TravelDetailsActivity.EXTRA_TAG, t.getTag());
-            intent.putExtra(TravelDetailsActivity.EXTRA_VEHICLE,t.getVehicle());
+            intent.putExtra(TravelDetailsActivity.EXTRA_VEHICLE, t.getVehicle());
+            intent.putExtra(TravelDetailsActivity.EXTRA_OWNER_UID, t.getOwner());
+            intent.putExtra(TravelDetailsActivity.EXTRA_ADAPTER_POS, pos);
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 // create the transition animation - the images in the layouts
@@ -151,12 +179,40 @@ public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.ViewHolder> 
                         Pair.create((View)trip_image, "travel_image"));
                 //Pair.create((View)trip_name, "travel_name"));
                 // start the new activity
-                context.startActivity(intent, options.toBundle());
+                Fragment f = getVisibleFragment();
+                if(f != null) { // Here I can handle properly the return intent
+                    if (f instanceof HomeFragment)
+                        f.startActivityForResult(intent, HomeFragment.REQUEST_CODE, options.toBundle());
+
+                    else if(f instanceof ViaggiFragment) {
+                        ViewPager viewPager = ((ViaggiFragment) f).getViewPager();
+                        if(viewPager.getCurrentItem() == 0) // In corso
+                            f.startActivityForResult(intent, Tab1.REQUEST_CODE, options.toBundle());
+                        else
+                            ((Activity)context).startActivityForResult(intent, HomeFragment.REQUEST_CODE, options.toBundle());
+                    }
+                }
+
+                else
+                    ((Activity)context).startActivityForResult(intent, HomeFragment.REQUEST_CODE, options.toBundle());
             }
 
             else {
-                context.startActivity(intent);
+                ((Activity)context).startActivityForResult(intent, HomeFragment.REQUEST_CODE);
             }
+        }
+
+        // Get current fragment
+        private Fragment getVisibleFragment(){
+            FragmentManager fragmentManager = ((AppCompatActivity)context).getSupportFragmentManager();
+            List<Fragment> fragments = fragmentManager.getFragments();
+            if(fragments != null){
+                for(Fragment fragment : fragments){
+                    if(fragment != null && fragment.isVisible())
+                        return fragment;
+                }
+            }
+            return null;
         }
 
     }
@@ -164,6 +220,10 @@ public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.ViewHolder> 
     public TripsAdapter(List<Trip> t) {
         trips = t;
     }
+
+    // Useful to update recycler view from travel details
+    public TripsAdapter getTripsAdapter() { return this; }
+    public List<Trip> getTrips() { return trips; }
 
     private void shareText(String s) {
         Intent intent = new Intent(android.content.Intent.ACTION_SEND);
@@ -184,7 +244,7 @@ public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.ViewHolder> 
         View contactView = inflater.inflate(R.layout.home_row, parent, false);
 
         // Return a new holder instance
-        ViewHolder viewHolder = new ViewHolder(contactView);
+        TripsAdapter.ViewHolder viewHolder = new ViewHolder(contactView);
         return viewHolder;
     }
 

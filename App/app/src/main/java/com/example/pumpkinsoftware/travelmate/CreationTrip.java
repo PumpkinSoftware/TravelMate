@@ -1,8 +1,6 @@
 package com.example.pumpkinsoftware.travelmate;
 
-import android.Manifest;
 import android.app.Activity;
-import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -15,30 +13,32 @@ import android.support.annotation.RequiresApi;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
-import android.widget.Switch;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.pumpkinsoftware.travelmate.edit_text_date_picker.EditTextDatePicker;
-import com.example.pumpkinsoftware.travelmate.min_max_filter.MinMaxFilter;
-import com.example.pumpkinsoftware.travelmate.my_on_checked_change_listener.MyOnCheckedChangeListener;
-import com.gc.materialdesign.widgets.ProgressDialog;
+import com.example.pumpkinsoftware.travelmate.date_picker.EditTextDatePicker;
+import com.example.pumpkinsoftware.travelmate.glide.GlideApp;
+import com.example.pumpkinsoftware.travelmate.handle_error.ErrorServer;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GetTokenResult;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
@@ -49,11 +49,13 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 @RequiresApi(api = Build.VERSION_CODES.M)
 public class CreationTrip extends AppCompatActivity {
-    private final static String URL = "https://debugtm.herokuapp.com/trip/newTrip/";
+    private final static String URL = Utils.SERVER_PATH + "trip/newTrip/";
     protected String from_q, to_q, departure_q, return_q, nome_q, program_q, vehicle = "", tag = "";
     protected Double budget_q;
     protected int group_q;
@@ -64,9 +66,13 @@ public class CreationTrip extends AppCompatActivity {
     private Uri filePath;
     private final int PICK_IMAGE_REQUEST = 71;
     final int PIC_CROP = 2;
+    private ProgressBar progressBar;
+
     //Firebase
     FirebaseStorage storage;
     StorageReference storageReference;
+    FirebaseUser user;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,11 +84,6 @@ public class CreationTrip extends AppCompatActivity {
 
         //TOOLBAR
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //setSupportActionBar(toolbar);
-        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        // getSupportActionBar().setDisplayShowHomeEnabled(true);
-        //toolbar.setTitle("New travel ?");
-        //toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -92,11 +93,13 @@ public class CreationTrip extends AppCompatActivity {
                 finish();
             }
         });
-        //FINE
 
         // file per firebase
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
+        user = FirebaseAuth.getInstance().getCurrentUser();
+
+        progressBar = findViewById(R.id.indeterminateBar);
 
         // campi
         final EditText budget = findViewById(R.id.budget_max_value);
@@ -109,12 +112,14 @@ public class CreationTrip extends AppCompatActivity {
         final EditText nome = findViewById(R.id.nametext);
         final EditText program = findViewById(R.id.plantext);
 
-        final Calendar calendar = Calendar.getInstance();
+        // Date starts from tomorrow
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DAY_OF_MONTH, +1);
         final EditTextDatePicker departure = new EditTextDatePicker(contesto, departure_date, calendar);
         final EditTextDatePicker ret = new EditTextDatePicker(contesto, return_date, calendar, departure);
         departure.setOther(ret);
 
-        b_upload =  findViewById(R.id.photo_upload);
+        b_upload = findViewById(R.id.photo_upload);
         b_upload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -122,11 +127,12 @@ public class CreationTrip extends AppCompatActivity {
             }
         });
 
-
         Button b_confirm = (Button) findViewById(R.id.confirm_button);
         b_confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                progressBar.setVisibility(View.VISIBLE);
 
                 // valori da passare
                 from_q = from.getText().toString().toLowerCase();
@@ -150,12 +156,12 @@ public class CreationTrip extends AppCompatActivity {
                     msgErrore("il veicolo");
                 } else if (budget.getText().toString().isEmpty()) {
                     msgErrore("il budget");
-                } else if (Integer.parseInt(budget.getText().toString())<0||(Integer.parseInt(budget.getText().toString())>500)) {
-                    Toast.makeText(contesto, "Valore budget invalido", Toast.LENGTH_SHORT).show();
+                } else if (Integer.parseInt(budget.getText().toString()) < 0 || (Integer.parseInt(budget.getText().toString()) > 500)) {
+                    Toast.makeText(contesto, "Valore budget non valido", Toast.LENGTH_SHORT).show();
                 } else if (group.getText().toString().isEmpty()) {
                     msgErrore("il numero del gruppo");
-                } else if (Integer.parseInt(group.getText().toString())<2||(Integer.parseInt(group.getText().toString())>50)) {
-                    Toast.makeText(contesto, "Valore gruppo invalido", Toast.LENGTH_SHORT).show();
+                } else if (Integer.parseInt(group.getText().toString()) < 2 || (Integer.parseInt(group.getText().toString()) > 15)) {
+                    Toast.makeText(contesto, "Valore gruppo non valido", Toast.LENGTH_SHORT).show();
                 } else if (program_q.isEmpty()) {
                     msgErrore("una sintesi del programma");
                 } else if (nome_q.isEmpty()) {
@@ -179,13 +185,16 @@ public class CreationTrip extends AppCompatActivity {
                         viaggio.put("vehicle", vehicle);
                         viaggio.put("tag", tag);
                         viaggio.put("maxPartecipant", group_q);
-                        viaggio.put("owner", "5c7ad36f56c9ff0d78213ef8");
 
                     } catch (JSONException e) {
+                        progressBar.setVisibility(View.GONE);
                         e.printStackTrace();
                     }
                     uploadImage(viaggio);
-                    finish();
+                    /*progressBar.setVisibility(View.GONE);
+                    Intent intent = new Intent();
+                    setResult(RESULT_OK, intent);
+                    finish();*/
                 }
             }
         });
@@ -225,16 +234,16 @@ public class CreationTrip extends AppCompatActivity {
             b_upload.setImageBitmap(image);*/
 
             filePath = data.getData();
-            try {
-                //codice per mostrare l'anteprima
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
-                b_upload.setImageBitmap(bitmap);
-                // codice per mostrare il path
-                //TextView path = findViewById(R.id.photo_text);
-                //path.setText(filePath.getLastPathSegment());
-            } catch (IOException e) {
-                e.printStackTrace();
-                }
+
+            //codice per mostrare l'anteprima
+                /*Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
+                b_upload.setImageBitmap(bitmap);*/
+            GlideApp.with(contesto).load(filePath).into(b_upload);
+
+            // codice per mostrare il path
+            //TextView path = findViewById(R.id.photo_text);
+            //path.setText(filePath.getLastPathSegment());
+
         }
     }
 
@@ -256,14 +265,30 @@ public class CreationTrip extends AppCompatActivity {
                                         //Log.i("Dato",uri.toString());
                                         viaggio.put("image", (uri.toString()));
                                     } catch (JSONException e) {
+                                        progressBar.setVisibility(View.GONE);
                                         e.printStackTrace();
                                     }
                                     //Qui richiami mongoDB per creare il trip
-                                    jsonParse(viaggio);
+                                    user.getIdToken(true)
+                                            .addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
+                                                public void onComplete(@NonNull Task<GetTokenResult> task) {
+                                                    if (task.isSuccessful()) {
+                                                        String idToken = task.getResult().getToken();
+                                                        // Send token to your backend via HTTPS
+                                                        jsonParse(viaggio, idToken);
+                                                        // ...
+                                                    } else {
+                                                        // Handle error -> task.getException();
+                                                        progressBar.setVisibility(View.GONE);
+                                                        Toast.makeText(contesto, "Riprova", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                }
+                                            });
+
                                     //Ricorda di lasciare un commento qui per ricordarci di gestire l'errore lato MongoDB
 
                                     // progressDialog.dismiss();
-                                    Toast.makeText(contesto, "Viaggio creato correttamente.", Toast.LENGTH_SHORT).show();
+                                    //Toast.makeText(contesto, "Viaggio creato correttamente.", Toast.LENGTH_SHORT).show();
                                 }
                             });
                         }
@@ -272,6 +297,12 @@ public class CreationTrip extends AppCompatActivity {
                         @Override
                         public void onFailure(@NonNull Exception e) {
                             //progressDialog.dismiss();
+                            try {
+                                viaggio.put("image", (""));
+                            } catch (JSONException e1) {
+                                progressBar.setVisibility(View.GONE);
+                                e1.printStackTrace();
+                            }
                             Toast.makeText(contesto, "Failed " + e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     })
@@ -289,30 +320,76 @@ public class CreationTrip extends AppCompatActivity {
                 //Log.i("Dato",uri.toString());
                 viaggio.put("image", "");
             } catch (JSONException e) {
+                progressBar.setVisibility(View.GONE);
                 e.printStackTrace();
             }
-            jsonParse(viaggio);
-            Toast.makeText(contesto, "Viaggio creato correttamente.", Toast.LENGTH_SHORT).show();
+            user.getIdToken(true)
+                    .addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
+                        public void onComplete(@NonNull Task<GetTokenResult> task) {
+                            if (task.isSuccessful()) {
+                                String idToken = task.getResult().getToken();
+                                // Send token to your backend via HTTPS
+                                jsonParse(viaggio, idToken);
+                                // ...
+                            } else {
+                                // Handle error -> task.getException();
+                                progressBar.setVisibility(View.GONE);
+                                Toast.makeText(contesto, "Riprova", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
         }
     }
 
 
-    private void jsonParse(JSONObject viaggio) {
+    private void jsonParse(final JSONObject viaggio, final String idToken) {
         final JsonObjectRequest JORequest = new JsonObjectRequest(Request.Method.POST, URL, viaggio, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                Toast.makeText(contesto, "Inserito correttamente", Toast.LENGTH_SHORT).show();
+                try {
+                    //da controllare l'update
+                    String status = response.getString("status");
+                    if (status.equals("success")) {
+                        Toast.makeText(contesto, "Aggiunto correttamente", Toast.LENGTH_SHORT).show();
+                    } else {
+                        String err = response.getString("type");
+                        new ErrorServer(contesto).handleError(err);
+                        deleteImg(storage.getReferenceFromUrl(viaggio.getString("image")));
+                    }
+
+                } catch (JSONException e) {
+                    progressBar.setVisibility(View.GONE);
+                    Toast.makeText(contesto, "Errore: riprovare", Toast.LENGTH_SHORT).show();
+                }
+
+                close();
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 // error
+                progressBar.setVisibility(View.GONE);
                 Toast.makeText(contesto, "Errore ", Toast.LENGTH_SHORT).show();
             }
-        });
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Content-Type", "application/json; charset=UTF-8");
+                params.put("access_token", idToken);
+                return params;
+            }
+        };
         // Add the request to the RequestQueue.
         mQueue.add(JORequest);
         mQueue.start();
+    }
+
+    private void close() {
+        progressBar.setVisibility(View.GONE);
+        Intent intent = new Intent();
+        setResult(RESULT_OK, intent);
+        finish();
     }
 
     private void msgErrore(String datoMancante) {
@@ -350,6 +427,22 @@ public class CreationTrip extends AppCompatActivity {
                     tag = "tecnologia";
                 break;
         }
+    }
+
+    private void deleteImg(StorageReference image) {
+        image.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                // File deleted successfully
+                // Log.d(TAG, "onSuccess: deleted file");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Uh-oh, an error occurred!
+                // Log.d(TAG, "onFailure: did not delete file");
+            }
+        });
     }
 }
 

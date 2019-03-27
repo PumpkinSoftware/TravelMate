@@ -25,6 +25,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.google.firebase.auth.FirebaseUser;
 
 public class LogActivity extends AppCompatActivity {
@@ -81,7 +83,7 @@ public class LogActivity extends AppCompatActivity {
         /* Bg Video */
         // only for Oreo and newer versions
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            postponeEnterTransition();
+            //postponeEnterTransition();
 
             so_prev_oreo = false;
             videoView = (VideoView) findViewById(R.id.login_bg_video);
@@ -96,7 +98,7 @@ public class LogActivity extends AppCompatActivity {
                 }
             });
 
-            videoView.setOnInfoListener(new MediaPlayer.OnInfoListener() {
+            /*videoView.setOnInfoListener(new MediaPlayer.OnInfoListener() {
                 @Override
                 public boolean onInfo(MediaPlayer mp, int what, int extra) {
 
@@ -115,18 +117,18 @@ public class LogActivity extends AppCompatActivity {
                     }
                     return false;
                 }
-            });
+            });*/
         }
 
         // only older versions than Oreo
         else{
-            so_prev_lol = false;
+            /*so_prev_lol = false;
             if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
                 postponeEnterTransition();
             else {
                 so_prev_lol = true;
                 supportPostponeEnterTransition();
-            }
+            }*/
 
             mVideoView = (MutedVideoView) findViewById(R.id.login_bg_mvideo);
             Uri uri = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.login_bg_video);
@@ -139,7 +141,7 @@ public class LogActivity extends AppCompatActivity {
                 }
             });
 
-            mVideoView.setOnInfoListener(new MediaPlayer.OnInfoListener() {
+            /*mVideoView.setOnInfoListener(new MediaPlayer.OnInfoListener() {
                 @Override
                 public boolean onInfo(MediaPlayer mp, int what, int extra) {
 
@@ -153,7 +155,7 @@ public class LogActivity extends AppCompatActivity {
                     }
                     return false;
                 }
-            });
+            });*/
         }
 
     }
@@ -162,19 +164,54 @@ public class LogActivity extends AppCompatActivity {
         String username = user.getText().toString();
         String password = pass.getText().toString();
 
-        if(username.isEmpty() || password.isEmpty()) openMain(); // CAMBIO PER I TEST
-            //Toast.makeText(contesto, "Inserire tutti i campi", Toast.LENGTH_SHORT).show();
+        if(username.isEmpty() || password.isEmpty())
+            Toast.makeText(context, "Inserire tutti i campi", Toast.LENGTH_SHORT).show();
         else
             mAuth.signInWithEmailAndPassword(username, password)
                     .addOnCompleteListener((Activity) context, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) {
-                                openMain();
+                            if (task.isSuccessful()) { // MODIFICATO PER TEST CON VECCHI ACCOUNT
+                                if(true) {//mAuth.getCurrentUser().isEmailVerified()){
+                                    openMain();
+                                    finish();
+                                }
+                                else{
+                                    sendEmail();
+                                    FirebaseAuth.getInstance().signOut();
+                                    Toast.makeText(context, "Devi attivare l'account dall'email", Toast.LENGTH_SHORT).show();
+                                }
+
                             }
                             else {
-                                Toast.makeText(context, "Nome utente o password errati", Toast.LENGTH_SHORT).show();
+                                try
+                                {
+                                    throw task.getException();
+                                }
+                                // if user enters wrong email.
+                                catch (FirebaseAuthInvalidUserException invalidEmail) {
+                                    Toast.makeText(context, "Email errata", Toast.LENGTH_SHORT).show();
+                                }
+                                // if user enters wrong password.
+                                catch (FirebaseAuthInvalidCredentialsException wrongPassword) {
+                                    Toast.makeText(context, "Password errata", Toast.LENGTH_SHORT).show();
+                                }
+                                catch (Exception e) {
+                                    Toast.makeText(context, "Si è verificato un problema, riprovare", Toast.LENGTH_SHORT).show();
+                                }
                             }
+                        }
+
+                        private void sendEmail() {
+                            mAuth.getCurrentUser().sendEmailVerification()
+                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if (task.isSuccessful()) {
+                                                //Log.d(TAG, "Email sent.");
+                                            }
+                                        }
+                                    });
                         }
                     });
     }
@@ -185,15 +222,17 @@ public class LogActivity extends AppCompatActivity {
         if(emailAddress.isEmpty())
             Toast.makeText(context, "Inserire email", Toast.LENGTH_SHORT).show();
 
-        mAuth.sendPasswordResetEmail(emailAddress)
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-                            Toast.makeText(context, "Email di recupero inviata", Toast.LENGTH_SHORT).show();
+        else {
+            mAuth.sendPasswordResetEmail(emailAddress)
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                Toast.makeText(context, "Email di recupero inviata", Toast.LENGTH_SHORT).show();
+                            }
                         }
-                    }
-                });
+                    });
+        }
     }
 
 

@@ -1,31 +1,33 @@
 package com.example.pumpkinsoftware.travelmate.user;
 
-import com.example.pumpkinsoftware.travelmate.trip.Trip;
-
+import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.LinkedList;
 
-public class User {
+public class User implements Serializable {
     private final String uid, name, surname, birthday;
     private String gender, relationship, email, descr, photoProfile, cover;
-    private short sumReviews, numReviews;
-    private ArrayList<Trip> trips;
-    private ArrayList<Trip> favTrips;
-    private ArrayList<String> comments;
+    private short  numReviews;
+    private double sumReviews;
+    private LinkedList<String> trips;
+    private LinkedList<String> favTrips; // String because we need only travel id
+    private LinkedList<String> comments;
 
-    public User(String n, String pp){
-        uid = "";
+    // Useful in partecipants' recyclerview
+    public User(String uid, String n, String pp){
+        this.uid = uid;
         name=n;
         surname = "";
         birthday = "";
         photoProfile=pp;
     }
 
+    // Useful when we need info about a user
     public User(String uid, String name, String surname, String birthday, String gender, String relationship, String email,
-                String descr, String photoProfile, String cover, int sumReviews, int numReviews) {
+                String descr, String photoProfile, String cover, double sumReviews, int numReviews) {
         this.uid = uid;
         this.name = name;
         this.surname = surname;
@@ -36,11 +38,19 @@ public class User {
         this.descr = descr;
         this.photoProfile = photoProfile;
         this.cover = cover;
-        this.sumReviews = (short) sumReviews;
+        this.sumReviews = sumReviews;
         this.numReviews = (short) numReviews;
-        trips = new ArrayList<Trip>();
-        favTrips = new ArrayList<Trip>();
-        comments = new ArrayList<String>();
+        this.trips = new LinkedList<String>();
+        favTrips = new LinkedList<String>();
+        comments = new LinkedList<String>();
+    }
+
+    public User(String u, String n, String s, String p) {
+        uid=u;
+        name=n;
+        surname=s;
+        photoProfile=p;
+        birthday="";
     }
 
     public String getUid() { return uid; }
@@ -64,15 +74,15 @@ public class User {
     public String getCover() { return cover; }
 
     // Sum of all votes received by user
-    public short getSumReviews() { return sumReviews; }
+    public double getSumReviews() { return sumReviews; }
 
     public short getNumReviews() { return numReviews; }
 
-    public ArrayList<Trip> getTrips() { return trips; }
+    public LinkedList<String> getTrips() { return trips; }
 
-    public ArrayList<Trip> getFavTrips() { return favTrips; }
+    public LinkedList<String> getFavTrips() { return favTrips; }
 
-    public ArrayList<String> getComments() { return comments; }
+    public LinkedList<String> getComments() { return comments; }
 
     public void setRelationship(String r) { relationship = r; }
 
@@ -88,13 +98,13 @@ public class User {
 
     public void deleteReview(short r) { sumReviews -= r; numReviews--; }
 
-    public void addTrip(Trip t) { trips.add(t); }
+    public void addTrip(String t) { trips.add(t); }
 
-    public void deleteTrip(Trip t) {trips.remove(t);}
+    public void deleteTrip(String t) {trips.remove(t);}
 
-    public void addFavTrip(Trip t) { favTrips.add(t); }
+    public void addFavTrip(String t) { favTrips.add(t); }
 
-    public void deleteFavTrip(Trip t) { favTrips.remove(t); }
+    public void deleteFavTrip(String t) { favTrips.remove(t); }
 
     public void addComment(String c) { comments.add(c); }
 
@@ -137,7 +147,7 @@ public class User {
     }
 
     public double getRank() {
-        return (sumReviews==0 && numReviews==0)?0:sumReviews / numReviews ;
+        return (sumReviews==0 && numReviews==0)?0: sumReviews / numReviews ;
     }
 
 }
