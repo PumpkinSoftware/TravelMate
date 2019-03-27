@@ -66,11 +66,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             };
 
-    public void runThis(View v) {
-        Intent intent = new Intent(this, CreationTrip.class);
-        startActivity(intent);
-    }
-
     // Included to allow fragments to receive onActivityResult
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

@@ -64,7 +64,6 @@
         android:backgroundTint="@color/colorPrimary"
         android:clickable="true"
         android:elevation="8dp"
-        android:onClick="runThis"
         android:src="@drawable/ic_add_black_24dp"
         app:backgroundTint="@color/colorPrimary"
         app:fabSize="normal" />

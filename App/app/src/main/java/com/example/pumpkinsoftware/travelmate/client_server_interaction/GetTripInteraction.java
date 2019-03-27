@@ -33,82 +33,17 @@ import java.util.Map;
 public class GetTripInteraction {
     private Context context;
     private RecyclerView rvTrips;
-    TripsAdapter adapter;
-    TripsAdapterChat adapterChat;
+    private TripsAdapter adapter;
+    private TripsAdapterChat adapterChat;
     private ProgressBar progressBar;
     private ArrayList<Trip> mTrips;
     private String idToken;
-
-    //DA ELIMINARE
-    public GetTripInteraction(Context c, RecyclerView rv, ProgressBar progress) {
-        context = c;
-        rvTrips = rv;
-        progressBar = progress;
-    }
 
     public GetTripInteraction(Context c, RecyclerView rv, ProgressBar progress, String id) {
         context = c;
         rvTrips = rv;
         progressBar = progress;
         idToken=id;
-    }
-
-    //usata dalla search
-    public void getTripsFromServer(String query, RequestQueue mQueue, ArrayList<Trip> trips) {
-        mTrips = new ArrayList<Trip>();
-
-        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, query, null, new Response.Listener<JSONArray>() {
-            public void onResponse(JSONArray response) {
-                try {
-                    //JSONArray jsonArray=response.getJSONArray("viaggi")
-                    for (int i = 0; i < response.length(); i++) {
-                        JSONObject travel = response.getJSONObject(i);
-                        final String id = travel.getString("_id");
-                        final String image = travel.getString("image");
-                        final String name = travel.getString("name");
-                        final String descr = travel.getString("description");
-                        final String departure = travel.getString("departure");
-                        final String dest = travel.getString("destination");
-                        final int budget = travel.getInt("budget");
-                        final String dep_date = travel.getString("startDate");
-                        final String end_date = travel.getString("endDate");
-                        final int group_max = travel.getInt("maxPartecipant");
-                        final int partecipants = travel.getInt("partecipants");
-                        final String tag=travel.getString("tag");
-                        final String vehicle= travel.getString("vehicle");
-                        final String owner = travel.getString("owner");
-
-                        mTrips.add(new Trip(id, image, name, descr, departure, dest, budget,dep_date, end_date,
-                                partecipants, group_max, tag, vehicle, owner));
-                    }
-
-                    adapter = new TripsAdapter(mTrips);
-                    // Attach the adapter to the recyclerview to populate items
-                    rvTrips.setAdapter(adapter);
-                    hideProgressBar();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    hideProgressBar();
-                    Toast.makeText(context, "Errore: connessione fallita", Toast.LENGTH_SHORT).show();
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                error.printStackTrace();
-                hideProgressBar();
-                Toast.makeText(context, "Errore: connessione assente", Toast.LENGTH_SHORT).show();
-            }
-        }){
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("Content-Type", "application/json; charset=UTF-8");
-                params.put("access_token", idToken);
-                return params;
-            }
-        };
-        mQueue.add(request);
     }
 
     // NEW VERSION
@@ -144,6 +79,11 @@ public class GetTripInteraction {
                         text.setVisibility(View.VISIBLE);
                         img.setVisibility(View.VISIBLE);
                     }
+                    // Useful to restore default conditions
+                    else {
+                        text.setVisibility(View.GONE);
+                        img.setVisibility(View.GONE);
+                    }
 
                     adapter = new TripsAdapter(mTrips);
                     // Attach the adapter to the recyclerview to populate items
@@ -178,7 +118,7 @@ public class GetTripInteraction {
     //private int lastSize;
 
     // EXCLUSIVELY USAGE WHEN USER RETURNS FROM TRAVEL DETAILS
-    public void getTripsFromServer(String query, RequestQueue mQueue, final int pos) {
+    public void getTripsFromServer(String query, RequestQueue mQueue, final TextView text, final ImageView img, final int pos) {
         if(mTrips == null) {
             mTrips = new ArrayList<Trip>();
             //lastSize = 0;
@@ -211,6 +151,17 @@ public class GetTripInteraction {
                         mTrips.add(new Trip(id, image, name, descr, departure, dest, budget,dep_date, end_date,
                                 partecipants, group_max, tag, vehicle, owner));
                     }
+
+                    if(mTrips.isEmpty()) {
+                        text.setVisibility(View.VISIBLE);
+                        img.setVisibility(View.VISIBLE);
+                    }
+                    // Useful to restore default conditions
+                    else {
+                        text.setVisibility(View.GONE);
+                        img.setVisibility(View.GONE);
+                    }
+
                     adapter = new TripsAdapter(mTrips);
                     // Attach the adapter to the recyclerview to populate items
                     rvTrips.setAdapter(adapter);

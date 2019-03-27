@@ -1,5 +1,5 @@
 package com.example.pumpkinsoftware.travelmate;
-import android.app.Activity;
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,31 +10,22 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.Volley;
-import com.example.pumpkinsoftware.travelmate.client_server_interaction.GetTripInteraction;
 import com.example.pumpkinsoftware.travelmate.content_fragment_travels.Tab1;
 import com.example.pumpkinsoftware.travelmate.pager_adapter.SlidePagerAdapter;
-import com.example.pumpkinsoftware.travelmate.trip.Trip;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GetTokenResult;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class ViaggiFragment extends Fragment implements View.OnClickListener {
+public class ViaggiFragment extends Fragment {
     public FloatingActionButton fabBtn;
     private ViewPager viewPager;
     private TabLayout tabLayout;
@@ -46,10 +37,15 @@ public class ViaggiFragment extends Fragment implements View.OnClickListener {
         View view = inflater.inflate(R.layout.fragment_viaggi, container, false);
          context = getContext();
 
-        //copiato dal tutorial prima che funzionasse da fare tentativi se serve
-        fabBtn = (FloatingActionButton) inflater.inflate(R.layout.fragment_viaggi, container, false).findViewById(R.id.floatbutton);
-        fabBtn.setOnClickListener(this);
-        //fine
+        fabBtn = (FloatingActionButton) view.findViewById(R.id.floatbutton);
+        fabBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Toast.makeText(context,"Clicked",Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(context, CreationTrip.class);
+                startActivityForResult(intent, Tab1.REQUEST_CODE_UPDATE);
+            }
+        });
 
         viewPager = (ViewPager) view.findViewById(R.id.pager);
         PagerAdapter mAdapter = new SlidePagerAdapter(getChildFragmentManager());
@@ -62,12 +58,6 @@ public class ViaggiFragment extends Fragment implements View.OnClickListener {
             public void onTabSelected(TabLayout.Tab tab)
             {
                 int position = tab.getPosition();
-                /*Log.i("posizione",String.valueOf(position));
-                if(position==0){
-                    jsonParse(URL0, progress);
-                }else if (position==1){
-                    jsonParse(URL1, progress);
-                }else jsonParse(URL2, progress);*/
             }
 
             @Override
@@ -77,6 +67,7 @@ public class ViaggiFragment extends Fragment implements View.OnClickListener {
             public void onTabReselected(TabLayout.Tab tab) {
             }
         });
+
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         user.getIdToken(true)
                 .addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
@@ -84,25 +75,18 @@ public class ViaggiFragment extends Fragment implements View.OnClickListener {
                         if (task.isSuccessful()) {
                             String idToken = task.getResult().getToken();
                             // Send token to your backend via HTTPS
-                            // ...
+
                         } else {
                             // Handle error -> task.getException();
                             Toast.makeText(context, "Riprova", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
-        return view;
 
+        return view;
     }
 
     public ViewPager getViewPager() { return viewPager; }
-
-    //necessario per implements del tutorial
-    public void onClick(View v) {
-        Intent intent = new Intent(ViaggiFragment.this.getActivity(), CreationTrip.class);
-        startActivity(intent);
-    };
-    //il metodo run this è dichiarato nel main, l'activity genitore
 
     // Included to allow fragments to receive onActivityResult
     @Override

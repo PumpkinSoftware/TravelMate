@@ -22,18 +22,11 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.example.pumpkinsoftware.travelmate.R;
 import com.example.pumpkinsoftware.travelmate.client_server_interaction.GetTripInteraction;
-import com.example.pumpkinsoftware.travelmate.client_server_interaction.ServerCallback;
-import com.example.pumpkinsoftware.travelmate.trip.Trip;
-import com.example.pumpkinsoftware.travelmate.trips_adapter.TripsAdapter;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GetTokenResult;
-
-import org.json.JSONObject;
-
-import java.util.ArrayList;
 
 public class Tab1 extends Fragment {
     private final static String URL="https://debugtm.herokuapp.com/user/getProgressTripsByUser?";
@@ -44,9 +37,10 @@ public class Tab1 extends Fragment {
     private RecyclerView rvTrips;
     private TextView noTripText;
     private ImageView noTripImg;
+    private FirebaseUser user;
     public final static String EXTRA_RV_POS = "travelmate_extra_hf_RV_POS";
     public static final int REQUEST_CODE = 3;
-    FirebaseUser user;
+    public static final int REQUEST_CODE_UPDATE = 4;
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
@@ -60,6 +54,8 @@ public class Tab1 extends Fragment {
         rvTrips = (RecyclerView) view.findViewById(R.id.recyclerview);
         // Set layout manager to position the items
         rvTrips.setLayoutManager(new LinearLayoutManager(context));
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        updateLayout();
 
         //swipe da finire
         final SwipeRefreshLayout swipe = (SwipeRefreshLayout) view.findViewById(R.id.swiperefresh);
@@ -70,21 +66,7 @@ public class Tab1 extends Fragment {
                 (new Handler()).postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        //temporaneo
-                        user.getIdToken(true)
-                                .addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
-                                    public void onComplete(@NonNull Task<GetTokenResult> task) {
-                                        if (task.isSuccessful()) {
-                                            idToken = task.getResult().getToken();
-                                            // Send token to your backend via HTTPS
-                                            updateLayout();
-                                            // ...
-                                        } else {
-                                            // Handle error -> task.getException();
-                                            Toast.makeText(context, "Riprova", Toast.LENGTH_SHORT).show();
-                                        }
-                                    }
-                                });
+                        updateLayout();
                         swipe.setRefreshing(false);
 
                     }
@@ -103,7 +85,7 @@ public class Tab1 extends Fragment {
                         if (task.isSuccessful()) {
                             idToken = task.getResult().getToken();
                             // Send token to your backend via HTTPS
-                            new GetTripInteraction(context, rvTrips, progress,idToken).getTripsFromServer(URL, mRequestQueue, noTripText, noTripImg);
+                            new GetTripInteraction(context, rvTrips, progress, idToken).getTripsFromServer(URL, mRequestQueue, noTripText, noTripImg);
                             // ...
                         } else {
                             // Handle error -> task.getException();
@@ -123,7 +105,8 @@ public class Tab1 extends Fragment {
                         if (task.isSuccessful()) {
                             idToken = task.getResult().getToken();
                             // Send token to your backend via HTTPS
-                            new GetTripInteraction(context, rvTrips, progress,idToken).getTripsFromServer(URL, mRequestQueue, pos);
+                            new GetTripInteraction(context, rvTrips, progress, idToken).getTripsFromServer(URL, mRequestQueue, noTripText,
+                                    noTripImg, pos);
                             // ...
                         } else {
                             // Handle error -> task.getException();
@@ -137,6 +120,7 @@ public class Tab1 extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
         if (requestCode == REQUEST_CODE) {
             if(resultCode == Activity.RESULT_OK) {
                 Bundle b = data.getExtras();
@@ -144,6 +128,9 @@ public class Tab1 extends Fragment {
                 updateLayout(pos);
             }
         }
+
+        else if(requestCode == REQUEST_CODE_UPDATE && resultCode == Activity.RESULT_OK)
+            updateLayout();
     }
 
 }
