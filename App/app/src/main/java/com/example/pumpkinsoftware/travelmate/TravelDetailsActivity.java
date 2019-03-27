@@ -127,6 +127,8 @@ public class TravelDetailsActivity extends AppCompatActivity {
     private boolean isFirstLoading;
     private int rvPos;
     private FirebaseUser user;
+    private RelativeLayout layoutInfo;
+    private boolean canBeClosed;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -150,6 +152,12 @@ public class TravelDetailsActivity extends AppCompatActivity {
         final String vehicle = b.getString(EXTRA_VEHICLE);*/
         owner_uid = b.getString(EXTRA_OWNER_UID);
         rvPos = b.getInt(EXTRA_ADAPTER_POS);
+
+        // Infos are hidden, I show them only when loading is finished
+        layoutInfo = findViewById(R.id.layoutInfo);
+        layoutInfo.setVisibility(View.INVISIBLE);
+        progress = findViewById(R.id.indeterminateBar);
+        progress.setVisibility(View.VISIBLE);
 
         isFirstLoading = true;
         final ImageView imgv = (ImageView) findViewById(R.id.header_cover_image);
@@ -250,7 +258,6 @@ public class TravelDetailsActivity extends AppCompatActivity {
             ex.printStackTrace();
         }
 
-        progress = findViewById(R.id.indeterminateBar);
         rvUsers = (RecyclerView) findViewById(R.id.recyclerview);
         // Set layout manager to position the items
         rvUsers.setLayoutManager(new LinearLayoutManager(context));
@@ -605,6 +612,10 @@ public class TravelDetailsActivity extends AppCompatActivity {
                                             final String img = server.getOwnerImg();
                                             o_image = findViewById(R.id.profile1);
 
+                                            // Preventing crash when user opens and closes quickly the activity
+                                            if(TravelDetailsActivity.this.isDestroyed())
+                                                return;
+
                                             GlideApp.with(context)
                                                     .load((img.isEmpty())?(R.drawable.blank_avatar):(img))
                                                     .placeholder(R.mipmap.placeholder_image)
@@ -637,6 +648,9 @@ public class TravelDetailsActivity extends AppCompatActivity {
                                             }
 
                                             else joinBtn.setText("Unisciti");
+
+                                            //progress.setVisibility(View.GONE);
+                                            layoutInfo.setVisibility(View.VISIBLE);
                                         }
                                     });
 
@@ -749,26 +763,6 @@ public class TravelDetailsActivity extends AppCompatActivity {
     }
 
     // Open user on click
-    private void openUser(User u) {
-        Intent intent = new Intent(context, UserDetailsActivity.class);
-        intent.putExtra(UserDetailsActivity.EXTRA_UID, u.getUid());
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            // create the transition animation - the images in the layouts
-            // of both activities are defined with android:transitionName="robot"
-            ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation((Activity)context,
-                    Pair.create((View)o_image, "image"));
-            //Pair.create((View)trip_name, "travel_name"));
-            // start the new activity
-            context.startActivity(intent, options.toBundle());
-        }
-
-        else {
-            context.startActivity(intent);
-        }
-    }
-
-    // Open user on click
     private void openUser(String uid) {
         Intent intent = new Intent(context, UserDetailsActivity.class);
         intent.putExtra(UserDetailsActivity.EXTRA_UID, uid);
@@ -790,6 +784,10 @@ public class TravelDetailsActivity extends AppCompatActivity {
 
     // Load travel image with transition efficiently
     private void loadImg(String img, ImageView imgv) {
+        // Preventing crash when user opens and closes quickly the activity
+        if(this.isDestroyed())
+            return;
+
         so_prev_lol = false;
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
             postponeEnterTransition();
@@ -817,6 +815,15 @@ public class TravelDetailsActivity extends AppCompatActivity {
                             supportStartPostponedEnterTransition();
                         else
                             startPostponedEnterTransition();
+
+                        // From now activity canBeClosed, with this I handle bug of quickly apening and closing
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                canBeClosed = true;
+                            }
+                        }, 350);
+
                         return false;
                     }
                 })
@@ -853,7 +860,8 @@ public class TravelDetailsActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        close();
+        if(canBeClosed)
+            close();
     }
 
     private void close() {
@@ -865,6 +873,10 @@ public class TravelDetailsActivity extends AppCompatActivity {
     }
 
     private void calculateColor(String photoPath) {
+        // Preventing crash when user opens and closes quickly the activity
+        if(this.isDestroyed())
+            return;
+
         Glide.with(context)
                 .asBitmap()
                 .load(photoPath)

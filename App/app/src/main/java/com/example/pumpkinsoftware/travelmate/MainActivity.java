@@ -9,9 +9,6 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
-import android.view.View;
-
-import com.example.pumpkinsoftware.travelmate.content_fragment_travels.Tab1;
 
 public class MainActivity extends AppCompatActivity {
     public static final String FREE_QUERY = "com.example.pumpkinsoftware.travelmate.FREE_QUERY";
