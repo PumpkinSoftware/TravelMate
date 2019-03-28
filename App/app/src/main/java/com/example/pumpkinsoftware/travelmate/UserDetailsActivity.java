@@ -9,8 +9,10 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Layout;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
@@ -109,6 +111,26 @@ public class UserDetailsActivity extends AppCompatActivity {
 
         txt = findViewById(R.id.bio);
         txt.setText(mUser.getDescr());
+        // Justified text alignment
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            txt.setText(mUser.getDescr());
+            txt.setJustificationMode(Layout.JUSTIFICATION_MODE_INTER_WORD);
+        } else {
+            final WebView v = (WebView) findViewById(R.id.bio_for_older_versions);
+            String text = "<html><body><p align=\"justify\">";
+            text += mUser.getDescr();
+            text += "</p></body></html>";
+            /*
+            v.loadData(text, "text/html", "utf-8");
+            v.setVisibility(View.VISIBLE);
+            txt.setVisibility(View.GONE);*/
+            ((WebView) v.findViewById(R.id.bio_for_older_versions)).loadData(text, "text/html; charset=UTF-8", "utf-8");
+            // Now I've to change the below param of the below elements
+            /*final RelativeLayout layout = view.findViewById(R.id.layout2);
+            RelativeLayout.LayoutParams params= new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+            params.addRule(RelativeLayout.BELOW, R.id.bio_for_older_versions);
+            layout.setLayoutParams(params);*/
+        }
 
         txt = findViewById(R.id.age2);
         txt.setText(String.valueOf(mUser.getAge()));

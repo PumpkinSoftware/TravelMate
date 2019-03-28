@@ -98,16 +98,16 @@ public class TravelDetailsActivity extends AppCompatActivity {
     public final static String EXTRA_PARTECIPANTS_NUMBER = "travelmate_extra_tda_TRIP_EXTRA_PARTECIPANTS_NUMBER";
     public final static String EXTRA_GROUP_NUMBER = "travelmate_extra_tda_TRIP_EXTRA_GROUP_NUMBER";
     public final static String EXTRA_TAG = "travelmate_extra_tda_TRIP_TAG";
-    public final static String EXTRA_VEHICLE ="travelmate_extra_tda_TRIP_VEHICLE";
-    public final static String EXTRA_OWNER_UID ="travelmate_extra_tda_TRIP_OWNER_UID";
-    public final static String EXTRA_ADAPTER ="travelmate_extra_tda_TRIP_EXTRA_ADAPTER";
-    public final static String EXTRA_ADAPTER_POS ="travelmate_extra_tda_TRIP_EXTRA_ADAPTER_POS";
-    public final static String EXTRA_TRIP ="travelmate_extra_tda_TRIP_EXTRA_TRIP";
+    public final static String EXTRA_VEHICLE = "travelmate_extra_tda_TRIP_VEHICLE";
+    public final static String EXTRA_OWNER_UID = "travelmate_extra_tda_TRIP_OWNER_UID";
+    public final static String EXTRA_ADAPTER = "travelmate_extra_tda_TRIP_EXTRA_ADAPTER";
+    public final static String EXTRA_ADAPTER_POS = "travelmate_extra_tda_TRIP_EXTRA_ADAPTER_POS";
+    public final static String EXTRA_TRIP = "travelmate_extra_tda_TRIP_EXTRA_TRIP";
 
     private Context context;
     private boolean so_prev_lol; // Useful for transitions
 
-    private final static String QUERY= Utils.SERVER_PATH + "user/getUsersByTrip?tripId=";
+    private final static String QUERY = Utils.SERVER_PATH + "user/getUsersByTrip?tripId=";
     private ArrayList<User> partecipants;
     private ImageView back_image;
     private ImageView edit;
@@ -137,15 +137,15 @@ public class TravelDetailsActivity extends AppCompatActivity {
         context = (Context) this;
 
         Bundle b = getIntent().getExtras();
-        travelId =  b.getString(EXTRA_ID);
-        final String img =  b.getString(EXTRA_IMG);
-        final String name =  b.getString(EXTRA_NAME);
+        travelId = b.getString(EXTRA_ID);
+        final String img = b.getString(EXTRA_IMG);
+        final String name = b.getString(EXTRA_NAME);
         /*final String descr =  b.getString(EXTRA_DESCR);
         final String dep =  b.getString(EXTRA_DEPARTURE);
         final String dest =  b.getString(EXTRA_DEST);
         final String budget =  b.getString(EXTRA_BUDGET);*/
-        final String start =  b.getString(EXTRA_START);
-        final String end =  b.getString(EXTRA_END);
+        final String start = b.getString(EXTRA_START);
+        final String end = b.getString(EXTRA_END);
         /*partecipantsNumber =  b.getInt(EXTRA_PARTECIPANTS_NUMBER);
         group =  b.getInt(EXTRA_GROUP_NUMBER);
         final String tag = b.getString(EXTRA_TAG);
@@ -243,9 +243,7 @@ public class TravelDetailsActivity extends AppCompatActivity {
             // Check if travel is expired
             if (now.equals(startDate) || now.after(startDate)) {
                 card.setVisibility(View.GONE);
-            }
-
-            else {
+            } else {
                 // Handling join on click with animation
                 joinBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -280,7 +278,7 @@ public class TravelDetailsActivity extends AppCompatActivity {
                         swipe.setRefreshing(false);
 
                     }
-                },1500);
+                }, 1500);
             }
         });
     }
@@ -342,14 +340,14 @@ public class TravelDetailsActivity extends AppCompatActivity {
         intent.setType("text/plain");
         //String shareBodyText = "Your sharing message goes here";
         intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject/Title");
-        intent.putExtra(android.content.Intent.EXTRA_TEXT, "Che ne dici di dare un'occhiata a "+ s + "?");
+        intent.putExtra(android.content.Intent.EXTRA_TEXT, "Che ne dici di dare un'occhiata a " + s + "?");
         startActivity(Intent.createChooser(intent, "Condividi"));
     }
 
     // CHIAMEREMO QUESTA QUANDO PRONTA INVECE DI shareText E DA QUI CHIAMEREMO shareText
     private void createDynamicUri() {
         Task<ShortDynamicLink> shortLinkTask = FirebaseDynamicLinks.getInstance().createDynamicLink()
-                .setLink(Uri.parse("https://"+R.string.host))
+                .setLink(Uri.parse("https://" + R.string.host))
                 .setDomainUriPrefix("https://example.page.link")
                 // Open links with this app on Android
                 .setAndroidParameters(new DynamicLink.AndroidParameters.Builder().build())
@@ -397,7 +395,7 @@ public class TravelDetailsActivity extends AppCompatActivity {
                 .addOnFailureListener(this, new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                       // Log.w(TAG, "getDynamicLink:onFailure", e);
+                        // Log.w(TAG, "getDynamicLink:onFailure", e);
                     }
                 });
     }
@@ -416,10 +414,10 @@ public class TravelDetailsActivity extends AppCompatActivity {
 
                         public void onClick(DialogInterface dialog, int whichButton) {
 
-                            if(userUid.equals(owner_uid))
+                            if (userUid.equals(owner_uid))
                                 changeOwner();
 
-                            // Remove user from travel
+                                // Remove user from travel
                             else
                                 user.getIdToken(true)
                                         .addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
@@ -443,11 +441,10 @@ public class TravelDetailsActivity extends AppCompatActivity {
                                         });
 
                             animate(joinBtn);
-                        }})
+                        }
+                    })
                     .setNegativeButton(android.R.string.no, null).show();
-        }
-
-        else if(label.equals("Elimina")) {
+        } else if (label.equals("Elimina")) {
             new AlertDialog.Builder(this)
                     .setTitle("Elimina evento")
                     .setMessage("Vuoi eliminare l'evento?")
@@ -457,14 +454,14 @@ public class TravelDetailsActivity extends AppCompatActivity {
                         public void onClick(DialogInterface dialog, int whichButton) {
 
                             // Delete trip image from Firebase
-                            if(trip == null) {
+                            if (trip == null) {
                                 Toast.makeText(context, "Errore: riprovare", Toast.LENGTH_SHORT).show();
                                 return;
                             }
 
                             String storageUrl = trip.getImage();
                             // If trip.getImage() is empty, it means that user hasn't loaded an image
-                            if(!storageUrl.isEmpty()) {
+                            if (!storageUrl.isEmpty()) {
 
                                 StorageReference storageReference = FirebaseStorage.getInstance().getReferenceFromUrl(storageUrl);
                                 storageReference.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -480,16 +477,16 @@ public class TravelDetailsActivity extends AppCompatActivity {
                                         // Log.d(TAG, "onFailure: did not delete file");
                                     }
                                 });
+                            } else {
+
+                                // Delete travel
+                                deleteTrip();
+                                animate(joinBtn);
                             }
-
-                            // Delete travel
-                            deleteTrip();
-                            animate(joinBtn);
-                        }})
+                        }
+                    })
                     .setNegativeButton(android.R.string.no, null).show();
-            }
-
-        else {
+        } else {
             // Add user to travel
             user.getIdToken(true)
                     .addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
@@ -569,17 +566,17 @@ public class TravelDetailsActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             String idToken = task.getResult().getToken();
                             // Send token to your backend via HTTPS
-                            server.delete(Utils.SERVER_PATH + "trip/deleteTrip?tripId="+travelId/*+"&userUid="+userUid*/,
+                            server.delete(Utils.SERVER_PATH + "trip/deleteTrip?tripId=" + travelId/*+"&userUid="+userUid*/,
                                     idToken, new ServerCallback() {
-                                @Override
-                                public void onSuccess(JSONObject response) {
-                                    // Check if trip is really deleted from server
-                                    if (server.isDeleted()) {
-                                        // TODO delete travel img from server
-                                        close();
-                                    }
-                                }
-                            });
+                                        @Override
+                                        public void onSuccess(JSONObject response) {
+                                            // Check if trip is really deleted from server
+                                            if (server.isDeleted()) {
+                                                // TODO delete travel img from server
+                                                close();
+                                            }
+                                        }
+                                    });
                         } else {
                             // Handle error -> task.getException();
                             Toast.makeText(context, "Riprova", Toast.LENGTH_SHORT).show();
@@ -590,8 +587,8 @@ public class TravelDetailsActivity extends AppCompatActivity {
     }
 
     private void updateLayout() {
-        if(partecipants == null)    partecipants = new ArrayList<User>();
-        else                        partecipants.clear();
+        if (partecipants == null) partecipants = new ArrayList<User>();
+        else partecipants.clear();
 
         final GetTripById server = new GetTripById(this, rvUsers, progress);
         user.getIdToken(true)
@@ -600,9 +597,9 @@ public class TravelDetailsActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             String idToken = task.getResult().getToken();
                             // Send token to your backend via HTTPS
-                            server.getTripFromServer(Utils.SERVER_PATH + "trip/getTripByIdWithUsers?id="+travelId,
+                            server.getTripFromServer(Utils.SERVER_PATH + "trip/getTripByIdWithUsers?id=" + travelId,
                                     partecipants, userUid, idToken,
-                                    new ServerCallback(){
+                                    new ServerCallback() {
                                         @Override
                                         public void onSuccess(JSONObject response) {
                                             trip = server.getTrip();
@@ -613,17 +610,17 @@ public class TravelDetailsActivity extends AppCompatActivity {
                                             o_image = findViewById(R.id.profile1);
 
                                             // Preventing crash when user opens and closes quickly the activity
-                                            if(TravelDetailsActivity.this.isDestroyed())
+                                            if (TravelDetailsActivity.this.isDestroyed())
                                                 return;
 
                                             GlideApp.with(context)
-                                                    .load((img.isEmpty())?(R.drawable.blank_avatar):(img))
+                                                    .load((img.isEmpty()) ? (R.drawable.blank_avatar) : (img))
                                                     .placeholder(R.mipmap.placeholder_image)
                                                     .into(o_image);
                                             TextView o_name = findViewById(R.id.user1);
                                             o_name.setText(server.getOwnerName());
 
-                                            View.OnClickListener lis = new View.OnClickListener(){
+                                            View.OnClickListener lis = new View.OnClickListener() {
                                                 @Override
                                                 public void onClick(View v) {
                                                     openUser(owner_uid);
@@ -634,20 +631,18 @@ public class TravelDetailsActivity extends AppCompatActivity {
                                             o_name.setOnClickListener(lis);
                                             partecipantsNumber = trip.getPartecipantsNumber();
 
-                                            if(partecipantsNumber == group) card.setVisibility(View.GONE);
+                                            if (partecipantsNumber == group)
+                                                card.setVisibility(View.GONE);
 
-                                            if(userUid.equals(owner_uid)) {
-                                                if(partecipantsNumber == 1)   joinBtn.setText("Elimina");
-                                                else                          joinBtn.setText("Abbandona");
+                                            if (userUid.equals(owner_uid)) {
+                                                if (partecipantsNumber == 1)
+                                                    joinBtn.setText("Elimina");
+                                                else joinBtn.setText("Abbandona");
                                                 card.setCardBackgroundColor(colorTo);
-                                            }
-
-                                            else if(server.isUserAPartecipant()) {
+                                            } else if (server.isUserAPartecipant()) {
                                                 joinBtn.setText("Abbandona");
                                                 card.setCardBackgroundColor(colorTo);
-                                            }
-
-                                            else joinBtn.setText("Unisciti");
+                                            } else joinBtn.setText("Unisciti");
 
                                             //progress.setVisibility(View.GONE);
                                             layoutInfo.setVisibility(View.VISIBLE);
@@ -667,22 +662,21 @@ public class TravelDetailsActivity extends AppCompatActivity {
         String image = t.getImage();
         calculateColor(image);
 
-        if(userUid.equals(owner_uid)) {
-                edit.setVisibility(View.VISIBLE);
+        if (userUid.equals(owner_uid)) {
+            edit.setVisibility(View.VISIBLE);
 
-                edit.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent i = new Intent(context, EditTravelActivity.class);
-                        i.putExtra(EditTravelActivity.EXTRA_TRAVEL, trip);
-                        startActivityForResult(i, 1);
-                    }
-                });
-        }
-        else
+            edit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent i = new Intent(context, EditTravelActivity.class);
+                    i.putExtra(EditTravelActivity.EXTRA_TRAVEL, trip);
+                    startActivityForResult(i, 1);
+                }
+            });
+        } else
             edit.setVisibility(View.GONE);
 
-        if(!isFirstLoading) {
+        if (!isFirstLoading) {
             final ImageView imgv = (ImageView) findViewById(R.id.header_cover_image);
             loadImg(image, imgv);
         }
@@ -696,32 +690,30 @@ public class TravelDetailsActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             dsc.setText(t.getDescr());
             dsc.setJustificationMode(Layout.JUSTIFICATION_MODE_INTER_WORD);
-        }
-
-        else {
+        } else {
             final WebView view = (WebView) findViewById(R.id.descr_for_older_versions);
             String text = "<html><body><p align=\"justify\">";
-            text+= t.getDescr();
-            text+= "</p></body></html>";
+            text += t.getDescr();
+            text += "</p></body></html>";
             view.loadData(text, "text/html", "utf-8");
             view.setVisibility(View.VISIBLE);
             dsc.setVisibility(View.GONE);
             // Now I've to change the below param of the below elements
             final RelativeLayout layout = findViewById(R.id.layout2);
-            RelativeLayout.LayoutParams params= new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             params.addRule(RelativeLayout.BELOW, R.id.descr_for_older_versions);
             layout.setLayoutParams(params);
         }
 
-        final TextView t_tag=(TextView) findViewById(R.id.tag);
+        final TextView t_tag = (TextView) findViewById(R.id.tag);
         String tag = t.getTag();
-        if(tag.equals("cultura")){
+        if (tag.equals("cultura")) {
             t_tag.setBackgroundColor(Color.parseColor("#008000")); //verde
-        }else if (tag.equals("musica")){
+        } else if (tag.equals("musica")) {
             t_tag.setBackgroundColor(Color.parseColor("#FF8C00")); //arancione(dark)
-        }else if(tag.equals("intrattenimento")){
+        } else if (tag.equals("intrattenimento")) {
             t_tag.setBackgroundColor(Color.parseColor("#FF0000")); //rosso
-        }else{
+        } else {
             t_tag.setBackgroundColor(Color.parseColor("#1E90FF")); //blu
         }
         t_tag.setText(tag);
@@ -744,8 +736,8 @@ public class TravelDetailsActivity extends AppCompatActivity {
         String vehicle = t.getVehicle();
         vm.setText(vehicle);
 
-        if(vehicle.equals("treno"))     vi.setImageResource(R.drawable.ic_train_black_12dp);
-        else                            vi.setImageResource(R.drawable.ic_directions_car_black_12dp);
+        if (vehicle.equals("treno")) vi.setImageResource(R.drawable.ic_train_black_12dp);
+        else vi.setImageResource(R.drawable.ic_directions_car_black_12dp);
 
     }
 
@@ -754,7 +746,7 @@ public class TravelDetailsActivity extends AppCompatActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1) {
-            if(resultCode == RESULT_OK) {
+            if (resultCode == RESULT_OK) {
                 Trip t = (Trip) data.getSerializableExtra(EXTRA_TRIP);
                 trip = t;
                 loadTrip(t);
@@ -770,14 +762,12 @@ public class TravelDetailsActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             // create the transition animation - the images in the layouts
             // of both activities are defined with android:transitionName="robot"
-            ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation((Activity)context,
-                    Pair.create((View)o_image, "image"));
+            ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation((Activity) context,
+                    Pair.create((View) o_image, "image"));
             //Pair.create((View)trip_name, "travel_name"));
             // start the new activity
             context.startActivity(intent, options.toBundle());
-        }
-
-        else {
+        } else {
             context.startActivity(intent);
         }
     }
@@ -785,7 +775,7 @@ public class TravelDetailsActivity extends AppCompatActivity {
     // Load travel image with transition efficiently
     private void loadImg(String img, ImageView imgv) {
         // Preventing crash when user opens and closes quickly the activity
-        if(this.isDestroyed())
+        if (this.isDestroyed())
             return;
 
         so_prev_lol = false;
@@ -797,12 +787,12 @@ public class TravelDetailsActivity extends AppCompatActivity {
         }
 
         GlideApp.with(this)
-                .load((img.isEmpty())?(R.mipmap.default_trip):(img))
+                .load((img.isEmpty()) ? (R.mipmap.default_trip) : (img))
                 .placeholder(R.mipmap.placeholder_image)
                 .listener(new RequestListener<Drawable>() {
                     @Override
                     public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                        if(so_prev_lol)
+                        if (so_prev_lol)
                             supportStartPostponedEnterTransition();
                         else
                             startPostponedEnterTransition();
@@ -811,7 +801,7 @@ public class TravelDetailsActivity extends AppCompatActivity {
 
                     @Override
                     public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                        if(so_prev_lol)
+                        if (so_prev_lol)
                             supportStartPostponedEnterTransition();
                         else
                             startPostponedEnterTransition();
@@ -844,7 +834,7 @@ public class TravelDetailsActivity extends AppCompatActivity {
                 Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
                 sharingIntent.setType("text/plain");
                 String shareBodyText = "Check it out. Your message goes here";
-                sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT,"Subject here");
+                sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject here");
                 sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBodyText);
                 startActivity(Intent.createChooser(sharingIntent, "Sharing Option"));
                 return true;
@@ -853,14 +843,15 @@ public class TravelDetailsActivity extends AppCompatActivity {
                 return false;
         }
     }
+
     public String getData(String data) {
-        String[] d=data.split("-");
-        return d[2].substring(0,2) +"/"+d[1]+"/"+d[0];
+        String[] d = data.split("-");
+        return d[2].substring(0, 2) + "/" + d[1] + "/" + d[0];
     }
 
     @Override
     public void onBackPressed() {
-        if(canBeClosed)
+        if (canBeClosed)
             close();
     }
 
@@ -868,13 +859,14 @@ public class TravelDetailsActivity extends AppCompatActivity {
         Intent intent = new Intent();
         intent.putExtra(HomeFragment.EXTRA_RV_POS, rvPos);
         setResult(RESULT_OK, intent);
-        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)    finishAfterTransition();
-        else    finish();
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            finishAfterTransition();
+        else finish();
     }
 
     private void calculateColor(String photoPath) {
         // Preventing crash when user opens and closes quickly the activity
-        if(this.isDestroyed())
+        if (this.isDestroyed())
             return;
 
         Glide.with(context)
@@ -891,12 +883,12 @@ public class TravelDetailsActivity extends AppCompatActivity {
                                                              boolean b) {
                                   int brightness = calculateBrightness(bitmap, 20);
                                   int iconColor;
-                                  if(brightness > 127)    iconColor = Color.BLACK;
-                                  else                    iconColor = Color.WHITE;
+                                  if (brightness > 127) iconColor = Color.BLACK;
+                                  else iconColor = Color.WHITE;
 
                                   back_image.setColorFilter(iconColor);
                                   sharing_image.setColorFilter(iconColor);
-                                  if(userUid.equals(owner_uid))
+                                  if (userUid.equals(owner_uid))
                                       edit.setColorFilter(iconColor);
                                   return false;
                               }
@@ -913,7 +905,9 @@ public class TravelDetailsActivity extends AppCompatActivity {
      The function returns a brightness level between 0 and 255, where 0 = totally black and 255 = totally bright
     */
     private int calculateBrightness(android.graphics.Bitmap bitmap, int skipPixel) {
-        int R = 0; int G = 0; int B = 0;
+        int R = 0;
+        int G = 0;
+        int B = 0;
         int height = 5; //bitmap.getHeight();
         int width = bitmap.getWidth();
         int n = 0;

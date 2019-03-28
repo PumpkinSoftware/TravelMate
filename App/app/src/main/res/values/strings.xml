@@ -3,7 +3,7 @@
 
     <!-- Bottom Navbar -->
     <string name="action_settings">Settings</string>
-    <string name="search">Search</string>
+    <string name="search">Cerca</string>
     <string name="journey">Eventi</string>
     <string name="home">Home</string>
     <string name="user">Profilo</string>
