@@ -129,6 +129,7 @@ public class TravelDetailsActivity extends AppCompatActivity {
     private FirebaseUser user;
     private RelativeLayout layoutInfo;
     private boolean canBeClosed;
+    private boolean isExpired;
     private Uri deepLink = null;
 
     @Override
@@ -193,12 +194,12 @@ public class TravelDetailsActivity extends AppCompatActivity {
         // Old sdk hasn't elevation attribute
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             edit = findViewById(R.id.edit_image_for_old_sdk);
-            sharing_image.setVisibility(View.GONE);
+            //sharing_image.setVisibility(View.GONE);
             sharing_image = findViewById(R.id.sharing_image_for_old_sdk);
-            sharing_image.setVisibility(View.VISIBLE);
-            back_image.setVisibility(View.GONE);
+            //sharing_image.setVisibility(View.VISIBLE);
+            //back_image.setVisibility(View.GONE);
             back_image = findViewById(R.id.back_image_for_old_sdk);
-            back_image.setVisibility(View.VISIBLE);
+            //back_image.setVisibility(View.VISIBLE);
         }
 
         // Handling back to parent activity
@@ -222,14 +223,13 @@ public class TravelDetailsActivity extends AppCompatActivity {
         });*/
 
         // Handling sharing on click with animation
-        final String finalName = name;
         sharing_image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 AnimatorSet set = (AnimatorSet) AnimatorInflater.loadAnimator(context, R.animator.zoom_in);
                 set.setTarget(v); // set the view you want to animate
                 set.start();
-                shortLinkTask(finalName);
+                shortLinkTask(name);
             }
         });
 
@@ -245,6 +245,7 @@ public class TravelDetailsActivity extends AppCompatActivity {
 
             // Check if travel is expired
             if (now.equals(startDate) || now.after(startDate)) {
+                isExpired = true;
                 card.setVisibility(View.GONE);
             } else {
                 // Handling join on click with animation
@@ -662,20 +663,6 @@ public class TravelDetailsActivity extends AppCompatActivity {
         String image = t.getImage();
         calculateColor(image);
 
-        if (userUid.equals(owner_uid)) {
-            edit.setVisibility(View.VISIBLE);
-
-            edit.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent i = new Intent(context, EditTravelActivity.class);
-                    i.putExtra(EditTravelActivity.EXTRA_TRAVEL, trip);
-                    startActivityForResult(i, 1);
-                }
-            });
-        } else
-            edit.setVisibility(View.GONE);
-
         if (!isFirstLoading) {
             final ImageView imgv = (ImageView) findViewById(R.id.header_cover_image);
             loadImg(image, imgv);
@@ -887,9 +874,28 @@ public class TravelDetailsActivity extends AppCompatActivity {
                                   else iconColor = Color.WHITE;
 
                                   back_image.setColorFilter(iconColor);
-                                  sharing_image.setColorFilter(iconColor);
-                                  if (userUid.equals(owner_uid))
-                                      edit.setColorFilter(iconColor);
+                                  back_image.setVisibility(View.VISIBLE);
+                                  // Show Edit & Sharing icons only if trip in not expired
+                                  if (!isExpired) {
+                                      sharing_image.setColorFilter(iconColor);
+                                      sharing_image.setVisibility(View.VISIBLE);
+
+                                      if (userUid.equals(owner_uid)) {
+                                          edit.setColorFilter(iconColor);
+                                          edit.setVisibility(View.VISIBLE);
+
+                                          edit.setOnClickListener(new View.OnClickListener() {
+                                              @Override
+                                              public void onClick(View v) {
+                                                  Intent i = new Intent(context, EditTravelActivity.class);
+                                                  i.putExtra(EditTravelActivity.EXTRA_TRAVEL, trip);
+                                                  startActivityForResult(i, 1);
+                                              }
+                                          });
+                                      } else
+                                          edit.setVisibility(View.GONE);
+                                  }
+
                                   return false;
                               }
                           }
