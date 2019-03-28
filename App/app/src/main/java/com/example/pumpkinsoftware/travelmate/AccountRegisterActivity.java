@@ -452,6 +452,9 @@ public class AccountRegisterActivity extends AppCompatActivity {
                                     }
                                     if (getStatus().equals("OK")) {
                                         updateUserForChat();
+                                        // Send intent to finish prev activity
+                                        Intent intent = new Intent(RegistrationActivity.FINISH);
+                                        sendBroadcast(intent);
                                         sendEmail();
                                         progressBar.setVisibility(View.GONE);
                                         new AlertDialog.Builder(contesto)
@@ -461,6 +464,7 @@ public class AccountRegisterActivity extends AppCompatActivity {
 
                                                     public void onClick(DialogInterface dialog, int whichButton) {
                                                         openLogin();
+
                                                     }
                                                 }).show();
                                     }

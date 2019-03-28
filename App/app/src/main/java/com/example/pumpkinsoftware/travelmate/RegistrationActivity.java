@@ -1,8 +1,10 @@
 package com.example.pumpkinsoftware.travelmate;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -44,6 +46,8 @@ public class RegistrationActivity extends AppCompatActivity {
     private boolean so_prev_oreo = true; // I Don't need call lib func, I use it only for muting video on older version than Oreo
     public static final Pattern VALID_EMAIL_ADDRESS_REGEX =
             Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
+    public static final String FINISH = "travelmate_finish_ra_activity";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,6 +70,19 @@ public class RegistrationActivity extends AppCompatActivity {
                 }
             }
         });
+
+        // Create a broadcast receiver to finish this activity from AccountRegistration
+        BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+
+            @Override
+            public void onReceive(Context arg0, Intent intent) {
+                String action = intent.getAction();
+                if (action != null && action.equals(FINISH)) {
+                    finish();
+                }
+            }
+        };
+        registerReceiver(broadcastReceiver, new IntentFilter(FINISH));
 
         /* Reg Button */
         Button button = (Button) findViewById(R.id.buttonReg);

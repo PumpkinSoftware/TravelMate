@@ -171,10 +171,9 @@ public class LoginActivity extends AppCompatActivity {
                     .addOnCompleteListener((Activity) context, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) { // MODIFICATO PER TEST CON VECCHI ACCOUNT
-                                if(true) {//mAuth.getCurrentUser().isEmailVerified()){
+                            if (task.isSuccessful()) { // MODIFICATO PER VECCHI ACCOUNT
+                                if(true) { //mAuth.getCurrentUser().isEmailVerified()){
                                     openMain();
-                                    finish();
                                 }
                                 else{
                                     sendEmail();
@@ -239,6 +238,10 @@ public class LoginActivity extends AppCompatActivity {
     private void openMain(){
         Intent intent = new Intent(context,MainActivity.class);
         startActivity(intent);
+        // Send intent to finish prev activity
+        Intent intent2 = new Intent(StartActivity.FINISH);
+        sendBroadcast(intent2);
+        finish();
     }
 
     @Override

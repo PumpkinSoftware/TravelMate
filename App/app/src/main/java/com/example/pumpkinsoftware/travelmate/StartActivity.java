@@ -2,8 +2,10 @@ package com.example.pumpkinsoftware.travelmate;
 
 import android.app.Activity;
 import android.app.ActivityOptions;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
@@ -44,9 +46,9 @@ public class StartActivity extends AppCompatActivity {
     private VideoView videoView;
     private MutedVideoView mVideoView;
     private boolean so_prev_oreo = true; // I Don't need call lib func, I use it only for muting video on older version than Oreo
-    Context contesto;
-
+    private Context contesto;
     private FirebaseAuth mAuth;
+    public static final String FINISH = "travelmate_finish_sa_activity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +60,22 @@ public class StartActivity extends AppCompatActivity {
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
 
+        // For transition
         getWindow().setBackgroundDrawable(new ColorDrawable(Color.BLACK));
+
+
+        // Create a broadcast receiver to finish this activity from AccountRegistration
+        BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+
+            @Override
+            public void onReceive(Context arg0, Intent intent) {
+                String action = intent.getAction();
+                if (action != null && action.equals(FINISH)) {
+                    finish();
+                }
+            }
+        };
+        registerReceiver(broadcastReceiver, new IntentFilter(FINISH));
 
         /* Login Button */
         buttonLogin = (Button) findViewById(R.id.buttonLogin);
