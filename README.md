@@ -2,7 +2,7 @@
 
 What is TravelMate?
 
-- A mobile application that connect students from 18 to 25 who want to go to an event in italy
+- A mobile application that connects students from 18 to 25 who want to go to an event in italy
 - Choose your event
 - Find the best fit of travel mate in advance
 - Low budget
@@ -61,3 +61,5 @@ This is our [lean canvas](https://drive.google.com/open?id=16u__YAHpXlvkb9PpqyW-
 
 #
 
+### Milestone 3 -  April 2019
+Coming soon!
