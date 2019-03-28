@@ -129,6 +129,7 @@ public class TravelDetailsActivity extends AppCompatActivity {
     private FirebaseUser user;
     private RelativeLayout layoutInfo;
     private boolean canBeClosed;
+    private Uri deepLink = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -136,22 +137,23 @@ public class TravelDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_travel_details);
         context = (Context) this;
 
-        Bundle b = getIntent().getExtras();
-        travelId = b.getString(EXTRA_ID);
-        final String img = b.getString(EXTRA_IMG);
-        final String name = b.getString(EXTRA_NAME);
-        /*final String descr =  b.getString(EXTRA_DESCR);
-        final String dep =  b.getString(EXTRA_DEPARTURE);
-        final String dest =  b.getString(EXTRA_DEST);
-        final String budget =  b.getString(EXTRA_BUDGET);*/
-        final String start = b.getString(EXTRA_START);
-        final String end = b.getString(EXTRA_END);
-        /*partecipantsNumber =  b.getInt(EXTRA_PARTECIPANTS_NUMBER);
-        group =  b.getInt(EXTRA_GROUP_NUMBER);
-        final String tag = b.getString(EXTRA_TAG);
-        final String vehicle = b.getString(EXTRA_VEHICLE);*/
-        owner_uid = b.getString(EXTRA_OWNER_UID);
-        rvPos = b.getInt(EXTRA_ADAPTER_POS);
+            Bundle b = getIntent().getExtras();
+            travelId = b.getString(EXTRA_ID);
+            final String img = b.getString(EXTRA_IMG);
+            final String name = b.getString(EXTRA_NAME);
+            /*final String descr =  b.getString(EXTRA_DESCR);
+            final String dep =  b.getString(EXTRA_DEPARTURE);
+            final String dest =  b.getString(EXTRA_DEST);
+            final String budget =  b.getString(EXTRA_BUDGET);*/
+            final String start = b.getString(EXTRA_START);
+            final String end = b.getString(EXTRA_END);
+            /*partecipantsNumber =  b.getInt(EXTRA_PARTECIPANTS_NUMBER);
+            group =  b.getInt(EXTRA_GROUP_NUMBER);
+            final String tag = b.getString(EXTRA_TAG);
+            final String vehicle = b.getString(EXTRA_VEHICLE);*/
+            owner_uid = b.getString(EXTRA_OWNER_UID);
+            rvPos = b.getInt(EXTRA_ADAPTER_POS);
+
 
         // Infos are hidden, I show them only when loading is finished
         layoutInfo = findViewById(R.id.layoutInfo);
@@ -220,13 +222,14 @@ public class TravelDetailsActivity extends AppCompatActivity {
         });*/
 
         // Handling sharing on click with animation
+        final String finalName = name;
         sharing_image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 AnimatorSet set = (AnimatorSet) AnimatorInflater.loadAnimator(context, R.animator.zoom_in);
                 set.setTarget(v); // set the view you want to animate
                 set.start();
-                shareText(name);
+                shortLinkTask(finalName);
             }
         });
 
@@ -262,9 +265,6 @@ public class TravelDetailsActivity extends AppCompatActivity {
         rvUsers.setNestedScrollingEnabled(false);
         updateLayout();
 
-        // TODO
-        //openDynamicLink();
-
         //swipe da finire
         final SwipeRefreshLayout swipe = (SwipeRefreshLayout) findViewById(R.id.swipeRefresh);
         swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -282,6 +282,37 @@ public class TravelDetailsActivity extends AppCompatActivity {
             }
         });
     }
+    /*
+    public void getTripIdDynamicLink(){
+        FirebaseDynamicLinks.getInstance()
+                .getDynamicLink(getIntent())
+                .addOnSuccessListener(this, new OnSuccessListener<PendingDynamicLinkData>() {
+                    @Override
+                    public void onSuccess(PendingDynamicLinkData pendingDynamicLinkData) {
+                        // Get deep link from result (may be null if no link is found)
+                        if (pendingDynamicLinkData != null) {
+                            deepLink = pendingDynamicLinkData.getLink();
+                        }
+
+                        // Handle the deep link. For example, open the linked
+                        // content, or apply promotional credit to the user's
+                        // account.
+                        // ...
+
+                        // ...
+                    }
+                })
+                .addOnFailureListener(this, new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(context, "Viaggio non disponibile", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(context,LoginActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                });
+    }
+    */
 
     // OLD
     /*
@@ -335,33 +366,32 @@ public class TravelDetailsActivity extends AppCompatActivity {
     }*/
 
     // Handling sharing
-    private void shareText(String s) {
+    private void shareText(String name,String link) {
         Intent intent = new Intent(android.content.Intent.ACTION_SEND);
         intent.setType("text/plain");
         //String shareBodyText = "Your sharing message goes here";
         intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject/Title");
-        intent.putExtra(android.content.Intent.EXTRA_TEXT, "Che ne dici di dare un'occhiata a " + s + "?");
+        intent.putExtra(android.content.Intent.EXTRA_TEXT, "Ti andrebbe di partecipare a: '" + name + "' ? Clicca qui!\n" + link);
         startActivity(Intent.createChooser(intent, "Condividi"));
     }
 
     // CHIAMEREMO QUESTA QUANDO PRONTA INVECE DI shareText E DA QUI CHIAMEREMO shareText
-    private void createDynamicUri() {
+    private void shortLinkTask(final String name) {
+
         Task<ShortDynamicLink> shortLinkTask = FirebaseDynamicLinks.getInstance().createDynamicLink()
-                .setLink(Uri.parse("https://" + R.string.host))
-                .setDomainUriPrefix("https://example.page.link")
-                // Open links with this app on Android
-                .setAndroidParameters(new DynamicLink.AndroidParameters.Builder().build())
-                // Open links with com.example.ios on iOS
-                .setIosParameters(new DynamicLink.IosParameters.Builder("com.example.ios").build())
-                .buildShortDynamicLink(ShortDynamicLink.Suffix.SHORT)
+                .setLink(Uri.parse("https://www.pumpkinsoftware.github.io/lookThisTrip?id="+travelId))
+                .setDomainUriPrefix("https://travelmateapp.page.link")
+                // Set parameters
+                // ...
+                .buildShortDynamicLink()
                 .addOnCompleteListener(this, new OnCompleteListener<ShortDynamicLink>() {
                     @Override
                     public void onComplete(@NonNull Task<ShortDynamicLink> task) {
                         if (task.isSuccessful()) {
                             // Short link created
                             Uri shortLink = task.getResult().getShortLink();
-                            Uri flowchartLink = task.getResult().getPreviewLink();
-                            //shareText(shortLink.toString());
+                            shareText(name,shortLink.toString());
+                            //Uri flowchartLink = task.getResult().getPreviewLink();
                         } else {
                             Toast.makeText(context, "Errore: riprovare", Toast.LENGTH_SHORT).show();
                         }
@@ -369,36 +399,6 @@ public class TravelDetailsActivity extends AppCompatActivity {
                 });
     }
 
-    // Handling receive a dynamic link
-    private void openDynamicLink() {
-        FirebaseDynamicLinks.getInstance()
-                .getDynamicLink(getIntent())
-                .addOnSuccessListener(this, new OnSuccessListener<PendingDynamicLinkData>() {
-                    @Override
-                    public void onSuccess(PendingDynamicLinkData pendingDynamicLinkData) {
-                        // Get deep link from result (may be null if no link is found)
-                        Uri deepLink = null;
-                        if (pendingDynamicLinkData != null) {
-                            deepLink = pendingDynamicLinkData.getLink();
-                            // TODO open link
-                        }
-
-
-                        // Handle the deep link. For example, open the linked
-                        // content, or apply promotional credit to the user's
-                        // account.
-                        // ...
-
-                        // ...
-                    }
-                })
-                .addOnFailureListener(this, new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        // Log.w(TAG, "getDynamicLink:onFailure", e);
-                    }
-                });
-    }
 
     // Handling join button with animation
     private int colorFrom = R.color.colorPrimary;
