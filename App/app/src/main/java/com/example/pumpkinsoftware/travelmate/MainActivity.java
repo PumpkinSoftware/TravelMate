@@ -42,13 +42,13 @@ public class MainActivity extends AppCompatActivity {
                             selectedFragment = new HomeFragment();
                             break;
                         case R.id.nav_viaggi:
-                            selectedFragment = new ViaggiFragment();
+                            selectedFragment = new MyTravelsFragment();
                             break;
                         case R.id.nav_search:
                             selectedFragment = new SearchFragment();
                             break;
                         case R.id.nav_opzioni:
-                            selectedFragment = new OpzioniFragment();
+                            selectedFragment = new SettingsFragment();
                             break;
                         case R.id.nav_profile:
                             selectedFragment = new ProfileFragment();

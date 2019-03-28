@@ -14,7 +14,7 @@ import com.example.pumpkinsoftware.travelmate.ChatActivity;
 import com.example.pumpkinsoftware.travelmate.CreationTrip;
 import com.example.pumpkinsoftware.travelmate.R;
 import com.example.pumpkinsoftware.travelmate.UserDetailsActivity;
-import com.example.pumpkinsoftware.travelmate.ViaggiFragment;
+import com.example.pumpkinsoftware.travelmate.MyTravelsFragment;
 import com.example.pumpkinsoftware.travelmate.chat.ChatActivityInside;
 import com.example.pumpkinsoftware.travelmate.glide.GlideApp;
 import com.example.pumpkinsoftware.travelmate.trip.Trip;

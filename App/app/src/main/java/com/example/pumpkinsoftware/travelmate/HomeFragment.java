@@ -122,7 +122,7 @@ public class HomeFragment extends Fragment {
     }
 
     // To call exclusively when user cames back from TravelDetailsActivity
-    private void updateLayout(final int pos) {
+    private void updateLayout(final int pos, final int offset) {
         mRequestQueue = Volley.newRequestQueue(context);
         user.getIdToken(true)
                 .addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
@@ -131,7 +131,7 @@ public class HomeFragment extends Fragment {
                             String idToken = task.getResult().getToken();
                             // Send token to your backend via HTTPS
                             new GetTripInteraction(context, rvTrips, progress, idToken).getTripsFromServer(URL, mRequestQueue, noTripText,
-                                    noTripImg, pos);
+                                    noTripImg, pos, offset);
 
                         } else {
                             // Handle error -> task.getException();
@@ -170,9 +170,21 @@ public class HomeFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE) {
             if(resultCode == Activity.RESULT_OK) {
-                Bundle b = data.getExtras();
+                /*Bundle b = data.getExtras();
                 int pos = b.getInt(EXTRA_RV_POS);
-                updateLayout(pos);
+                updateLayout(pos);*/
+
+                int index = -1;
+                int top = -1;
+
+                // Read current recyclerview position
+                index = ((LinearLayoutManager) rvTrips.getLayoutManager()).findFirstVisibleItemPosition();
+                View v = rvTrips.getChildAt(0);
+                top = (v == null) ? 0 : (v.getTop() - rvTrips.getPaddingTop());
+                // Set recyclerview position
+                if(index != -1)
+                    updateLayout(index, top);
+
             }
         }
     }

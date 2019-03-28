@@ -812,7 +812,7 @@ public class TravelDetailsActivity extends AppCompatActivity {
                             public void run() {
                                 canBeClosed = true;
                             }
-                        }, 350);
+                        }, 450);
 
                         return false;
                     }

@@ -118,7 +118,8 @@ public class GetTripInteraction {
     //private int lastSize;
 
     // EXCLUSIVELY USAGE WHEN USER RETURNS FROM TRAVEL DETAILS
-    public void getTripsFromServer(String query, RequestQueue mQueue, final TextView text, final ImageView img, final int pos) {
+    public void getTripsFromServer(String query, RequestQueue mQueue, final TextView text, final ImageView img, final int pos,
+                                   final int offset) {
         if(mTrips == null) {
             mTrips = new ArrayList<Trip>();
             //lastSize = 0;
@@ -173,7 +174,8 @@ public class GetTripInteraction {
                     if(pos >= newSize) // => newSize < lastSize
                         newPos = newSize-1;
 
-                    rvTrips.scrollToPosition(newPos);
+                    //rvTrips.scrollToPosition(newPos);
+                    ((LinearLayoutManager) rvTrips.getLayoutManager()).scrollToPositionWithOffset(newPos, offset);
                     hideProgressBar();
                 } catch (JSONException e) {
                     e.printStackTrace();

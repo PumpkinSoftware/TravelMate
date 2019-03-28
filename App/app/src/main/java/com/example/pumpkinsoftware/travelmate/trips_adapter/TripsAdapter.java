@@ -25,7 +25,7 @@ import android.support.v7.widget.RecyclerView;
 import com.example.pumpkinsoftware.travelmate.HomeFragment;
 import com.example.pumpkinsoftware.travelmate.MainActivity;
 import com.example.pumpkinsoftware.travelmate.TravelDetailsActivity;
-import com.example.pumpkinsoftware.travelmate.ViaggiFragment;
+import com.example.pumpkinsoftware.travelmate.MyTravelsFragment;
 import com.example.pumpkinsoftware.travelmate.content_fragment_travels.Tab1;
 import com.example.pumpkinsoftware.travelmate.content_fragment_travels.Tab3;
 import com.example.pumpkinsoftware.travelmate.glide.GlideApp;
@@ -178,14 +178,15 @@ public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.ViewHolder> 
                 ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation((Activity)context,
                         Pair.create((View)trip_image, "travel_image"));
                 //Pair.create((View)trip_name, "travel_name"));
+
                 // start the new activity
                 Fragment f = getVisibleFragment();
                 if(f != null) { // Here I can handle properly the return intent
                     if (f instanceof HomeFragment)
                         f.startActivityForResult(intent, HomeFragment.REQUEST_CODE, options.toBundle());
 
-                    else if(f instanceof ViaggiFragment) {
-                        ViewPager viewPager = ((ViaggiFragment) f).getViewPager();
+                    else if(f instanceof MyTravelsFragment) {
+                        ViewPager viewPager = ((MyTravelsFragment) f).getViewPager();
                         if(viewPager.getCurrentItem() == 0) // In corso
                             f.startActivityForResult(intent, Tab1.REQUEST_CODE, options.toBundle());
                         else
@@ -193,13 +194,32 @@ public class TripsAdapter extends RecyclerView.Adapter<TripsAdapter.ViewHolder> 
                     }
                 }
 
+                // No fragment found
                 else
                     ((Activity)context).startActivityForResult(intent, HomeFragment.REQUEST_CODE, options.toBundle());
             }
 
+            // Version older than Lollipop
             else {
-                ((Activity)context).startActivityForResult(intent, HomeFragment.REQUEST_CODE);
+                Fragment f = getVisibleFragment();
+                if(f != null) { // Here I can handle properly the return intent
+                    if (f instanceof HomeFragment)
+                        f.startActivityForResult(intent, HomeFragment.REQUEST_CODE);
+
+                    else if(f instanceof MyTravelsFragment) {
+                        ViewPager viewPager = ((MyTravelsFragment) f).getViewPager();
+                        if(viewPager.getCurrentItem() == 0) // In corso
+                            f.startActivityForResult(intent, Tab1.REQUEST_CODE);
+                        else
+                            ((Activity)context).startActivityForResult(intent, HomeFragment.REQUEST_CODE);
+                    }
+                }
+
+                // No fragment found
+                else
+                    ((Activity)context).startActivityForResult(intent, HomeFragment.REQUEST_CODE);
             }
+
         }
 
         // Get current fragment

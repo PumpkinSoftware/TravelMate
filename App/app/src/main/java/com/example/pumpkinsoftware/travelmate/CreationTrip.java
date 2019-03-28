@@ -13,6 +13,7 @@ import android.support.annotation.RequiresApi;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.InputFilter;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -32,6 +33,7 @@ import com.android.volley.toolbox.Volley;
 import com.example.pumpkinsoftware.travelmate.date_picker.EditTextDatePicker;
 import com.example.pumpkinsoftware.travelmate.glide.GlideApp;
 import com.example.pumpkinsoftware.travelmate.handle_error.ErrorServer;
+import com.example.pumpkinsoftware.travelmate.min_max_filter.MinMaxFilter;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -56,6 +58,10 @@ import java.util.UUID;
 @RequiresApi(api = Build.VERSION_CODES.M)
 public class CreationTrip extends AppCompatActivity {
     private final static String URL = Utils.SERVER_PATH + "trip/newTrip/";
+    private final static int MIN_BUDGET = 0;
+    private final static int MAX_BUDGET = 500;
+    private final static int MIN_PARTECIPANTS = 1;
+    private final static int MAX_PARTECIPANTS = 15;
     protected String from_q, to_q, departure_q, return_q, nome_q, program_q, vehicle = "", tag = "";
     protected Double budget_q;
     protected int group_q;
@@ -103,7 +109,9 @@ public class CreationTrip extends AppCompatActivity {
 
         // campi
         final EditText budget = findViewById(R.id.budget_max_value);
+        budget.setFilters(new InputFilter[]{new MinMaxFilter(MIN_BUDGET, MAX_BUDGET)});
         final EditText group = findViewById(R.id.group_max_value);
+        group.setFilters(new InputFilter[]{new MinMaxFilter(MIN_PARTECIPANTS, MAX_PARTECIPANTS)});
         final TextInputEditText from = (TextInputEditText) findViewById(R.id.from_text);
         final TextInputEditText to = (TextInputEditText) findViewById(R.id.to_text);
         final EditText departure_date = (EditText) findViewById(R.id.departure);
@@ -156,11 +164,11 @@ public class CreationTrip extends AppCompatActivity {
                     msgErrore("il veicolo");
                 } else if (budget.getText().toString().isEmpty()) {
                     msgErrore("il budget");
-                } else if (Integer.parseInt(budget.getText().toString()) < 0 || (Integer.parseInt(budget.getText().toString()) > 500)) {
+                } /*else if (Integer.parseInt(budget.getText().toString()) < 0 || (Integer.parseInt(budget.getText().toString()) > 500)) {
                     Toast.makeText(contesto, "Valore budget non valido", Toast.LENGTH_SHORT).show();
-                } else if (group.getText().toString().isEmpty()) {
+                }*/ else if (group.getText().toString().isEmpty()) {
                     msgErrore("il numero del gruppo");
-                } else if (Integer.parseInt(group.getText().toString()) < 2 || (Integer.parseInt(group.getText().toString()) > 15)) {
+                } else if (Integer.parseInt(group.getText().toString()) < 2 /*|| (Integer.parseInt(group.getText().toString()) > 15)*/) {
                     Toast.makeText(contesto, "Valore gruppo non valido", Toast.LENGTH_SHORT).show();
                 } else if (program_q.isEmpty()) {
                     msgErrore("una sintesi del programma");
