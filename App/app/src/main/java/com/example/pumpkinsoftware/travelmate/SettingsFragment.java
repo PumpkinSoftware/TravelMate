@@ -19,7 +19,7 @@ import android.widget.Toast;
 import com.example.pumpkinsoftware.travelmate.glide.GlideApp;
 import com.google.firebase.auth.FirebaseAuth;
 
-public class OpzioniFragment extends Fragment {
+public class SettingsFragment extends Fragment {
     private Context context;
 
     @Nullable
@@ -33,7 +33,20 @@ public class OpzioniFragment extends Fragment {
         bug.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent (Intent.ACTION_SEND);
+
+                // Try if an email app in installed
+                try {
+                    Intent intent = new Intent (Intent.ACTION_VIEW , Uri.parse("mailto:" + getResources().getString(R.string.ourMail)));
+                    intent.putExtra(Intent.EXTRA_SUBJECT, "TRAVELMATE: Segnalazione bug");
+                    ///intent.putExtra(Intent.EXTRA_TEXT, "your_text");
+                    startActivity(intent);
+                } catch(Exception e) {
+                    Toast.makeText(context, "Nessuna app per email trovata", Toast.LENGTH_SHORT).show();
+                    e.printStackTrace();
+                }
+
+                // Try only with gmail
+                /*Intent intent = new Intent (Intent.ACTION_SEND);
                 intent.setType("message/rfc822");
                 intent.putExtra(Intent.EXTRA_EMAIL, new String[]{getResources().getString(R.string.ourMail)});
                 intent.putExtra(Intent.EXTRA_SUBJECT, "TRAVELMATE: Segnalazione bug");
@@ -42,7 +55,7 @@ public class OpzioniFragment extends Fragment {
                 if (intent.resolveActivity(context.getPackageManager()) != null)
                     startActivity(intent);
                 else
-                    Toast.makeText(context, "Gmail App is not installed", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "Gmail App is not installed", Toast.LENGTH_SHORT).show();*/
             }
         });
 

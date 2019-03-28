@@ -25,7 +25,7 @@ import com.google.firebase.auth.GetTokenResult;
 
 import java.util.List;
 
-public class ViaggiFragment extends Fragment {
+public class MyTravelsFragment extends Fragment {
     public FloatingActionButton fabBtn;
     private ViewPager viewPager;
     private TabLayout tabLayout;
