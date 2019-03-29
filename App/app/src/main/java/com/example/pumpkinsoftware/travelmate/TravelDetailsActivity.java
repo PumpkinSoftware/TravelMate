@@ -381,7 +381,7 @@ public class TravelDetailsActivity extends AppCompatActivity {
 
         Task<ShortDynamicLink> shortLinkTask = FirebaseDynamicLinks.getInstance().createDynamicLink()
                 .setLink(Uri.parse("https://www.pumpkinsoftware.github.io/lookThisTrip?id="+travelId))
-                .setDomainUriPrefix("https://travelmateapp.page.link")
+                .setDomainUriPrefix(Utils.FIREBASE_DYNAMIC_LINK_PATH)
                 // Set parameters
                 // ...
                 .buildShortDynamicLink()
