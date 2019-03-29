@@ -25,7 +25,6 @@ public class FirebaseDynamicLinkHandler extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dynamic_link);
-        System.out.println("I'm HERE");
         contesto = this;
 
         user = FirebaseAuth.getInstance().getCurrentUser();
