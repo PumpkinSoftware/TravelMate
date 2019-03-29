@@ -51,6 +51,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.pumpkinsoftware.travelmate.LoginActivity;
 import com.example.pumpkinsoftware.travelmate.R;
+import com.example.pumpkinsoftware.travelmate.Utils;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.firebase.ui.database.SnapshotParser;
@@ -110,7 +111,7 @@ public class ChatActivityInside extends AppCompatActivity
     private static String MESSAGES_CHILD = "chat/";
     private static final int REQUEST_INVITE = 1;
     private static final int REQUEST_IMAGE = 2;
-    private static final String LOADING_IMAGE_URL = "https://firebasestorage.googleapis.com/v0/b/travelmate-ee239.appspot.com/o/Other%2FLoadingGif.gif?alt=media&token=add995b2-ee17-4dd5-9a9c-3dd101427c2f";
+    private static final String LOADING_IMAGE_URL = Utils.GIF_LOADING_URL;
     public static final int DEFAULT_MSG_LENGTH_LIMIT = 100;
     public static final String ANONYMOUS = "anonymous";
     private String mUsername;
