@@ -82,6 +82,8 @@ public class AccountRegisterActivity extends AppCompatActivity {
     FirebaseAuth mAuth;
     FirebaseUser user;
 
+    private boolean confirmFlag=false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -153,6 +155,7 @@ public class AccountRegisterActivity extends AppCompatActivity {
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                confirmFlag=true;
                 mail = mailView.getText().toString();
                 PreparationAccount();
             }
@@ -561,4 +564,12 @@ public class AccountRegisterActivity extends AppCompatActivity {
     public static void setStatus(String s) {
         status = s;
     }
+
+    @Override
+    public void onBackPressed() {
+        if (!confirmFlag) {
+            super.onBackPressed();
+        }
+    }
+
 }

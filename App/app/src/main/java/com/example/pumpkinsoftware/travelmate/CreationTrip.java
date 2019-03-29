@@ -67,6 +67,7 @@ public class CreationTrip extends AppCompatActivity {
     protected int group_q;
     private RequestQueue mQueue;
     Context contesto;
+
     //foto
     private ImageView b_upload;
     private Uri filePath;
@@ -79,6 +80,7 @@ public class CreationTrip extends AppCompatActivity {
     StorageReference storageReference;
     FirebaseUser user;
 
+    private boolean confirmFlag=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -139,7 +141,7 @@ public class CreationTrip extends AppCompatActivity {
         b_confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                confirmFlag=true;
                 progressBar.setVisibility(View.VISIBLE);
 
                 // valori da passare
@@ -497,6 +499,12 @@ public class CreationTrip extends AppCompatActivity {
             Result += arrayResult[i].substring(0, 1).toUpperCase() + arrayResult[i].substring(1, arrayResult[i].length()).toLowerCase() + " ";
         }
         return Result.substring(0, Result.length() - 1);
+    }
+    @Override
+    public void onBackPressed() {
+        if (!confirmFlag) {
+            super.onBackPressed();
+        }
     }
 }
 

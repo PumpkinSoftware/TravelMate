@@ -78,6 +78,8 @@ public class EditTravelActivity extends AppCompatActivity {
     private final static int MAX_PARTECIPANTS = 15;
     private ProgressBar progressBar;
 
+    private boolean confirmFlag=false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -175,7 +177,7 @@ public class EditTravelActivity extends AppCompatActivity {
         b_confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                confirmFlag=true;
                 progressBar.setVisibility(View.VISIBLE);
 
                 // valori da passare
@@ -539,6 +541,13 @@ public class EditTravelActivity extends AppCompatActivity {
     private String inverseDate(String s) {
         String data[] = s.split("-");
         return data[2].substring(0, 2) + "/" + data[1] + "/" + data[0];
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (!confirmFlag) {
+            super.onBackPressed();
+        }
     }
 
 }

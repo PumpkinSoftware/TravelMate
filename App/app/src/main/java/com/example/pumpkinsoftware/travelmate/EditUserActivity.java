@@ -78,6 +78,7 @@ public class EditUserActivity extends AppCompatActivity {
     private static String status = "";
     //  private int upload = 0;
     FirebaseAuth mAuth;
+    private boolean confirmFlag=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -200,11 +201,12 @@ public class EditUserActivity extends AppCompatActivity {
         params.horizontalBias = (float) 0.5;
         params.bottomToBottom = ;*/
 
-        Button confirm = (Button) findViewById(R.id.buttonRegister);
+        final Button confirm =  findViewById(R.id.buttonRegister);
         //confirm.setLayoutParams(params);
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                confirmFlag =true;
                 update();
             }
         });
@@ -628,6 +630,12 @@ public class EditUserActivity extends AppCompatActivity {
                         }
                     });
 
+        }
+    }
+    @Override
+    public void onBackPressed() {
+        if (!confirmFlag) {
+            super.onBackPressed();
         }
     }
 
