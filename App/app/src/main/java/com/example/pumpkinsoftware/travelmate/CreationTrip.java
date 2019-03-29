@@ -183,10 +183,10 @@ public class CreationTrip extends AppCompatActivity {
 
                     JSONObject viaggio = new JSONObject();
                     try {
-                        viaggio.put("name", nome_q);
-                        viaggio.put("description", program_q);
-                        viaggio.put("departure", from_q);
-                        viaggio.put("destination", to_q);
+                        viaggio.put("name", nome_q.substring(0,1).toUpperCase()+nome_q.substring(1).toLowerCase());
+                        viaggio.put("description", program_q.substring(0,1).toUpperCase()+program_q.substring(1).toLowerCase());
+                        viaggio.put("departure", processingUpperLowerString(from_q));
+                        viaggio.put("destination", processingUpperLowerString(to_q));
                         viaggio.put("budget", budget_q);
                         viaggio.put("startDate", departure_q);
                         viaggio.put("endDate", return_q);
@@ -488,6 +488,15 @@ public class CreationTrip extends AppCompatActivity {
                 // Log.d(TAG, "onFailure: did not delete file");
             }
         });
+    }
+    public static String processingUpperLowerString(String testo) {
+        String Result = "";
+        String[] arrayResult = null;
+        arrayResult = testo.split(" ");
+        for (int i = 0; i < arrayResult.length; i++) {
+            Result += arrayResult[i].substring(0, 1).toUpperCase() + arrayResult[i].substring(1, arrayResult[i].length()).toLowerCase() + " ";
+        }
+        return Result.substring(0, Result.length() - 1);
     }
 }
 
