@@ -278,11 +278,7 @@ public class EditTravelActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
                 uploadImage(viaggio);
-                progressBar.setVisibility(View.GONE);
-                Intent intent = new Intent();
-                intent.putExtra(TravelDetailsActivity.EXTRA_TRIP, trip);
-                setResult(RESULT_OK, intent);
-                finish();
+
 
             }
         });
@@ -296,8 +292,9 @@ public class EditTravelActivity extends AppCompatActivity {
             // progressDialog.setTitle("Creazione viaggio in corso...");
             // progressDialog.show();
             trip.setImage(filePath.toString());
+            byte[] image_compressed = Utils.compressImage(filePath.toString(),b_upload);
             final StorageReference ref = storageReference.child("tripImage/" + UUID.randomUUID().toString());
-            ref.putFile(filePath)
+            ref.putBytes(image_compressed)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -421,6 +418,15 @@ public class EditTravelActivity extends AppCompatActivity {
                     String status = response.getString("status");
                     if (status.equals("success")) {
                         Toast.makeText(context, "Evento modificato correttamente", Toast.LENGTH_SHORT).show();
+                        progressBar.setVisibility(View.GONE);
+
+                        //QUI ESCO
+                        Intent intent = new Intent();
+                        intent.putExtra(TravelDetailsActivity.EXTRA_TRIP, trip);
+                        setResult(RESULT_OK, intent);
+                        finish();
+                        //
+
                         if (!trip.getImage().equals("")) {
                             deleteImg(storage.getReferenceFromUrl(trip.getImage()));
                         }

@@ -261,67 +261,93 @@ public class CreationTrip extends AppCompatActivity {
             //final ProgressDialog progressDialog = new ProgressDialog(this.contesto);
             // progressDialog.setTitle("Creazione viaggio in corso...");
             // progressDialog.show();
-            final StorageReference ref = storageReference.child("tripImage/" + UUID.randomUUID().toString());
-            ref.putFile(filePath)
-                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                @Override
-                                public void onSuccess(Uri uri) {
-                                    try {
-                                        //Log.i("Dato",uri.toString());
-                                        viaggio.put("image", (uri.toString()));
-                                    } catch (JSONException e) {
-                                        progressBar.setVisibility(View.GONE);
-                                        e.printStackTrace();
-                                    }
-                                    //Qui richiami mongoDB per creare il trip
-                                    user.getIdToken(true)
-                                            .addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
-                                                public void onComplete(@NonNull Task<GetTokenResult> task) {
-                                                    if (task.isSuccessful()) {
-                                                        String idToken = task.getResult().getToken();
-                                                        // Send token to your backend via HTTPS
-                                                        jsonParse(viaggio, idToken);
-                                                        // ...
-                                                    } else {
-                                                        // Handle error -> task.getException();
-                                                        progressBar.setVisibility(View.GONE);
-                                                        Toast.makeText(contesto, "Riprova", Toast.LENGTH_SHORT).show();
+
+            byte[] image_compressed = Utils.compressImage(filePath.toString(),b_upload);
+                final StorageReference ref = storageReference.child("tripImage/" + UUID.randomUUID().toString());
+                ref.putBytes(image_compressed)
+                        .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                            @Override
+                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                    @Override
+                                    public void onSuccess(Uri uri) {
+                                        try {
+                                            //Log.i("Dato",uri.toString());
+                                            viaggio.put("image", (uri.toString()));
+                                        } catch (JSONException e) {
+                                            progressBar.setVisibility(View.GONE);
+                                            e.printStackTrace();
+                                        }
+                                        //Qui richiami mongoDB per creare il trip
+                                        user.getIdToken(true)
+                                                .addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
+                                                    public void onComplete(@NonNull Task<GetTokenResult> task) {
+                                                        if (task.isSuccessful()) {
+                                                            String idToken = task.getResult().getToken();
+                                                            // Send token to your backend via HTTPS
+                                                            jsonParse(viaggio, idToken);
+                                                            // ...
+                                                        } else {
+                                                            // Handle error -> task.getException();
+                                                            progressBar.setVisibility(View.GONE);
+                                                            Toast.makeText(contesto, "Riprova", Toast.LENGTH_SHORT).show();
+                                                        }
                                                     }
-                                                }
-                                            });
+                                                });
 
-                                    //Ricorda di lasciare un commento qui per ricordarci di gestire l'errore lato MongoDB
+                                        //Ricorda di lasciare un commento qui per ricordarci di gestire l'errore lato MongoDB
 
-                                    // progressDialog.dismiss();
-                                    //Toast.makeText(contesto, "Viaggio creato correttamente.", Toast.LENGTH_SHORT).show();
-                                }
-                            });
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            //progressDialog.dismiss();
-                            try {
-                                viaggio.put("image", (""));
-                            } catch (JSONException e1) {
-                                progressBar.setVisibility(View.GONE);
-                                e1.printStackTrace();
+                                        // progressDialog.dismiss();
+                                        //Toast.makeText(contesto, "Viaggio creato correttamente.", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
                             }
-                            Toast.makeText(contesto, "Failed " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    })
-                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                            double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot
-                                    .getTotalByteCount());
-                            // progressDialog.setMessage("Uploaded "+(int)progress+"%");
-                        }
-                    });
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                //progressDialog.dismiss();
+                                try {
+                                    viaggio.put("image", (""));
+                                } catch (JSONException e1) {
+                                    progressBar.setVisibility(View.GONE);
+                                    e1.printStackTrace();
+                                }
+                                user.getIdToken(true)
+                                        .addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
+                                            public void onComplete(@NonNull Task<GetTokenResult> task) {
+                                                if (task.isSuccessful()) {
+                                                    String idToken = task.getResult().getToken();
+                                                    // Send token to your backend via HTTPS
+                                                    jsonParse(viaggio, idToken);
+                                                    // ...
+                                                } else {
+                                                    // Handle error -> task.getException();
+                                                    progressBar.setVisibility(View.GONE);
+                                                    Toast.makeText(contesto, "Riprova", Toast.LENGTH_SHORT).show();
+
+                                                    try {
+                                                        if (filePath != null) {
+                                                            deleteImg(storage.getReferenceFromUrl(viaggio.getString("image")));
+                                                        }
+                                                    } catch (JSONException e) {
+                                                        e.printStackTrace();
+                                                    }
+
+                                                }
+                                            }
+                                        });
+                                //Toast.makeText(contesto, "Failed " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                            @Override
+                            public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                                double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot
+                                        .getTotalByteCount());
+                                // progressDialog.setMessage("Uploaded "+(int)progress+"%");
+                            }
+                        });
         } else {
             //foto non caricata
             try {

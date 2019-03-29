@@ -296,15 +296,10 @@ public class EditUserActivity extends AppCompatActivity {
         }
 
         uploadImage1(utente);
-        Intent intent = new Intent();
 
         if(filePath2 != null)
             user.setCover(filePath2.toString());
 
-        intent.putExtra(ProfileFragment.EXTRA_USER, user);
-        setResult(RESULT_OK, intent);
-        progressBar.setVisibility(View.GONE);
-        finish();
 
        /* new PostUser(context).jsonParse(utente, PostUser.flag.UPDATE, new ServerCallback() {
             @Override
@@ -337,8 +332,9 @@ public class EditUserActivity extends AppCompatActivity {
     private void uploadImage1(final JSONObject utente) {
         if (filePath1 != null) {
             user.setPhotoProfile(filePath1.toString());
+            byte[] image_compressed = Utils.compressImage(filePath1.toString(),profile);
             final StorageReference ref = storageReference.child("userImage/" + mail + "/" + UUID.randomUUID().toString());
-            ref.putFile(filePath1)
+            ref.putBytes(image_compressed)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -386,8 +382,10 @@ public class EditUserActivity extends AppCompatActivity {
     private void uploadImage2(final JSONObject utente) {
         final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         if (filePath2 != null) {
+            user.setCover(filePath2.toString());
+            byte[] image_compressed = Utils.compressImage(filePath2.toString(),cover);
             final StorageReference ref2 = storageReference.child("userImage/" + mail + "/" + UUID.randomUUID().toString());
-            ref2.putFile(filePath2)
+            ref2.putBytes(image_compressed)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -536,6 +534,15 @@ public class EditUserActivity extends AppCompatActivity {
                         }
                         updateUserForChat(utente);
                         //     }
+
+                        //QUI ESCO
+                        Intent intent = new Intent();
+                        intent.putExtra(ProfileFragment.EXTRA_USER, user);
+                        setResult(RESULT_OK, intent);
+                        progressBar.setVisibility(View.GONE);
+                        finish();
+                        //
+
 
                     } else {
                         String err = response.getString("type");

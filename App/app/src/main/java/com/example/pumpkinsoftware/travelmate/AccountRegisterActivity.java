@@ -325,8 +325,9 @@ public class AccountRegisterActivity extends AppCompatActivity {
 
     private void uploadImage1(final JSONObject utente) {
         if (filePath1 != null) {
+            byte[] image_compressed = Utils.compressImage(filePath1.toString(),cover);
             final StorageReference ref = storageReference.child("userImage/" + mail+"/"+UUID.randomUUID().toString());
-            ref.putFile(filePath1)
+            ref.putBytes(image_compressed)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -383,8 +384,9 @@ public class AccountRegisterActivity extends AppCompatActivity {
 
     private void uploadImage2(final JSONObject utente) {
         if (filePath2 != null) {
+            byte[] image_compressed = Utils.compressImage(filePath2.toString(),profile);
             final StorageReference ref = storageReference.child("userImage/" + mail + "/"+UUID.randomUUID().toString());
-            ref.putFile(filePath1)
+            ref.putBytes(image_compressed)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
