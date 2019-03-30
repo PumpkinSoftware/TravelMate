@@ -9,6 +9,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
@@ -109,7 +110,10 @@ public class AccountRegisterActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
-        progressBar = findViewById(R.id.indeterminateBar);
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            progressBar = findViewById(R.id.indeterminateBar);
+        else
+            progressBar = findViewById(R.id.indeterminateBarForOldSdk);
 
         //PreparationAccount(mail,pass);
         storage = FirebaseStorage.getInstance();

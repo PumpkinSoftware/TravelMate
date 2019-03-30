@@ -158,6 +158,10 @@ public class UserDetailsActivity extends AppCompatActivity {
     }
 
     private void loadImg(String img, ImageView imgv) {
+        // Preventing crash when user opens and closes quickly the activity
+        if (this.isDestroyed())
+            return;
+
         so_prev_lol = false;
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
             postponeEnterTransition();

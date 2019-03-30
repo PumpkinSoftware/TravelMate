@@ -48,6 +48,7 @@ public class StartActivity extends AppCompatActivity {
     private boolean so_prev_oreo = true; // I Don't need call lib func, I use it only for muting video on older version than Oreo
     private Context contesto;
     private FirebaseAuth mAuth;
+    private BroadcastReceiver broadcastReceiver;
     public static final String FINISH = "travelmate_finish_sa_activity";
 
     @Override
@@ -65,7 +66,7 @@ public class StartActivity extends AppCompatActivity {
 
 
         // Create a broadcast receiver to finish this activity from AccountRegistration
-        BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+        broadcastReceiver = new BroadcastReceiver() {
 
             @Override
             public void onReceive(Context arg0, Intent intent) {
@@ -241,8 +242,7 @@ public class StartActivity extends AppCompatActivity {
         if (view != null) view.clearFocus();
     }
 
-    private void performTransition(int type)
-    {
+    private void performTransition(int type) {
        if (isDestroyed())  return;
 
         Intent intent;
@@ -268,6 +268,12 @@ public class StartActivity extends AppCompatActivity {
         else*/
             startActivity(intent);
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(broadcastReceiver);
     }
 
 }

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
@@ -111,7 +112,10 @@ public class EditUserActivity extends AppCompatActivity {
         final TextView title = findViewById(R.id.title);
         title.setText("Modifica profilo");
 
-        progressBar = findViewById(R.id.indeterminateBar); // GIA' AGGIUNTA NELL'XML
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            progressBar = findViewById(R.id.indeterminateBar);
+        else
+            progressBar = findViewById(R.id.indeterminateBarForOldSdk);
         // PROCEDURA
         // 1. CARICO IMMAGINE
         // 2. progressBar.setVisibility(View.VISIBLE);

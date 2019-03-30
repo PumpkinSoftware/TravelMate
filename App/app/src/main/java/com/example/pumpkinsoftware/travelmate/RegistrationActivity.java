@@ -46,6 +46,7 @@ public class RegistrationActivity extends AppCompatActivity {
     private boolean so_prev_oreo = true; // I Don't need call lib func, I use it only for muting video on older version than Oreo
     public static final Pattern VALID_EMAIL_ADDRESS_REGEX =
             Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
+    private BroadcastReceiver broadcastReceiver;
     public static final String FINISH = "travelmate_finish_ra_activity";
 
     @Override
@@ -72,7 +73,7 @@ public class RegistrationActivity extends AppCompatActivity {
         });
 
         // Create a broadcast receiver to finish this activity from AccountRegistration
-        BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+        broadcastReceiver = new BroadcastReceiver() {
 
             @Override
             public void onReceive(Context arg0, Intent intent) {
@@ -208,6 +209,12 @@ public class RegistrationActivity extends AppCompatActivity {
     public static boolean validate(String emailStr) {
         Matcher matcher = VALID_EMAIL_ADDRESS_REGEX.matcher(emailStr);
         return matcher.find();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(broadcastReceiver);
     }
 
 }
