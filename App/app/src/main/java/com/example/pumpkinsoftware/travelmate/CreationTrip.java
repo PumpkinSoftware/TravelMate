@@ -199,6 +199,7 @@ public class CreationTrip extends AppCompatActivity {
                         viaggio.put("maxPartecipant", group_q);
 
                     } catch (JSONException e) {
+                        confirmFlag = false;
                         progressBar.setVisibility(View.GONE);
                         e.printStackTrace();
                     }
@@ -334,26 +335,10 @@ public class CreationTrip extends AppCompatActivity {
                                                 Toast.makeText(contesto, "Riprova", Toast.LENGTH_SHORT).show();
                                                 confirmFlag=false;
 
-                                                try {
-                                                    if (filePath != null) {
-                                                        deleteImg(storage.getReferenceFromUrl(viaggio.getString("image")));
-                                                    }
-                                                } catch (JSONException e) {
-                                                    e.printStackTrace();
-                                                }
-
                                             }
                                         }
                                     });
                             //Toast.makeText(contesto, "Failed " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    })
-                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                            double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot
-                                    .getTotalByteCount());
-                            // progressDialog.setMessage("Uploaded "+(int)progress+"%");
                         }
                     });
         } else {
@@ -363,6 +348,7 @@ public class CreationTrip extends AppCompatActivity {
                 viaggio.put("image", "");
             } catch (JSONException e) {
                 progressBar.setVisibility(View.GONE);
+                confirmFlag = false;
                 e.printStackTrace();
             }
             user.getIdToken(true)
@@ -378,15 +364,6 @@ public class CreationTrip extends AppCompatActivity {
                                 progressBar.setVisibility(View.GONE);
                                 Toast.makeText(contesto, "Riprova", Toast.LENGTH_SHORT).show();
                                 confirmFlag=false;
-
-                                try {
-                                    if (filePath != null) {
-                                        deleteImg(storage.getReferenceFromUrl(viaggio.getString("image")));
-                                    }
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-
                             }
                         }
                     });
@@ -414,6 +391,7 @@ public class CreationTrip extends AppCompatActivity {
 
                 } catch (JSONException e) {
                     progressBar.setVisibility(View.GONE);
+                    confirmFlag = false;
                     Toast.makeText(contesto, "Errore: riprovare", Toast.LENGTH_SHORT).show();
                 }
 
@@ -442,6 +420,7 @@ public class CreationTrip extends AppCompatActivity {
 
     private void close() {
         progressBar.setVisibility(View.GONE);
+        confirmFlag = false;
         Intent intent = new Intent();
         setResult(RESULT_OK, intent);
         finish();
@@ -449,6 +428,7 @@ public class CreationTrip extends AppCompatActivity {
 
     private void msgErrore(String datoMancante) {
         Toast.makeText(contesto, "Inserisci " + datoMancante, Toast.LENGTH_SHORT).show();
+        progressBar.setVisibility(View.GONE);
         confirmFlag=false;
     }
 

@@ -201,6 +201,7 @@ public class AccountRegisterActivity extends AppCompatActivity {
                         } else {
                             try {
                                 progressBar.setVisibility(View.GONE);
+                                confirmFlag=false;
                                 throw task.getException();
                             }
                             // if user enters wrong password.
@@ -215,8 +216,10 @@ public class AccountRegisterActivity extends AppCompatActivity {
                             }*/ catch (FirebaseAuthUserCollisionException existEmail) {
                                 Toast.makeText(contesto, "Email già in uso", Toast.LENGTH_SHORT).show();
                                 progressBar.setVisibility(View.GONE);
+                                confirmFlag=false;
                             } catch (Exception e) {
                                 Toast.makeText(contesto, "Si è verificato un problema, riprovare", Toast.LENGTH_SHORT).show();
+                                confirmFlag=false;
                                 progressBar.setVisibility(View.GONE);
                             }
                         }
@@ -281,6 +284,7 @@ public class AccountRegisterActivity extends AppCompatActivity {
 
     private void msgErrore(String datoMancante) {
         Toast.makeText(contesto, "Inserisci " + datoMancante, Toast.LENGTH_SHORT).show();
+        progressBar.setVisibility(View.VISIBLE);
         confirmFlag=false;
     }
 
@@ -312,6 +316,7 @@ public class AccountRegisterActivity extends AppCompatActivity {
             utente.put("email", mail);
         } catch (JSONException e) {
             progressBar.setVisibility(View.GONE);
+            confirmFlag=false;
             e.printStackTrace();
         }
 
@@ -371,14 +376,6 @@ public class AccountRegisterActivity extends AppCompatActivity {
                             }
                             uploadImage2(utente);
                         }
-                    })
-                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                            double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot
-                                    .getTotalByteCount());
-                            // progressDialog.setMessage("Uploaded "+(int)progress+"%");
-                        }
                     });
         } else {
             try {
@@ -431,14 +428,6 @@ public class AccountRegisterActivity extends AppCompatActivity {
                             }
                             sendPostServer(utente);
                         }
-                    })
-                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                            double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot
-                                    .getTotalByteCount());
-                            // progressDialog.setMessage("Uploaded "+(int)progress+"%");
-                        }
                     });
 
         } else {
@@ -465,6 +454,7 @@ public class AccountRegisterActivity extends AppCompatActivity {
                                 public void onSuccess(JSONObject response) {
                                     if (getStatus().equals("ERROR")) {
                                         deleteUser(utente);
+                                        progressBar.setVisibility(View.GONE);
                                         confirmFlag=false;
                                     }
                                     if (getStatus().equals("OK")) {

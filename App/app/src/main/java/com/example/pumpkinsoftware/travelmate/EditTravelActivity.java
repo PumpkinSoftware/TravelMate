@@ -216,6 +216,7 @@ public class EditTravelActivity extends AppCompatActivity {
                         trip.setStartDate(departure_q);
                     } catch (JSONException e) {
                         progressBar.setVisibility(View.GONE);
+                        confirmFlag = false;
                         e.printStackTrace();
                     }
                 }
@@ -226,6 +227,7 @@ public class EditTravelActivity extends AppCompatActivity {
                         trip.setEndDate(return_q);
                     } catch (JSONException e) {
                         progressBar.setVisibility(View.GONE);
+                        confirmFlag = false;
                         e.printStackTrace();
                     }
                 }
@@ -333,6 +335,8 @@ public class EditTravelActivity extends AppCompatActivity {
                                                                 deleteImg(storage.getReferenceFromUrl(viaggio.getString("image")));
                                                             }
                                                         } catch (JSONException e) {
+                                                            confirmFlag = false;
+                                                            progressBar.setVisibility(View.GONE);
                                                             e.printStackTrace();
                                                         }
                                                     }
@@ -375,18 +379,12 @@ public class EditTravelActivity extends AppCompatActivity {
                                                     }
                                                 } catch (JSONException e1) {
                                                     e1.printStackTrace();
+                                                    progressBar.setVisibility(View.GONE);
+                                                    confirmFlag=false;
                                                 }
                                             }
                                         }
                                     });
-                        }
-                    })
-                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                            double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot
-                                    .getTotalByteCount());
-                            // progressDialog.setMessage("Uploaded "+(int)progress+"%");
                         }
                     });
 
@@ -404,14 +402,6 @@ public class EditTravelActivity extends AppCompatActivity {
                                 progressBar.setVisibility(View.GONE);
                                 Toast.makeText(context, "Riprova", Toast.LENGTH_SHORT).show();
                                 confirmFlag=false;
-                                try {
-                                    if(filePath!=null) {
-                                        deleteImg(storage.getReferenceFromUrl(viaggio.getString("image")));
-                                    }
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-
                             }
                         }
                     });
@@ -449,6 +439,7 @@ public class EditTravelActivity extends AppCompatActivity {
 
                 } catch (JSONException e) {
                     progressBar.setVisibility(View.GONE);
+                    confirmFlag=false;
                     Toast.makeText(context, "Errore: riprovare", Toast.LENGTH_SHORT).show();
                 }
             }

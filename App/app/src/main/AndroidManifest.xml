@@ -93,12 +93,6 @@
             android:parentActivityName=".TravelDetailsActivity" />
 
         <activity
-            android:name=".FirebaseDynamicLinkHandler"
-            android:parentActivityName=".MainActivity">
-        </activity>
-
-
-        <activity
             android:name=".EditUserActivity"
             android:parentActivityName=".MainActivity" />
         <activity

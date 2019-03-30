@@ -300,14 +300,11 @@ public class EditUserActivity extends AppCompatActivity {
 
         } catch (JSONException e) {
             e.printStackTrace();
+            confirmFlag=false;
             progressBar.setVisibility(View.GONE);
         }
 
         uploadImage1(utente);
-
-        if(filePath2 != null)
-            user.setCover(filePath2.toString());
-
 
        /* new PostUser(context).jsonParse(utente, PostUser.flag.UPDATE, new ServerCallback() {
             @Override
@@ -376,14 +373,6 @@ public class EditUserActivity extends AppCompatActivity {
                             }
                             uploadImage2(utente);
                         }
-                    })
-                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                            double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot
-                                    .getTotalByteCount());
-                            // progressDialog.setMessage("Uploaded "+(int)progress+"%");
-                        }
                     });
         } else
             uploadImage2(utente);
@@ -424,20 +413,6 @@ public class EditUserActivity extends AppCompatActivity {
                                                         progressBar.setVisibility(View.GONE);
                                                         Toast.makeText(context, "Riprova", Toast.LENGTH_SHORT).show();
                                                         confirmFlag=false;
-                                                        try {
-                                                            if(filePath1!=null) {
-                                                                deleteImg(storage.getReferenceFromUrl(utente.getString("avatar")));
-                                                            }
-                                                        } catch (JSONException e) {
-                                                            e.printStackTrace();
-                                                        }
-                                                        try {
-                                                            if(filePath2!= null) {
-                                                                deleteImg(storageReference.child(utente.getString("cover")));
-                                                            }
-                                                        } catch (JSONException e) {
-                                                            e.printStackTrace();
-                                                        }
                                                     }
                                                 }
                                             });
@@ -486,14 +461,6 @@ public class EditUserActivity extends AppCompatActivity {
                                             }
                                         }
                                     });
-                        }
-                    })
-                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                            double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot
-                                    .getTotalByteCount());
-                            // progressDialog.setMessage("Uploaded "+(int)progress+"%");
                         }
                     });
         } else
@@ -561,6 +528,7 @@ public class EditUserActivity extends AppCompatActivity {
                     } else {
                         String err = response.getString("type");
                         new ErrorServer(context).handleError(err);
+                        progressBar.setVisibility(View.GONE);
                         confirmFlag=false;
                     }
 
