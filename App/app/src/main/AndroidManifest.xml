@@ -18,8 +18,8 @@
         android:allowBackup="true"
         android:appComponentFactory="whateverString"
         android:icon="@mipmap/ic_launcher"
-        android:label="Travelmate (beta)"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:label="Travelmate (dev)"
+        android:roundIcon="@mipmap/ic_launcher_legacy"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:appComponentFactory">
@@ -41,7 +41,7 @@
             android:parentActivityName=".RegistrationActivity" />
         <activity
             android:name=".StartActivity"
-            android:label="Travelmate (beta)"
+            android:label="Travelmate (dev)"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="adjustResize|stateHidden">
@@ -104,6 +104,9 @@
         <activity
             android:name=".ReviewActivity"
             android:parentActivityName=".ReviewListActivity" />
+        <activity
+            android:name=".InfoAppActivity"
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"

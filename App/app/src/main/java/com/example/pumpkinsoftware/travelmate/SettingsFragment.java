@@ -68,13 +68,22 @@ public class SettingsFragment extends Fragment {
             }
         });
 
-        final WebView view = (WebView) inflate.findViewById(R.id.twitterFeed);
+        final TextView infoApp = inflate.findViewById(R.id.infoApp);
+        infoApp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent (context, InfoAppActivity.class);
+                context.startActivity(intent);
+            }
+        });
+
+        /*final WebView view = (WebView) inflate.findViewById(R.id.twitterFeed);
         view.getSettings().setAppCacheEnabled(true);
         view.getSettings().setJavaScriptEnabled(true);
         String text = "<html><body>";
-        text += "<a class='twitter-timeline' href='https://twitter.com/RomeoBertoldo?ref_src=twsrc%5Etfw'>Tweets by PumpkinSoftware</a> <script async src='https://platform.twitter.com/widgets.js' charset='utf-8'></script>\n";
+        text += "<a class=\"twitter-timeline\" href=\"https://twitter.com/_TravelMate_?ref_src=twsrc%5Etfw\">Tweets by _TravelMate_</a> <script async src=\"https://platform.twitter.com/widgets.js\" charset=\"utf-8\"></script>\n";
         text += "</body></html>";
-        view.loadDataWithBaseURL("https://twitter.com", text, "text/html", "utf-8", "");
+        view.loadDataWithBaseURL("https://twitter.com", text, "text/html", "utf-8", "");*/
 
         ImageView social = inflate.findViewById(R.id.fb);
         social.setOnClickListener(new View.OnClickListener() {
@@ -86,15 +95,15 @@ public class SettingsFragment extends Fragment {
             }
         });
 
-        /*social = inflate.findViewById(R.id.twitter);
+        social = inflate.findViewById(R.id.twitter);
         social.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(Intent.ACTION_VIEW);
-                i.setData(Uri.parse("https://www.facebook.com/PumpkinSoftware/"));
+                i.setData(Uri.parse("https://twitter.com/_TravelMate_"));
                 context.startActivity(i);
             }
-        });*/
+        });
 
         final ImageView instagram = inflate.findViewById(R.id.instagram);
 

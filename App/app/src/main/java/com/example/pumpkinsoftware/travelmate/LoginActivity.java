@@ -1,7 +1,9 @@
 package com.example.pumpkinsoftware.travelmate;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -172,13 +174,20 @@ public class LoginActivity extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) { // MODIFICATO PER VECCHI ACCOUNT
-                                if(true) { //mAuth.getCurrentUser().isEmailVerified()){
+                                if(mAuth.getCurrentUser().isEmailVerified()){
                                     openMain();
                                 }
                                 else{
                                     sendEmail();
                                     FirebaseAuth.getInstance().signOut();
-                                    Toast.makeText(context, "Devi attivare l'account dall'email", Toast.LENGTH_SHORT).show();
+                                    new AlertDialog.Builder(context)
+                                            .setTitle("Attivazione richiesta")
+                                            .setMessage("Ti è stata mandata una mail per attivare il tuo account")
+                                            .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+
+                                                public void onClick(DialogInterface dialog, int whichButton) {
+                                                }
+                                            }).show();
                                 }
 
                             }
