@@ -61,7 +61,7 @@ import java.util.UUID;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class AccountRegisterActivity extends AppCompatActivity {
-    private String mail, pass, name, surname, bio, birthday, sex, relationship;
+    private String mail, pass, name, surname, bio, birthday, sex = "", relationship = "";
     private EditText namet, surnamet, biot;
     private CircleImageView profile;
     private ImageView cover;
@@ -70,7 +70,6 @@ public class AccountRegisterActivity extends AppCompatActivity {
     private final int PICK_IMAGE_REQUEST = 71;
     private int FOTO = 0;
     private BirthdayPicker nascita;
-    private String userUid;
     private static Calendar calendar;
     private String avatar = "";
 
@@ -167,6 +166,27 @@ public class AccountRegisterActivity extends AppCompatActivity {
     }
 
     private void PreparationAccount() {
+        name = String.valueOf(namet.getText());
+        surname = String.valueOf(surnamet.getText());
+        bio = String.valueOf(biot.getText());
+        birthday = nascita.getSetMonth() + "/" + nascita.getSetDay() + "/" + nascita.getSetYear();
+        if (name.isEmpty()) {
+            msgErrore("nome");
+            return;
+        } else if (surname.isEmpty()) {
+            msgErrore("cognome");
+            return;
+        } else if (bio.isEmpty()) {
+            msgErrore("una breve biografia");
+            return;
+        } else if (sex.isEmpty()) {
+            msgErrore("il sesso");
+            return;
+        } else if (relationship.isEmpty()) {
+            msgErrore("la relazione sentimentale");
+            return;
+        }
+
         progressBar.setVisibility(View.VISIBLE);
 
         mAuth.createUserWithEmailAndPassword(mail, pass)
@@ -175,7 +195,6 @@ public class AccountRegisterActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             user = mAuth.getCurrentUser();
-                            //userUid = user.getUid();
                             sendRegistration();
                         } else {
                             try {
@@ -274,48 +293,27 @@ public class AccountRegisterActivity extends AppCompatActivity {
     }
 
     private void sendRegistration() {
-        name = String.valueOf(namet.getText());
-        surname = String.valueOf(surnamet.getText());
-        bio = String.valueOf(biot.getText());
-        birthday = nascita.getSetMonth() + "/" + nascita.getSetDay() + "/" + nascita.getSetYear();
-        if (name.isEmpty()) {
-            msgErrore("nome");
-        } else if (surname.isEmpty()) {
-            msgErrore("cognome");
-        } else if (bio.isEmpty()) {
-            msgErrore("una breve biografia");
-        } else if (sex.isEmpty()) {
-            msgErrore("il sesso");
-        } else if (relationship.isEmpty()) {
-            msgErrore("la relazione sentimentale");
-        } else {
-
-            JSONObject utente = new JSONObject();
-            try {
-                //utente.put("uid", userUid);
-                utente.put("name", processingUpperLowerString(name));
-                utente.put("surname", processingUpperLowerString(surname));
-                utente.put("description", bio.substring(0, 1).toUpperCase() + bio.substring(1).toLowerCase());
-                utente.put("birthday", birthday);
-                utente.put("gender", sex);
-                if (!relationship.equals("Single")) {
-                    if (sex.equals("Uomo"))
-                        relationship = "Fidanzato";
-                    else
-                        relationship = "Fidanzata";
-                }
-                utente.put("relationship", relationship);
-                utente.put("email", mail);
-
-            } catch (JSONException e) {
-                progressBar.setVisibility(View.GONE);
-                e.printStackTrace();
+        JSONObject utente = new JSONObject();
+        try {
+            utente.put("name", processingUpperLowerString(name));
+            utente.put("surname", processingUpperLowerString(surname));
+            utente.put("description", bio.substring(0, 1).toUpperCase() + bio.substring(1).toLowerCase());
+            utente.put("birthday", birthday);
+            utente.put("gender", sex);
+            if (!relationship.equals("Single")) {
+                if (sex.equals("Uomo"))
+                    relationship = "Fidanzato";
+                else
+                    relationship = "Fidanzata";
             }
-
-            uploadImage1(utente);
-
-
+            utente.put("relationship", relationship);
+            utente.put("email", mail);
+        } catch (JSONException e) {
+            progressBar.setVisibility(View.GONE);
+            e.printStackTrace();
         }
+
+        uploadImage1(utente);
     }
 
 
