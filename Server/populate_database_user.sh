@@ -92,7 +92,7 @@ curl -H "Content-Type: application/json" -X POST -d '{
   "relationship": "Fidanzato",
   "email": "AstaAndrea@travelmate.com",
   "description":"There is no place like 127.0.0.1",
-  "avatar":"https://firebasestorage.googleapis.com/v0/b/travelmate-ee239.appspot.com/o/userImage%2FAstaAndrea%40travelmate.com%2Fphoto5811910390618107899.jpg?alt=media&token=7f222839-ad75-4187-baa2-3d42d19abb4a",
+  "avatar":"https://firebasestorage.googleapis.com/v0/b/travelmate-ee239.appspot.com/o/userImage%2FAstaAndrea%40travelmate.com%2Fa6f00a7d-4970-4d71-ab12-8d31c4a1ebfd?alt=media&token=59e47151-cb5f-4605-8b04-c3476f7fa952",
   "cover":"https://firebasestorage.googleapis.com/v0/b/travelmate-ee239.appspot.com/o/userImage%2FAstaAndrea%40travelmate.com%2Fphoto5811910390618107900.jpg?alt=media&token=fb78e43f-f877-4947-9cdd-81221e15f903"
 }' http://localhost:8095/user/newUser
 
