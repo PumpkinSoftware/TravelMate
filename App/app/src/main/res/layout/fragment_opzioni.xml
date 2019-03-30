@@ -147,6 +147,18 @@
                 app:layout_constraintTop_toBottomOf="@+id/bug" />
 
             <TextView
+                android:id="@+id/infoApp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="28dp"
+                android:text="@string/infoApp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textColor="@android:color/black"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@+id/changePass"
+                app:layout_constraintTop_toBottomOf="@+id/changePass" />
+
+            <TextView
                 android:id="@+id/version"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -155,8 +167,8 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textColor="@android:color/black"
                 android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="@+id/changePass"
-                app:layout_constraintTop_toBottomOf="@+id/changePass" />
+                app:layout_constraintStart_toStartOf="@+id/infoApp"
+                app:layout_constraintTop_toBottomOf="@+id/infoApp" />
 
             <TextView
                 android:id="@+id/version2"
@@ -174,6 +186,7 @@
                 app:layout_constraintVertical_bias="0.0" />
 
             <!-- Twitter feed -->
+            <!--
             <WebView
                 android:id="@+id/twitterFeed"
                 android:layout_width="wrap_content"
@@ -184,6 +197,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/version" />
+                -->
 
             <TextView
                 android:id="@+id/dev"
@@ -200,7 +214,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cardView" />
+                app:layout_constraintTop_toBottomOf="@+id/version" />
 
             <!-- Social section -->
             <ImageView
@@ -274,7 +288,7 @@
                 app:cardElevation="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/twitterFeed">
+                app:layout_constraintTop_toBottomOf="@+id/version2">
 
                 <Button
                     android:id="@+id/button_logout"
