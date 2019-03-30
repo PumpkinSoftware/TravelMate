@@ -75,7 +75,19 @@
         </activity>
         <activity
             android:name=".TravelDetailsActivity"
-            android:parentActivityName=".MainActivity"/>
+            android:parentActivityName=".MainActivity">
+
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:host="@string/host" android:scheme="http"
+                    tools:ignore="AppLinkUrlError"/>
+                <data android:host="@string/host" android:scheme="https"
+                    tools:ignore="AppLinkUrlError" />
+            </intent-filter>
+
+        </activity>
         <activity
             android:name=".EditTravelActivity"
             android:parentActivityName=".TravelDetailsActivity" />
@@ -83,15 +95,6 @@
         <activity
             android:name=".FirebaseDynamicLinkHandler"
             android:parentActivityName=".MainActivity">
-            <intent-filter android:autoVerify="true">
-                <action android:name="android.intent.action.VIEW"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
-                <data android:host="travelmateapp.page.link" android:scheme="http"
-                    tools:ignore="AppLinkUrlError"/>
-                <data android:host="travelmateapp.page.link" android:scheme="https"
-                    tools:ignore="AppLinkUrlError" />
-            </intent-filter>
         </activity>
 
 

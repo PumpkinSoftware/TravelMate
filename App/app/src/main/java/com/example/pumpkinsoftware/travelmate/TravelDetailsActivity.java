@@ -120,17 +120,20 @@ public class TravelDetailsActivity extends AppCompatActivity {
     private String owner_uid;
     private int partecipantsNumber;
     private int group;
+    private String start;
     private Button joinBtn;
     private RecyclerView rvUsers;
     private ProgressBar progress;
     private Trip trip;
-    private boolean isFirstLoading;
     private int rvPos;
     private FirebaseUser user;
     private RelativeLayout layoutInfo;
+    private boolean isFirstLoading;
     private boolean canBeClosed;
     private boolean isExpired;
+    private boolean isOpenedByLink;
     private Uri deepLink = null;
+    private Intent intentReceived;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -138,15 +141,22 @@ public class TravelDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_travel_details);
         context = (Context) this;
 
-            Bundle b = getIntent().getExtras();
+        intentReceived = getIntent();
+
+        Bundle b = intentReceived.getExtras();
+        String img = null;
+        start = null;
+
+        // b is null if I'm opening this travel from a dynamic link
+        if(b != null) {
             travelId = b.getString(EXTRA_ID);
-            final String img = b.getString(EXTRA_IMG);
+            img = b.getString(EXTRA_IMG);
             final String name = b.getString(EXTRA_NAME);
             /*final String descr =  b.getString(EXTRA_DESCR);
             final String dep =  b.getString(EXTRA_DEPARTURE);
             final String dest =  b.getString(EXTRA_DEST);
             final String budget =  b.getString(EXTRA_BUDGET);*/
-            final String start = b.getString(EXTRA_START);
+            start = b.getString(EXTRA_START);
             final String end = b.getString(EXTRA_END);
             /*partecipantsNumber =  b.getInt(EXTRA_PARTECIPANTS_NUMBER);
             group =  b.getInt(EXTRA_GROUP_NUMBER);
@@ -154,7 +164,7 @@ public class TravelDetailsActivity extends AppCompatActivity {
             final String vehicle = b.getString(EXTRA_VEHICLE);*/
             owner_uid = b.getString(EXTRA_OWNER_UID);
             rvPos = b.getInt(EXTRA_ADAPTER_POS);
-
+        }
 
         // Infos are hidden, I show them only when loading is finished
         layoutInfo = findViewById(R.id.layoutInfo);
@@ -164,7 +174,9 @@ public class TravelDetailsActivity extends AppCompatActivity {
 
         isFirstLoading = true;
         final ImageView imgv = (ImageView) findViewById(R.id.header_cover_image);
-        loadImg(img, imgv);
+        // img is null if I'm opening this travel from a dynamic link
+        if(img != null)
+            loadImg(img, imgv);
 
         // TODO substitute all calls in updateLayout() to findView in private variables initialized here
         /*edit = findViewById(R.id.edit_image);
@@ -194,12 +206,8 @@ public class TravelDetailsActivity extends AppCompatActivity {
         // Old sdk hasn't elevation attribute
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             edit = findViewById(R.id.edit_image_for_old_sdk);
-            //sharing_image.setVisibility(View.GONE);
             sharing_image = findViewById(R.id.sharing_image_for_old_sdk);
-            //sharing_image.setVisibility(View.VISIBLE);
-            //back_image.setVisibility(View.GONE);
             back_image = findViewById(R.id.back_image_for_old_sdk);
-            //back_image.setVisibility(View.VISIBLE);
         }
 
         // Handling back to parent activity
@@ -222,20 +230,39 @@ public class TravelDetailsActivity extends AppCompatActivity {
             }
         });*/
 
-        // Handling sharing on click with animation
-        sharing_image.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AnimatorSet set = (AnimatorSet) AnimatorInflater.loadAnimator(context, R.animator.zoom_in);
-                set.setTarget(v); // set the view you want to animate
-                set.start();
-                shortLinkTask(name);
-            }
-        });
-
         card = (CardView) findViewById(R.id.cardView);
         joinBtn = (Button) findViewById(R.id.join_button);
 
+        // start is null if I'm opening this travel from a dynamic link
+        if(start != null)
+            workWithDate();
+
+        rvUsers = (RecyclerView) findViewById(R.id.recyclerview);
+        // Set layout manager to position the items
+        rvUsers.setLayoutManager(new LinearLayoutManager(context));
+        rvUsers.setNestedScrollingEnabled(false);
+        //updateLayout();
+        getTripByDynamicLink();
+
+        //swipe da finire
+        final SwipeRefreshLayout swipe = (SwipeRefreshLayout) findViewById(R.id.swipeRefresh);
+        swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                swipe.setRefreshing(true);
+                (new Handler()).postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        updateLayout();
+                        swipe.setRefreshing(false);
+
+                    }
+                }, 1500);
+            }
+        });
+    }
+
+    private void workWithDate() {
         try {
             Date date1 = new SimpleDateFormat("dd/MM/yyyy").parse(getData(start));
             //Toast.makeText(context, date1.toString(), Toast.LENGTH_SHORT).show();
@@ -259,61 +286,58 @@ public class TravelDetailsActivity extends AppCompatActivity {
         } catch (ParseException ex) {
             ex.printStackTrace();
         }
-
-        rvUsers = (RecyclerView) findViewById(R.id.recyclerview);
-        // Set layout manager to position the items
-        rvUsers.setLayoutManager(new LinearLayoutManager(context));
-        rvUsers.setNestedScrollingEnabled(false);
-        updateLayout();
-
-        //swipe da finire
-        final SwipeRefreshLayout swipe = (SwipeRefreshLayout) findViewById(R.id.swipeRefresh);
-        swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                swipe.setRefreshing(true);
-                (new Handler()).postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        updateLayout();
-                        swipe.setRefreshing(false);
-
-                    }
-                }, 1500);
-            }
-        });
     }
-    /*
-    public void getTripIdDynamicLink(){
-        FirebaseDynamicLinks.getInstance()
-                .getDynamicLink(getIntent())
-                .addOnSuccessListener(this, new OnSuccessListener<PendingDynamicLinkData>() {
-                    @Override
-                    public void onSuccess(PendingDynamicLinkData pendingDynamicLinkData) {
-                        // Get deep link from result (may be null if no link is found)
-                        if (pendingDynamicLinkData != null) {
-                            deepLink = pendingDynamicLinkData.getLink();
+
+    public void getTripByDynamicLink(){
+        //user = FirebaseAuth.getInstance().getCurrentUser();
+        if(user != null) {
+            FirebaseDynamicLinks.getInstance()
+                    .getDynamicLink(intentReceived)
+                    .addOnSuccessListener(this, new OnSuccessListener<PendingDynamicLinkData>() {
+                        @Override
+                        public void onSuccess(PendingDynamicLinkData pendingDynamicLinkData) {
+                            // Get deep link from result (may be null if no link is found)
+                            Uri deepLink = null;
+
+                            // if null I'm not opening this activity from a dynamic link
+                            if (pendingDynamicLinkData != null) {
+                                deepLink = pendingDynamicLinkData.getLink();
+                                String link = deepLink.toString();
+                                //travelId = deepLink.toString().substring(deepLink.toString().lastIndexOf("lookThisTrip?id=") + 16); + 16);
+                                travelId = link.substring(link.length() - 24);
+                                isFirstLoading = false;
+                                isOpenedByLink = true;
+                            }
+                            // Else I'm not opening this activity from a dynamic link
+                            /*else {
+                                Toast.makeText(context, "Viaggio non disponibile", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(context, MainActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }*/
+
+                            updateLayout();
+
                         }
-
-                        // Handle the deep link. For example, open the linked
-                        // content, or apply promotional credit to the user's
-                        // account.
-                        // ...
-
-                        // ...
-                    }
-                })
-                .addOnFailureListener(this, new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(context, "Viaggio non disponibile", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(context,LoginActivity.class);
-                        startActivity(intent);
-                        finish();
-                    }
-                });
+                    })
+                    .addOnFailureListener(this, new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(context, "Viaggio non disponibile", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(context, MainActivity.class);
+                            startActivity(intent);
+                            finish();
+                        }
+                    });
+        }
+        else{
+            Toast.makeText(context, "Effettua il login o registrati per vedere il contenuto", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(context, StartActivity.class);
+            startActivity(intent);
+            finish();
+        }
     }
-    */
+
 
     // OLD
     /*
@@ -372,7 +396,8 @@ public class TravelDetailsActivity extends AppCompatActivity {
         intent.setType("text/plain");
         //String shareBodyText = "Your sharing message goes here";
         intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject/Title");
-        intent.putExtra(android.content.Intent.EXTRA_TEXT, "Ti andrebbe di partecipare a: '" + name + "' ? Clicca qui!\n" + link);
+        intent.putExtra(android.content.Intent.EXTRA_TEXT, "Ti andrebbe di partecipare a: '" + name + "'? Clicca qui!\n" + link
+        + "\nCondiviso con Travelmate, maggiori info su " + getResources().getString(R.string.site));
         startActivity(Intent.createChooser(intent, "Condividi"));
     }
 
@@ -380,7 +405,7 @@ public class TravelDetailsActivity extends AppCompatActivity {
     private void shortLinkTask(final String name) {
 
         Task<ShortDynamicLink> shortLinkTask = FirebaseDynamicLinks.getInstance().createDynamicLink()
-                .setLink(Uri.parse("https://www.pumpkinsoftware.github.io/lookThisTrip?id="+travelId))
+                .setLink(Uri.parse("https://"+getResources().getString(R.string.site)+"/lookThisTrip?id="+travelId))
                 .setDomainUriPrefix(Utils.FIREBASE_DYNAMIC_LINK_PATH)
                 // Set parameters
                 // ...
@@ -621,6 +646,9 @@ public class TravelDetailsActivity extends AppCompatActivity {
                                             TextView o_name = findViewById(R.id.user1);
                                             o_name.setText(server.getOwnerName());
 
+                                            if(owner_uid == null)
+                                                owner_uid = trip.getOwner();
+
                                             View.OnClickListener lis = new View.OnClickListener() {
                                                 @Override
                                                 public void onClick(View v) {
@@ -660,6 +688,11 @@ public class TravelDetailsActivity extends AppCompatActivity {
     }
 
     private void loadTrip(Trip t) {
+        if(isOpenedByLink) {
+            start = t.getStartDate();
+            workWithDate();
+        }
+
         String image = t.getImage();
         calculateColor(image);
 
@@ -669,8 +702,20 @@ public class TravelDetailsActivity extends AppCompatActivity {
         }
         isFirstLoading = false;
 
+        final String name = t.getName();
+        // Handling sharing on click with animation
+        sharing_image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AnimatorSet set = (AnimatorSet) AnimatorInflater.loadAnimator(context, R.animator.zoom_in);
+                set.setTarget(v); // set the view you want to animate
+                set.start();
+                shortLinkTask(name);
+            }
+        });
+
         final TextView n = (TextView) findViewById(R.id.name);
-        n.setText(t.getName());
+        n.setText(name);
         final TextView dsc = (TextView) findViewById(R.id.descr);
 
         // Justified text alignment
@@ -783,6 +828,8 @@ public class TravelDetailsActivity extends AppCompatActivity {
                             supportStartPostponedEnterTransition();
                         else
                             startPostponedEnterTransition();
+
+                        canBeClosed = true;
                         return false;
                     }
 
@@ -799,7 +846,7 @@ public class TravelDetailsActivity extends AppCompatActivity {
                             public void run() {
                                 canBeClosed = true;
                             }
-                        }, 450);
+                        }, 800);
 
                         return false;
                     }
