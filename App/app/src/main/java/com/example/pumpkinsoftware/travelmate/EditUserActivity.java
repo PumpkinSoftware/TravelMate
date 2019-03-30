@@ -81,6 +81,8 @@ public class EditUserActivity extends AppCompatActivity {
     FirebaseAuth mAuth;
     private boolean confirmFlag=false;
 
+    private String img,img2;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -168,7 +170,7 @@ public class EditUserActivity extends AppCompatActivity {
 
         // Photos
         profile = (CircleImageView) findViewById(R.id.profile_r);
-        String img = user.getPhotoProfile();
+        img = user.getPhotoProfile();
 
         if (!img.isEmpty())
             GlideApp.with(context)
@@ -185,11 +187,11 @@ public class EditUserActivity extends AppCompatActivity {
         });
 
         cover = (ImageView) findViewById(R.id.header_cover_image_r);
-        img = user.getCover();
+        img2 = user.getCover();
 
-        if (!img.isEmpty())
+        if (!img2.isEmpty())
             GlideApp.with(context)
-                    .load(img)
+                    .load(img2)
                     .into(cover);
 
         cover.setOnClickListener(new View.OnClickListener() {
@@ -508,10 +510,10 @@ public class EditUserActivity extends AppCompatActivity {
                         //nel caso che venga chiamata due volte non trova le foto da firebase ma l'app funziona lo stesso
                         //  if (upload < 2) {
                         if (filePath1 != null && !user.getPhotoProfile().equals("")) {
-                            deleteImg(storage.getReferenceFromUrl(user.getPhotoProfile()));
+                            deleteImg(storage.getReferenceFromUrl(img));
                         }
                         if (filePath2 != null && !user.getCover().equals("")) {
-                            deleteImg(storage.getReferenceFromUrl(user.getCover()));
+                            deleteImg(storage.getReferenceFromUrl(img2));
                         }
                         updateUserForChat(utente);
                         //     }

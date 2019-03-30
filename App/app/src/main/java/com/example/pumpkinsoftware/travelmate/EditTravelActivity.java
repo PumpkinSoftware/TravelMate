@@ -79,6 +79,7 @@ public class EditTravelActivity extends AppCompatActivity {
     private ProgressBar progressBar;
 
     private boolean confirmFlag=false;
+    private String img;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -163,7 +164,7 @@ public class EditTravelActivity extends AppCompatActivity {
         tag = t_tag;
 
         b_upload = findViewById(R.id.photo_upload);
-        String img = trip.getImage();
+        img = trip.getImage();
         GlideApp.with(context)
                 .load(img.isEmpty() ? (R.mipmap.default_trip) : img)
                 .into(b_upload);
@@ -427,8 +428,8 @@ public class EditTravelActivity extends AppCompatActivity {
                         finish();
                         //
 
-                        if (!trip.getImage().equals("")) {
-                            deleteImg(storage.getReferenceFromUrl(trip.getImage()));
+                        if (!trip.getImage().equals("") && filePath!=null) {
+                            deleteImg(storage.getReferenceFromUrl(img));
                         }
                     } else {
                         String err = response.getString("type");
