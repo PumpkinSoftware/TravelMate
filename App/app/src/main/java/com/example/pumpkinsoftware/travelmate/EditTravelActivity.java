@@ -278,6 +278,7 @@ public class EditTravelActivity extends AppCompatActivity {
                 } catch (JSONException e) {
                     progressBar.setVisibility(View.GONE);
                     e.printStackTrace();
+                    confirmFlag=false;
                 }
                 uploadImage(viaggio);
 
@@ -309,6 +310,7 @@ public class EditTravelActivity extends AppCompatActivity {
                                     } catch (JSONException e) {
                                         progressBar.setVisibility(View.GONE);
                                         e.printStackTrace();
+                                        confirmFlag=false;
                                     }
                                     //Qui richiami mongoDB per creare il trip
                                     user.getIdToken(true)
@@ -323,6 +325,7 @@ public class EditTravelActivity extends AppCompatActivity {
                                                         // Handle error -> task.getException();
                                                         progressBar.setVisibility(View.GONE);
                                                         Toast.makeText(context, "Riprova", Toast.LENGTH_SHORT).show();
+                                                        confirmFlag=false;
                                                         try {
                                                             if(filePath!=null) {
                                                                 deleteImg(storage.getReferenceFromUrl(viaggio.getString("image")));
@@ -349,6 +352,7 @@ public class EditTravelActivity extends AppCompatActivity {
                             } catch (JSONException e1) {
                                 progressBar.setVisibility(View.GONE);
                                 e1.printStackTrace();
+                                confirmFlag=false;
                             }
                             user.getIdToken(true)
                                     .addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
@@ -362,6 +366,7 @@ public class EditTravelActivity extends AppCompatActivity {
                                                 // Handle error -> task.getException();
                                                 progressBar.setVisibility(View.GONE);
                                                 Toast.makeText(context, "Riprova", Toast.LENGTH_SHORT).show();
+                                                confirmFlag=false;
                                                 try {
                                                     if(filePath!=null) {
                                                         deleteImg(storage.getReferenceFromUrl(viaggio.getString("image")));
@@ -396,6 +401,7 @@ public class EditTravelActivity extends AppCompatActivity {
                                 // Handle error -> task.getException();
                                 progressBar.setVisibility(View.GONE);
                                 Toast.makeText(context, "Riprova", Toast.LENGTH_SHORT).show();
+                                confirmFlag=false;
                                 try {
                                     if(filePath!=null) {
                                         deleteImg(storage.getReferenceFromUrl(viaggio.getString("image")));
@@ -435,6 +441,7 @@ public class EditTravelActivity extends AppCompatActivity {
                     } else {
                         String err = response.getString("type");
                         new ErrorServer(context).handleError(err);
+                        confirmFlag=false;
                         deleteImg(storage.getReferenceFromUrl(viaggio.getString("image")));
                     }
 

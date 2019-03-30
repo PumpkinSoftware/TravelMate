@@ -256,6 +256,7 @@ public class AccountRegisterActivity extends AppCompatActivity {
 
     private void msgErrore(String datoMancante) {
         Toast.makeText(contesto, "Inserisci " + datoMancante, Toast.LENGTH_SHORT).show();
+        confirmFlag=false;
     }
 
     public static String processingUpperLowerString(String testo) {
@@ -344,6 +345,7 @@ public class AccountRegisterActivity extends AppCompatActivity {
                                     } catch (JSONException e) {
                                         progressBar.setVisibility(View.GONE);
                                         e.printStackTrace();
+                                        confirmFlag=false;
                                     }
                                     uploadImage2(utente);
                                 }
@@ -361,6 +363,7 @@ public class AccountRegisterActivity extends AppCompatActivity {
                             } catch (JSONException ex) {
                                 progressBar.setVisibility(View.GONE);
                                 ex.printStackTrace();
+                                confirmFlag=false;
                             }
                             uploadImage2(utente);
                         }
@@ -380,6 +383,7 @@ public class AccountRegisterActivity extends AppCompatActivity {
             } catch (JSONException e) {
                 progressBar.setVisibility(View.GONE);
                 e.printStackTrace();
+                confirmFlag=false;
             }
             uploadImage2(utente);
         }
@@ -402,6 +406,7 @@ public class AccountRegisterActivity extends AppCompatActivity {
                                     } catch (JSONException e) {
                                         progressBar.setVisibility(View.GONE);
                                         e.printStackTrace();
+                                        confirmFlag=false;
                                     }
                                     sendPostServer(utente);
                                 }
@@ -418,6 +423,7 @@ public class AccountRegisterActivity extends AppCompatActivity {
                             } catch (JSONException ex) {
                                 progressBar.setVisibility(View.GONE);
                                 ex.printStackTrace();
+                                confirmFlag=false;
                             }
                             sendPostServer(utente);
                         }
@@ -437,6 +443,7 @@ public class AccountRegisterActivity extends AppCompatActivity {
             } catch (JSONException e) {
                 progressBar.setVisibility(View.GONE);
                 e.printStackTrace();
+                confirmFlag=false;
             }
             sendPostServer(utente);
         }
@@ -454,6 +461,7 @@ public class AccountRegisterActivity extends AppCompatActivity {
                                 public void onSuccess(JSONObject response) {
                                     if (getStatus().equals("ERROR")) {
                                         deleteUser(utente);
+                                        confirmFlag=false;
                                     }
                                     if (getStatus().equals("OK")) {
                                         updateUserForChat();
@@ -480,6 +488,7 @@ public class AccountRegisterActivity extends AppCompatActivity {
                             // Handle error -> task.getException();
                             progressBar.setVisibility(View.GONE);
                             Toast.makeText(contesto, "Riprova", Toast.LENGTH_SHORT).show();
+                            confirmFlag=false;
                             deleteUser(utente);
                         }
                     }

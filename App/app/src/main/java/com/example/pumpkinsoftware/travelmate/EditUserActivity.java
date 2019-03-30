@@ -349,6 +349,7 @@ public class EditUserActivity extends AppCompatActivity {
                                     } catch (JSONException e) {
                                         progressBar.setVisibility(View.GONE);
                                         e.printStackTrace();
+                                        confirmFlag=false;
                                     }
                                     //  upload++;
                                     uploadImage2(utente);
@@ -365,6 +366,7 @@ public class EditUserActivity extends AppCompatActivity {
                             } catch (JSONException e1) {
                                 progressBar.setVisibility(View.GONE);
                                 e1.printStackTrace();
+                                confirmFlag=false;
                             }
                             uploadImage2(utente);
                         }
@@ -400,6 +402,7 @@ public class EditUserActivity extends AppCompatActivity {
                                     } catch (JSONException e) {
                                         progressBar.setVisibility(View.GONE);
                                         e.printStackTrace();
+                                        confirmFlag=false;
                                     }
                                     //  upload++;
                                     firebaseUser.getIdToken(true)
@@ -414,6 +417,7 @@ public class EditUserActivity extends AppCompatActivity {
                                                         // Handle error -> task.getException();
                                                         progressBar.setVisibility(View.GONE);
                                                         Toast.makeText(context, "Riprova", Toast.LENGTH_SHORT).show();
+                                                        confirmFlag=false;
                                                         try {
                                                             if(filePath1!=null) {
                                                                 deleteImg(storage.getReferenceFromUrl(utente.getString("avatar")));
@@ -458,6 +462,7 @@ public class EditUserActivity extends AppCompatActivity {
                                                 // Handle error -> task.getException();
                                                 progressBar.setVisibility(View.GONE);
                                                 Toast.makeText(context, "Riprova", Toast.LENGTH_SHORT).show();
+                                                confirmFlag=false;
                                                 try {
                                                     if(filePath1!=null) {
                                                         deleteImg(storage.getReferenceFromUrl(utente.getString("avatar")));
@@ -498,6 +503,7 @@ public class EditUserActivity extends AppCompatActivity {
                                 // Handle error -> task.getException();
                                 progressBar.setVisibility(View.GONE);
                                 Toast.makeText(context, "Riprova", Toast.LENGTH_SHORT).show();
+                                confirmFlag=false;
                                 try {
                                     if(filePath1!=null) {
                                         deleteImg(storage.getReferenceFromUrl(utente.getString("avatar")));
@@ -549,11 +555,13 @@ public class EditUserActivity extends AppCompatActivity {
                     } else {
                         String err = response.getString("type");
                         new ErrorServer(context).handleError(err);
+                        confirmFlag=false;
                     }
 
                 } catch (JSONException e) {
                     Toast.makeText(context, "Errore: riprovare", Toast.LENGTH_SHORT).show();
                     progressBar.setVisibility(View.GONE);
+                    confirmFlag=false;
                 }
             }
         }, new Response.ErrorListener() {
