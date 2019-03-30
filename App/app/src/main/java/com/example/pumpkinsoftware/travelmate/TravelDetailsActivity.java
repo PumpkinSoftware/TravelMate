@@ -134,6 +134,7 @@ public class TravelDetailsActivity extends AppCompatActivity {
     private boolean isOpenedByLink;
     private Uri deepLink = null;
     private Intent intentReceived;
+    String img = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -144,7 +145,7 @@ public class TravelDetailsActivity extends AppCompatActivity {
         intentReceived = getIntent();
 
         Bundle b = intentReceived.getExtras();
-        String img = null;
+
         start = null;
 
         // b is null if I'm opening this travel from a dynamic link
@@ -485,11 +486,11 @@ public class TravelDetailsActivity extends AppCompatActivity {
                                 return;
                             }
 
-                            String storageUrl = trip.getImage();
+                           // String storageUrl = trip.getImage();
                             // If trip.getImage() is empty, it means that user hasn't loaded an image
-                            if (!storageUrl.isEmpty()) {
+                            if (img!=null) {
 
-                                StorageReference storageReference = FirebaseStorage.getInstance().getReferenceFromUrl(storageUrl);
+                                StorageReference storageReference = FirebaseStorage.getInstance().getReferenceFromUrl(img);
                                 storageReference.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void aVoid) {
