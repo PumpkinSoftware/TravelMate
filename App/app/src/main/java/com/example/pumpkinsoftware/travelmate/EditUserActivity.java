@@ -248,7 +248,6 @@ public class EditUserActivity extends AppCompatActivity {
 
             } else {
                 filePath2 = data.getData();
-
                 GlideApp.with(context).load(filePath2).into(cover);
 
             }
@@ -280,8 +279,6 @@ public class EditUserActivity extends AppCompatActivity {
         bio = bio.substring(0, 1).toUpperCase() + bio.substring(1).toLowerCase();
         JSONObject utente = new JSONObject();
         try {
-            utente.put("uid", user.getUid());
-
             // Check if values have been modified
             if(!bio.equals(user.getDescr())) {
                 utente.put("description", bio);
@@ -307,39 +304,12 @@ public class EditUserActivity extends AppCompatActivity {
         }
 
         uploadImage1(utente);
-
-       /* new PostUser(context).jsonParse(utente, PostUser.flag.UPDATE, new ServerCallback() {
-            @Override
-            public void onSuccess(JSONObject response) {
-               if (getStatus().equals("ERROR")){
-                   deleteImg(storageReference.child("userImage/"+mail+"/avatar"));
-                   deleteImg(storageReference.child("userImage/"+mail+"/cover"));
-               }
-                else {
-                    if(!profile.toString().isEmpty()){
-                        deleteImg(storageReference.child("userImage/"+mail+"/"+profile.toString()));
-                    }
-                    if(!cover.toString().isEmpty()){
-                        deleteImg(storageReference.child("userImage/"+mail+"/"+cover.toString()));
-                    }
-                    Intent intent = new Intent();
-                    user.setDescr(bio);
-                    user.setRelationship(relationship);
-                    // TODO set all editable values
-                    intent.putExtra(ProfileFragment.EXTRA_USER, user);
-                    setResult(RESULT_OK, intent);
-                    finish();
-               }
-            }
-        });*/
-
-
     }
 
     private void uploadImage1(final JSONObject utente) {
         if (filePath1 != null) {
             user.setPhotoProfile(filePath1.toString());
-            byte[] image_compressed = Utils.compressImage(filePath1.toString(),profile);
+            byte[] image_compressed = Utils.compressImage(filePath1.toString(), profile);
             final StorageReference ref = storageReference.child("userImage/" + mail + "/" + UUID.randomUUID().toString());
             ref.putBytes(image_compressed)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -365,14 +335,14 @@ public class EditUserActivity extends AppCompatActivity {
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            //progressDialog.dismiss();
-                            try {
-                                utente.put("avatar", "");
-                            } catch (JSONException e1) {
+                            /*try {
+                                //utente.put("avatar", "");
+
+                            } catch (JSONException e1) {*/
                                 progressBar.setVisibility(View.GONE);
-                                e1.printStackTrace();
+                                e.printStackTrace();
                                 confirmFlag=false;
-                            }
+                            //}
                             uploadImage2(utente);
                         }
                     });
@@ -384,7 +354,7 @@ public class EditUserActivity extends AppCompatActivity {
         final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         if (filePath2 != null) {
             user.setCover(filePath2.toString());
-            byte[] image_compressed = Utils.compressImage(filePath2.toString(),cover);
+            byte[] image_compressed = Utils.compressImage(filePath2.toString(), cover);
             final StorageReference ref2 = storageReference.child("userImage/" + mail + "/" + UUID.randomUUID().toString());
             ref2.putBytes(image_compressed)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -409,7 +379,7 @@ public class EditUserActivity extends AppCompatActivity {
                                                         String idToken = task.getResult().getToken();
                                                         // Send token to your backend via HTTPS
                                                         jsonParse(utente, idToken);
-                                                        // ...
+
                                                     } else {
                                                         // Handle error -> task.getException();
                                                         progressBar.setVisibility(View.GONE);
@@ -425,13 +395,12 @@ public class EditUserActivity extends AppCompatActivity {
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            //progressDialog.dismiss();
-                            try {
+                           /* try {
                                 utente.put("cover", "");
-                            } catch (JSONException e1) {
+                            } catch (JSONException e1) {*/
                                 progressBar.setVisibility(View.GONE);
-                                e1.printStackTrace();
-                            }
+                                e.printStackTrace();
+                            //}
 
                             firebaseUser.getIdToken(true)
                                     .addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {

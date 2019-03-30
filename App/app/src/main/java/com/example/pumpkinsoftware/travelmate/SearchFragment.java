@@ -57,9 +57,6 @@ public class SearchFragment extends Fragment {
         final EditText departure_date = (EditText) view.findViewById(R.id.departure);
         final EditText return_date = (EditText) view.findViewById(R.id.ret);
 
-
-        //mQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
-
         // If click on bg, focus is deleted
         view.findViewById(R.id.scroll_child).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,17 +71,17 @@ public class SearchFragment extends Fragment {
         });
 
         // Set the searchable configuration for key-words
-        Activity activity = getActivity();
+        /*Activity activity = getActivity();
         SearchManager searchManager = (SearchManager) activity.getSystemService(Context.SEARCH_SERVICE);
         searchView.setSearchableInfo(searchManager.getSearchableInfo(activity.getComponentName()));
 
-        /* It extends searchview clickable area */
+        // It extends searchview clickable area
         searchView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 searchView.setIconified(false);
             }
-        });
+        });*/
 
         // If click on swap button, values of editexts are swapped
         view.findViewById(R.id.swap1).setOnClickListener(new View.OnClickListener() {
@@ -316,7 +313,6 @@ public class SearchFragment extends Fragment {
                         if (task.isSuccessful()) {
                             String idToken = task.getResult().getToken();
                             // Send token to your backend via HTTPS
-                            // ...
                         } else {
                             // Handle error -> task.getException();
                             Toast.makeText(getContext(), "Riprova", Toast.LENGTH_SHORT).show();

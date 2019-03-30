@@ -76,11 +76,11 @@ public class AccountRegisterActivity extends AppCompatActivity {
     public static String status = "";
     private ProgressBar progressBar;
 
-    Context contesto;
-    FirebaseStorage storage;
-    StorageReference storageReference;
-    FirebaseAuth mAuth;
-    FirebaseUser user;
+    private Context contesto;
+    private FirebaseStorage storage;
+    private StorageReference storageReference;
+    private FirebaseAuth mAuth;
+    private FirebaseUser user;
 
     private boolean confirmFlag=false;
 
@@ -116,7 +116,6 @@ public class AccountRegisterActivity extends AppCompatActivity {
         else
             progressBar = findViewById(R.id.indeterminateBarForOldSdk);
 
-        //PreparationAccount(mail,pass);
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
 
@@ -133,7 +132,7 @@ public class AccountRegisterActivity extends AppCompatActivity {
 
         nascita = new BirthdayPicker(contesto, data, calendar);
 
-        //foto
+        //photos
         profile = (CircleImageView) findViewById(R.id.profile_r);
         profile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -284,7 +283,6 @@ public class AccountRegisterActivity extends AppCompatActivity {
 
     private void msgErrore(String datoMancante) {
         Toast.makeText(contesto, "Inserisci " + datoMancante, Toast.LENGTH_SHORT).show();
-        progressBar.setVisibility(View.VISIBLE);
         confirmFlag=false;
     }
 
@@ -330,7 +328,7 @@ public class AccountRegisterActivity extends AppCompatActivity {
                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
-                            task.isSuccessful();//Log.d(TAG, "Email sent.");
+                            task.isSuccessful();
                         }
                     });
         }
@@ -338,7 +336,7 @@ public class AccountRegisterActivity extends AppCompatActivity {
 
     private void uploadImage1(final JSONObject utente) {
         if (filePath1 != null) {
-            byte[] image_compressed = Utils.compressImage(filePath1.toString(),cover);
+            byte[] image_compressed = Utils.compressImage(filePath1.toString(), profile); //cover);
             final StorageReference ref = storageReference.child("userImage/" + mail+"/"+UUID.randomUUID().toString());
             ref.putBytes(image_compressed)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -364,7 +362,6 @@ public class AccountRegisterActivity extends AppCompatActivity {
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            //progressDialog.dismiss();
                             try {
                                 //Log.i("Dato",uri.toString());
                                 utente.put("avatar", "");
@@ -392,7 +389,7 @@ public class AccountRegisterActivity extends AppCompatActivity {
 
     private void uploadImage2(final JSONObject utente) {
         if (filePath2 != null) {
-            byte[] image_compressed = Utils.compressImage(filePath2.toString(),profile);
+            byte[] image_compressed = Utils.compressImage(filePath2.toString(), cover); //profile);
             final StorageReference ref = storageReference.child("userImage/" + mail + "/"+UUID.randomUUID().toString());
             ref.putBytes(image_compressed)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {

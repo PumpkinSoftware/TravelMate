@@ -168,9 +168,7 @@ public class CreationTrip extends AppCompatActivity {
                     msgErrore("il veicolo");
                 } else if (budget.getText().toString().isEmpty()) {
                     msgErrore("il budget");
-                } /*else if (Integer.parseInt(budget.getText().toString()) < 0 || (Integer.parseInt(budget.getText().toString()) > 500)) {
-                    Toast.makeText(contesto, "Valore budget non valido", Toast.LENGTH_SHORT).show();
-                }*/ else if (group.getText().toString().isEmpty()) {
+                } else if (group.getText().toString().isEmpty()) {
                     msgErrore("il numero del gruppo");
                 } else if (Integer.parseInt(group.getText().toString()) < 2 /*|| (Integer.parseInt(group.getText().toString()) > 15)*/) {
                     Toast.makeText(contesto, "Valore gruppo non valido", Toast.LENGTH_SHORT).show();

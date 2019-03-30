@@ -24,18 +24,19 @@
     </android.support.v7.widget.Toolbar>
     -->
 
-    <SearchView
+    <!--<SearchView
         android:id="@+id/search_bar"
         android:layout_width="match_parent"
         android:layout_height="61dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:queryHint="Search" />
+        android:queryHint="Search" />-->
 
     <ScrollView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/search_bar">
+        android:layout_height="wrap_content">
+        <!--
+        android:layout_below="@+id/search_bar"-->
 
         <RelativeLayout
             android:id="@+id/scroll_child"
@@ -199,9 +200,7 @@
                 android:layout_below="@+id/budget"
                 android:layout_alignStart="@+id/vehicle_text"
                 android:layout_alignParentEnd="true"
-                android:layout_marginStart="0dp"
                 android:layout_marginTop="5dp"
-                android:layout_marginEnd="0dp"
                 android:text="@string/budget_text"
                 android:textAppearance="@style/TextAppearance.Design.HelperText" />
 
@@ -323,7 +322,7 @@
                 android:layout_marginTop="9dp"
                 android:layout_marginEnd="55dp"
                 app:drawThumbsApart="true"
-                app:scaleMax="50"
+                app:scaleMax="15"
                 app:scaleMin="1"
                 app:stepsThumbsApart="0"
                 app:thumbNumber="2" />
@@ -336,10 +335,8 @@
                 android:layout_alignTop="@+id/group_min_value"
                 android:layout_alignEnd="@+id/group_range_slider"
                 android:layout_alignBottom="@+id/group_min_value"
-                android:layout_marginStart="0dp"
                 android:layout_marginTop="-1dp"
                 android:layout_marginEnd="-32dp"
-                android:layout_marginBottom="0dp"
                 android:ems="10"
                 android:inputType="number"
                 android:maxLength="2" />
