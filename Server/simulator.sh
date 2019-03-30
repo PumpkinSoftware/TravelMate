@@ -19,45 +19,167 @@ echo -e "Starting to add reviews to users"
 
 echo -e "${green}"
 
-#User1 Uid: Tm8WrtKtVzco0him7RlnB9jUMmL2
-curl -H "Content-Type: application/json" -X POST -d '{"uid":"Tm8WrtKtVzco0him7RlnB9jUMmL2","sumReview":"36.5","numReview":"9"}' http://localhost:8095/user/updateUser
+#User1 Uid: Tm8WrtKtVzco0him7RlnB9jUMmL2 Pio Pirozzi
+curl -H "Content-Type: application/json" -X POST -d '{"userUid":"Tm8WrtKtVzco0him7RlnB9jUMmL2","userToReview":"GutGWyaTg9OdhjecP1wzd35e0l83","sumReview":"3.6","sumReview1":"2","sumReview2":"5","sumReview3":"4.5","sumReview4":"3","sumReview5":"3.5"}' http://localhost:8095/user/addReview
 echo -e ""
 
-#User2 Uid: RaHUVBSgljOzWvKNSGLl3QeSThh1
-curl -H "Content-Type: application/json" -X POST -d '{"uid":"RaHUVBSgljOzWvKNSGLl3QeSThh1","sumReview":"34","numReview":"10"}' http://localhost:8095/user/updateUser
+curl -H "Content-Type: application/json" -X POST -d '{"userUid":"Tm8WrtKtVzco0him7RlnB9jUMmL2","userToReview":"sSiOgobodkOlLkyzbIqnqxLQQq93","sumReview":"4","sumReview1":"5","sumReview2":"4.5","sumReview3":"4","sumReview4":"3.5","sumReview5":"3"}' http://localhost:8095/user/addReview
 echo -e ""
 
-#User3 Uid: kbz4sNCZtHMlfw3w3xCW3TTBco53
-curl -H "Content-Type: application/json" -X POST -d '{"uid":"kbz4sNCZtHMlfw3w3xCW3TTBco53","sumReview":"52.5","numReview":"13"}' http://localhost:8095/user/updateUser
+curl -H "Content-Type: application/json" -X POST -d '{"userUid":"Tm8WrtKtVzco0him7RlnB9jUMmL2","userToReview":"pfcytk2YLdb7qQ2a224J420vZB03","sumReview":"3.4","sumReview1":"2","sumReview2":"3","sumReview3":"4","sumReview4":"5","sumReview5":"3"}' http://localhost:8095/user/addReview
 echo -e ""
 
-#User4 Uid: pIfUG1Qpmwasqrdu77d9nake9HM2
-curl -H "Content-Type: application/json" -X POST -d '{"uid":"pIfUG1Qpmwasqrdu77d9nake9HM2","sumReview":"4","numReview":"1"}' http://localhost:8095/user/updateUser
+curl -H "Content-Type: application/json" -X POST -d '{"userUid":"Tm8WrtKtVzco0him7RlnB9jUMmL2","userToReview":"RaHUVBSgljOzWvKNSGLl3QeSThh1","sumReview":"4","sumReview1":"4.5","sumReview2":"4","sumReview3":"4.5","sumReview4":"4","sumReview5":"3"}' http://localhost:8095/user/addReview
 echo -e ""
 
-#User5 Uid: 7hjchdyNdrO2itvdMRRj3b85wff2
-curl -H "Content-Type: application/json" -X POST -d '{"uid":"7hjchdyNdrO2itvdMRRj3b85wff2","sumReview":"4.5","numReview":"2"}' http://localhost:8095/user/updateUser
+curl -H "Content-Type: application/json" -X POST -d '{"userUid":"Tm8WrtKtVzco0him7RlnB9jUMmL2","userToReview":"Ip5ooeVpugPGm6I0SY5Y2TUNIki2","sumReview":"5","sumReview1":"5","sumReview2":"5","sumReview3":"5","sumReview4":"5","sumReview5":"5"}' http://localhost:8095/user/addReview
 echo -e ""
 
-#User6 Uid: Ip5ooeVpugPGm6I0SY5Y2TUNIki2
-curl -H "Content-Type: application/json" -X POST -d '{"uid":"Ip5ooeVpugPGm6I0SY5Y2TUNIki2","sumReview":"55","numReview":"12"}' http://localhost:8095/user/updateUser
+#User2 Uid: RaHUVBSgljOzWvKNSGLl3QeSThh1 Fernanda Longo
+curl -H "Content-Type: application/json" -X POST -d '{"userUid":"RaHUVBSgljOzWvKNSGLl3QeSThh1","userToReview":"pIfUG1Qpmwasqrdu77d9nake9HM2","sumReview":"3.6","sumReview1":"2","sumReview2":"5","sumReview3":"4.5","sumReview4":"3","sumReview5":"3.5"}' http://localhost:8095/user/addReview
 echo -e ""
 
-#User7 Uid: GutGWyaTg9OdhjecP1wzd35e0l83
-curl -H "Content-Type: application/json" -X POST -d '{"uid":"GutGWyaTg9OdhjecP1wzd35e0l83","sumReview":"33.5","numReview":"7"}' http://localhost:8095/user/updateUser
+curl -H "Content-Type: application/json" -X POST -d '{"userUid":"RaHUVBSgljOzWvKNSGLl3QeSThh1","userToReview":"kbz4sNCZtHMlfw3w3xCW3TTBco53","sumReview":"4","sumReview1":"5","sumReview2":"4.5","sumReview3":"4","sumReview4":"3.5","sumReview5":"3"}' http://localhost:8095/user/addReview
 echo -e ""
 
-#User8 Uid: 3ENghkkewyPdttrz00ImV0F0QpH2
-curl -H "Content-Type: application/json" -X POST -d '{"uid":"3ENghkkewyPdttrz00ImV0F0QpH2","sumReview":"21","numReview":"8"}' http://localhost:8095/user/updateUser
+curl -H "Content-Type: application/json" -X POST -d '{"userUid":"RaHUVBSgljOzWvKNSGLl3QeSThh1","userToReview":"GutGWyaTg9OdhjecP1wzd35e0l83","sumReview":"3.4","sumReview1":"2","sumReview2":"3","sumReview3":"4","sumReview4":"5","sumReview5":"3"}' http://localhost:8095/user/addReview
 echo -e ""
 
-#User9 Uid: sSiOgobodkOlLkyzbIqnqxLQQq93
-curl -H "Content-Type: application/json" -X POST -d '{"uid":"sSiOgobodkOlLkyzbIqnqxLQQq93","sumReview":"34.5","numReview":"8"}' http://localhost:8095/user/updateUser
+curl -H "Content-Type: application/json" -X POST -d '{"userUid":"RaHUVBSgljOzWvKNSGLl3QeSThh1","userToReview":"sSiOgobodkOlLkyzbIqnqxLQQq93","sumReview":"4","sumReview1":"4.5","sumReview2":"4","sumReview3":"4.5","sumReview4":"4","sumReview5":"3"}' http://localhost:8095/user/addReview
 echo -e ""
 
-#User10 Uid: pfcytk2YLdb7qQ2a224J420vZB03
-curl -H "Content-Type: application/json" -X POST -d '{"uid":"pfcytk2YLdb7qQ2a224J420vZB03","sumReview":"32","numReview":"8"}' http://localhost:8095/user/updateUser
+curl -H "Content-Type: application/json" -X POST -d '{"userUid":"RaHUVBSgljOzWvKNSGLl3QeSThh1","userToReview":"pfcytk2YLdb7qQ2a224J420vZB03","sumReview":"5","sumReview1":"5","sumReview2":"5","sumReview3":"5","sumReview4":"5","sumReview5":"5"}' http://localhost:8095/user/addReview
 echo -e ""
+
+#User3 Uid: kbz4sNCZtHMlfw3w3xCW3TTBco53 Alvaro Milanesi
+curl -H "Content-Type: application/json" -X POST -d '{"userUid":"kbz4sNCZtHMlfw3w3xCW3TTBco53","userToReview":"Ip5ooeVpugPGm6I0SY5Y2TUNIki2","sumReview":"3.6","sumReview1":"2","sumReview2":"5","sumReview3":"4.5","sumReview4":"3","sumReview5":"3.5"}' http://localhost:8095/user/addReview
+echo -e ""
+
+curl -H "Content-Type: application/json" -X POST -d '{"userUid":"kbz4sNCZtHMlfw3w3xCW3TTBco53","userToReview":"7hjchdyNdrO2itvdMRRj3b85wff2","sumReview":"4","sumReview1":"5","sumReview2":"4.5","sumReview3":"4","sumReview4":"3.5","sumReview5":"3"}' http://localhost:8095/user/addReview
+echo -e ""
+
+curl -H "Content-Type: application/json" -X POST -d '{"userUid":"kbz4sNCZtHMlfw3w3xCW3TTBco53","userToReview":"RaHUVBSgljOzWvKNSGLl3QeSThh1","sumReview":"3.4","sumReview1":"2","sumReview2":"3","sumReview3":"4","sumReview4":"5","sumReview5":"3"}' http://localhost:8095/user/addReview
+echo -e ""
+
+curl -H "Content-Type: application/json" -X POST -d '{"userUid":"kbz4sNCZtHMlfw3w3xCW3TTBco53","userToReview":"Tm8WrtKtVzco0him7RlnB9jUMmL2","sumReview":"4","sumReview1":"4.5","sumReview2":"4","sumReview3":"4.5","sumReview4":"4","sumReview5":"3"}' http://localhost:8095/user/addReview
+echo -e ""
+
+curl -H "Content-Type: application/json" -X POST -d '{"userUid":"kbz4sNCZtHMlfw3w3xCW3TTBco53","userToReview":"pfcytk2YLdb7qQ2a224J420vZB03","sumReview":"5","sumReview1":"5","sumReview2":"5","sumReview3":"5","sumReview4":"5","sumReview5":"5"}' http://localhost:8095/user/addReview
+echo -e ""
+
+#User4 Uid: pIfUG1Qpmwasqrdu77d9nake9HM2 Trentino Cordelia
+curl -H "Content-Type: application/json" -X POST -d '{"userUid":"pIfUG1Qpmwasqrdu77d9nake9HM2","userToReview":"kbz4sNCZtHMlfw3w3xCW3TTBco53","sumReview":"3.6","sumReview1":"2","sumReview2":"5","sumReview3":"4.5","sumReview4":"3","sumReview5":"3.5"}' http://localhost:8095/user/addReview
+echo -e ""
+
+curl -H "Content-Type: application/json" -X POST -d '{"userUid":"pIfUG1Qpmwasqrdu77d9nake9HM2","userToReview":"GutGWyaTg9OdhjecP1wzd35e0l83","sumReview":"4","sumReview1":"5","sumReview2":"4.5","sumReview3":"4","sumReview4":"3.5","sumReview5":"3"}' http://localhost:8095/user/addReview
+echo -e ""
+
+curl -H "Content-Type: application/json" -X POST -d '{"userUid":"pIfUG1Qpmwasqrdu77d9nake9HM2","userToReview":"sSiOgobodkOlLkyzbIqnqxLQQq93","sumReview":"3.4","sumReview1":"2","sumReview2":"3","sumReview3":"4","sumReview4":"5","sumReview5":"3"}' http://localhost:8095/user/addReview
+echo -e ""
+
+curl -H "Content-Type: application/json" -X POST -d '{"userUid":"pIfUG1Qpmwasqrdu77d9nake9HM2","userToReview":"pfcytk2YLdb7qQ2a224J420vZB03","sumReview":"4","sumReview1":"4.5","sumReview2":"4","sumReview3":"4.5","sumReview4":"4","sumReview5":"3"}' http://localhost:8095/user/addReview
+echo -e ""
+
+curl -H "Content-Type: application/json" -X POST -d '{"userUid":"pIfUG1Qpmwasqrdu77d9nake9HM2","userToReview":"RaHUVBSgljOzWvKNSGLl3QeSThh1","sumReview":"5","sumReview1":"5","sumReview2":"5","sumReview3":"5","sumReview4":"5","sumReview5":"5"}' http://localhost:8095/user/addReview
+echo -e ""
+
+#User5 Uid: 7hjchdyNdrO2itvdMRRj3b85wff2 Asta Andrea
+curl -H "Content-Type: application/json" -X POST -d '{"userUid":"7hjchdyNdrO2itvdMRRj3b85wff2","userToReview":"Tm8WrtKtVzco0him7RlnB9jUMmL2","sumReview":"3.6","sumReview1":"2","sumReview2":"5","sumReview3":"4.5","sumReview4":"3","sumReview5":"3.5"}' http://localhost:8095/user/addReview
+echo -e ""
+
+curl -H "Content-Type: application/json" -X POST -d '{"userUid":"7hjchdyNdrO2itvdMRRj3b85wff2","userToReview":"RaHUVBSgljOzWvKNSGLl3QeSThh1","sumReview":"4","sumReview1":"5","sumReview2":"4.5","sumReview3":"4","sumReview4":"3.5","sumReview5":"3"}' http://localhost:8095/user/addReview
+echo -e ""
+
+curl -H "Content-Type: application/json" -X POST -d '{"userUid":"7hjchdyNdrO2itvdMRRj3b85wff2","userToReview":"Ip5ooeVpugPGm6I0SY5Y2TUNIki2","sumReview":"3.4","sumReview1":"2","sumReview2":"3","sumReview3":"4","sumReview4":"5","sumReview5":"3"}' http://localhost:8095/user/addReview
+echo -e ""
+
+curl -H "Content-Type: application/json" -X POST -d '{"userUid":"7hjchdyNdrO2itvdMRRj3b85wff2","userToReview":"sSiOgobodkOlLkyzbIqnqxLQQq93","sumReview":"4","sumReview1":"4.5","sumReview2":"4","sumReview3":"4.5","sumReview4":"4","sumReview5":"3"}' http://localhost:8095/user/addReview
+echo -e ""
+
+curl -H "Content-Type: application/json" -X POST -d '{"userUid":"7hjchdyNdrO2itvdMRRj3b85wff2","userToReview":"pfcytk2YLdb7qQ2a224J420vZB03","sumReview":"5","sumReview1":"5","sumReview2":"5","sumReview3":"5","sumReview4":"5","sumReview5":"5"}' http://localhost:8095/user/addReview
+echo -e ""
+
+#User6 Uid: Ip5ooeVpugPGm6I0SY5Y2TUNIki2 Marcelo Teresa
+curl -H "Content-Type: application/json" -X POST -d '{"userUid":"Ip5ooeVpugPGm6I0SY5Y2TUNIki2","userToReview":"3ENghkkewyPdttrz00ImV0F0QpH2","sumReview":"3.6","sumReview1":"2","sumReview2":"5","sumReview3":"4.5","sumReview4":"3","sumReview5":"3.5"}' http://localhost:8095/user/addReview
+echo -e ""
+
+curl -H "Content-Type: application/json" -X POST -d '{"userUid":"Ip5ooeVpugPGm6I0SY5Y2TUNIki2","userToReview":"kbz4sNCZtHMlfw3w3xCW3TTBco53","sumReview":"5","sumReview1":"5","sumReview2":"5","sumReview3":"5","sumReview4":"5","sumReview5":"5"}' http://localhost:8095/user/addReview
+echo -e ""
+
+curl -H "Content-Type: application/json" -X POST -d '{"userUid":"Ip5ooeVpugPGm6I0SY5Y2TUNIki2","userToReview":"7hjchdyNdrO2itvdMRRj3b85wff2","sumReview":"4","sumReview1":"5","sumReview2":"4.5","sumReview3":"4","sumReview4":"3.5","sumReview5":"3"}' http://localhost:8095/user/addReview
+echo -e ""
+
+curl -H "Content-Type: application/json" -X POST -d '{"userUid":"Ip5ooeVpugPGm6I0SY5Y2TUNIki2","userToReview":"Tm8WrtKtVzco0him7RlnB9jUMmL2","sumReview":"4","sumReview1":"4.5","sumReview2":"4","sumReview3":"4.5","sumReview4":"4","sumReview5":"3"}' http://localhost:8095/user/addReview
+echo -e ""
+
+curl -H "Content-Type: application/json" -X POST -d '{"userUid":"Ip5ooeVpugPGm6I0SY5Y2TUNIki2","userToReview":"sSiOgobodkOlLkyzbIqnqxLQQq93","sumReview":"3.4","sumReview1":"2","sumReview2":"3","sumReview3":"4","sumReview4":"5","sumReview5":"3"}' http://localhost:8095/user/addReview
+echo -e ""
+
+#User7 Uid: GutGWyaTg9OdhjecP1wzd35e0l83 Nestore Bruno
+curl -H "Content-Type: application/json" -X POST -d '{"userUid":"GutGWyaTg9OdhjecP1wzd35e0l83","userToReview":"pIfUG1Qpmwasqrdu77d9nake9HM2","sumReview":"3.4","sumReview1":"2","sumReview2":"3","sumReview3":"4","sumReview4":"5","sumReview5":"3"}' http://localhost:8095/user/addReview
+echo -e ""
+
+curl -H "Content-Type: application/json" -X POST -d '{"userUid":"GutGWyaTg9OdhjecP1wzd35e0l83","userToReview":"kbz4sNCZtHMlfw3w3xCW3TTBco53","sumReview":"4","sumReview1":"4.5","sumReview2":"4","sumReview3":"4.5","sumReview4":"4","sumReview5":"3"}' http://localhost:8095/user/addReview
+echo -e ""
+
+curl -H "Content-Type: application/json" -X POST -d '{"userUid":"GutGWyaTg9OdhjecP1wzd35e0l83","userToReview":"pfcytk2YLdb7qQ2a224J420vZB03","sumReview":"4","sumReview1":"5","sumReview2":"4.5","sumReview3":"4","sumReview4":"3.5","sumReview5":"3"}' http://localhost:8095/user/addReview
+echo -e ""
+
+curl -H "Content-Type: application/json" -X POST -d '{"userUid":"GutGWyaTg9OdhjecP1wzd35e0l83","userToReview":"RaHUVBSgljOzWvKNSGLl3QeSThh1","sumReview":"5","sumReview1":"5","sumReview2":"5","sumReview3":"5","sumReview4":"5","sumReview5":"5"}' http://localhost:8095/user/addReview
+echo -e ""
+
+curl -H "Content-Type: application/json" -X POST -d '{"userUid":"GutGWyaTg9OdhjecP1wzd35e0l83","userToReview":"7hjchdyNdrO2itvdMRRj3b85wff2","sumReview":"3.6","sumReview1":"2","sumReview2":"5","sumReview3":"4.5","sumReview4":"3","sumReview5":"3.5"}' http://localhost:8095/user/addReview
+echo -e ""
+
+#User8 Uid: 3ENghkkewyPdttrz00ImV0F0QpH2 Fiorentini Daphne
+curl -H "Content-Type: application/json" -X POST -d '{"userUid":"3ENghkkewyPdttrz00ImV0F0QpH2","userToReview":"Ip5ooeVpugPGm6I0SY5Y2TUNIki2","sumReview":"3.6","sumReview1":"2","sumReview2":"5","sumReview3":"4.5","sumReview4":"3","sumReview5":"3.5"}' http://localhost:8095/user/addReview
+echo -e ""
+
+curl -H "Content-Type: application/json" -X POST -d '{"userUid":"3ENghkkewyPdttrz00ImV0F0QpH2","userToReview":"7hjchdyNdrO2itvdMRRj3b85wff2","sumReview":"5","sumReview1":"5","sumReview2":"5","sumReview3":"5","sumReview4":"5","sumReview5":"5"}' http://localhost:8095/user/addReview
+echo -e ""
+
+curl -H "Content-Type: application/json" -X POST -d '{"userUid":"3ENghkkewyPdttrz00ImV0F0QpH2","userToReview":"Tm8WrtKtVzco0him7RlnB9jUMmL2","sumReview":"4","sumReview1":"5","sumReview2":"4.5","sumReview3":"4","sumReview4":"3.5","sumReview5":"3"}' http://localhost:8095/user/addReview
+echo -e ""
+
+curl -H "Content-Type: application/json" -X POST -d '{"userUid":"3ENghkkewyPdttrz00ImV0F0QpH2","userToReview":"pfcytk2YLdb7qQ2a224J420vZB03","sumReview":"4","sumReview1":"4.5","sumReview2":"4","sumReview3":"4.5","sumReview4":"4","sumReview5":"3"}' http://localhost:8095/user/addReview
+echo -e ""
+
+curl -H "Content-Type: application/json" -X POST -d '{"userUid":"3ENghkkewyPdttrz00ImV0F0QpH2","userToReview":"sSiOgobodkOlLkyzbIqnqxLQQq93","sumReview":"3.4","sumReview1":"2","sumReview2":"3","sumReview3":"4","sumReview4":"5","sumReview5":"3"}' http://localhost:8095/user/addReview
+echo -e ""
+
+#User9 Uid: sSiOgobodkOlLkyzbIqnqxLQQq93 Romani Diego
+curl -H "Content-Type: application/json" -X POST -d '{"userUid":"sSiOgobodkOlLkyzbIqnqxLQQq93","userToReview":"pIfUG1Qpmwasqrdu77d9nake9HM2","sumReview":"3.4","sumReview1":"2","sumReview2":"3","sumReview3":"4","sumReview4":"5","sumReview5":"3"}' http://localhost:8095/user/addReview
+echo -e ""
+
+curl -H "Content-Type: application/json" -X POST -d '{"userUid":"sSiOgobodkOlLkyzbIqnqxLQQq93","userToReview":"3ENghkkewyPdttrz00ImV0F0QpH2","sumReview":"4","sumReview1":"4.5","sumReview2":"4","sumReview3":"4.5","sumReview4":"4","sumReview5":"3"}' http://localhost:8095/user/addReview
+echo -e ""
+
+curl -H "Content-Type: application/json" -X POST -d '{"userUid":"sSiOgobodkOlLkyzbIqnqxLQQq93","userToReview":"kbz4sNCZtHMlfw3w3xCW3TTBco53","sumReview":"4","sumReview1":"5","sumReview2":"4.5","sumReview3":"4","sumReview4":"3.5","sumReview5":"3"}' http://localhost:8095/user/addReview
+echo -e ""
+
+curl -H "Content-Type: application/json" -X POST -d '{"userUid":"sSiOgobodkOlLkyzbIqnqxLQQq93","userToReview":"GutGWyaTg9OdhjecP1wzd35e0l83","sumReview":"5","sumReview1":"5","sumReview2":"5","sumReview3":"5","sumReview4":"5","sumReview5":"5"}' http://localhost:8095/user/addReview
+echo -e ""
+
+curl -H "Content-Type: application/json" -X POST -d '{"userUid":"sSiOgobodkOlLkyzbIqnqxLQQq93","userToReview":"pfcytk2YLdb7qQ2a224J420vZB03","sumReview":"3.6","sumReview1":"2","sumReview2":"5","sumReview3":"4.5","sumReview4":"3","sumReview5":"3.5"}' http://localhost:8095/user/addReview
+echo -e ""
+
+#User10 Uid: pfcytk2YLdb7qQ2a224J420vZB03 Frediana Siciliani
+curl -H "Content-Type: application/json" -X POST -d '{"userUid":"pfcytk2YLdb7qQ2a224J420vZB03","userToReview":"Ip5ooeVpugPGm6I0SY5Y2TUNIki2","sumReview":"3.6","sumReview1":"2","sumReview2":"5","sumReview3":"4.5","sumReview4":"3","sumReview5":"3.5"}' http://localhost:8095/user/addReview
+echo -e ""
+
+curl -H "Content-Type: application/json" -X POST -d '{"userUid":"pfcytk2YLdb7qQ2a224J420vZB03","userToReview":"7hjchdyNdrO2itvdMRRj3b85wff2","sumReview":"4","sumReview1":"5","sumReview2":"4.5","sumReview3":"4","sumReview4":"3.5","sumReview5":"3"}' http://localhost:8095/user/addReview
+echo -e ""
+
+curl -H "Content-Type: application/json" -X POST -d '{"userUid":"pfcytk2YLdb7qQ2a224J420vZB03","userToReview":"RaHUVBSgljOzWvKNSGLl3QeSThh1","sumReview":"3.4","sumReview1":"2","sumReview2":"3","sumReview3":"4","sumReview4":"5","sumReview5":"3"}' http://localhost:8095/user/addReview
+echo -e ""
+
+curl -H "Content-Type: application/json" -X POST -d '{"userUid":"pfcytk2YLdb7qQ2a224J420vZB03","userToReview":"Tm8WrtKtVzco0him7RlnB9jUMmL2","sumReview":"5","sumReview1":"5","sumReview2":"5","sumReview3":"5","sumReview4":"5","sumReview5":"5"}' http://localhost:8095/user/addReview
+echo -e ""
+
+curl -H "Content-Type: application/json" -X POST -d '{"userUid":"pfcytk2YLdb7qQ2a224J420vZB03","userToReview":"sSiOgobodkOlLkyzbIqnqxLQQq93","sumReview":"4","sumReview1":"4.5","sumReview2":"4","sumReview3":"4.5","sumReview4":"4","sumReview5":"3"}' http://localhost:8095/user/addReview
+echo -e ""
+
+
 
 echo -e "${green}"
 
