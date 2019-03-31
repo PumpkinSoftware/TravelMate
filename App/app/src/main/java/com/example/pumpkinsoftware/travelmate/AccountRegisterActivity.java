@@ -171,39 +171,45 @@ public class AccountRegisterActivity extends AppCompatActivity {
         surname = String.valueOf(surnamet.getText());
         bio = String.valueOf(biot.getText());
         birthday = nascita.getSetMonth() + "/" + nascita.getSetDay() + "/" + nascita.getSetYear();
+        boolean passed = true;
+        
         if (name.isEmpty()) {
             msgErrore("nome");
-            return;
+            passed = false;
         } else if (surname.isEmpty()) {
             msgErrore("cognome");
-            return;
+            passed = false;
         } else if (bio.isEmpty()) {
             msgErrore("una breve biografia");
-            return;
+            passed = false;
+        } else if (birthday.equals("-1/-1/-1")) {
+            msgErrore("la data di nascita");
+            passed = false;
         } else if (sex.isEmpty()) {
             msgErrore("il sesso");
-            return;
+            passed = false;
         } else if (relationship.isEmpty()) {
             msgErrore("la relazione sentimentale");
-            return;
+            passed = false;
         }
 
-        progressBar.setVisibility(View.VISIBLE);
+        if(passed) {
+            progressBar.setVisibility(View.VISIBLE);
 
-        mAuth.createUserWithEmailAndPassword(mail, pass)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            user = mAuth.getCurrentUser();
-                            sendRegistration();
-                        } else {
-                            try {
-                                progressBar.setVisibility(View.GONE);
-                                confirmFlag=false;
-                                throw task.getException();
-                            }
-                            // if user enters wrong password.
+            mAuth.createUserWithEmailAndPassword(mail, pass)
+                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                user = mAuth.getCurrentUser();
+                                sendRegistration();
+                            } else {
+                                try {
+                                    progressBar.setVisibility(View.GONE);
+                                    confirmFlag = false;
+                                    throw task.getException();
+                                }
+                                // if user enters wrong password.
                             /*catch (FirebaseAuthWeakPasswordException weakPassword)
                             {
                                 Log.d(TAG, "onComplete: weak_password");
@@ -213,17 +219,18 @@ public class AccountRegisterActivity extends AppCompatActivity {
                             {
                                 Log.d(TAG, "onComplete: malformed_email");
                             }*/ catch (FirebaseAuthUserCollisionException existEmail) {
-                                Toast.makeText(contesto, "Email già in uso", Toast.LENGTH_SHORT).show();
-                                progressBar.setVisibility(View.GONE);
-                                confirmFlag=false;
-                            } catch (Exception e) {
-                                Toast.makeText(contesto, "Si è verificato un problema, riprovare", Toast.LENGTH_SHORT).show();
-                                confirmFlag=false;
-                                progressBar.setVisibility(View.GONE);
+                                    Toast.makeText(contesto, "Email già in uso", Toast.LENGTH_SHORT).show();
+                                    progressBar.setVisibility(View.GONE);
+                                    confirmFlag = false;
+                                } catch (Exception e) {
+                                    Toast.makeText(contesto, "Si è verificato un problema, riprovare", Toast.LENGTH_SHORT).show();
+                                    confirmFlag = false;
+                                    progressBar.setVisibility(View.GONE);
+                                }
                             }
                         }
-                    }
-                });
+                    });
+        }
 
     }
 
