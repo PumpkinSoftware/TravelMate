@@ -478,10 +478,10 @@ public class EditUserActivity extends AppCompatActivity {
                         Toast.makeText(context, "Modifica completata", Toast.LENGTH_SHORT).show();
                         //nel caso che venga chiamata due volte non trova le foto da firebase ma l'app funziona lo stesso
                         //  if (upload < 2) {
-                        if (filePath1 != null && !user.getPhotoProfile().equals("")) {
+                        if (filePath1 != null && !user.getPhotoProfile().equals("") && !img.isEmpty()) {
                             deleteImg(storage.getReferenceFromUrl(img));
                         }
-                        if (filePath2 != null && !user.getCover().equals("")) {
+                        if (filePath2 != null && !user.getCover().equals("") && !img2.isEmpty()) {
                             deleteImg(storage.getReferenceFromUrl(img2));
                         }
                         updateUserForChat(utente);

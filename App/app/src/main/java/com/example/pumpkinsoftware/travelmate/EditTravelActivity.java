@@ -428,7 +428,7 @@ public class EditTravelActivity extends AppCompatActivity {
                         finish();
                         //
 
-                        if (!trip.getImage().equals("") && filePath!=null) {
+                        if (!trip.getImage().equals("") && filePath!=null && !img.isEmpty()) {
                             deleteImg(storage.getReferenceFromUrl(img));
                         }
                     } else {
