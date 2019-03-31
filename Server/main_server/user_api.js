@@ -24,7 +24,7 @@ var router = express.Router();
 
 router.get('/', function (req, res) {
     /*
-	var token = req.headers.access_token;
+	var token = req.headers.authorization;
 	if(token == undefined){
 		res.send(JSON.stringify({"status":"error","type":"-12"}));
 	}
@@ -45,7 +45,7 @@ router.get('/', function (req, res) {
 //Api verificata
 
 router.post('/newUser', function(req, res){
-	/*var token = req.headers.access_token;
+	/*var token = req.headers.authorization;
 	if(token == undefined){
 		res.send(JSON.stringify({"status":"error","type":"-12"}));
 	}
@@ -159,7 +159,7 @@ router.post('/newUser', function(req, res){
 //Api verificata
 
 router.get('/allUsers', function(req, res){
-	/*var token = req.headers.access_token;
+	/*var token = req.headers.authorization;
 	if(token == undefined){
 		res.send(JSON.stringify({"status":"error","type":"-12"}));
 	}
@@ -190,7 +190,7 @@ router.get('/allUsers', function(req, res){
 //Example to use getUserByEmail?email=prova@gmail.com
 
 router.get('/getUserByEmail', function(req, res){
-	/*var token = req.headers.access_token;
+	/*var token = req.headers.authorization;
 	if(token == undefined){
 		res.send(JSON.stringify({"status":"error","type":"-12"}));
 	}
@@ -231,7 +231,7 @@ router.get('/getUserByEmail', function(req, res){
 //Example to use getUserByUid?userUid=ddeun534FR32ew
 
 router.post('/getUserByUid', function(req, res){
-	/*var token = req.headers.access_token;
+	/*var token = req.headers.authorization;
 	if(token == undefined){
 		res.send(JSON.stringify({"status":"error","type":"-12"}));
 	}
@@ -278,7 +278,7 @@ router.post('/getUserByUid', function(req, res){
 //Example to use /getUserById?userId=...
 
 router.get('/getUserById', function(req, res){
-	/*var token = req.headers.access_token;
+	/*var token = req.headers.authorization;
 	if(token == undefined){
 		res.send(JSON.stringify({"status":"error","type":"-12"}));
 	}
@@ -318,7 +318,7 @@ router.get('/getUserById', function(req, res){
 //Api verificata
 
 router.post('/updateUser', function(req, res){
-	/*var token = req.headers.access_token;
+	/*var token = req.headers.authorization;
 	if(token == undefined){
 		res.send(JSON.stringify({"status":"error","type":"-12"}));
 	}
@@ -399,7 +399,7 @@ router.post('/updateUser', function(req, res){
 //Example to use addFavourTrip?tripId=....&usersUid=....
 
 router.get('/addFavouriteTrip', function(req, res){
-	/*var token = req.headers.access_token;
+	/*var token = req.headers.authorization;
 	if(token == undefined){
 		res.send(JSON.stringify({"status":"error","type":"-12"}));
 	}
@@ -459,7 +459,7 @@ router.get('/addFavouriteTrip', function(req, res){
 //Example to use removeFavourTrip?tripId=....&usersUid=....
 
 router.get('/removeFavouriteTrip', function(req, res){
-	/*var token = req.headers.access_token;
+	/*var token = req.headers.authorization;
 	if(token == undefined){
 		res.send(JSON.stringify({"status":"error","type":"-12"}));
 	}
@@ -519,7 +519,7 @@ router.get('/removeFavouriteTrip', function(req, res){
 //Example to use /GetUsersByTrip?tripId=...
 
 router.get('/getUsersByTrip', function(req, res){
-	/*var token = req.headers.access_token;
+	/*var token = req.headers.authorization;
 	if(token == undefined){
 		res.send(JSON.stringify({"status":"error","type":"-12"}));
 	}
@@ -562,7 +562,7 @@ router.get('/getUsersByTrip', function(req, res){
 //Example to use Post /addTrip?tripId=....&userUid=....
 
 router.post('/addTrip', function(req,res){
-	/*var token = req.headers.access_token;
+	/*var token = req.headers.authorization;
 	if(token == undefined){
 		res.send(JSON.stringify({"status":"error","type":"-12"}));
 	}
@@ -654,7 +654,7 @@ router.post('/addTrip', function(req,res){
 //Example to use Post /removeTrip?tripId=....&userUid=....
 
 router.post('/removeTrip', function(req,res){
-	/*var token = req.headers.access_token;
+	/*var token = req.headers.authorization;
 	if(token == undefined){
 		res.send(JSON.stringify({"status":"error","type":"-12"}));
 	}
@@ -743,7 +743,7 @@ router.post('/removeTrip', function(req,res){
  //Example to use /deleteUser?userUid=...
 
 router.get('/deleteUser', function(req, res){
-	/*var token = req.headers.access_token;
+	/*var token = req.headers.authorization;
 	if(token == undefined){
 		res.send(JSON.stringify({"status":"error","type":"-12"}));
 	}
@@ -777,7 +777,7 @@ router.get('/deleteUser', function(req, res){
 //Example to use /getTripByUser?userUid=...
 
 router.get('/getTripsByUser', function(req, res){
-	/*var token = req.headers.access_token;
+	/*var token = req.headers.authorization;
 	if(token == undefined){
 		res.send(JSON.stringify({"status":"error","type":"-12"}));
 	}
@@ -841,7 +841,7 @@ router.get('/getTripsByUser', function(req, res){
 //Example to use /getTripByUserSplit?userUid=...
 
 router.get('/getTripsByUserSplit',function(req,res){
-	/*var token = req.headers.access_token;
+	/*var token = req.headers.authorization;
 	if(token == undefined){
 		res.send(JSON.stringify({"status":"error","type":"-12"}));
 	}
@@ -907,7 +907,7 @@ router.get('/getTripsByUserSplit',function(req,res){
 // Example to use /getPassedTripsByUser?userUid=...
 
 router.get('/getPassedTripsByUser',function(req,res){
-	/*var token = req.headers.access_token;
+	/*var token = req.headers.authorization;
 	if(token == undefined){
 		res.send(JSON.stringify({"status":"error","type":"-12"}));
 	}
@@ -964,7 +964,7 @@ router.get('/getPassedTripsByUser',function(req,res){
 // Example to use /getPassedTripsByUser?userUid=...
 
 router.get('/getProgressTripsByUser',function(req,res){
-	/*var token = req.headers.access_token;
+	/*var token = req.headers.authorization;
 	if(token == undefined){
 		res.send(JSON.stringify({"status":"error","type":"-12"}));
 	}
@@ -1022,7 +1022,7 @@ router.get('/getProgressTripsByUser',function(req,res){
 // Example to use /changeOwnerAndRemoveLast?tripId=...&userUid=...
 
 router.post('/changeOwnerAndRemoveLast',function(req,res){
-	/*var token = req.headers.access_token;
+	/*var token = req.headers.authorization;
 	if(token == undefined){
 		res.send(JSON.stringify({"status":"error","type":"-12"}));
 	}
@@ -1112,7 +1112,7 @@ router.post('/changeOwnerAndRemoveLast',function(req,res){
 //Api verificata
 
 router.get('/deleteAll', function(req, res){
-	/*var token = req.headers.access_token;
+	/*var token = req.headers.authorization;
 	if(token == undefined){
 		res.send(JSON.stringify({"status":"error","type":"-12"}));
 	}
@@ -1141,7 +1141,7 @@ router.get('/deleteAll', function(req, res){
 /****************************************/
 //Api per inserire una recensione
 router.post('/addReview',function(req,res){
-	/*var token = req.headers.access_token;
+	/*var token = req.headers.authorization;
 	if(token == undefined){
 		res.send(JSON.stringify({"status":"error","type":"-12"}));
 	}
@@ -1220,7 +1220,7 @@ router.post('/addReview',function(req,res){
 /****************************************/
 //Api per ottenre la lista delle recensioni da fare
 router.get('/leftReviews',function(req,res){
-	/*var token = req.headers.access_token;
+	/*var token = req.headers.authorization;
 	if(token == undefined){
 		res.send(JSON.stringify({"status":"error","type":"-12"}));
 	}
@@ -1298,7 +1298,7 @@ router.get('/leftReviews',function(req,res){
 /****************************************/
 //Api per ottenre la lista delle recensioni da fare, numero
 router.get('/leftReviewsNumbers',function(req,res){
-	/*var token = req.headers.access_token;
+	/*var token = req.headers.authorization;
 	if(token == undefined){
 		res.send(JSON.stringify({"status":"error","type":"-12"}));
 	}

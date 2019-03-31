@@ -93,7 +93,7 @@ public class GetTripById {
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("Content-Type", "application/json; charset=UTF-8");
-                params.put("access_token", idToken);
+                params.put("authorization", idToken);
                 return params;
             }
         };

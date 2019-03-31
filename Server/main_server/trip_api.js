@@ -27,7 +27,7 @@ var router = express.Router();
 //Api verificata
 
 router.get('/', function (req, res) {
-	/*var token = req.headers.access_token;
+	/*var token = req.headers.authorization;
 	if(token == undefined){
 		res.send(JSON.stringify({"status":"error","type":"-12"}));
 	}
@@ -47,7 +47,7 @@ router.get('/', function (req, res) {
 //Api verificata
 
 router.post('/newTrip', function(req,res){
-	/*var token = req.headers.access_token;
+	/*var token = req.headers.authorization;
 	if(token == undefined){
 		res.send(JSON.stringify({"status":"error","type":"-12"}));
 	}
@@ -155,7 +155,7 @@ router.post('/newTrip', function(req,res){
 //example use /allTrips
 
 router.get('/allTrips', function(req, res){
-	/*var token = req.headers.access_token;
+	/*var token = req.headers.authorization;
 	if(token == undefined){
 		res.send(JSON.stringify({"status":"error","type":"-12"}));
 	}
@@ -186,7 +186,7 @@ router.get('/allTrips', function(req, res){
 //example use /lastTripsCreated?limit=200
 
 router.get('/lastTripsCreated', function(req, res){
-	/*var token = req.headers.access_token;
+	/*var token = req.headers.authorization;
 	if(token == undefined){
 		res.send(JSON.stringify({"status":"error","type":"-12"}));
 	}
@@ -222,7 +222,7 @@ router.get('/lastTripsCreated', function(req, res){
 //example use /lastTripsCreatedWithUser?limit=200&userUid=
 
 router.get('/lastTripsCreatedWithUser', function(req, res){
-	/*var token = req.headers.access_token;
+	/*var token = req.headers.authorization;
 	if(token == undefined){
 		res.send(JSON.stringify({"status":"error","type":"-12"}));
 	}
@@ -277,7 +277,7 @@ router.get('/lastTripsCreatedWithUser', function(req, res){
 // &vehicle=auto&minPartecipant=1&tag="intrattenimento"
 
 router.get('/getTripsWithFilter', function(req, res){
-	/*var token = req.headers.access_token;
+	/*var token = req.headers.authorization;
 	if(token == undefined){
 		res.send(JSON.stringify({"status":"error","type":"-12"}));
 	}
@@ -345,7 +345,7 @@ router.get('/getTripsWithFilter', function(req, res){
 //Api verificata
 
 router.post('/updateTrip', function(req, res){
-	/*var token = req.headers.access_token;
+	/*var token = req.headers.authorization;
 	if(token == undefined){
 		res.send(JSON.stringify({"status":"error","type":"-12"}));
 	}
@@ -414,7 +414,7 @@ router.post('/updateTrip', function(req, res){
 //example use: /deleteTrip?tripId=5c537f4bbd73113cd71d1384
 
 router.get('/deleteTrip', function(req, res){
-	/*var token = req.headers.access_token;
+	/*var token = req.headers.authorization;
 	if(token == undefined){
 		res.send(JSON.stringify({"status":"error","type":"-12"}));
 	}
@@ -539,7 +539,7 @@ router.get('/deleteTrip', function(req, res){
 // example use getTripByid?id=483249832948932ab43c443b
 
 router.get('/getTripById', function(req, res){
-	/*var token = req.headers.access_token;
+	/*var token = req.headers.authorization;
 	if(token == undefined){
 		res.send(JSON.stringify({"status":"error","type":"-12"}));
 	}
@@ -580,7 +580,7 @@ router.get('/getTripById', function(req, res){
 // example use getTripByidWithUsers?id=483249832948932ab43c443b
 
 router.get('/getTripByIdWithUsers', function(req, res){
-	/*var token = req.headers.access_token;
+	/*var token = req.headers.authorization;
 	if(token == undefined){
 		res.send(JSON.stringify({"status":"error","type":"-12"}));
 	}
@@ -639,7 +639,7 @@ router.get('/getTripByIdWithUsers', function(req, res){
 //Api verificata
 
 router.get('/deleteAll', function(req, res){
-	/*var token = req.headers.access_token;
+	/*var token = req.headers.authorization;
 	if(token == undefined){
 		res.send(JSON.stringify({"status":"error","type":"-12"}));
 	}
