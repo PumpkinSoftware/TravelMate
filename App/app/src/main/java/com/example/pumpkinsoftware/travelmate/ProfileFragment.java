@@ -186,11 +186,13 @@ public class ProfileFragment extends Fragment {
         String n = "( " + (String.valueOf(mUser.getNumReviews())) + " )"; //così non rompe
         txt.setText(n);
 
+        float rank = (float) mUser.getRank();
+
         txt = view.findViewById(R.id.rating);
-        txt.setText(String.valueOf(mUser.getRank()));
+        txt.setText(String.valueOf(rank));
 
         RatingBar ratingBar = view.findViewById(R.id.ratingBar);
-        ratingBar.setRating((float) mUser.getRank());
+        ratingBar.setRating(rank);
 
         return true;
     }

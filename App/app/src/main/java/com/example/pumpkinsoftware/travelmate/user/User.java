@@ -19,7 +19,7 @@ public class User implements Serializable {
     // Useful in partecipants' recyclerview
     public User(String uid, String n, String pp){
         this.uid = uid;
-        name=n;
+        name = n;
         surname = "";
         birthday = "";
         photoProfile=pp;
@@ -147,7 +147,8 @@ public class User implements Serializable {
     }
 
     public double getRank() {
-        return (sumReviews==0 && numReviews==0)?0: sumReviews / numReviews ;
+        //return (sumReviews==0 && numReviews==0) ? 0: sumReviews / numReviews;
+        return (double) Math.round((sumReviews / numReviews) * 100) / 100;
     }
 
 }

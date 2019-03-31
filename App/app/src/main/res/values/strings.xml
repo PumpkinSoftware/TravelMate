@@ -24,7 +24,7 @@
     <string name="facebook_login_protocol_scheme" translatable="false">fbYOUR_APP_ID</string>-->
 
     <!-- Home -->
-    <string name="home_title"> 😎 Ultimi aggiunti</string>
+    <string name="home_title">Ultimi aggiunti</string> <!-- 😎  -->
     <string name="user_logged">LeBron James</string>
     <string name="MORE">MORE</string>
     <string name="n500">500</string>
