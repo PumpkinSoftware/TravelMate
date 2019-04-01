@@ -65,8 +65,9 @@ public class CreationTrip extends AppCompatActivity {
     protected String from_q, to_q, departure_q, return_q, nome_q, program_q, vehicle = "", tag = "";
     protected Double budget_q;
     protected int group_q;
+    private Button confirm;
     private RequestQueue mQueue;
-    Context contesto;
+    private Context contesto;
 
     //foto
     private ImageView b_upload;
@@ -139,11 +140,12 @@ public class CreationTrip extends AppCompatActivity {
             }
         });
 
-        Button b_confirm = (Button) findViewById(R.id.confirm_button);
-        b_confirm.setOnClickListener(new View.OnClickListener() {
+        confirm = (Button) findViewById(R.id.confirm_button);
+        confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 confirmFlag = true;
+                confirm.setEnabled(false);
                 progressBar.setVisibility(View.VISIBLE);
 
                 // valori da passare
@@ -198,6 +200,7 @@ public class CreationTrip extends AppCompatActivity {
 
                     } catch (JSONException e) {
                         confirmFlag = false;
+                        confirm.setEnabled(true);
                         progressBar.setVisibility(View.GONE);
                         e.printStackTrace();
                     }
@@ -280,7 +283,8 @@ public class CreationTrip extends AppCompatActivity {
                                     } catch (JSONException e) {
                                         progressBar.setVisibility(View.GONE);
                                         e.printStackTrace();
-                                        confirmFlag=false;
+                                        confirmFlag = false;
+                                        confirm.setEnabled(true);
                                     }
                                     //Qui richiami mongoDB per creare il trip
                                     user.getIdToken(true)
@@ -295,7 +299,8 @@ public class CreationTrip extends AppCompatActivity {
                                                         // Handle error -> task.getException();
                                                         progressBar.setVisibility(View.GONE);
                                                         Toast.makeText(contesto, "Riprova", Toast.LENGTH_SHORT).show();
-                                                        confirmFlag=false;
+                                                        confirmFlag = false;
+                                                        confirm.setEnabled(true);
                                                     }
                                                 }
                                             });
@@ -317,7 +322,8 @@ public class CreationTrip extends AppCompatActivity {
                             } catch (JSONException e1) {
                                 progressBar.setVisibility(View.GONE);
                                 e1.printStackTrace();
-                                confirmFlag=false;
+                                confirmFlag = false;
+                                confirm.setEnabled(true);
                             }
                             user.getIdToken(true)
                                     .addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
@@ -331,7 +337,8 @@ public class CreationTrip extends AppCompatActivity {
                                                 // Handle error -> task.getException();
                                                 progressBar.setVisibility(View.GONE);
                                                 Toast.makeText(contesto, "Riprova", Toast.LENGTH_SHORT).show();
-                                                confirmFlag=false;
+                                                confirmFlag = false;
+                                                confirm.setEnabled(true);
 
                                             }
                                         }
@@ -347,6 +354,7 @@ public class CreationTrip extends AppCompatActivity {
             } catch (JSONException e) {
                 progressBar.setVisibility(View.GONE);
                 confirmFlag = false;
+                confirm.setEnabled(true);
                 e.printStackTrace();
             }
             user.getIdToken(true)
@@ -361,7 +369,8 @@ public class CreationTrip extends AppCompatActivity {
                                 // Handle error -> task.getException();
                                 progressBar.setVisibility(View.GONE);
                                 Toast.makeText(contesto, "Riprova", Toast.LENGTH_SHORT).show();
-                                confirmFlag=false;
+                                confirmFlag = false;
+                                confirm.setEnabled(true);
                             }
                         }
                     });
@@ -381,7 +390,8 @@ public class CreationTrip extends AppCompatActivity {
                     } else {
                         String err = response.getString("type");
                         new ErrorServer(contesto).handleError(err);
-                        confirmFlag=false;
+                        confirmFlag = false;
+                        confirm.setEnabled(true);
                         if (filePath != null) {
                             deleteImg(storage.getReferenceFromUrl(viaggio.getString("image")));
                         }
@@ -390,6 +400,7 @@ public class CreationTrip extends AppCompatActivity {
                 } catch (JSONException e) {
                     progressBar.setVisibility(View.GONE);
                     confirmFlag = false;
+                    confirm.setEnabled(true);
                     Toast.makeText(contesto, "Errore: riprovare", Toast.LENGTH_SHORT).show();
                 }
 
@@ -400,6 +411,8 @@ public class CreationTrip extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
                 // error
                 progressBar.setVisibility(View.GONE);
+                confirmFlag = false;
+                confirm.setEnabled(true);
                 Toast.makeText(contesto, "Errore ", Toast.LENGTH_SHORT).show();
             }
         }) {
@@ -427,7 +440,8 @@ public class CreationTrip extends AppCompatActivity {
     private void msgErrore(String datoMancante) {
         Toast.makeText(contesto, "Inserisci " + datoMancante, Toast.LENGTH_SHORT).show();
         progressBar.setVisibility(View.GONE);
-        confirmFlag=false;
+        confirmFlag = false;
+        confirm.setEnabled(true);
     }
 
     public void onRadioButtonClicked(View view) {

@@ -65,6 +65,7 @@ public class EditTravelActivity extends AppCompatActivity {
     private String tag;
     //Photo
     private ImageView b_upload;
+    private Button confirm;
     private final int PICK_IMAGE_REQUEST = 71;
     private Uri filePath;
     //Firebase
@@ -78,7 +79,7 @@ public class EditTravelActivity extends AppCompatActivity {
     private final static int MAX_PARTECIPANTS = 15;
     private ProgressBar progressBar;
 
-    private boolean confirmFlag=false;
+    private boolean confirmFlag = false;
     private String img;
 
     @Override
@@ -176,11 +177,12 @@ public class EditTravelActivity extends AppCompatActivity {
         });
 
 
-        Button b_confirm = (Button) findViewById(R.id.confirm_button);
-        b_confirm.setOnClickListener(new View.OnClickListener() {
+        confirm = (Button) findViewById(R.id.confirm_button);
+        confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                confirmFlag=true;
+                confirmFlag = true;
+                confirm.setEnabled(false);
                 progressBar.setVisibility(View.VISIBLE);
 
                 // valori da passare
@@ -205,6 +207,8 @@ public class EditTravelActivity extends AppCompatActivity {
                     group_q = Integer.parseInt(partecipants.getText().toString());
                 } catch (Exception e) {
                     progressBar.setVisibility(View.GONE);
+                    confirm.setEnabled(true);
+                    confirmFlag = true;
                     e.printStackTrace();
                 }
 
@@ -218,6 +222,7 @@ public class EditTravelActivity extends AppCompatActivity {
                     } catch (JSONException e) {
                         progressBar.setVisibility(View.GONE);
                         confirmFlag = false;
+                        confirm.setEnabled(true);
                         e.printStackTrace();
                     }
                 }
@@ -229,6 +234,7 @@ public class EditTravelActivity extends AppCompatActivity {
                     } catch (JSONException e) {
                         progressBar.setVisibility(View.GONE);
                         confirmFlag = false;
+                        confirm.setEnabled(true);
                         e.printStackTrace();
                     }
                 }
@@ -283,7 +289,8 @@ public class EditTravelActivity extends AppCompatActivity {
                 } catch (JSONException e) {
                     progressBar.setVisibility(View.GONE);
                     e.printStackTrace();
-                    confirmFlag=false;
+                    confirmFlag = false;
+                    confirm.setEnabled(true);
                 }
                 uploadImage(viaggio);
 
@@ -315,7 +322,8 @@ public class EditTravelActivity extends AppCompatActivity {
                                     } catch (JSONException e) {
                                         progressBar.setVisibility(View.GONE);
                                         e.printStackTrace();
-                                        confirmFlag=false;
+                                        confirmFlag = false;
+                                        confirm.setEnabled(true);
                                     }
                                     //Qui richiami mongoDB per creare il trip
                                     user.getIdToken(true)
@@ -330,13 +338,15 @@ public class EditTravelActivity extends AppCompatActivity {
                                                         // Handle error -> task.getException();
                                                         progressBar.setVisibility(View.GONE);
                                                         Toast.makeText(context, "Riprova", Toast.LENGTH_SHORT).show();
-                                                        confirmFlag=false;
+                                                        confirmFlag = false;
+                                                        confirm.setEnabled(true);
                                                         try {
                                                             if(filePath!=null) {
                                                                 deleteImg(storage.getReferenceFromUrl(viaggio.getString("image")));
                                                             }
                                                         } catch (JSONException e) {
                                                             confirmFlag = false;
+                                                            confirm.setEnabled(true);
                                                             progressBar.setVisibility(View.GONE);
                                                             e.printStackTrace();
                                                         }
@@ -359,7 +369,8 @@ public class EditTravelActivity extends AppCompatActivity {
                             } catch (JSONException e1) {
                                 progressBar.setVisibility(View.GONE);
                                 e1.printStackTrace();
-                                confirmFlag=false;
+                                confirmFlag = false;
+                                confirm.setEnabled(true);
                             }
                             user.getIdToken(true)
                                     .addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
@@ -373,7 +384,8 @@ public class EditTravelActivity extends AppCompatActivity {
                                                 // Handle error -> task.getException();
                                                 progressBar.setVisibility(View.GONE);
                                                 Toast.makeText(context, "Riprova", Toast.LENGTH_SHORT).show();
-                                                confirmFlag=false;
+                                                confirmFlag = false;
+                                                confirm.setEnabled(true);
                                                 try {
                                                     if(filePath!=null) {
                                                         deleteImg(storage.getReferenceFromUrl(viaggio.getString("image")));
@@ -381,7 +393,8 @@ public class EditTravelActivity extends AppCompatActivity {
                                                 } catch (JSONException e1) {
                                                     e1.printStackTrace();
                                                     progressBar.setVisibility(View.GONE);
-                                                    confirmFlag=false;
+                                                    confirmFlag = false;
+                                                    confirm.setEnabled(true);
                                                 }
                                             }
                                         }
@@ -402,7 +415,8 @@ public class EditTravelActivity extends AppCompatActivity {
                                 // Handle error -> task.getException();
                                 progressBar.setVisibility(View.GONE);
                                 Toast.makeText(context, "Riprova", Toast.LENGTH_SHORT).show();
-                                confirmFlag=false;
+                                confirmFlag = false;
+                                confirm.setEnabled(true);
                             }
                         }
                     });
@@ -440,7 +454,8 @@ public class EditTravelActivity extends AppCompatActivity {
 
                 } catch (JSONException e) {
                     progressBar.setVisibility(View.GONE);
-                    confirmFlag=false;
+                    confirmFlag = false;
+                    confirm.setEnabled(true);
                     Toast.makeText(context, "Errore: riprovare", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -449,6 +464,8 @@ public class EditTravelActivity extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
                 // error
                 progressBar.setVisibility(View.GONE);
+                confirmFlag = false;
+                confirm.setEnabled(true);
                 Toast.makeText(context, "Errore ", Toast.LENGTH_SHORT).show();
             }
         }) {
@@ -552,44 +569,3 @@ public class EditTravelActivity extends AppCompatActivity {
     }
 
 }
-/*
-* from_q = from.getText().toString().toLowerCase();
-                to_q = to.getText().toString().toLowerCase();
-
-                nome_q = nome.getText().toString().toLowerCase();
-                program_q = program.getText().toString().toLowerCase();
-                departure_q = departure.getSetMonth() + "/" + departure.getSetDay() + "/" + departure.getSetYear();
-                return_q = ret.getSetMonth() + "/" + ret.getSetDay() + "/" + ret.getSetYear();
-                group=partecipats.getText();
-
-                if (from_q.isEmpty()) {
-                    msgErrore("la partenza");
-                } else if (to_q.isEmpty()) {
-                    msgErrore("la destinazione");
-                } else if (departure_q.equals("-1/-1/-1")) {
-                    msgErrore("la data di partenza");
-                } else if (return_q.equals("-1/-1/-1")) {
-                    msgErrore("la data di arrivo");
-                } else if (vehicle.isEmpty()) {
-                    msgErrore("il veicolo");
-                } else if (budget.getText().toString().isEmpty()) {
-                    msgErrore("il budget");
-                } else if (Integer.parseInt(budget) < 0 || (Integer.parseInt(budget) > 500)) {
-                    Toast.makeText(contesto, "Valore budget non valido", Toast.LENGTH_SHORT).show();
-                } else if (group.getText().toString().isEmpty()) {
-                    msgErrore("il numero del gruppo");
-                } else if (Integer.parseInt(group.getText().toString()) < 2 || (Integer.parseInt(group.getText().toString()) > 15)) {
-                    Toast.makeText(contesto, "Valore gruppo non valido", Toast.LENGTH_SHORT).show();
-                } else if (program_q.isEmpty()) {
-                    msgErrore("una sintesi del programma");
-                } else if (nome_q.isEmpty()) {
-                    msgErrore("il nome del viaggio");
-                } else if (tag.isEmpty()) {
-                    msgErrore("il tipo di evento");
-                } else {
-*
-* private void msgErrore(String datoMancante) {
-        Toast.makeText(contesto, "Inserisci " + datoMancante, Toast.LENGTH_SHORT).show();
-    }
-*
-* */

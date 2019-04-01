@@ -70,6 +70,7 @@ public class EditUserActivity extends AppCompatActivity {
     private EditText biot;
     private CircleImageView profile;
     private ImageView cover;
+    private Button confirm;
     private Uri filePath1, filePath2;
     private final int PICK_IMAGE_REQUEST = 71;
     private int FOTO = 0;
@@ -209,12 +210,12 @@ public class EditUserActivity extends AppCompatActivity {
         params.horizontalBias = (float) 0.5;
         params.bottomToBottom = ;*/
 
-        final Button confirm =  findViewById(R.id.buttonRegister);
+        confirm =  findViewById(R.id.buttonRegister);
         //confirm.setLayoutParams(params);
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                confirmFlag =true;
+                confirmFlag = true;
                 update();
             }
         });
@@ -274,6 +275,7 @@ public class EditUserActivity extends AppCompatActivity {
     private String bio;
 
     public void update() {
+        confirm.setEnabled(false);
         progressBar.setVisibility(View.VISIBLE);
         bio = String.valueOf(biot.getText());
         bio = bio.substring(0, 1).toUpperCase() + bio.substring(1).toLowerCase();
@@ -300,6 +302,7 @@ public class EditUserActivity extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
             confirmFlag=false;
+            confirm.setEnabled(true);
             progressBar.setVisibility(View.GONE);
         }
 
@@ -324,7 +327,8 @@ public class EditUserActivity extends AppCompatActivity {
                                     } catch (JSONException e) {
                                         progressBar.setVisibility(View.GONE);
                                         e.printStackTrace();
-                                        confirmFlag=false;
+                                        confirmFlag = false;
+                                        confirm.setEnabled(true);
                                     }
                                     //  upload++;
                                     uploadImage2(utente);
@@ -341,7 +345,8 @@ public class EditUserActivity extends AppCompatActivity {
                             } catch (JSONException e1) {*/
                                 progressBar.setVisibility(View.GONE);
                                 e.printStackTrace();
-                                confirmFlag=false;
+                                confirmFlag = false;
+                            confirm.setEnabled(true);
                             //}
                             uploadImage2(utente);
                         }
@@ -369,7 +374,8 @@ public class EditUserActivity extends AppCompatActivity {
                                     } catch (JSONException e) {
                                         progressBar.setVisibility(View.GONE);
                                         e.printStackTrace();
-                                        confirmFlag=false;
+                                        confirmFlag = false;
+                                        confirm.setEnabled(true);
                                     }
                                     //  upload++;
                                     firebaseUser.getIdToken(true)
@@ -384,7 +390,8 @@ public class EditUserActivity extends AppCompatActivity {
                                                         // Handle error -> task.getException();
                                                         progressBar.setVisibility(View.GONE);
                                                         Toast.makeText(context, "Riprova", Toast.LENGTH_SHORT).show();
-                                                        confirmFlag=false;
+                                                        confirmFlag = false;
+                                                        confirm.setEnabled(true);
                                                     }
                                                 }
                                             });
@@ -399,6 +406,8 @@ public class EditUserActivity extends AppCompatActivity {
                                 utente.put("cover", "");
                             } catch (JSONException e1) {*/
                                 progressBar.setVisibility(View.GONE);
+                            confirmFlag = false;
+                            confirm.setEnabled(true);
                                 e.printStackTrace();
                             //}
 
@@ -414,7 +423,9 @@ public class EditUserActivity extends AppCompatActivity {
                                                 // Handle error -> task.getException();
                                                 progressBar.setVisibility(View.GONE);
                                                 Toast.makeText(context, "Riprova", Toast.LENGTH_SHORT).show();
-                                                confirmFlag=false;
+                                                confirmFlag = false;
+                                                confirm.setEnabled(true);
+
                                                 try {
                                                     if(filePath1!=null) {
                                                         deleteImg(storage.getReferenceFromUrl(utente.getString("avatar")));
@@ -447,20 +458,27 @@ public class EditUserActivity extends AppCompatActivity {
                                 // Handle error -> task.getException();
                                 progressBar.setVisibility(View.GONE);
                                 Toast.makeText(context, "Riprova", Toast.LENGTH_SHORT).show();
-                                confirmFlag=false;
+                                confirmFlag = false;
+                                confirm.setEnabled(true);
                                 try {
-                                    if(filePath1!=null) {
+                                    if(filePath1 != null) {
                                         deleteImg(storage.getReferenceFromUrl(utente.getString("avatar")));
                                     }
                                 } catch (JSONException e) {
                                     e.printStackTrace();
+                                    progressBar.setVisibility(View.GONE);
+                                    confirmFlag = false;
+                                    confirm.setEnabled(true);
                                 }
                                 try {
-                                    if(filePath2!= null) {
+                                    if(filePath2 != null) {
                                         deleteImg(storageReference.child(utente.getString("cover")));
                                     }
                                 } catch (JSONException e) {
                                     e.printStackTrace();
+                                    progressBar.setVisibility(View.GONE);
+                                    confirmFlag = false;
+                                    confirm.setEnabled(true);
                                 }
                             }
                         }
@@ -500,13 +518,15 @@ public class EditUserActivity extends AppCompatActivity {
                         String err = response.getString("type");
                         new ErrorServer(context).handleError(err);
                         progressBar.setVisibility(View.GONE);
-                        confirmFlag=false;
+                        confirmFlag = false;
+                        confirm.setEnabled(true);
                     }
 
                 } catch (JSONException e) {
                     Toast.makeText(context, "Errore: riprovare", Toast.LENGTH_SHORT).show();
                     progressBar.setVisibility(View.GONE);
-                    confirmFlag=false;
+                    confirmFlag = false;
+                    confirm.setEnabled(true);
                 }
             }
         }, new Response.ErrorListener() {
@@ -515,6 +535,8 @@ public class EditUserActivity extends AppCompatActivity {
                 // error
                 Toast.makeText(context, "Errore ", Toast.LENGTH_SHORT).show();
                 progressBar.setVisibility(View.GONE);
+                confirmFlag = false;
+                confirm.setEnabled(true);
             }
         }) {
             @Override
