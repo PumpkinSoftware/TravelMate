@@ -488,7 +488,7 @@ public class TravelDetailsActivity extends AppCompatActivity {
 
                            // String storageUrl = trip.getImage();
                             // If trip.getImage() is empty, it means that user hasn't loaded an image
-                            if (img!=null) {
+                            if (!img.isEmpty()) {
 
                                 StorageReference storageReference = FirebaseStorage.getInstance().getReferenceFromUrl(img);
                                 storageReference.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
