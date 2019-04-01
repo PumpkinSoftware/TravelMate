@@ -172,7 +172,7 @@ public class AccountRegisterActivity extends AppCompatActivity {
         bio = String.valueOf(biot.getText());
         birthday = nascita.getSetMonth() + "/" + nascita.getSetDay() + "/" + nascita.getSetYear();
         boolean passed = true;
-        
+
         if (name.isEmpty()) {
             msgErrore("nome");
             passed = false;
@@ -195,6 +195,7 @@ public class AccountRegisterActivity extends AppCompatActivity {
 
         if(passed) {
             progressBar.setVisibility(View.VISIBLE);
+            confirm.setEnabled(false);
 
             mAuth.createUserWithEmailAndPassword(mail, pass)
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -207,6 +208,7 @@ public class AccountRegisterActivity extends AppCompatActivity {
                                 try {
                                     progressBar.setVisibility(View.GONE);
                                     confirmFlag = false;
+                                    confirm.setEnabled(true);
                                     throw task.getException();
                                 }
                                 // if user enters wrong password.
@@ -291,6 +293,7 @@ public class AccountRegisterActivity extends AppCompatActivity {
     private void msgErrore(String datoMancante) {
         Toast.makeText(contesto, "Inserisci " + datoMancante, Toast.LENGTH_SHORT).show();
         confirmFlag=false;
+        confirm.setEnabled(true);
     }
 
     public static String processingUpperLowerString(String testo) {
@@ -322,6 +325,7 @@ public class AccountRegisterActivity extends AppCompatActivity {
         } catch (JSONException e) {
             progressBar.setVisibility(View.GONE);
             confirmFlag=false;
+            confirm.setEnabled(true);
             e.printStackTrace();
         }
 
@@ -360,6 +364,7 @@ public class AccountRegisterActivity extends AppCompatActivity {
                                         progressBar.setVisibility(View.GONE);
                                         e.printStackTrace();
                                         confirmFlag=false;
+                                        confirm.setEnabled(true);
                                     }
                                     uploadImage2(utente);
                                 }
@@ -377,6 +382,7 @@ public class AccountRegisterActivity extends AppCompatActivity {
                                 progressBar.setVisibility(View.GONE);
                                 ex.printStackTrace();
                                 confirmFlag=false;
+                                confirm.setEnabled(true);
                             }
                             uploadImage2(utente);
                         }
@@ -389,6 +395,7 @@ public class AccountRegisterActivity extends AppCompatActivity {
                 progressBar.setVisibility(View.GONE);
                 e.printStackTrace();
                 confirmFlag=false;
+                confirm.setEnabled(true);
             }
             uploadImage2(utente);
         }
@@ -412,6 +419,7 @@ public class AccountRegisterActivity extends AppCompatActivity {
                                         progressBar.setVisibility(View.GONE);
                                         e.printStackTrace();
                                         confirmFlag=false;
+                                        confirm.setEnabled(true);
                                     }
                                     sendPostServer(utente);
                                 }
@@ -429,6 +437,7 @@ public class AccountRegisterActivity extends AppCompatActivity {
                                 progressBar.setVisibility(View.GONE);
                                 ex.printStackTrace();
                                 confirmFlag=false;
+                                confirm.setEnabled(true);
                             }
                             sendPostServer(utente);
                         }
@@ -441,6 +450,7 @@ public class AccountRegisterActivity extends AppCompatActivity {
                 progressBar.setVisibility(View.GONE);
                 e.printStackTrace();
                 confirmFlag=false;
+                confirm.setEnabled(true);
             }
             sendPostServer(utente);
         }
@@ -460,6 +470,7 @@ public class AccountRegisterActivity extends AppCompatActivity {
                                         deleteUser(utente);
                                         progressBar.setVisibility(View.GONE);
                                         confirmFlag=false;
+                                        confirm.setEnabled(true);
                                     }
                                     if (getStatus().equals("OK")) {
                                         updateUserForChat();
@@ -487,6 +498,7 @@ public class AccountRegisterActivity extends AppCompatActivity {
                             progressBar.setVisibility(View.GONE);
                             Toast.makeText(contesto, "Riprova", Toast.LENGTH_SHORT).show();
                             confirmFlag=false;
+                            confirm.setEnabled(true);
                             deleteUser(utente);
                         }
                     }
