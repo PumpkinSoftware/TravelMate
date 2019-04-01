@@ -134,7 +134,7 @@ public class TravelDetailsActivity extends AppCompatActivity {
     private boolean isOpenedByLink;
     private Uri deepLink = null;
     private Intent intentReceived;
-    String img = null;
+    private String img = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -143,9 +143,7 @@ public class TravelDetailsActivity extends AppCompatActivity {
         context = (Context) this;
 
         intentReceived = getIntent();
-
         Bundle b = intentReceived.getExtras();
-
         start = null;
 
         // b is null if I'm opening this travel from a dynamic link
@@ -175,9 +173,7 @@ public class TravelDetailsActivity extends AppCompatActivity {
 
         isFirstLoading = true;
         final ImageView imgv = (ImageView) findViewById(R.id.header_cover_image);
-        // img is null if I'm opening this travel from a dynamic link
-        if(img != null)
-            loadImg(img, imgv);
+        loadImg(img, imgv);
 
         // TODO substitute all calls in updateLayout() to findView in private variables initialized here
         /*edit = findViewById(R.id.edit_image);
@@ -906,7 +902,7 @@ public class TravelDetailsActivity extends AppCompatActivity {
 
         Glide.with(context)
                 .asBitmap()
-                .load(photoPath)
+                .load(photoPath.isEmpty() ? (R.mipmap.default_trip) : (img))
                 .listener(new RequestListener<Bitmap>() {
                               @Override
                               public boolean onLoadFailed(@Nullable GlideException e, Object o, Target<Bitmap> target, boolean b) {
