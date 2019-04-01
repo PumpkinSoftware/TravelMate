@@ -199,7 +199,7 @@ router.get('/lastTripsCreated', function(req, res){
 			if(req.query.limit != undefined) 
 				limit = parseInt(req.query.limit);
 
-			TripSchema.find( {tag : {$exists:true}, $where:'this.partecipants<this.maxPartecipant'}).where('startDate').gte(new Date()).sort({"createDate": 'desc'}).limit(limit).exec(function(err, trips){
+			TripSchema.find().where('partecipants<maxPartecipant').where('startDate').gte(new Date()).sort({"createDate": 'desc'}).limit(limit).exec(function(err, trips){
 				if(err){
 					console.log(err);
 					console.log(JSON.stringify({ status: "error", type: "-1" }));
@@ -251,7 +251,7 @@ router.get('/lastTripsCreatedWithUser', function(req, res){
         			return trip.tripId;
         		});
 
-				TripSchema.find( {tag : {$exists:true}, $where:'this.partecipants<this.maxPartecipant',_id: { $nin: list_trips }}).where('startDate').gte(new Date()).sort({"createDate": 'desc'}).limit(limit).exec(function(err, trips){
+				TripSchema.find({_id: { $nin: list_trips }}).where('partecipants<maxPartecipant').where('startDate').gte(new Date()).sort({"createDate": 'desc'}).limit(limit).exec(function(err, trips){
 					if(err){
 						console.log(err);
 						console.log(JSON.stringify({ status: "error", type: "-1" }));
@@ -321,10 +321,7 @@ router.get('/getTripsWithFilter', function(req, res){
 			if(req.query.minPartecipant != undefined)
 				minPartecipant = req.query.minPartecipant;
 
-			var condition={tag : {$exists:true}, $where:'this.partecipants<this.maxPartecipant'};
-
-
-			TripSchema.find(condition).find(query).where('startDate').gte(new Date()).where('budget').gte(minBudget).lte(maxBudget).where('startDate').gte(startDate).where('endDate').lte(endDate).where('maxPartecipant').lte(maxPartecipant).gte(minPartecipant).exec( function(err, trips){
+			TripSchema.find(query).where('partecipants<maxPartecipant').where('startDate').gte(new Date()).where('budget').gte(minBudget).lte(maxBudget).where('startDate').gte(startDate).where('endDate').lte(endDate).where('maxPartecipant').lte(maxPartecipant).gte(minPartecipant).exec( function(err, trips){
 				if(err){
 					res.send(JSON.stringify({ status: "error", type: "-1" }));
 					console.log(err);

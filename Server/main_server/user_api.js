@@ -578,8 +578,7 @@ router.post('/addTrip', function(req,res){
 			};
 		
 			var conditions_A = {							
-				_id: JsonObject.tripId,
-				$where:'this.partecipants < this.maxPartecipant'	
+				_id: JsonObject.tripId
 			};
 	
 			var conditions_B = {							
@@ -595,7 +594,7 @@ router.post('/addTrip', function(req,res){
 				$inc: {partecipants: +1}
 			};
 	
-			TripSchema.findOne(conditions_A).exec(function(err,trip) {
+			TripSchema.findOne(conditions_A).where('partecipants < maxPartecipant').exec(function(err,trip) {
 				if (err){
 					res.send(JSON.stringify({ status: "error", type: "-1" }));
 					console.log(err);
