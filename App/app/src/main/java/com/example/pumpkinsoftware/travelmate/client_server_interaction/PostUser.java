@@ -36,14 +36,15 @@ public class PostUser {
         contesto = c;
     }
 
-    public void jsonParse(JSONObject utente, final flag myflag, final String idToken, final ServerCallback callback) {
+    public void jsonParse(final JSONObject utente, final flag myflag, final String idToken, final ServerCallback callback) {
        try {
             Log.i("sto per inviare il file",utente.getString("avatar"));
         } catch (JSONException e) {
            Log.i("non ho inviato il file","errore");
         }
         mQueue = Volley.newRequestQueue(contesto);
-        final JsonObjectRequest JORequest = new JsonObjectRequest(Request.Method.POST, (myflag.equals(flag.NEW) ? URLNEW : URLUPDATE), utente, new Response.Listener<JSONObject>() {
+        final JsonObjectRequest JORequest = new JsonObjectRequest(Request.Method.POST, (myflag.equals(flag.NEW) ? URLNEW : URLUPDATE),
+                utente, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
@@ -51,14 +52,15 @@ public class PostUser {
                     String status = response.getString("status");
                     if (status.equals("success")) {
                         if (myflag.equals(flag.NEW)) {
-                            Toast.makeText(contesto, "Conferma via email", Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(contesto, "Conferma via email", Toast.LENGTH_SHORT).show();
                             AccountRegisterActivity.setStatus("OK");
                         } else {
                             Toast.makeText(contesto, "Profilo aggiornato", Toast.LENGTH_SHORT).show();
                             EditUserActivity.setStatus("OK");
                         }
 
-                    } else {
+                    }
+                    else {
                         String err = response.getString("type");
                         new ErrorServer(contesto).handleError(err);
                         if (myflag.equals(flag.NEW)) {
@@ -80,8 +82,24 @@ public class PostUser {
             public void onErrorResponse(VolleyError error) {
                // Log.d("ERRRORROR",error.toString());
                 error.printStackTrace();
-                // error
-                Toast.makeText(contesto, "Errore ", Toast.LENGTH_SHORT).show();
+                System.out.println("Errore " + error);
+                System.out.println("Errore network " + error.networkResponse);
+
+                /*if(error.networkResponse == null)
+                    jsonParse(utente, myflag, idToken, callback);*/
+
+                /*System.out.println("Errore " + error.networkResponse.statusCode);
+                if(error.networkResponse.statusCode == 500)
+                    jsonParse(utente, myflag, idToken, callback);*/
+
+                //else {
+                    Toast.makeText(contesto, "Errore", Toast.LENGTH_SHORT).show();
+
+                    if (myflag.equals(flag.NEW)) AccountRegisterActivity.setStatus("ERROR");
+                    else EditUserActivity.setStatus("ERROR");
+
+                    callback.onSuccess(null);
+               // }
             }
 
         }) {
@@ -95,7 +113,8 @@ public class PostUser {
         };
         // Add the request to the RequestQueue.
         mQueue.add(JORequest);
-        mQueue.start();
+        if(myflag.equals(flag.UPDATE))
+            mQueue.start();
     }
 
 }

@@ -64,10 +64,12 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:background="@color/white"
-            android:text="@string/NYTrip"
             android:textColor="@android:color/white"
             android:textSize="15dp"
-            android:transitionName="travel_name" />
+            android:scrollHorizontally="true"
+            android:ellipsize="end"
+            android:maxLines="1" />
+
         <!--
         <ImageButton
             android:id="@+id/fav_image"
@@ -83,14 +85,17 @@
          -->
         <TextView
             android:id="@+id/travel_name"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/travel_image"
+            android:paddingStart="6dp"
             android:text="@string/NYTrip"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
             android:textColor="@android:color/black"
             android:textSize="30dp"
-            android:paddingStart="6dp"
+            android:scrollHorizontally="true"
+            android:ellipsize="end"
+            android:maxLines="1"
             android:transitionName="travel_name" />
 
 
