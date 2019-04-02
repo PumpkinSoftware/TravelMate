@@ -1,4 +1,4 @@
-![alt text](https://github.com/Bo0tStr4p/TravelMate/blob/master/Logo/logo.png)
+![alt text](https://github.com/PumpkinSoftware/PumpkinSoftware.github.io/blob/master/images/logo_app.png?raw=true)
 
 What is TravelMate?
 
