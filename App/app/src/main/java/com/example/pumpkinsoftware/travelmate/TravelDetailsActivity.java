@@ -132,9 +132,8 @@ public class TravelDetailsActivity extends AppCompatActivity {
     private boolean canBeClosed;
     private boolean isExpired;
     private boolean isOpenedByLink;
-    private Uri deepLink = null;
     private Intent intentReceived;
-    private String img = "";
+    private String img;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -145,6 +144,7 @@ public class TravelDetailsActivity extends AppCompatActivity {
         intentReceived = getIntent();
         Bundle b = intentReceived.getExtras();
         start = null;
+        img = "";
 
         // b is null if I'm opening this travel from a dynamic link
         if(b != null) {
@@ -173,6 +173,10 @@ public class TravelDetailsActivity extends AppCompatActivity {
 
         isFirstLoading = true;
         final ImageView imgv = (ImageView) findViewById(R.id.header_cover_image);
+
+        if(img == null)
+            img = "";
+
         loadImg(img, imgv);
 
         // TODO substitute all calls in updateLayout() to findView in private variables initialized here
@@ -302,16 +306,10 @@ public class TravelDetailsActivity extends AppCompatActivity {
                                 String link = deepLink.toString();
                                 //travelId = deepLink.toString().substring(deepLink.toString().lastIndexOf("lookThisTrip?id=") + 16); + 16);
                                 travelId = link.substring(link.length() - 24);
-                                isFirstLoading = false;
+                                //isFirstLoading = false;
                                 isOpenedByLink = true;
                             }
-                            // Else I'm not opening this activity from a dynamic link
-                            /*else {
-                                Toast.makeText(context, "Viaggio non disponibile", Toast.LENGTH_SHORT).show();
-                                Intent intent = new Intent(context, MainActivity.class);
-                                startActivity(intent);
-                                finish();
-                            }*/
+                            // Else I'm not opening this activity from a dynamic link, for both I update the layout
 
                             updateLayout();
 
@@ -643,8 +641,7 @@ public class TravelDetailsActivity extends AppCompatActivity {
                                             TextView o_name = findViewById(R.id.user1);
                                             o_name.setText(server.getOwnerName());
 
-                                            if(owner_uid == null)
-                                                owner_uid = trip.getOwner();
+                                            owner_uid = trip.getOwner();
 
                                             View.OnClickListener lis = new View.OnClickListener() {
                                                 @Override
@@ -816,7 +813,7 @@ public class TravelDetailsActivity extends AppCompatActivity {
         }
 
         GlideApp.with(this)
-                .load((img.isEmpty()) ? (R.mipmap.default_trip) : (img))
+                .load((img == null || img.isEmpty()) ? (R.mipmap.default_trip) : (img))
                 .placeholder(R.mipmap.placeholder_image)
                 .listener(new RequestListener<Drawable>() {
                     @Override
