@@ -19,3 +19,15 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+# Rule for Firebase
+-keepattributes Signature
+# This rule will properly ProGuard all the model classes in
+# the package com.yourcompany.models. Modify to fit the structure
+# of your app.
+-keepclassmembers class com.example.pumpkinsoftware.travelmate.** {
+  *;
+}
+
+-dontwarn com.nineoldandroids.animation.**
+-dontwarn com.nineoldandroids.view.**
