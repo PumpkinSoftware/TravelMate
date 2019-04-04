@@ -235,7 +235,7 @@
                         android:text="@string/single" />
 
                     <RadioButton
-                        android:id="@+id/fidanzato"
+                        android:id="@+id/impegnato"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:onClick="onRadioButtonClicked"

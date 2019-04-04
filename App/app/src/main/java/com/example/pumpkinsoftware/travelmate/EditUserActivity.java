@@ -157,7 +157,7 @@ public class EditUserActivity extends AppCompatActivity {
 
         String rel = user.getRelationship();
         if (rel.equals("Single")) radioButton = findViewById(R.id.single);
-        else radioButton = findViewById(R.id.fidanzato);
+        else radioButton = findViewById(R.id.impegnato);
         radioButton.setChecked(true);
         relationship = user.getRelationship();
 
@@ -259,7 +259,7 @@ public class EditUserActivity extends AppCompatActivity {
                 break;
             default:
                 if (checked)
-                    relationship = "Fidanzato";
+                    relationship = "Impegnato";
                 break;
         }
     }
@@ -288,8 +288,8 @@ public class EditUserActivity extends AppCompatActivity {
                 }
 
                 if (!relationship.equals("Single")) {
-                    if (gender.equals("Uomo")) relationship = "Fidanzato";
-                    else relationship = "Fidanzata";
+                    if (gender.equals("Uomo")) relationship = "Impegnato";
+                    else relationship = "Impegnata";
                 }
 
                 if (!relationship.equals(user.getRelationship())) {

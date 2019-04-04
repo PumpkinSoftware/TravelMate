@@ -262,9 +262,9 @@ public class AccountRegisterActivity extends AppCompatActivity {
                 if (checked)
                     relationship = "Single";
                 break;
-            case R.id.fidanzato:
+            case R.id.impegnato:
                 if (checked)
-                    relationship = "Fidanzato";
+                    relationship = "Impegnato";
                 break;
 
         }
@@ -296,9 +296,9 @@ public class AccountRegisterActivity extends AppCompatActivity {
             utente.put("gender", sex);
             if (!relationship.equals("Single")) {
                 if (sex.equals("Uomo"))
-                    relationship = "Fidanzato";
+                    relationship = "Impegnato";
                 else
-                    relationship = "Fidanzata";
+                    relationship = "Impegnata";
             }
             utente.put("relationship", relationship);
             utente.put("email", mail);
