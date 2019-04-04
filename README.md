@@ -1,26 +1,26 @@
 ![alt text](https://github.com/PumpkinSoftware/PumpkinSoftware.github.io/blob/master/images/logo_app.png?raw=true)
-
-TravelMate is a free app that allows students from 18 to 25 to organize trips for events taking place in Italy. If you fall into this category, TravelMate is the right app for you! You propose to go to the event and we find your traveling companions. Organizing a trip has never been easier or more fun. Choose an event, get to know your new friends and get organized without using other apps!
+<div style="text-align: justify">
+TravelMate is a free app that allows students from 18 to 25 to organize trips for events taking place in Italy. If you fall into this category, TravelMate is the right app for you! You propose to go to the event and we find your traveling companions. Organizing a trip has never been easier or more fun. Choose an event, get to know your new friends and get organized without using other apps!</div>
 
 TravelMate will help you in your organization thanks to a simple and intuitive interface with many features:
 
-**FORM YOUR TRAVEL GROUP**  Meet new users who share your same passions and share with them!
+**FORM YOUR TRAVEL GROUP** <br/>Meet new users who share your same passions and share with them!
 
-**FIND IMMEDIATELY ALL THE INFORMATION**  Find dates, round-trip locations, organizer and participants immediately on one screen.
+**FIND IMMEDIATELY ALL THE INFORMATION** <br/>Find dates, round-trip locations, organizer and participants immediately on one screen.
 
-**TRAVEL IN REAL TIME**  Access the details of all your past, present and, future trips, in the My Events section of our app.
+**TRAVEL IN REAL TIME**  <br/>Access the details of all your past, present and, future trips, in the My Events section of our app.
 
-**SEARCH ENGINES AND EFFECTIVE FILTERS**  Search for events by category, date, location and many more!
+**SEARCH ENGINES AND EFFECTIVE FILTERS**  <br/>Search for events by category, date, location and many more!
 
-**RESCUE IN THE CLOUD**  Control your events by accessing from multiple devices.
+**RESCUE IN THE CLOUD**  <br/>Control your events by accessing from multiple devices.
 
-**SHARING**  Share your travels on all social and/or messaging apps!
+**SHARING**  <br/>Share your travels on all social and/or messaging apps!
 
-**CHAT**  Get organized with your fellow travelers within the app.
+**CHAT**  <br/>Get organized with your fellow travelers within the app.
 
-**REVIEWS**  With a user review system, you can learn about the habits and behavior of your future travel mates.
-
-
+**REVIEWS**  <br/>With a user review system, you can learn about the habits and behavior of your future travel mates.
+<br/>
+<br/>
 In our [Website](https://pumpkinsoftware.github.io/) you can find everything you need to know about this app. Check it now!
 
 You can also find us on [Facebook](https://www.facebook.com/PumpkinSoftware), [Twitter](https://twitter.com/_TravelMate_) and [Instagram](https://www.instagram.com/pumpkinsoftware/)
