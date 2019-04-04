@@ -3,7 +3,7 @@
 TravelMate is a free app that allows students from 18 to 25 to organize trips for events taking place in Italy. If you fall into this category, TravelMate is the right app for you! You propose to go to the event and we find your traveling companions. Organizing a trip has never been easier or more fun. Choose an event, get to know your new friends and get organized without using other apps!</div>
 <br/>
 TravelMate will help you in your organization thanks to a simple and intuitive interface with many features:
-
+<br/>
 **FORM YOUR TRAVEL GROUP** <br/>Meet new users who share your same passions and share with them!
 
 **FIND IMMEDIATELY ALL THE INFORMATION** <br/>Find dates, round-trip locations, organizer and participants immediately on one screen.
