@@ -62,4 +62,5 @@ This is our [lean canvas](https://drive.google.com/open?id=16u__YAHpXlvkb9PpqyW-
 #
 
 ### Milestone 3 -  April 2019
-Coming soon!
+
+[Presentation - Final]()
