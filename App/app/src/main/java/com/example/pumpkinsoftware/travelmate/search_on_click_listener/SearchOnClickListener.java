@@ -17,6 +17,8 @@ import com.example.pumpkinsoftware.travelmate.SearchResult;
 import com.example.pumpkinsoftware.travelmate.utils.Utils;
 import com.example.pumpkinsoftware.travelmate.date_picker.EditTextDatePicker;
 
+import io.apptik.widget.Util;
+
 
 public class SearchOnClickListener implements View.OnClickListener {
     private final static String URL = Utils.SERVER_PATH + "trip/getTripsWithFilter?";
@@ -80,8 +82,8 @@ public class SearchOnClickListener implements View.OnClickListener {
 
 
         // Get places
-        from_q = (from.getText()).toString().toLowerCase();
-        to_q = (to.getText()).toString().toLowerCase();
+        from_q = from.getText().toString().toLowerCase();
+        to_q = to.getText().toString().toLowerCase();
 
         // Get dates
         departure_q = departure.getSetMonth() + "/" + departure.getSetDay() + "/" + departure.getSetYear();
@@ -97,8 +99,8 @@ public class SearchOnClickListener implements View.OnClickListener {
 
         //costruzione della query
         query = URL;
-        if (!to_q.isEmpty()) filter("destination", to_q.toLowerCase());
-        if (!from_q.isEmpty()) filter("departure", from_q.toLowerCase());
+        if (!to_q.isEmpty()) filter("destination", Utils.deleteSpaceAtStringEnd(to_q));
+        if (!from_q.isEmpty()) filter("departure", Utils.deleteSpaceAtStringEnd(from_q));
         if (!departure_q.equals("-1/-1/-1")) filter("startDate", departure_q.toLowerCase());
         if (!return_q.equals("-1/-1/-1")) filter("endDate", return_q.toLowerCase());
         if (!vehicle.isEmpty()) filter("vehicle", vehicle.toLowerCase());

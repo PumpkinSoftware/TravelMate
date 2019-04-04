@@ -240,23 +240,23 @@ public class EditTravelActivity extends AppCompatActivity {
                     viaggio.put("_id", trip.getId());
 
                     if (!nome_q.isEmpty() && !nome_q.equals(trip.getName())) {
-                        viaggio.put("name", nome_q);
-                        trip.setName(nome_q);
+                        viaggio.put("name", nome_q.substring(0,1).toUpperCase()+nome_q.substring(1));
+                        trip.setName(nome_q.substring(0,1).toUpperCase()+nome_q.substring(1));
                     }
 
                     if (!program_q.isEmpty() && !program_q.equals(trip.getDescr())) {
-                        viaggio.put("description", program_q);
-                        trip.setDescr(program_q);
+                        viaggio.put("description", program_q.substring(0,1).toUpperCase()+program_q.substring(1));
+                        trip.setDescr(program_q.substring(0,1).toUpperCase()+program_q.substring(1));
                     }
 
                     if (!from_q.isEmpty() && !from_q.equals(trip.getDeparture())) {
-                        viaggio.put("departure", from_q);
-                        trip.setDeparture(from_q);
+                        viaggio.put("departure", Utils.deleteSpaceAtStringEnd(from_q));
+                        trip.setDeparture(Utils.deleteSpaceAtStringEnd(from_q));
                     }
 
                     if (!to_q.isEmpty() && !to_q.equals(trip.getDest())) {
-                        viaggio.put("destination", to_q);
-                        trip.setDest(to_q);
+                        viaggio.put("destination",Utils.deleteSpaceAtStringEnd(to_q));
+                        trip.setDest(Utils.deleteSpaceAtStringEnd(to_q));
                     }
 
                     if (!budget_t.isEmpty() && !budget_t.equals(trip.getBudget())) {

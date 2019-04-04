@@ -186,8 +186,8 @@ public class CreationTrip extends AppCompatActivity {
                     try {
                         viaggio.put("name", nome_q.substring(0, 1).toUpperCase() + nome_q.substring(1).toLowerCase());
                         viaggio.put("description", program_q.substring(0, 1).toUpperCase() + program_q.substring(1).toLowerCase());
-                        viaggio.put("departure", processingUpperLowerString(from_q));
-                        viaggio.put("destination", processingUpperLowerString(to_q));
+                        viaggio.put("departure", Utils.deleteSpaceAtStringEnd(processingUpperLowerString(from_q)));
+                        viaggio.put("destination",Utils.deleteSpaceAtStringEnd( processingUpperLowerString(to_q)));
                         viaggio.put("budget", budget_q);
                         viaggio.put("startDate", departure_q);
                         viaggio.put("endDate", return_q);
