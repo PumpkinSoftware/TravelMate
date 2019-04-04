@@ -1,27 +1,69 @@
 ![alt text](https://github.com/PumpkinSoftware/PumpkinSoftware.github.io/blob/master/images/logo_app.png?raw=true)
 
-What is TravelMate?
+TravelMate is a free app that allows students from 18 to 25 to organize trips for events taking place in Italy. If you fall into this category, TravelMate is the right app for you! You propose to go to the event and we find your traveling companions. Organizing a trip has never been easier or more fun. Choose an event, get to know your new friends and get organized without using other apps!
 
-- A mobile application that connects students from 18 to 25 who want to go to an event in italy
-- Choose your event
-- Find the best fit of travel mate in advance
-- Low budget
+TravelMate will help you in your organization thanks to a simple and intuitive interface with many features:
 
-TravelMate is the app just right for you, you propose to go to an event and we find your travel buddies.  
-Organizing a journey has never been so easy, so, what are you waiting for? World is ready to be explored
+**FORM YOUR TRAVEL GROUP**
+>Meet new users who share your same passions and share with them!
+
+**FIND IMMEDIATELY ALL THE INFORMATION**
+Find dates, round-trip locations, organizer and participants immediately on one screen.
+
+**TRAVEL IN REAL TIME**
+Access the details of all your past, present and, future trips, in the My Events section of our app.
+
+**SEARCH ENGINES AND EFFECTIVE FILTERS**
+Search for events by category, date, location and many more!
+
+**RESCUE IN THE CLOUD**
+Control your events by accessing from multiple devices.
+
+**SHARING**
+Share your travels on all social and/or messaging apps!
+
+**CHAT**
+Get organized with your fellow travelers within the app.
+
+**REVIEWS**
+With a user review system, you can learn about the habits and behavior of your future travel mates.
+
+
+In our [Website](https://pumpkinsoftware.github.io/) you can find everything you need to know about this app. Check it now!
+
+You can also find us on [Facebook](https://www.facebook.com/PumpkinSoftware), [Twitter](https://twitter.com/_TravelMate_) and [Instagram](https://www.instagram.com/pumpkinsoftware/)
 
 Google Workshop 2018/2019
 #
 
 ### Team
-- Appolloni Alessandro (Back-End Development)
-- Asta Andrea (Front-End Development)
-- Bertoldo Romeo (Back-End Development)
-- Fardin Ivan (Front-End Development)
-- Fusco Stefano (Back-End Development)
+- Appolloni Alessandro ( *The Connector* )
+  - Server Development
+  - Presentation Maker
+  - Feature Analysis
+  
+- Asta Andrea ( *The Doer* )
+  - Application Development
+  - Competitors Analysis
+  - Mockup Designer
+  
+- Bertoldo Romeo ( *The Dreamer* )
+  - Server Development
+  - Designer
+  - Project Manager
+  
+- Fardin Ivan ( *The Visionary* )
+  - Application Development
+  - Application Performance
+  - User Experience Analysis
+  
+- Fusco Stefano ( *The Architect* )
+  - Server Development
+  - Database Manager
+  - Social Manager
 #
 
-### Download
+### Previous Versions
 
 Try our app on an Android device (required 4.4+)  
 
@@ -59,8 +101,17 @@ These are the [main storyboards](https://drive.google.com/open?id=1C4bb19MGyzyB4
 
 This is our [lean canvas](https://drive.google.com/open?id=16u__YAHpXlvkb9PpqyW-iUpg0qOPbL0x)
 
+A simple [demo](https://drive.google.com/open?id=1K-ZEaC_r1J8gpsqspcZJKAD19v7pjH0E) about alpha version
+
 #
 
 ### Milestone 3 -  April 2019
 
 [Presentation - Final]()
+
+Survey []()
+
+Our new [lean canvas]()
+
+<a href="https://play.google.com/store/apps/details?id=com.pumpkinsoftware.android.travelmate">
+<img src="https://github.com/steverichey/google-play-badge-svg/blob/master/img/en_get.svg" height="30%" width="30%" data-canonical-src="https://github.com/steverichey/google-play-badge-svg/blob/master/img/en_get.svg" style="max-width:100%;"></a>
