@@ -4,6 +4,7 @@ TravelMate is a free app that allows students from 18 to 25 to organize trips fo
 <br/>
 TravelMate will help you in your organization thanks to a simple and intuitive interface with many features:
 <br/>
+
 **FORM YOUR TRAVEL GROUP** <br/>Meet new users who share your same passions and share with them!
 
 **FIND IMMEDIATELY ALL THE INFORMATION** <br/>Find dates, round-trip locations, organizer and participants immediately on one screen.
