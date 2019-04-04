@@ -62,10 +62,10 @@ router.post('/newTrip', function(req,res){
 			if(req.body.id != undefined){
 				toInsert = new TripSchema({
 					_id : clientInput.id,
-					name : clientInput.name.toLowerCase(),
+					name : clientInput.name,
         			description: clientInput.description,
-        			departure: clientInput.departure.toLowerCase(),
-        			destination: clientInput.destination.toLowerCase(),
+        			departure: clientInput.departure,
+        			destination: clientInput.destination,
         			budget: clientInput.budget,
         			image: clientInput.image,
         			owner: clientInput.owner/*userUid*/,
@@ -80,10 +80,10 @@ router.post('/newTrip', function(req,res){
 			}
 			else{
 				toInsert = new TripSchema({
-					name : clientInput.name.toLowerCase(),
+					name : clientInput.name,
         			description: clientInput.description,
-        			departure: clientInput.departure.toLowerCase(),
-        			destination: clientInput.destination.toLowerCase(),
+        			departure: clientInput.departure,
+        			destination: clientInput.destination,
         			budget: clientInput.budget,
         			image: clientInput.image,
         			owner: clientInput.owner/*userUid*/,
@@ -355,13 +355,13 @@ router.post('/updateTrip', function(req, res){
 			var query = {};
 	
 			if (input.name != undefined)
-				query.name = input.name.toLowerCase();
+				query.name = input.name;
 			if(input.description != undefined)
 				query.description = input.description;
 			if(input.departure != undefined)
-				query.departure = input.departure.toLowerCase();
+				query.departure = input.departure;
 			if(input.destination != undefined)
-				query.destination = input.destination.toLowerCase();
+				query.destination = input.destination;
 			if(input.budget != undefined)
 				query.budget = input.budget;
 			if(input.image != undefined)
