@@ -130,7 +130,7 @@ public class SettingsFragment extends Fragment {
             public void onClick(View v) {
                 Toast.makeText(getContext(), "Logout effettuato", Toast.LENGTH_SHORT).show();
                 FirebaseAuth.getInstance().signOut();
-                openLogin();
+                openStart();
                 ((Activity)getContext()).finish();
             }
         });
@@ -138,8 +138,8 @@ public class SettingsFragment extends Fragment {
         return inflate;
     }
 
-    public void openLogin(){
-        Intent intent=new Intent(this.getContext(),LoginActivity.class);
+    public void openStart(){
+        Intent intent=new Intent(this.getContext(), StartActivity.class);
         startActivity(intent);
     }
 }

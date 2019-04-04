@@ -12,10 +12,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.transition.Fade;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -23,13 +20,13 @@ import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.example.pumpkinsoftware.travelmate.muted_video_view.MutedVideoView;
+import com.example.pumpkinsoftware.travelmate.utils.Utils;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthInvalidUserException;
-import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AppCompatActivity {
     private Context context;
@@ -169,20 +166,19 @@ public class LoginActivity extends AppCompatActivity {
         if(username.isEmpty() || password.isEmpty())
             Toast.makeText(context, "Inserire tutti i campi", Toast.LENGTH_SHORT).show();
         else
-            mAuth.signInWithEmailAndPassword(username, password)
+            mAuth.signInWithEmailAndPassword(Utils.deleteSpaceAtStringEnd(username), password)
                     .addOnCompleteListener((Activity) context, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) { // MODIFICATO PER VECCHI ACCOUNT
-                                if(mAuth.getCurrentUser().isEmailVerified()){
+                            if (task.isSuccessful()) {
+                                if (mAuth.getCurrentUser().isEmailVerified()) {
                                     openMain();
-                                }
-                                else{
+                                } else {
                                     sendEmail();
                                     FirebaseAuth.getInstance().signOut();
                                     new AlertDialog.Builder(context)
                                             .setTitle("Attivazione richiesta")
-                                            .setMessage("Ti è stata mandata una mail per attivare il tuo account")
+                                            .setMessage("Ti è stata inviata una nuova mail per attivare il tuo account")
                                             .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
 
                                                 public void onClick(DialogInterface dialog, int whichButton) {
@@ -190,10 +186,8 @@ public class LoginActivity extends AppCompatActivity {
                                             }).show();
                                 }
 
-                            }
-                            else {
-                                try
-                                {
+                            } else {
+                                try {
                                     throw task.getException();
                                 }
                                 // if user enters wrong email.
@@ -203,8 +197,7 @@ public class LoginActivity extends AppCompatActivity {
                                 // if user enters wrong password.
                                 catch (FirebaseAuthInvalidCredentialsException wrongPassword) {
                                     Toast.makeText(context, "Password errata", Toast.LENGTH_SHORT).show();
-                                }
-                                catch (Exception e) {
+                                } catch (Exception e) {
                                     Toast.makeText(context, "Si è verificato un problema, riprovare", Toast.LENGTH_SHORT).show();
                                 }
                             }
@@ -222,6 +215,7 @@ public class LoginActivity extends AppCompatActivity {
                                     });
                         }
                     });
+
     }
 
     private void resetPass() {
@@ -236,7 +230,14 @@ public class LoginActivity extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if (task.isSuccessful()) {
-                                Toast.makeText(context, "Email di recupero inviata", Toast.LENGTH_SHORT).show();
+                                new AlertDialog.Builder(context)
+                                        .setTitle("Email di recupero")
+                                        .setMessage("Ti è stata inviata una mail per recuperare il tuo account")
+                                        .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+
+                                            public void onClick(DialogInterface dialog, int whichButton) {
+                                            }
+                                        }).show();
                             }
                         }
                     });
@@ -245,11 +246,11 @@ public class LoginActivity extends AppCompatActivity {
 
 
     private void openMain(){
-        Intent intent = new Intent(context,MainActivity.class);
-        startActivity(intent);
         // Send intent to finish prev activity
         Intent intent2 = new Intent(StartActivity.FINISH);
         sendBroadcast(intent2);
+        Intent intent = new Intent(context,MainActivity.class);
+        startActivity(intent);
         finish();
     }
 

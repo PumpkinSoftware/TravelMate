@@ -21,7 +21,7 @@ import android.widget.Toast;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.example.pumpkinsoftware.travelmate.R;
-import com.example.pumpkinsoftware.travelmate.Utils;
+import com.example.pumpkinsoftware.travelmate.utils.Utils;
 import com.example.pumpkinsoftware.travelmate.client_server_interaction.GetTripInteraction;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;

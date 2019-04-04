@@ -1,41 +1,32 @@
 package com.example.pumpkinsoftware.travelmate;
 
-import android.animation.ArgbEvaluator;
-import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Handler;
-import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.method.LinkMovementMethod;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.pumpkinsoftware.travelmate.client_server_interaction.PostJoin;
 import com.example.pumpkinsoftware.travelmate.client_server_interaction.PostUser;
 import com.example.pumpkinsoftware.travelmate.client_server_interaction.ServerCallback;
 import com.example.pumpkinsoftware.travelmate.date_picker.BirthdayPicker;
 import com.example.pumpkinsoftware.travelmate.glide.GlideApp;
-import com.gc.materialdesign.widgets.ProgressDialog;
+import com.example.pumpkinsoftware.travelmate.utils.Utils;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -47,14 +38,12 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GetTokenResult;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.Calendar;
 import java.util.UUID;
 
@@ -171,33 +160,24 @@ public class AccountRegisterActivity extends AppCompatActivity {
         surname = String.valueOf(surnamet.getText());
         bio = String.valueOf(biot.getText());
         birthday = nascita.getSetMonth() + "/" + nascita.getSetDay() + "/" + nascita.getSetYear();
-        boolean passed = true;
 
         if (name.isEmpty()) {
             msgErrore("nome");
-            passed = false;
         } else if (surname.isEmpty()) {
             msgErrore("cognome");
-            passed = false;
         } else if (bio.isEmpty()) {
             msgErrore("una breve biografia");
-            passed = false;
         } else if (birthday.equals("-1/-1/-1")) {
             msgErrore("la data di nascita");
-            passed = false;
         } else if (sex.isEmpty()) {
             msgErrore("il sesso");
-            passed = false;
         } else if (relationship.isEmpty()) {
             msgErrore("la relazione sentimentale");
-            passed = false;
-        }
-
-        if(passed) {
+        } else {
             progressBar.setVisibility(View.VISIBLE);
             confirm.setEnabled(false);
 
-            mAuth.createUserWithEmailAndPassword(mail, pass)
+            mAuth.createUserWithEmailAndPassword(Utils.deleteSpaceAtStringEnd(mail), pass)
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {

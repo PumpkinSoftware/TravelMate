@@ -2,23 +2,15 @@ package com.example.pumpkinsoftware.travelmate.content_fragment_travels;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 
 import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.Volley;
 import com.example.pumpkinsoftware.travelmate.R;
-import com.example.pumpkinsoftware.travelmate.Utils;
-import com.example.pumpkinsoftware.travelmate.client_server_interaction.GetTripInteraction;
+import com.example.pumpkinsoftware.travelmate.utils.Utils;
 import com.example.pumpkinsoftware.travelmate.trip.Trip;
-import com.example.pumpkinsoftware.travelmate.trips_adapter.TripsAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 

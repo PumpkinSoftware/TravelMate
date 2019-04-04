@@ -65,7 +65,7 @@ public class StartActivity extends AppCompatActivity {
         getWindow().setBackgroundDrawable(new ColorDrawable(Color.BLACK));
 
 
-        // Create a broadcast receiver to finish this activity from AccountRegistration
+        // Create a broadcast receiver to finish this activity from LoginRegistration
         broadcastReceiver = new BroadcastReceiver() {
 
             @Override

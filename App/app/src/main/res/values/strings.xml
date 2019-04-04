@@ -60,8 +60,8 @@
     <!-- Only creation-->
     <string name="creation_title">Nuovo evento</string>
     <string name="group">Gruppo</string>
-    <string name="buddies2">Numero massimo di partecipanti(min 2, max 15)</string>
-    <string name="budget_text2">Spesa approssimativa per il viaggio(min 0, max 500)</string>
+    <string name="buddies2">Inserire il numero massimo di partecipanti (min 2, max 15)</string>
+    <string name="budget_text2">Specificare il costo approssimativo per il viaggio per ogni utente (min 0, max 500)</string>
     <string name="plan">Programma*</string>
     <string name="plan_text">Scrivi qualche dettaglio in più sul viaggio</string>
     <string name="name">Nome*</string>
@@ -148,7 +148,7 @@
     <string name="uomo">Uomo</string>
     <string name="donna">Donna</string>
     <string name="single">Single</string>
-    <string name="fidanzato">Fidanzato/a</string>
+    <string name="fidanzato">Impegnato/a</string>
     <string name="group2">Gruppo*</string>
     <string name="terms">Cliccando su Conferma, accetti le nostre <a href="https://pumpkinsoftware.github.io/terms.html">Condizioni</a> e confermi di aver letto la nostra normativa sulla <a href="https://pumpkinsoftware.github.io/privacy.html">Privacy</a></string>
 

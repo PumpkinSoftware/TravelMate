@@ -1,4 +1,4 @@
-package com.example.pumpkinsoftware.travelmate;
+package com.example.pumpkinsoftware.travelmate.utils;
 
 import android.content.Context;
 import android.content.res.AssetManager;
@@ -30,6 +30,18 @@ public class Utils {
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
         byte[] data = baos.toByteArray();
         return data;
+    }
+
+    // Delete space at the end of a string if present
+    public static String deleteSpaceAtStringEnd(String s) {
+        int len = s.length();
+        int i = 1;
+
+        while(len-i >= 0 && s.charAt(len - i) == ' ') {
+            i++;
+        }
+
+        return s.substring(0, len - i + 1); // String from index 0 to (len-i+1)-1
     }
 
 }

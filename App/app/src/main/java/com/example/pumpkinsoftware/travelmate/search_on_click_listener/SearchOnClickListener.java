@@ -14,7 +14,7 @@ import android.widget.RadioGroup;
 
 import com.android.volley.RequestQueue;
 import com.example.pumpkinsoftware.travelmate.SearchResult;
-import com.example.pumpkinsoftware.travelmate.Utils;
+import com.example.pumpkinsoftware.travelmate.utils.Utils;
 import com.example.pumpkinsoftware.travelmate.date_picker.EditTextDatePicker;
 
 

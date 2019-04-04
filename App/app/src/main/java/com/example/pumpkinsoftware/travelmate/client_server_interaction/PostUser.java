@@ -13,7 +13,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.pumpkinsoftware.travelmate.AccountRegisterActivity;
 import com.example.pumpkinsoftware.travelmate.EditUserActivity;
-import com.example.pumpkinsoftware.travelmate.Utils;
+import com.example.pumpkinsoftware.travelmate.utils.Utils;
 import com.example.pumpkinsoftware.travelmate.handle_error.ErrorServer;
 
 
@@ -82,24 +82,12 @@ public class PostUser {
             public void onErrorResponse(VolleyError error) {
                // Log.d("ERRRORROR",error.toString());
                 error.printStackTrace();
-                System.out.println("Errore " + error);
-                System.out.println("Errore network " + error.networkResponse);
+                Toast.makeText(contesto, "Errore", Toast.LENGTH_SHORT).show();
 
-                /*if(error.networkResponse == null)
-                    jsonParse(utente, myflag, idToken, callback);*/
+                if (myflag.equals(flag.NEW)) AccountRegisterActivity.setStatus("ERROR");
+                else EditUserActivity.setStatus("ERROR");
 
-                /*System.out.println("Errore " + error.networkResponse.statusCode);
-                if(error.networkResponse.statusCode == 500)
-                    jsonParse(utente, myflag, idToken, callback);*/
-
-                //else {
-                    Toast.makeText(contesto, "Errore", Toast.LENGTH_SHORT).show();
-
-                    if (myflag.equals(flag.NEW)) AccountRegisterActivity.setStatus("ERROR");
-                    else EditUserActivity.setStatus("ERROR");
-
-                    callback.onSuccess(null);
-               // }
+                callback.onSuccess(null);
             }
 
         }) {

@@ -28,7 +28,7 @@
         android:drawableLeft="@drawable/ic_baseline_person_24px"
         android:ems="10"
         android:hint="@string/mail"
-        android:inputType="textPersonName"
+        android:inputType="textEmailAddress"
         android:nextFocusForward="@+id/password"
         android:textColor="@color/white"
         android:textColorHint="@color/white"
