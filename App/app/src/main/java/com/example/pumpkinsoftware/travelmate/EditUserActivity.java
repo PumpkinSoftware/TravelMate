@@ -3,18 +3,13 @@ package com.example.pumpkinsoftware.travelmate;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.annotation.NonNull;
-import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -31,11 +26,10 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.pumpkinsoftware.travelmate.client_server_interaction.PostUser;
-import com.example.pumpkinsoftware.travelmate.client_server_interaction.ServerCallback;
 import com.example.pumpkinsoftware.travelmate.glide.GlideApp;
 import com.example.pumpkinsoftware.travelmate.handle_error.ErrorServer;
 import com.example.pumpkinsoftware.travelmate.user.User;
+import com.example.pumpkinsoftware.travelmate.utils.Utils;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -45,14 +39,12 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GetTokenResult;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -278,35 +270,44 @@ public class EditUserActivity extends AppCompatActivity {
         confirm.setEnabled(false);
         progressBar.setVisibility(View.VISIBLE);
         bio = String.valueOf(biot.getText());
-        bio = bio.substring(0, 1).toUpperCase() + bio.substring(1).toLowerCase();
-        JSONObject utente = new JSONObject();
-        try {
-            // Check if values have been modified
-            if(!bio.equals(user.getDescr())) {
-                utente.put("description", bio);
-                user.setDescr(bio);
-            }
 
-            if (!relationship.equals("Single")) {
-                if (gender.equals("Uomo")) relationship = "Fidanzato";
-                else relationship = "Fidanzata";
-            }
-
-            if(!relationship.equals(user.getRelationship())) {
-                utente.put("relationship", relationship);
-                user.setRelationship(relationship);
-            }
-
-            //utente.put("email", mail);
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-            confirmFlag=false;
-            confirm.setEnabled(true);
+        if(bio.isEmpty()) {
             progressBar.setVisibility(View.GONE);
+            Toast.makeText(context, "La bio non può essere vuota", Toast.LENGTH_SHORT).show();
+            confirm.setEnabled(true);
         }
 
-        uploadImage1(utente);
+        else {
+            bio = bio.substring(0, 1).toUpperCase() + bio.substring(1).toLowerCase();
+            JSONObject utente = new JSONObject();
+            try {
+                // Check if values have been modified
+                if (!bio.equals(user.getDescr())) {
+                    utente.put("description", bio);
+                    user.setDescr(bio);
+                }
+
+                if (!relationship.equals("Single")) {
+                    if (gender.equals("Uomo")) relationship = "Fidanzato";
+                    else relationship = "Fidanzata";
+                }
+
+                if (!relationship.equals(user.getRelationship())) {
+                    utente.put("relationship", relationship);
+                    user.setRelationship(relationship);
+                }
+
+                //utente.put("email", mail);
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+                confirmFlag = false;
+                confirm.setEnabled(true);
+                progressBar.setVisibility(View.GONE);
+            }
+
+            uploadImage1(utente);
+        }
     }
 
     private void uploadImage1(final JSONObject utente) {

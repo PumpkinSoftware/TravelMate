@@ -277,8 +277,12 @@ public class SearchFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 int id = v.getId();
-                if(id_radio_vehicle == id)   radioGroup.clearCheck();
-                else                         id_radio_vehicle = id;
+                if(id_radio_vehicle == id) {
+                    radioGroup.clearCheck();
+                    id_radio_vehicle = -1;
+                }
+                else
+                    id_radio_vehicle = id;
             }
         };
 
@@ -296,8 +300,12 @@ public class SearchFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 int id = v.getId();
-                if(id_radio_tag == id)   radioGroup2.clearCheck();
-                else                     id_radio_tag = id;
+                if(id_radio_tag == id) {
+                    radioGroup2.clearCheck();
+                    id_radio_tag = -1;
+                }
+                else
+                    id_radio_tag = id;
             }
         };
 
