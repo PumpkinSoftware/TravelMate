@@ -4,29 +4,21 @@ TravelMate is a free app that allows students from 18 to 25 to organize trips fo
 
 TravelMate will help you in your organization thanks to a simple and intuitive interface with many features:
 
-**FORM YOUR TRAVEL GROUP**
->Meet new users who share your same passions and share with them!
+**FORM YOUR TRAVEL GROUP**  Meet new users who share your same passions and share with them!
 
-**FIND IMMEDIATELY ALL THE INFORMATION**
-Find dates, round-trip locations, organizer and participants immediately on one screen.
+**FIND IMMEDIATELY ALL THE INFORMATION**  Find dates, round-trip locations, organizer and participants immediately on one screen.
 
-**TRAVEL IN REAL TIME**
-Access the details of all your past, present and, future trips, in the My Events section of our app.
+**TRAVEL IN REAL TIME**  Access the details of all your past, present and, future trips, in the My Events section of our app.
 
-**SEARCH ENGINES AND EFFECTIVE FILTERS**
-Search for events by category, date, location and many more!
+**SEARCH ENGINES AND EFFECTIVE FILTERS**  Search for events by category, date, location and many more!
 
-**RESCUE IN THE CLOUD**
-Control your events by accessing from multiple devices.
+**RESCUE IN THE CLOUD**  Control your events by accessing from multiple devices.
 
-**SHARING**
-Share your travels on all social and/or messaging apps!
+**SHARING**  Share your travels on all social and/or messaging apps!
 
-**CHAT**
-Get organized with your fellow travelers within the app.
+**CHAT**  Get organized with your fellow travelers within the app.
 
-**REVIEWS**
-With a user review system, you can learn about the habits and behavior of your future travel mates.
+**REVIEWS**  With a user review system, you can learn about the habits and behavior of your future travel mates.
 
 
 In our [Website](https://pumpkinsoftware.github.io/) you can find everything you need to know about this app. Check it now!
