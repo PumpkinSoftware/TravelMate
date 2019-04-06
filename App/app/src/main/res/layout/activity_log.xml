@@ -99,7 +99,8 @@
             android:ems="10"
             android:nextFocusForward="@+id/password"
             android:textColor="@color/white"
-            android:textSize="16dp" />
+            android:textSize="16dp"
+            android:drawableStart="@drawable/ic_baseline_lock_24px" />
     </android.support.design.widget.TextInputLayout>
 
     <Button
