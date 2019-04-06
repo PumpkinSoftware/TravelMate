@@ -736,6 +736,95 @@ router.post('/removeTrip', function(req,res){
 });
 
 /******************************************/
+//Api per rimuovere l'id di un viaggio all'interno dell'array Trips dall'organizzatore
+//Api verificata
+
+//Example to use Post /removeTripByOwner?tripId=....&userUid=....
+
+router.post('/removeTripByOwner', function(req,res){
+	/*var token = req.headers.authorization;
+	if(token == undefined){
+		res.send(JSON.stringify({"status":"error","type":"-12"}));
+	}
+	else{
+		admin.auth().verifyIdToken(token).then(function(decodedToken) {
+    		var userUid = decodedToken.uid;
+	        */
+			var JsonObject = req.body;
+
+			var trip = {
+				"tripId": JsonObject.tripId
+			};	
+			var conditions_A = {							
+				uid: JsonObject.userUid /*userUid*/,
+				'trips.tripId': { $eq: JsonObject.tripId }		
+			};
+	
+			var conditions_B = {
+				_id: JsonObject.tripId
+			}
+	
+			var update_A = {
+				$pull: {trips: trip}
+			};
+	
+			var update_B = {
+				$inc: {partecipants: -1}
+			};
+	
+			UserSchema.findOne(conditions_A).exec( function (err, user) {
+				if (err){
+					res.send(JSON.stringify({ status: "error", type: "-1" }));
+					console.log(err);
+					console.log(JSON.stringify({ status: "error", type: "-1" }));
+				}
+				else if (user == null){
+					res.send(JSON.stringify({ status: "error", type: "-2" }));
+					console.log(JSON.stringify({ status: "error", type: "-2" }));
+				}			
+				else{
+					user.updateOne(update_A).exec( function(err, userupdate){
+						if (err){
+							res.send(JSON.stringify({ status: "error", type: "-1" }));
+							console.log(err);
+							console.log(JSON.stringify({ status: "error", type: "-1" }));
+						}
+						else{
+							TripSchema.findOne(conditions_B).exec( function(err, trip){
+								if (err){
+									res.send(JSON.stringify({ status: "error", type: "-1" }));
+									console.log(err);
+									console.log(JSON.stringify({ status: "error", type: "-1" }));
+								}
+								else if (trip == null){
+									res.send(JSON.stringify({ status: "error", type: "-3" }));
+									console.log(JSON.stringify({ status: "error", type: "-3" }));
+								}
+								else {
+									trip.updateOne(update_B).exec( function(err, tripupdate){
+										if(err){
+											res.send(JSON.stringify({ status: "error", type: "-1" }));
+											console.log(err);	
+											console.log(JSON.stringify({ status: "error", type: "-1" }));
+										}
+										else {
+											res.send(JSON.stringify({ status: "success", message: "Trip removed from user"}));
+										}
+									});
+								}
+							});
+						};
+					});
+				};
+			});
+        /*
+		}).catch(function(error) {
+    		res.send(JSON.stringify({"status":"error","type":"-12"}));
+  		});
+  	}*/
+});
+
+/******************************************/
 //Api per rimuovere un utente.
 //Api verificata
 
