@@ -4,11 +4,13 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,8 +24,8 @@ import com.google.firebase.auth.FirebaseUser;
 public class ChangePassActivity extends AppCompatActivity {
     private Context context;
     private FirebaseUser user;
-    private String oldPass;
-    private String newPass;
+    private String oldPass, newPass, confirmNewPass;
+    private Button confirm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,15 +52,21 @@ public class ChangePassActivity extends AppCompatActivity {
             return;
         }
 
-        final TextView oldPassView = findViewById(R.id.oldPass2);
-        final TextView newPassView = findViewById(R.id.newPass2);
+        /*final EditText oldPassView = findViewById(R.id.oldPass2);
+        final EditText newPassView = findViewById(R.id.newPass2);
+        final EditText confirmNewPassView = findViewById(R.id.confirmNewPass2);*/
 
-        final Button confirm = findViewById(R.id.confirmButton);
+        final TextInputEditText oldPassView = findViewById(R.id.oldPass2);
+        final TextInputEditText newPassView = findViewById(R.id.newPass2);
+        final TextInputEditText confirmNewPassView = findViewById(R.id.confirmNewPass2);
+
+        confirm = findViewById(R.id.confirmButton);
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 oldPass = oldPassView.getText().toString();
                 newPass = newPassView.getText().toString();
+                confirmNewPass = confirmNewPassView.getText().toString();
                 changePass();
             }
         });
@@ -66,6 +74,18 @@ public class ChangePassActivity extends AppCompatActivity {
     }
 
     private void changePass() {
+        confirm.setEnabled(false);
+
+        if(newPass.isEmpty() || newPass.length() < 8) {
+            Toast.makeText(context, "La nuova password deve contenere almeno 8 caratteri", Toast.LENGTH_SHORT).show();
+            confirm.setEnabled(true);
+            return;
+        }
+        else if(!newPass.equals(confirmNewPass)) {
+            Toast.makeText(context, "Le due password non coincidono", Toast.LENGTH_SHORT).show();
+            confirm.setEnabled(true);
+            return;
+        }
         // Get auth credentials from the user for re-authentication. The example below shows
         // email and password credentials but there are multiple possible providers,
         // such as GoogleAuthProvider or FacebookAuthProvider.

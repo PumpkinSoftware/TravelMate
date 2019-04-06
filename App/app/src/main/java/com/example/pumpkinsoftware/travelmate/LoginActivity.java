@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -30,8 +31,8 @@ import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 
 public class LoginActivity extends AppCompatActivity {
     private Context context;
-    private EditText user;
-    private EditText pass;
+    private TextInputEditText user, pass;
+    private Button loginButton;
     private FirebaseAuth mAuth;
     private VideoView videoView;
     private MutedVideoView mVideoView;
@@ -43,8 +44,8 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log);
 
-        user = (EditText) findViewById(R.id.username);
-        pass = (EditText) findViewById(R.id.password);
+        user = findViewById(R.id.mail2);
+        pass = findViewById(R.id.password2);
         context = (Context) this;
 
         mAuth = FirebaseAuth.getInstance();
@@ -62,8 +63,8 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         /* Login Button */
-        Button button = (Button) findViewById(R.id.buttonLogin);
-        button.setOnClickListener(new View.OnClickListener() {
+        loginButton = (Button) findViewById(R.id.buttonLogin);
+        loginButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     login();
@@ -71,7 +72,7 @@ public class LoginActivity extends AppCompatActivity {
             });
 
         /* Forgot Pass Button */
-        button = (Button) findViewById(R.id.forgot);
+        Button button = (Button) findViewById(R.id.forgot);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -160,11 +161,14 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void login(){
+        loginButton.setEnabled(false);
         String username = user.getText().toString();
         String password = pass.getText().toString();
 
-        if(username.isEmpty() || password.isEmpty())
+        if(username.isEmpty() || password.isEmpty()) {
             Toast.makeText(context, "Inserire tutti i campi", Toast.LENGTH_SHORT).show();
+            loginButton.setEnabled(false);
+        }
         else
             mAuth.signInWithEmailAndPassword(Utils.deleteSpaceAtStringEnd(username), password)
                     .addOnCompleteListener((Activity) context, new OnCompleteListener<AuthResult>() {
@@ -225,7 +229,7 @@ public class LoginActivity extends AppCompatActivity {
             Toast.makeText(context, "Inserire email", Toast.LENGTH_SHORT).show();
 
         else {
-            mAuth.sendPasswordResetEmail(emailAddress)
+            mAuth.sendPasswordResetEmail(Utils.deleteSpaceAtStringEnd(emailAddress))
                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {

@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,11 +39,11 @@ import java.util.regex.Pattern;
 
 public class RegistrationActivity extends AppCompatActivity {
     private Context context;
-    private EditText mail;
-    private EditText pass;
-    private FirebaseAuth mAuth;
+    private TextInputEditText mail, pass, confirmPass;
+    //private FirebaseAuth mAuth;
     private VideoView videoView;
     private MutedVideoView mVideoView;
+    private Button RegistrationButton;
     private boolean so_prev_oreo = true; // I Don't need call lib func, I use it only for muting video on older version than Oreo
     public static final Pattern VALID_EMAIL_ADDRESS_REGEX =
             Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
@@ -54,11 +55,12 @@ public class RegistrationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
 
-        mail = (EditText) findViewById(R.id.mail);
-        pass = (EditText) findViewById(R.id.password);
+        mail = findViewById(R.id.mail2);
+        pass = findViewById(R.id.password2);
+        confirmPass = findViewById(R.id.confirmPassword2);
         context = (Context) this;
 
-        mAuth = FirebaseAuth.getInstance();
+        //mAuth = FirebaseAuth.getInstance();
 
         // If click on bg, focus is deleted
         findViewById(R.id.reg_layout).setOnClickListener(new View.OnClickListener() {
@@ -86,8 +88,8 @@ public class RegistrationActivity extends AppCompatActivity {
         registerReceiver(broadcastReceiver, new IntentFilter(FINISH));
 
         /* Reg Button */
-        Button button = (Button) findViewById(R.id.buttonReg);
-        button.setOnClickListener(new View.OnClickListener() {
+        RegistrationButton = (Button) findViewById(R.id.buttonReg);
+        RegistrationButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     registration();
@@ -128,17 +130,24 @@ public class RegistrationActivity extends AppCompatActivity {
     }
 
     public void registration(){
+        RegistrationButton.setEnabled(false);
         String email = mail.getText().toString();
         String password = pass.getText().toString();
+        String confirmPassword = confirmPass.getText().toString();
 
         if (email.isEmpty() || password.isEmpty()){
             Toast.makeText(context, "Inserire tutti i campi", Toast.LENGTH_SHORT).show();
+            RegistrationButton.setEnabled(true);
         }else if(!validate(email)){
             Toast.makeText(context, "Email non valida", Toast.LENGTH_SHORT).show();
-        }
-        else if(password.length()<8) {
-            Toast.makeText(context, "Password troppo breve", Toast.LENGTH_SHORT).show();
-        }else{
+            RegistrationButton.setEnabled(true);
+        } else if(password.length()<8) {
+            Toast.makeText(context, "La password deve contenere almeno 8 caratteri", Toast.LENGTH_SHORT).show();
+            RegistrationButton.setEnabled(true);
+        } else if(!password.equals(confirmPassword)) {
+            Toast.makeText(context, "Le due password non coincidono", Toast.LENGTH_SHORT).show();
+            RegistrationButton.setEnabled(true);
+        } else{
             Intent intent = new Intent(context,AccountRegisterActivity.class);
             intent.putExtra("mail",email);
             intent.putExtra("pass",password);
