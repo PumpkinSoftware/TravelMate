@@ -1,6 +1,8 @@
 package com.example.pumpkinsoftware.travelmate;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -65,6 +67,22 @@ public class SettingsFragment extends Fragment {
             public void onClick(View v) {
                 Intent intent = new Intent (context, ChangePassActivity.class);
                 context.startActivity(intent);
+            }
+        });
+
+        final TextView deleteAccount = inflate.findViewById(R.id.deleteAccount);
+        deleteAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO delete account
+                new AlertDialog.Builder(context)
+                        .setTitle("Elimina account")
+                        .setMessage("Funzionalità in arrivo")
+                        .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                            }
+                        }).show();
             }
         });
 

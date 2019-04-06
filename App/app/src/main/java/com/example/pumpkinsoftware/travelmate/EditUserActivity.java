@@ -275,6 +275,7 @@ public class EditUserActivity extends AppCompatActivity {
             progressBar.setVisibility(View.GONE);
             Toast.makeText(context, "La bio non può essere vuota", Toast.LENGTH_SHORT).show();
             confirm.setEnabled(true);
+            confirmFlag = false;
         }
 
         else {

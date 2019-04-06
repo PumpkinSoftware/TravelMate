@@ -147,6 +147,18 @@
                 app:layout_constraintTop_toBottomOf="@+id/bug" />
 
             <TextView
+                android:id="@+id/deleteAccount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="28dp"
+                android:text="@string/deleteAccount"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textColor="@android:color/black"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@+id/bug"
+                app:layout_constraintTop_toBottomOf="@+id/changePass" />
+
+            <TextView
                 android:id="@+id/infoApp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -156,7 +168,7 @@
                 android:textColor="@android:color/black"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="@+id/changePass"
-                app:layout_constraintTop_toBottomOf="@+id/changePass" />
+                app:layout_constraintTop_toBottomOf="@+id/deleteAccount" />
 
             <TextView
                 android:id="@+id/version"
