@@ -62,10 +62,10 @@ public class GetPartecipantIteration {
                             ownerImg = profile;
                         }
                         else
-                            users.add(new User(uid, name, profile));
+                            users.add(new User(uid, name, "", profile));
                     }
                     callback.onSuccess(user);
-                    adapter = new UsersAdapter(users);
+                    adapter = new UsersAdapter(users, false);
                     // Attach the adapter to the recyclerview to populate items
                     rvUsers.setAdapter(adapter);
                     hideProgressBar();

@@ -43,7 +43,7 @@ public class TripsAdapterChat extends RecyclerView.Adapter<TripsAdapterChat.View
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             imageTravel = itemView.findViewById(R.id.profile);
-            nameTravel = itemView.findViewById(R.id.user);
+            nameTravel = itemView.findViewById(R.id.userName);
             layout = itemView.findViewById(R.id.users);
 
             View.OnClickListener lis = new View.OnClickListener() {

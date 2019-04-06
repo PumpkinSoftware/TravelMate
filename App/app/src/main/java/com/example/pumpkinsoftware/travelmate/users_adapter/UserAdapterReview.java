@@ -33,12 +33,14 @@ public class UserAdapterReview extends RecyclerView.Adapter<UserAdapterReview.Vi
     public class ViewHolder extends RecyclerView.ViewHolder {
         public CircleImageView image;
         public TextView name;
+        public TextView Surname;
         public RelativeLayout layout;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             image = itemView.findViewById(R.id.profile);
-            name = itemView.findViewById(R.id.user);
+            name = itemView.findViewById(R.id.userName);
+            Surname = itemView.findViewById(R.id.userSurname);
             //layout = itemView.findViewById(R.id.users);
 
             View.OnClickListener lis = new View.OnClickListener() {
@@ -52,6 +54,8 @@ public class UserAdapterReview extends RecyclerView.Adapter<UserAdapterReview.Vi
 
             image.setOnClickListener(lis);
             name.setOnClickListener(lis);
+            Surname.setOnClickListener(lis);
+            Surname.setVisibility(View.VISIBLE);
             //layout.setOnClickListener(lis);
         }
 

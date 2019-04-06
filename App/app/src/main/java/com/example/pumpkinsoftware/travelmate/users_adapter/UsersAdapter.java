@@ -11,10 +11,14 @@ import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.pumpkinsoftware.travelmate.UserDetailsActivity;
 import com.example.pumpkinsoftware.travelmate.glide.GlideApp;
+import com.example.pumpkinsoftware.travelmate.swipe_touch_listener.OnSwipeTouchListener;
 import com.example.pumpkinsoftware.travelmate.user.User;
 import com.example.pumpkinsoftware.travelmate.R;
 
@@ -26,14 +30,18 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> {
     private Context context = null;
     private List<User> users;
+    private boolean currentUserIsOwner;
 
     // Provide a direct reference to each of the views within a data item
     // Used to cache the views within the item layout for fast access
     public class ViewHolder extends RecyclerView.ViewHolder {
         // Your holder should contain a member variable
         // for any view that will be set as you render a row
-        public CircleImageView imageView;
+        public CircleImageView profile;
         public TextView username;
+        public TextView userSurname;
+        public ImageView delete;
+        public RelativeLayout layout;
 
         // We also create a constructor that accepts the entire item row
         // and does the view lookups to find each subview
@@ -42,8 +50,11 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
             // to access the context from any ViewHolder instance.
             super(v);
 
-            imageView = v.findViewById(R.id.profile);
-            username = v.findViewById(R.id.user);
+            profile = v.findViewById(R.id.profile);
+            username = v.findViewById(R.id.userName);
+            userSurname = v.findViewById(R.id.userSurname);
+            delete = v.findViewById(R.id.delete);
+            layout = v.findViewById(R.id.users);
 
             View.OnClickListener lis = new View.OnClickListener(){
                 @Override
@@ -55,8 +66,41 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
                 }
             };
 
-            imageView.setOnClickListener(lis);
+            userSurname.setVisibility(View.VISIBLE);
+            profile.setOnClickListener(lis);
             username.setOnClickListener(lis);
+            userSurname.setOnClickListener(lis);
+
+            // Only the travel's owner can delete a partecipant
+            if(currentUserIsOwner) {
+                delete.setVisibility(View.VISIBLE);
+                delete.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //TODO delete user from group
+                    }
+                });
+
+                layout.setOnTouchListener(new OnSwipeTouchListener(context) {
+                    public void onSwipeTop() {
+                        //Toast.makeText(MyActivity.this, "top", Toast.LENGTH_SHORT).show();
+                    }
+
+                    public void onSwipeRight() {
+                        Toast.makeText(context, "right", Toast.LENGTH_SHORT).show();
+                        //TODO delete user from group
+                    }
+
+                    public void onSwipeLeft() {
+                        //Toast.makeText(MyActivity.this, "left", Toast.LENGTH_SHORT).show();
+                    }
+
+                    public void onSwipeBottom() {
+                        //Toast.makeText(MyActivity.this, "bottom", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+
         }
 
         // Returns user in the list
@@ -76,7 +120,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
                 // create the transition animation - the images in the layouts
                 // of both activities are defined with android:transitionName="robot"
                 ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation((Activity)context,
-                        Pair.create((View)imageView, "image"));
+                        Pair.create((View)profile, "image"));
                 //Pair.create((View)trip_name, "travel_name"));
                 // start the new activity
                 context.startActivity(intent, options.toBundle());
@@ -88,8 +132,9 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
         }
     }
 
-    public UsersAdapter(ArrayList<User> u) {
-        users=u;
+    public UsersAdapter(ArrayList<User> u, boolean currentUserIsOwner) {
+        users = u;
+        this.currentUserIsOwner = currentUserIsOwner;
     }
 
     // Usually involves inflating a layout from XML and returning the holder
@@ -114,13 +159,17 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
         User user = users.get(position);
 
         // Set item views based on your views and data model
-        CircleImageView image = viewHolder.imageView;
+        CircleImageView image = viewHolder.profile;
         GlideApp.with(context)
                 .load((user.getPhotoProfile().isEmpty())?(R.drawable.blank_avatar):(user.getPhotoProfile()))
                 .placeholder(R.mipmap.placeholder_image)
                 .into(image);
-        TextView name = viewHolder.username;
-        name.setText(user.getName());
+
+        TextView txt = viewHolder.username;
+        txt.setText(user.getName());
+
+        txt = viewHolder.userSurname;
+        txt.setText(user.getSurname());
     }
 
     @Override

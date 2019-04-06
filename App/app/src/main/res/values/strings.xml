@@ -12,6 +12,7 @@
     <!-- Login & registration -->
     <string name="username">Username</string>
     <string name="password">Password</string>
+    <string name="confirmPassword"> Conferma Password</string>
     <string name="login">Login</string>
     <string name="forgot_password">Forgot password?</string>
     <string name="create_account">CREATE AN ACCOUNT</string>
@@ -105,7 +106,7 @@
     <!-- Settings -->
     <string name="logout">Logout</string>
     <string name="sofware">PumpkinSoftware</string>
-    <string name="version2">Beta 1.2</string>
+    <string name="version2">Beta 1.0.7</string>
     <string name="version">Versione</string>
     <string name="language">Lingua</string>
     <string name="sounds">Suoni</string>
@@ -116,6 +117,7 @@
     <string name="ourMail">pumpkin.software.italy@gmail.come</string>
     <string name="terms2"><a href="https://pumpkinsoftware.github.io/terms.html">Termini e Condizioni</a> - <a href="https://pumpkinsoftware.github.io/privacy.html">Privacy</a></string>
     <string name="changePass">Cambia password</string>
+    <string name="deleteAccount">Elimina account</string>
 
     <!-- Change pass -->
     <string name="oldPassword">Vecchia password</string>

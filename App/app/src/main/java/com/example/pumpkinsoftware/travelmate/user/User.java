@@ -16,15 +16,6 @@ public class User implements Serializable {
     private LinkedList<String> favTrips; // String because we need only travel id
     private LinkedList<String> comments;
 
-    // Useful in partecipants' recyclerview
-    public User(String uid, String n, String pp){
-        this.uid = uid;
-        name = n;
-        surname = "";
-        birthday = "";
-        photoProfile=pp;
-    }
-
     // Useful when we need info about a user
     public User(String uid, String name, String surname, String birthday, String gender, String relationship, String email,
                 String descr, String photoProfile, String cover, double sumReviews, int numReviews) {
@@ -45,12 +36,13 @@ public class User implements Serializable {
         comments = new LinkedList<String>();
     }
 
-    public User(String u, String n, String s, String p) {
-        uid=u;
-        name=n;
-        surname=s;
-        photoProfile=p;
-        birthday="";
+    // Useful in partecipants' recyclerview
+    public User(String uid, String n, String s, String p) {
+        this.uid = uid;
+        name = n;
+        surname = s;
+        photoProfile = p;
+        birthday = "";
     }
 
     public String getUid() { return uid; }

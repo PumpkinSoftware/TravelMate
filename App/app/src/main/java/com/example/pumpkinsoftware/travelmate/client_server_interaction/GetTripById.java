@@ -32,10 +32,8 @@ public class GetTripById {
     private Trip trip;
     private RecyclerView rvUsers;
     private UsersAdapter adapter;
-    private String ownerUid;
+    private String ownerUid, ownerName, ownerSurname, ownerImg;
     private ArrayList<User> users;
-    private String ownerName;
-    private String ownerImg;
     private boolean userIsAPartecipant;
     private String currentUserUid;
 
@@ -109,24 +107,34 @@ public class GetTripById {
             for (int i = 0; i < response.length(); i++) {
                 JSONObject user = response.getJSONObject(i);
                 String uid = user.getString("uid");
-                String name;
+                String name, surname = "";
 
                 if(uid.equals(currentUserUid)) {
                     userIsAPartecipant = true;
                     name = "Tu";
                 }
-                else  name = user.getString("name");
+                else {
+                    name = user.getString("name");
+                    //surname = user.getString("surname");
+                }
 
                 String profile = user.getString("avatar");
 
                 if(uid.equals(ownerUid)) {
                     ownerName = name;
+                    ownerSurname = surname;
                     ownerImg = profile;
+                    // TODO in travel details add textview for surname
                 }
                 else
-                    users.add(new User(uid, name, profile));
+                    users.add(new User(uid, name, surname, profile));
             }
-            adapter = new UsersAdapter(users);
+
+            /*boolean currentUserIsOwner = false;
+            if(currentUserUid.equals(ownerUid))
+                currentUserIsOwner = true;*/
+
+            adapter = new UsersAdapter(users, currentUserUid.equals(ownerUid));
             // Attach the adapter to the recyclerview to populate items
             rvUsers.setAdapter(adapter);
 
@@ -140,6 +148,8 @@ public class GetTripById {
     public String getOwnerUid() { return ownerUid; }
 
     public String getOwnerName() { return ownerName; }
+
+    public String getOwnerSurname() { return ownerSurname; }
 
     public String getOwnerImg() { return ownerImg; }
 
