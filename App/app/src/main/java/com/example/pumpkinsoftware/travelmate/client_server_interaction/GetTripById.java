@@ -124,7 +124,6 @@ public class GetTripById {
                     ownerName = name;
                     ownerSurname = surname;
                     ownerImg = profile;
-                    // TODO in travel details add textview for surname
                 }
                 else
                     users.add(new User(uid, name, surname, profile));

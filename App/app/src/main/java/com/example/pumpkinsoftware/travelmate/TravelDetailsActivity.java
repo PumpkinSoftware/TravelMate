@@ -46,6 +46,7 @@ import com.example.pumpkinsoftware.travelmate.client_server_interaction.GetTripB
 import com.example.pumpkinsoftware.travelmate.client_server_interaction.PostJoin;
 import com.example.pumpkinsoftware.travelmate.client_server_interaction.ServerCallback;
 import com.example.pumpkinsoftware.travelmate.glide.GlideApp;
+import com.example.pumpkinsoftware.travelmate.swipe_touch_listener.OnSwipeTouchListener;
 import com.example.pumpkinsoftware.travelmate.trip.Trip;
 import com.example.pumpkinsoftware.travelmate.user.User;
 import com.example.pumpkinsoftware.travelmate.utils.Utils;
@@ -101,7 +102,7 @@ public class TravelDetailsActivity extends AppCompatActivity {
     private ImageView sharing_image;
     private CardView card;
     private CircleImageView o_image;
-    private TextView o_name;
+    private TextView o_name, o_surname;
     private String travelId;
     private String userUid;
     private String owner_uid;
@@ -180,8 +181,9 @@ public class TravelDetailsActivity extends AppCompatActivity {
         g = (TextView) findViewById(R.id.n_users);
         vm= (TextView) findViewById(R.id.vehicle_text);
         vi= (ImageView) findViewById(R.id.vehicle_image);*/
-        o_image = findViewById(R.id.profile1);
-        o_name = findViewById(R.id.user1);
+        o_image = findViewById(R.id.ownerProfile);
+        o_name = findViewById(R.id.ownerName);
+        o_surname = findViewById(R.id.ownerSurname);
 
         user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null)
@@ -615,7 +617,7 @@ public class TravelDetailsActivity extends AppCompatActivity {
                                             loadTrip(trip);
 
                                             final String img = server.getOwnerImg();
-                                            o_image = findViewById(R.id.profile1);
+                                            //o_image = findViewById(R.id.profile1);
 
                                             // Preventing crash when user opens and closes quickly the activity
                                             if (TravelDetailsActivity.this.isDestroyed())
@@ -625,8 +627,11 @@ public class TravelDetailsActivity extends AppCompatActivity {
                                                     .load((img.isEmpty()) ? (R.drawable.blank_avatar) : (img))
                                                     .placeholder(R.mipmap.placeholder_image)
                                                     .into(o_image);
-                                            TextView o_name = findViewById(R.id.user1);
+
+                                            //TextView o_name = findViewById(R.id.user1);
                                             o_name.setText(server.getOwnerName());
+
+                                            o_surname.setText(server.getOwnerSurname());
 
                                             owner_uid = trip.getOwner();
 
@@ -645,14 +650,18 @@ public class TravelDetailsActivity extends AppCompatActivity {
                                                 card.setVisibility(View.GONE);
 
                                             if (userUid.equals(owner_uid)) {
-                                                if (partecipantsNumber == 1)
-                                                    joinBtn.setText("Elimina");
-                                                else joinBtn.setText("Abbandona");
+                                                if (partecipantsNumber == 1) joinBtn.setText("Elimina");
+                                                else                         joinBtn.setText("Abbandona");
                                                 card.setCardBackgroundColor(colorTo);
-                                            } else if (server.isUserAPartecipant()) {
+                                                addGesture();
+                                            }
+
+                                            else if (server.isUserAPartecipant()) {
                                                 joinBtn.setText("Abbandona");
                                                 card.setCardBackgroundColor(colorTo);
-                                            } else joinBtn.setText("Unisciti");
+                                            }
+
+                                            else joinBtn.setText("Unisciti");
 
                                             //progress.setVisibility(View.GONE);
                                             layoutInfo.setVisibility(View.VISIBLE);
@@ -752,6 +761,27 @@ public class TravelDetailsActivity extends AppCompatActivity {
         if (vehicle.equals("treno")) vi.setImageResource(R.drawable.ic_train_black_12dp);
         else vi.setImageResource(R.drawable.ic_directions_car_black_12dp);
 
+    }
+
+    private void addGesture(){
+        rvUsers.setOnTouchListener(new OnSwipeTouchListener(this){
+            public void onSwipeTop() {
+                //Toast.makeText(MyActivity.this, "top", Toast.LENGTH_SHORT).show();
+            }
+
+            public void onSwipeRight() {
+                Toast.makeText(context, "right", Toast.LENGTH_SHORT).show();
+                //TODO delete user from group
+            }
+
+            public void onSwipeLeft() {
+                //Toast.makeText(MyActivity.this, "left", Toast.LENGTH_SHORT).show();
+            }
+
+            public void onSwipeBottom() {
+                //Toast.makeText(MyActivity.this, "bottom", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     // Useful for edit trip

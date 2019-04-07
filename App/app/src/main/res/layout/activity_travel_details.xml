@@ -355,7 +355,7 @@
 
 
                 <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
-                    android:id="@+id/profile1"
+                    android:id="@+id/ownerProfile"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_below="@+id/owner"
@@ -367,29 +367,37 @@
                     android:transitionName="image"
                     app:civ_border_color="#FF0000"
                     app:civ_border_width="1dp" />
-                <!--
-                    android:src="@drawable/girl"-->
 
                 <TextView
-                    android:id="@+id/user1"
+                    android:id="@+id/ownerName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignBottom="@+id/profile1"
+                    android:layout_alignBottom="@+id/ownerProfile"
                     android:layout_marginStart="20dp"
-                    android:layout_toEndOf="@+id/profile1"
+                    android:layout_toEndOf="@+id/ownerProfile"
                     android:clickable="true"
-                    android:padding="9dp"
-                    android:textSize="20sp"
+                    android:padding="7dp"
+                    android:textSize="19sp"
                     android:textStyle="bold" />
-                <!--
-                    android:text="User1"-->
+
+                <TextView
+                    android:id="@+id/ownerSurname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@+id/ownerProfile"
+                    android:layout_alignBottom="@+id/ownerProfile"
+                    android:layout_toEndOf="@+id/ownerName"
+                    android:clickable="true"
+                    android:padding="7dp"
+                    android:textSize="19sp"
+                    android:textStyle="bold" />
 
                 <!-- partecipanti -->
                 <TextView
                     android:id="@+id/users"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/profile1"
+                    android:layout_below="@id/ownerProfile"
                     android:layout_marginStart="12dp"
                     android:layout_marginTop="28dp"
                     android:text="@string/partecipanti"
@@ -409,32 +417,6 @@
 
 
                 <!-- Users section -->
-                <!--<de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
-                    android:id="@+id/profile2"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_marginTop="28dp"
-                    android:clickable="true"
-                    android:elevation="5dp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/girl"
-                    app:civ_border_color="#FFFFFFFF"
-                    app:civ_border_width="1dp"
-                    android:layout_below="@+id/users"
-                    android:layout_marginStart="12dp"/>
-
-                <TextView
-                    android:id="@+id/user2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:layout_marginStart="20dp"
-                    android:clickable="true"
-                    android:padding="9dp"
-                    android:text="User1"
-                    android:textStyle="bold"
-                    android:layout_toEndOf="@+id/profile2"
-                    android:layout_alignBottom="@+id/profile2"
-                    android:textSize="20dp"/>-->
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/recyclerview"
@@ -477,7 +459,7 @@
                     app:cardElevation="10dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/profile1">
+                    app:layout_constraintTop_toBottomOf="@+id/ownerProfile">
 
                     <Button
                         android:id="@+id/join_button"

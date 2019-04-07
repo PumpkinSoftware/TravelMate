@@ -41,7 +41,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
         public TextView username;
         public TextView userSurname;
         public ImageView delete;
-        public RelativeLayout layout;
+        //public RelativeLayout layout;
 
         // We also create a constructor that accepts the entire item row
         // and does the view lookups to find each subview
@@ -54,7 +54,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
             username = v.findViewById(R.id.userName);
             userSurname = v.findViewById(R.id.userSurname);
             delete = v.findViewById(R.id.delete);
-            layout = v.findViewById(R.id.users);
+            //layout = v.findViewById(R.id.users);
 
             View.OnClickListener lis = new View.OnClickListener(){
                 @Override
@@ -81,7 +81,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
                     }
                 });
 
-                layout.setOnTouchListener(new OnSwipeTouchListener(context) {
+                /*layout.setOnTouchListener(new OnSwipeTouchListener(context) {
                     public void onSwipeTop() {
                         //Toast.makeText(MyActivity.this, "top", Toast.LENGTH_SHORT).show();
                     }
@@ -98,7 +98,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
                     public void onSwipeBottom() {
                         //Toast.makeText(MyActivity.this, "bottom", Toast.LENGTH_SHORT).show();
                     }
-                });
+                });*/
             }
 
         }
