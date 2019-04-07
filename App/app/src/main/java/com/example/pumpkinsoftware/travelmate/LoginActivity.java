@@ -167,7 +167,7 @@ public class LoginActivity extends AppCompatActivity {
 
         if(username.isEmpty() || password.isEmpty()) {
             Toast.makeText(context, "Inserire tutti i campi", Toast.LENGTH_SHORT).show();
-            loginButton.setEnabled(false);
+            loginButton.setEnabled(true);
         }
         else
             mAuth.signInWithEmailAndPassword(Utils.deleteSpaceAtStringEnd(username), password)
@@ -186,12 +186,14 @@ public class LoginActivity extends AppCompatActivity {
                                             .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
 
                                                 public void onClick(DialogInterface dialog, int whichButton) {
+                                                    loginButton.setEnabled(true);
                                                 }
                                             }).show();
                                 }
 
                             } else {
                                 try {
+                                    loginButton.setEnabled(true);
                                     throw task.getException();
                                 }
                                 // if user enters wrong email.

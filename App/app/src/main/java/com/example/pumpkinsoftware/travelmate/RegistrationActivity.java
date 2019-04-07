@@ -40,7 +40,6 @@ import java.util.regex.Pattern;
 public class RegistrationActivity extends AppCompatActivity {
     private Context context;
     private TextInputEditText mail, pass, confirmPass;
-    //private FirebaseAuth mAuth;
     private VideoView videoView;
     private MutedVideoView mVideoView;
     private Button RegistrationButton;
@@ -137,59 +136,20 @@ public class RegistrationActivity extends AppCompatActivity {
 
         if (email.isEmpty() || password.isEmpty()){
             Toast.makeText(context, "Inserire tutti i campi", Toast.LENGTH_SHORT).show();
-            RegistrationButton.setEnabled(true);
         }else if(!validate(email)){
             Toast.makeText(context, "Email non valida", Toast.LENGTH_SHORT).show();
-            RegistrationButton.setEnabled(true);
         } else if(password.length()<8) {
             Toast.makeText(context, "La password deve contenere almeno 8 caratteri", Toast.LENGTH_SHORT).show();
-            RegistrationButton.setEnabled(true);
         } else if(!password.equals(confirmPassword)) {
             Toast.makeText(context, "Le due password non coincidono", Toast.LENGTH_SHORT).show();
-            RegistrationButton.setEnabled(true);
         } else{
             Intent intent = new Intent(context,AccountRegisterActivity.class);
             intent.putExtra("mail",email);
             intent.putExtra("pass",password);
             startActivity(intent);
         }
-           /* mAuth.createUserWithEmailAndPassword(email, password)
-                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) {
-                                FirebaseUser user = mAuth.getCurrentUser();
-                                user.sendEmailVerification()
-                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<Void> task) {
-                                                if (task.isSuccessful()) {
-                                                    Toast.makeText(context, "Mail di verifica inviata", Toast.LENGTH_SHORT).show();
-                                                }
-                                            }
-                                        });
 
-
-                                // TODO Add user to db
-                                /*RequestQueue mRequestQueue = Volley.newRequestQueue(context);
-                                final newUser server =  new newUser(context);
-                                server.addUser(Utils.SERVER_PATH + "user/newUser, mRequestQueue, new ServerCallback() {
-                                            @Override
-                                            public void onSuccess(JSONObject response) {
-                                                openMain();
-                                            }
-                                        }
-                                );*/
-
-                                //finish();
-
-                          /*  }
-                            else {
-                                //Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                                Toast.makeText(context, "Registrazione fallita", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    });*/
+        RegistrationButton.setEnabled(true);
     }
 
     @Override
