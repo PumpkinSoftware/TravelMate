@@ -251,7 +251,7 @@ router.get('/lastTripsCreatedWithUser', function(req, res){
         			return trip.tripId;
         		});
 
-				TripSchema.find({_id: { $nin: list_trips }}).where('partecipants<maxPartecipant').where('startDate').gte(new Date()).sort({"createDate": 'desc'}).limit(limit).exec(function(err, trips){
+				TripSchema.find({_id: { $nin: list_trips }}).where('partecipants<maxPartecipant').where('startDate').gte(new Date()).sort('startDate').limit(limit).exec(function(err, trips){
 					if(err){
 						console.log(err);
 						console.log(JSON.stringify({ status: "error", type: "-1" }));
