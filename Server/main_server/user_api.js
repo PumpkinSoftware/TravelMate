@@ -750,13 +750,15 @@ router.post('/removeTripByOwner', function(req,res){
 		admin.auth().verifyIdToken(token).then(function(decodedToken) {
     		var userUid = decodedToken.uid;
 	        */
+	        var userUid = req.body.userUid;
+
 			var JsonObject = req.body;
 
 			var trip = {
 				"tripId": JsonObject.tripId
 			};	
 			var conditions_A = {							
-				uid: JsonObject.userUid /*userUid*/,
+				uid: JsonObject.userToRemove,
 				'trips.tripId': { $eq: JsonObject.tripId }		
 			};
 	
@@ -771,30 +773,20 @@ router.post('/removeTripByOwner', function(req,res){
 			var update_B = {
 				$inc: {partecipants: -1}
 			};
-	
-			UserSchema.findOne(conditions_A).exec( function (err, user) {
-				if (err){
-					res.send(JSON.stringify({ status: "error", type: "-1" }));
-					console.log(err);
-					console.log(JSON.stringify({ status: "error", type: "-1" }));
-				}
-				else if (user == null){
-					res.send(JSON.stringify({ status: "error", type: "-2" }));
-					console.log(JSON.stringify({ status: "error", type: "-2" }));
-				}			
-				else{
-					user.updateOne(update_A).exec( function(err, userupdate){
-						if (err){
-							res.send(JSON.stringify({ status: "error", type: "-1" }));
-							console.log(err);
-							console.log(JSON.stringify({ status: "error", type: "-1" }));
-						}
-						else{
-							TripSchema.findOne(conditions_B).exec( function(err, trip){
+
+            var update_C = {
+                $inc: {partecipants: +1}
+            };
+
+			TripSchema.findOne(conditions_B).exec( function(err, trip){
 								if (err){
 									res.send(JSON.stringify({ status: "error", type: "-1" }));
 									console.log(err);
 									console.log(JSON.stringify({ status: "error", type: "-1" }));
+								}
+								else if(userUid != trip.owner){
+									console.log(JSON.stringify({ status: "error", type: "-12" }));
+									res.send(JSON.stringify({ status: "error", type: "-12" }));
 								}
 								else if (trip == null){
 									res.send(JSON.stringify({ status: "error", type: "-3" }));
@@ -808,15 +800,44 @@ router.post('/removeTripByOwner', function(req,res){
 											console.log(JSON.stringify({ status: "error", type: "-1" }));
 										}
 										else {
-											res.send(JSON.stringify({ status: "success", message: "Trip removed from user"}));
+											UserSchema.findOne(conditions_A).exec( function (err, user) {
+												if (err){
+													res.send(JSON.stringify({ status: "error", type: "-1" }));
+													console.log(err);
+													console.log(JSON.stringify({ status: "error", type: "-1" }));
+												}
+												else if (user == null){
+                                                    trip.updateOne(update_C).exec( function(err, tripupdate1){
+                                                        if(err){
+                                                            res.send(JSON.stringify({ status: "error", type: "-1" }));
+                                                            console.log(err);   
+                                                            console.log(JSON.stringify({ status: "error", type: "-1" }));
+                                                        }
+                                                        else{
+													       res.send(JSON.stringify({ status: "error", type: "-2" }));
+													       console.log(JSON.stringify({ status: "error", type: "-2" }));
+                                                        }
+                                                    });
+												}			
+												else{
+													user.updateOne(update_A).exec( function(err, userupdate){
+													if (err){
+														res.send(JSON.stringify({ status: "error", type: "-1" }));
+														console.log(err);
+														console.log(JSON.stringify({ status: "error", type: "-1" }));
+													}
+													else{
+														res.send(JSON.stringify({ status: "success", message: "Trip removed from user"}));
+													}
+												});
+											}
+										});
 										}
 									});
 								}
 							});
-						};
-					});
-				};
-			});
+	
+			
         /*
 		}).catch(function(error) {
     		res.send(JSON.stringify({"status":"error","type":"-12"}));
