@@ -1,6 +1,7 @@
 package com.example.pumpkinsoftware.travelmate.client_server_interaction;
 
 import android.content.Context;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -25,6 +26,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Handler;
 
 public class GetTripById {
     private Context context;
@@ -68,11 +70,11 @@ public class GetTripById {
                     final String vehicle = travel.getString("vehicle");
                     ownerUid = travel.getString("owner");
 
-                    getPartecipants(response.getJSONArray(1));
-                    hideProgressBar();
                     trip = new Trip(id, image, name, descr, departure, dest, budget,dep_date, end_date,
                             n_partecipants, group_max, tag, vehicle, ownerUid);
-                    callback.onSuccess(travel);
+                    getPartecipants(response.getJSONArray(1));
+                    hideProgressBar();
+                    callback.onSuccess(null);
                 } catch (JSONException e) {
                     e.printStackTrace();
                     hideProgressBar();
@@ -115,7 +117,7 @@ public class GetTripById {
                 }
                 else {
                     name = user.getString("name");
-                    //surname = user.getString("surname");
+                    surname = user.getString("surname");
                 }
 
                 String profile = user.getString("avatar");
@@ -129,11 +131,7 @@ public class GetTripById {
                     users.add(new User(uid, name, surname, profile));
             }
 
-            /*boolean currentUserIsOwner = false;
-            if(currentUserUid.equals(ownerUid))
-                currentUserIsOwner = true;*/
-
-            adapter = new UsersAdapter(users, currentUserUid.equals(ownerUid));
+            adapter = new UsersAdapter(users, currentUserUid.equals(ownerUid), trip.getId(), trip.getStartDate());
             // Attach the adapter to the recyclerview to populate items
             rvUsers.setAdapter(adapter);
 

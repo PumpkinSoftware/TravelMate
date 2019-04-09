@@ -42,12 +42,13 @@
             android:layout_alignTop="@+id/profile"
             android:layout_alignBottom="@+id/profile"
             android:layout_toEndOf="@+id/userName"
+            android:layout_marginStart="-9dp"
             android:clickable="true"
             android:padding="7dp"
             android:text="Surname"
             android:textSize="19sp"
             android:textStyle="bold"
-            android:visibility="gone"/>
+            android:visibility="gone" />
 
         <ImageView
             android:id="@+id/delete"

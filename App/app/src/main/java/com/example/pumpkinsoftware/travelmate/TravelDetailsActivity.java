@@ -22,6 +22,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.text.Layout;
 import android.util.Pair;
 import android.view.Menu;
@@ -46,9 +47,11 @@ import com.example.pumpkinsoftware.travelmate.client_server_interaction.GetTripB
 import com.example.pumpkinsoftware.travelmate.client_server_interaction.PostJoin;
 import com.example.pumpkinsoftware.travelmate.client_server_interaction.ServerCallback;
 import com.example.pumpkinsoftware.travelmate.glide.GlideApp;
+import com.example.pumpkinsoftware.travelmate.swipe_to_delete_callback.SwipeToDeleteCallback;
 import com.example.pumpkinsoftware.travelmate.swipe_touch_listener.OnSwipeTouchListener;
 import com.example.pumpkinsoftware.travelmate.trip.Trip;
 import com.example.pumpkinsoftware.travelmate.user.User;
+import com.example.pumpkinsoftware.travelmate.users_adapter.UsersAdapter;
 import com.example.pumpkinsoftware.travelmate.utils.Utils;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -122,30 +125,32 @@ public class TravelDetailsActivity extends AppCompatActivity {
     private boolean isOpenedByLink;
     private Intent intentReceived;
     private String img;
+    private static AppCompatActivity instance;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_travel_details);
         context = (Context) this;
+        instance = this;
 
         intentReceived = getIntent();
         Bundle b = intentReceived.getExtras();
         start = null;
         img = "";
 
-        // b is null if I'm opening this travel from a dynamic link
+        // b is null if I'm opening this travel from a dynamic link (I think that isn't true)
         if(b != null) {
             travelId = b.getString(EXTRA_ID);
             img = b.getString(EXTRA_IMG);
-            final String name = b.getString(EXTRA_NAME);
-            /*final String descr =  b.getString(EXTRA_DESCR);
+            /*final String name = b.getString(EXTRA_NAME);
+            final String descr =  b.getString(EXTRA_DESCR);
             final String dep =  b.getString(EXTRA_DEPARTURE);
             final String dest =  b.getString(EXTRA_DEST);
             final String budget =  b.getString(EXTRA_BUDGET);*/
             start = b.getString(EXTRA_START);
-            final String end = b.getString(EXTRA_END);
-            /*partecipantsNumber =  b.getInt(EXTRA_PARTECIPANTS_NUMBER);
+            /*final String end = b.getString(EXTRA_END);
+            partecipantsNumber =  b.getInt(EXTRA_PARTECIPANTS_NUMBER);
             group =  b.getInt(EXTRA_GROUP_NUMBER);
             final String tag = b.getString(EXTRA_TAG);
             final String vehicle = b.getString(EXTRA_VEHICLE);*/
@@ -162,10 +167,9 @@ public class TravelDetailsActivity extends AppCompatActivity {
         isFirstLoading = true;
         final ImageView imgv = (ImageView) findViewById(R.id.header_cover_image);
 
-        if(img == null)
-            img = "";
-
-        loadImg(img, imgv);
+        // img is null if I'm opening this travel from a dynamic link
+        if(img != null)
+            loadImg(img, imgv);
 
         // TODO substitute all calls in updateLayout() to findView in private variables initialized here
         /*edit = findViewById(R.id.edit_image);
@@ -234,7 +238,6 @@ public class TravelDetailsActivity extends AppCompatActivity {
         //updateLayout();
         getTripByDynamicLink();
 
-        //swipe da finire
         final SwipeRefreshLayout swipe = (SwipeRefreshLayout) findViewById(R.id.swipeRefresh);
         swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -295,7 +298,7 @@ public class TravelDetailsActivity extends AppCompatActivity {
                                 String link = deepLink.toString();
                                 //travelId = deepLink.toString().substring(deepLink.toString().lastIndexOf("lookThisTrip?id=") + 16); + 16);
                                 travelId = link.substring(link.length() - 24);
-                                //isFirstLoading = false;
+                                isFirstLoading = false;
                                 isOpenedByLink = true;
                             }
                             // Else I'm not opening this activity from a dynamic link, for both I update the layout
@@ -385,7 +388,7 @@ public class TravelDetailsActivity extends AppCompatActivity {
         startActivity(Intent.createChooser(intent, "Condividi"));
     }
 
-    // CHIAMEREMO QUESTA QUANDO PRONTA INVECE DI shareText E DA QUI CHIAMEREMO shareText
+    // Create a dynamic link
     private void shortLinkTask(final String name) {
 
         Task<ShortDynamicLink> shortLinkTask = FirebaseDynamicLinks.getInstance().createDynamicLink()
@@ -612,16 +615,16 @@ public class TravelDetailsActivity extends AppCompatActivity {
                                     new ServerCallback() {
                                         @Override
                                         public void onSuccess(JSONObject response) {
+                                            // Preventing crash when user opens and closes quickly the activity
+                                            if (TravelDetailsActivity.this.isDestroyed())
+                                                return;
+
                                             trip = server.getTrip();
                                             // TODO handle trip deleted by owner when I'm viewing it
                                             loadTrip(trip);
 
                                             final String img = server.getOwnerImg();
                                             //o_image = findViewById(R.id.profile1);
-
-                                            // Preventing crash when user opens and closes quickly the activity
-                                            if (TravelDetailsActivity.this.isDestroyed())
-                                                return;
 
                                             GlideApp.with(context)
                                                     .load((img.isEmpty()) ? (R.drawable.blank_avatar) : (img))
@@ -653,7 +656,8 @@ public class TravelDetailsActivity extends AppCompatActivity {
                                                 if (partecipantsNumber == 1) joinBtn.setText("Elimina");
                                                 else                         joinBtn.setText("Abbandona");
                                                 card.setCardBackgroundColor(colorTo);
-                                                addGesture();
+                                                if(!isExpired)
+                                                    addGesture();
                                             }
 
                                             else if (server.isUserAPartecipant()) {
@@ -764,14 +768,49 @@ public class TravelDetailsActivity extends AppCompatActivity {
     }
 
     private void addGesture(){
-        rvUsers.setOnTouchListener(new OnSwipeTouchListener(this){
+        ItemTouchHelper itemTouchHelper = new
+                ItemTouchHelper(new SwipeToDeleteCallback((UsersAdapter) rvUsers.getAdapter()));
+        itemTouchHelper.attachToRecyclerView(rvUsers);
+
+        /*rvUsers.setOnTouchListener(new OnSwipeTouchListener(this){
             public void onSwipeTop() {
                 //Toast.makeText(MyActivity.this, "top", Toast.LENGTH_SHORT).show();
             }
 
             public void onSwipeRight() {
-                Toast.makeText(context, "right", Toast.LENGTH_SHORT).show();
-                //TODO delete user from group
+                //Toast.makeText(context, "right", Toast.LENGTH_SHORT).show();
+                // Remove user from group
+                new AlertDialog.Builder(context)
+                        .setTitle("Elimina partecipante")
+                        .setMessage("Sei sicuro di voler rimuovere "+ u.getName() + " " + u.getSurname() + "?")
+                        .setPositiveButton("Sì", new DialogInterface.OnClickListener() {
+
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                user.getIdToken(true)
+                                        .addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
+                                            public void onComplete(@NonNull Task<GetTokenResult> task) {
+                                                if (task.isSuccessful()) {
+                                                    String idToken = task.getResult().getToken();
+                                                    // Send token to your backend via HTTPS
+                                                    new PostJoin(context).send(Utils.SERVER_PATH +
+                                                                    "user/removeTripByOwner", tripId, u.getUid(),
+                                                            PostJoin.request.REMOVE, idToken, new ServerCallback() {
+                                                                @Override
+                                                                public void onSuccess(JSONObject result) {
+                                                                    users.remove(pos);
+                                                                    notifyItemRemoved(pos);
+                                                                }
+                                                            });
+                                                } else {
+                                                    // Handle error -> task.getException();
+                                                    Toast.makeText(context, "Riprova", Toast.LENGTH_SHORT).show();
+                                                }
+                                            }
+                                        });
+                            }
+
+                        })
+                        .setNegativeButton(android.R.string.no, null).show();
             }
 
             public void onSwipeLeft() {
@@ -781,7 +820,14 @@ public class TravelDetailsActivity extends AppCompatActivity {
             public void onSwipeBottom() {
                 //Toast.makeText(MyActivity.this, "bottom", Toast.LENGTH_SHORT).show();
             }
-        });
+        });*/
+    }
+
+    public void updatePartecipantsNumberAfterRemovingOne() {
+        int newPartecipantsNumber = trip.getPartecipantsNumber()-1;
+        trip.setPartecipantsNumber(newPartecipantsNumber);
+        final TextView g = (TextView) findViewById(R.id.n_users);
+        g.setText(newPartecipantsNumber+"/"+trip.getGroupNumber());
     }
 
     // Useful for edit trip
@@ -889,7 +935,7 @@ public class TravelDetailsActivity extends AppCompatActivity {
         }
     }
 
-    public String getData(String data) {
+    public static String getData(String data) {
         String[] d = data.split("-");
         return d[2].substring(0, 2) + "/" + d[1] + "/" + d[0];
     }
@@ -916,7 +962,7 @@ public class TravelDetailsActivity extends AppCompatActivity {
 
         Glide.with(context)
                 .asBitmap()
-                .load(photoPath.isEmpty() ? (R.mipmap.default_trip) : (img))
+                .load(photoPath.isEmpty() ? (R.mipmap.default_trip) : (photoPath))
                 .listener(new RequestListener<Bitmap>() {
                               @Override
                               public boolean onLoadFailed(@Nullable GlideException e, Object o, Target<Bitmap> target, boolean b) {
