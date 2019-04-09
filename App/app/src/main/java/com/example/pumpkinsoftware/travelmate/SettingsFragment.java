@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.method.LinkMovementMethod;
@@ -19,7 +20,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.pumpkinsoftware.travelmate.glide.GlideApp;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class SettingsFragment extends Fragment {
     private Context context;
@@ -74,13 +85,16 @@ public class SettingsFragment extends Fragment {
         deleteAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO delete account
+                // Delete account
                 new AlertDialog.Builder(context)
                         .setTitle("Elimina account")
                         .setMessage("Funzionalità in arrivo")
                         .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
 
                             public void onClick(DialogInterface dialog, int whichButton) {
+                                // TODO delete account
+                                // deleteUser da inserire nella callback della GET al server
+                                //deleteUser();
                             }
                         }).show();
             }
@@ -149,7 +163,7 @@ public class SettingsFragment extends Fragment {
                 Toast.makeText(getContext(), "Logout effettuato", Toast.LENGTH_SHORT).show();
                 FirebaseAuth.getInstance().signOut();
                 openStart();
-                ((Activity)getContext()).finish();
+                ((Activity) context).finish();
             }
         });
 
@@ -160,5 +174,57 @@ public class SettingsFragment extends Fragment {
         Intent intent=new Intent(this.getContext(), StartActivity.class);
         startActivity(intent);
     }
+
+    public void deleteUser(final JSONObject utente) {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if(user != null) {
+            FirebaseStorage storage = FirebaseStorage.getInstance();
+            user.delete()
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                Toast.makeText(getContext(), "Account eliminato con successo", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent (context, StartActivity.class);
+                                context.startActivity(intent);
+                                ((Activity) context).finish();
+                            }
+                            else
+                                Toast.makeText(getContext(), "Eliminazione account fallita", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+            //if (filePath1 != null) {
+                try {
+                    deleteImg(storage.getReferenceFromUrl(utente.getString("avatar")));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            //}
+            //if (filePath2 != null) {
+                try {
+                    deleteImg(storage.getReferenceFromUrl(utente.getString("cover")));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            //}
+        }
+    }
+
+    private void deleteImg(StorageReference image) {
+        image.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                // File deleted successfully
+                // Log.d(TAG, "onSuccess: deleted file");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Uh-oh, an error occurred!
+                // Log.d(TAG, "onFailure: did not delete file");
+            }
+        });
+    }
+
 }
 

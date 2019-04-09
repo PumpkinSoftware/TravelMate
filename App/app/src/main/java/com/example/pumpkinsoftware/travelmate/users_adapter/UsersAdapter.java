@@ -281,4 +281,10 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
 
     public void setViewHolder(UsersAdapter.ViewHolder v) { viewHolder = v; }
 
+    public void updateData(List<User> newUsers, boolean currentUserIsOwner) {
+        users.clear();
+        users.addAll(newUsers);
+        this.currentUserIsOwner = currentUserIsOwner;
+    }
+
 }
