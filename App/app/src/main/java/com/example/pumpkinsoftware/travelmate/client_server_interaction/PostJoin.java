@@ -25,7 +25,7 @@ public class PostJoin {
         context = c;
     }
 
-    public enum request {JOIN, ABANDON, CHANGE};
+    public enum request {JOIN, ABANDON, CHANGE, REMOVE};
 
     public void send(String url, String tripId, String userId, final request request, final String idToken, final ServerCallback callback) {
         final RequestQueue mQueue = Volley.newRequestQueue(context);
@@ -35,6 +35,8 @@ public class PostJoin {
             jsonBody.put("tripId", tripId);
             if(request.equals(PostJoin.request.CHANGE))
                 jsonBody.put("userUid", userId);
+            else if(request.equals(PostJoin.request.REMOVE))
+                jsonBody.put("userToRemove", userId);
         } catch (JSONException e) {
             Toast.makeText(context, "Errore: riprovare", Toast.LENGTH_SHORT).show();
         }

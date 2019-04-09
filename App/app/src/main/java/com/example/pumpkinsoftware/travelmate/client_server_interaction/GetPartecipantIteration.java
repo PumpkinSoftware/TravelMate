@@ -65,7 +65,7 @@ public class GetPartecipantIteration {
                             users.add(new User(uid, name, "", profile));
                     }
                     callback.onSuccess(user);
-                    adapter = new UsersAdapter(users, false);
+                    adapter = new UsersAdapter(users, false, "", "");
                     // Attach the adapter to the recyclerview to populate items
                     rvUsers.setAdapter(adapter);
                     hideProgressBar();
