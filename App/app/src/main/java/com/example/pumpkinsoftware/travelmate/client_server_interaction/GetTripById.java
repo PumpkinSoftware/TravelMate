@@ -131,18 +131,19 @@ public class GetTripById {
                     users.add(new User(uid, name, surname, profile));
             }
 
-            //if(adapter == null) {
+            adapter = (UsersAdapter) rvUsers.getAdapter();
+            if(adapter == null) {
                 adapter = new UsersAdapter(users, currentUserUid.equals(ownerUid), trip.getId(), trip.getStartDate());
                 // Attach the adapter to the recyclerview to populate items
                 rvUsers.setAdapter(adapter);
-            /*}
+            }
             else {
-                //adapter.updateData(users, currentUserUid.equals(ownerUid));
-                adapter = new UsersAdapter(users, currentUserUid.equals(ownerUid), trip.getId(), trip.getStartDate());
-                rvUsers.setAdapter(adapter);
-                //adapter.notifyDataSetChanged();
+                adapter.updateData(users, currentUserUid.equals(ownerUid));
+                //adapter = new UsersAdapter(users, currentUserUid.equals(ownerUid), trip.getId(), trip.getStartDate());
+                //rvUsers.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
                 //rvUsers.invalidate();
-            }*/
+            }
 
         } catch (JSONException e) {
             e.printStackTrace();

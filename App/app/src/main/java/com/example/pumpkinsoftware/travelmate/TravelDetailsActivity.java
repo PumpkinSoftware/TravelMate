@@ -302,7 +302,6 @@ public class TravelDetailsActivity extends AppCompatActivity {
                                 isOpenedByLink = true;
                             }
                             // Else I'm not opening this activity from a dynamic link, for both I update the layout
-
                             updateLayout();
 
                         }
@@ -665,7 +664,11 @@ public class TravelDetailsActivity extends AppCompatActivity {
                                                 card.setCardBackgroundColor(colorTo);
                                             }
 
-                                            else joinBtn.setText("Unisciti");
+                                            // I set color also here to avoid graphics error (i.e. owner remove an user)
+                                            else {
+                                                joinBtn.setText("Unisciti");
+                                                card.setCardBackgroundColor(getResources().getColor(colorFrom));
+                                            }
 
                                             //progress.setVisibility(View.GONE);
                                             layoutInfo.setVisibility(View.VISIBLE);
