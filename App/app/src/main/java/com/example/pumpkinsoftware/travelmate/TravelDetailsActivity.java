@@ -100,15 +100,11 @@ public class TravelDetailsActivity extends AppCompatActivity {
 
     private final static String QUERY = Utils.SERVER_PATH + "user/getUsersByTrip?tripId=";
     private ArrayList<User> partecipants;
-    private ImageView back_image;
-    private ImageView edit;
-    private ImageView sharing_image;
+    private ImageView back_image, edit, sharing_image;
     private CardView card;
     private CircleImageView o_image;
-    private TextView o_name, o_surname;
-    private String travelId;
-    private String userUid;
-    private String owner_uid;
+    private TextView o_name;
+    private String travelId, userUid, owner_uid;
     private int partecipantsNumber;
     private int group;
     private String start;
@@ -187,7 +183,6 @@ public class TravelDetailsActivity extends AppCompatActivity {
         vi= (ImageView) findViewById(R.id.vehicle_image);*/
         o_image = findViewById(R.id.ownerProfile);
         o_name = findViewById(R.id.ownerName);
-        o_surname = findViewById(R.id.ownerSurname);
 
         user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null)
@@ -630,10 +625,8 @@ public class TravelDetailsActivity extends AppCompatActivity {
                                                     .placeholder(R.mipmap.placeholder_image)
                                                     .into(o_image);
 
-                                            //TextView o_name = findViewById(R.id.user1);
-                                            o_name.setText(server.getOwnerName());
-
-                                            o_surname.setText(server.getOwnerSurname());
+                                            String name = server.getOwnerName() + " " + server.getOwnerSurname();
+                                            o_name.setText(name);
 
                                             owner_uid = trip.getOwner();
 
