@@ -51,17 +51,17 @@ public class SearchOnClickListener implements View.OnClickListener {
         budgetMax = m2;
         gruppoMin = m3;
         gruppoMax = m4;
-        //mQueue = m;
 
     }
 
 
     @Override
     public void onClick(View v) {
+        v.setEnabled(false);
+
         String from_q, to_q, min1_q, min2_q, max1_q, max2_q, departure_q, return_q, vehicle, tag ;
 
         //Get radio value
-
         RadioButton tmp1 = ((RadioButton) ((Activity) context).findViewById(vehicle_radio.getCheckedRadioButtonId()));
         if(tmp1!=null){
             vehicle=tmp1.getText().toString();
@@ -118,6 +118,7 @@ public class SearchOnClickListener implements View.OnClickListener {
             */
 
         context.startActivity(new Intent(this.context, SearchResult.class).putExtra(SearchResult.EXTRA_QUERY, query));
+        v.setEnabled(true);
     }
 
     //altre funzioni

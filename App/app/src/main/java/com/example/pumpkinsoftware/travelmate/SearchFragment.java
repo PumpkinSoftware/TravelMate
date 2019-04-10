@@ -332,7 +332,7 @@ public class SearchFragment extends Fragment {
         //Button search
         Button b_search = (Button) view.findViewById(R.id.search_button);
         b_search.setOnClickListener(new SearchOnClickListener(getContext(), getActivity().getSupportFragmentManager(),
-                from, to, departure, ret, radioGroup, radioGroup2, min1, max1, min2, max2));//, mQueue));
+                from, to, departure, ret, radioGroup, radioGroup2, min1, max1, min2, max2));
 
         return view;
     }
