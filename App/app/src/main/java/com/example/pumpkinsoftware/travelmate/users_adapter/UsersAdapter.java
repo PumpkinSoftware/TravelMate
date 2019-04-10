@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Pair;
@@ -15,7 +14,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,7 +22,6 @@ import com.example.pumpkinsoftware.travelmate.UserDetailsActivity;
 import com.example.pumpkinsoftware.travelmate.client_server_interaction.PostJoin;
 import com.example.pumpkinsoftware.travelmate.client_server_interaction.ServerCallback;
 import com.example.pumpkinsoftware.travelmate.glide.GlideApp;
-import com.example.pumpkinsoftware.travelmate.swipe_touch_listener.OnSwipeTouchListener;
 import com.example.pumpkinsoftware.travelmate.user.User;
 import com.example.pumpkinsoftware.travelmate.R;
 import com.example.pumpkinsoftware.travelmate.utils.Utils;
@@ -34,13 +31,13 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GetTokenResult;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -73,7 +70,6 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
 
             profile = v.findViewById(R.id.profile);
             username = v.findViewById(R.id.userName);
-            userSurname = v.findViewById(R.id.userSurname);
             delete = v.findViewById(R.id.delete);
 
             View.OnClickListener lis = new View.OnClickListener(){
@@ -86,11 +82,8 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
                 }
             };
 
-            userSurname.setVisibility(View.VISIBLE);
             profile.setOnClickListener(lis);
             username.setOnClickListener(lis);
-            userSurname.setOnClickListener(lis);
-
             final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
             if(user == null)    return;
 
@@ -253,11 +246,9 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
                 .placeholder(R.mipmap.placeholder_image)
                 .into(image);
 
-        TextView txt = viewHolder.username;
-        txt.setText(user.getName());
-
-        txt = viewHolder.userSurname;
-        txt.setText(user.getSurname());
+        TextView username = viewHolder.username;
+        String name = user.getName() + " " + user.getSurname();
+        username.setText(name);
     }
 
     @Override
@@ -281,10 +272,10 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
 
     public void setViewHolder(UsersAdapter.ViewHolder v) { viewHolder = v; }
 
-    public void updateData(List<User> newUsers, boolean currentUserIsOwner) {
-        users.clear();
-        users.addAll(newUsers);
+    public void updateData(ArrayList<User> newUsers, boolean currentUserIsOwner) {
+        users = newUsers;
         this.currentUserIsOwner = currentUserIsOwner;
+        notifyDataSetChanged();
     }
 
 }

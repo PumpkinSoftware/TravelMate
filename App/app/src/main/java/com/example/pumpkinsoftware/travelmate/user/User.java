@@ -143,4 +143,27 @@ public class User implements Serializable {
         return (double) Math.round((sumReviews / numReviews) * 100) / 100;
     }
 
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) {
+            return true;
+        }
+
+        if (!(o instanceof User)) {
+            return false;
+        }
+
+        final User u = (User) o;
+
+        if (!uid.equals(u.getUid()))
+            return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return uid.hashCode();
+    }
+
 }
