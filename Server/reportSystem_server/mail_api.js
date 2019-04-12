@@ -6,7 +6,7 @@ var nodemailer = require("nodemailer");
 //var database = require('./database');
 //var firebase = require("./firebase");
 
-var url = process.env.DATA || "mongodb://127.0.0.1:27017/TravelMate";
+//var url = process.env.DATA || "mongodb://127.0.0.1:27017/TravelMate";
 
 
 //Faccio collegare mongoose al database
@@ -23,10 +23,11 @@ var router = express.Router();
 var transporter = nodemailer.createTransport({
     service: 'Gmail',
     auth: {
-        user: 'user.mail', //mettere la mail
-        pass: 'xxxxx' // mettere la passw della mail
+        user: '',//'travelmate.system@gmail.com', 
+        pass: ''// // mettere la passw della mail
     }
 });
+
 
 /******************************************
 			  Inizio API
@@ -44,7 +45,7 @@ router.get('/', function (req, res) {
 	else{
 		admin.auth().verifyIdToken(token).then(function(decodedToken) {
     		//var userUid = decodedToken.uid;*/
-    		res.send("The mail router works completely");
+    		res.send("The Report System router works completely");
     		/*}).catch(function(error) {
     			res.send(JSON.stringify({"status":"error","type":"-12"}));
   		});
@@ -54,36 +55,69 @@ router.get('/', function (req, res) {
 
 /*****************************************/
 
-//Api per testare funzionamento mail
-//example use /reportUser?userUid=abcd1234&reportedUid=efgh5678&typeReport=klisuiy&text
+//Api per mandare segnalazione utente 
+//example use /reportUser?userUid=abcd1234&reportedUid=efgh5678&typeReport=SegnalazioneUtente&text=segnaloutenteperchè
 
 
 router.get('/reportUser', function (req,res){
-	var input = req.body;
+	var input = req.query;
 	
 	
 	let message = {
 		to: 'pumpkin.software.italy@gmail.com',
-		subject: input.typeReport,
-		text: 'Hello from TravelMate'
+		subject: '[' + input.typeReport + ']',
+		text: 'Utente segnalatore:' + input.userUid + '\nUtente segnalato:' + input.reportedUid + '\nDescrizione segnalazione:' + input.text
 	}
 	
 	transporter.sendMail(message, (err, info) => {
         if (err) {
-			res.send(JSON.stringify({ status: "error", type: "err in sendMail" }));
-            console.log('Error occurred');
-            console.log(err.message);
+			console.log('Error occurred in sending ReportUser');
+            console.log(err.message); 
+			res.send(JSON.stringify({ status: "error", type: "error in sendMail" }));
         }
-
-        console.log('Message sent successfully!');
+		else{
+        console.log('User reported successfully!');
         console.log(nodemailer.getTestMessageUrl(info));
-		res.send(JSON.stringify({ status: "success", type: "mail sent" }));
+		res.send(JSON.stringify({ status: "success", type: "User Reported" }));
         // only needed when using pooled connections
         transporter.close();
+		}	
 	});
 	
 });
 
+/*****************************************/
+
+//Api per mandare segnalazione viaggio
+//example use /reportTrip?userUid=abcd1234&reportedTripId=efgh5678&typeReport=SegnalazioneViaggio&text=segnaloviaggioperchè
+
+
+router.get('/reportTrip', function (req,res){
+	var input = req.query;
+	
+	
+	let message = {
+		to: 'pumpkin.software.italy@gmail.com',
+		subject: '[' + input.typeReport + ']',
+		text: 'Utente segnalatore:' + input.userUid + '\nViaggio segnalato:' + input.reportedTripId + '\nDescrizione segnalazione:' + input.text
+	}
+	
+	transporter.sendMail(message, (err, info) => {
+        if (err) {
+			console.log('Error occurred in sending reportTrip');
+            console.log(err.message); 
+			res.send(JSON.stringify({ status: "error", type: "error in sendMail" }));
+        }
+		else{
+        console.log('Message sent successfully!');
+        console.log(nodemailer.getTestMessageUrl(info));
+		res.send(JSON.stringify({ status: "success", type: "Trip Reported" }));
+        // only needed when using pooled connections
+        transporter.close();
+		}	
+	});
+	
+});
 
 
 module.exports = router;

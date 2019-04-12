@@ -8,6 +8,7 @@ var fs = require('fs');
 var url = process.env.DATA || "mongodb://127.0.0.1:27017/TravelMate";
 const PORT = process.env.PORT || 8095;
 
+
 var privateKey  = fs.readFileSync('sslcert/key.pem', 'utf8');
 var certificate = fs.readFileSync('sslcert/certificate.pem', 'utf8');
 

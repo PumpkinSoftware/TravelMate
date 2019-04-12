@@ -3,8 +3,8 @@ var bodyParser = require('body-parser');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var helmet = require('helmet');
-
-
+//var multer = require('multer');
+//var upload = multer();
 
 var mail_api = require('./mail_api');
 
@@ -23,7 +23,7 @@ app.use(logger('dev'));
 app.use('/mail', mail_api);
 
 app.get('/',function(req,res){
-	res.send('The main router works completely - mail server');
+	res.send('The main router works completely - Report System server');
 });
 
 module.exports = app;
