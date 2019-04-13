@@ -26,6 +26,9 @@ In our [Website](https://pumpkinsoftware.github.io/) you can find everything you
 
 You can also find us on [Facebook](https://www.facebook.com/PumpkinSoftware), [Twitter](https://twitter.com/_TravelMate_) and [Instagram](https://www.instagram.com/pumpkinsoftware/)
 
+**Contribute** <br/>
+If you found some bugs or have some suggestions report them [here](https://github.com/PumpkinSoftware/TravelMate/issues).
+
 Google Workshop 2018/2019
 #
 
@@ -111,3 +114,6 @@ Some users who have tested the app:
 
 <a href="https://play.google.com/store/apps/details?id=com.pumpkinsoftware.android.travelmate">
 <img src="https://github.com/steverichey/google-play-badge-svg/blob/master/img/en_get.svg" height="25%" width="25%" data-canonical-src="https://github.com/steverichey/google-play-badge-svg/blob/master/img/en_get.svg" style="max-width:100%;"></a>
+
+### Final submission - 
+[Documentation]() (live version, work in progress...)
