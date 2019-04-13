@@ -88,7 +88,7 @@ Second survey: we asked questions about the application mockup on the street. Th
 
 Third survey:  we asked some [questions](https://goo.gl/forms/ZPFCJLOqs7KFfkUD2) online on groups of students. There are their answers [here](https://drive.google.com/open?id=1jmp_g_e_qM3HSYGy6lfZq8Plep35D_NB)
 
-Fourth survey:  we asked some [questions](https://goo.gl/forms/XnGCR2VhuRjOUbmH3) online on groups of students. There are their answers [here](https://drive.google.com/open?id=1rOihj2msarX3HvTG8hhaT7Ebxwry6YUZ)
+Fourth survey:  we asked some [questions](https://goo.gl/forms/XnGCR2VhuRjOUbmH3) about main storyboards. There are their answers [here](https://drive.google.com/open?id=1rOihj2msarX3HvTG8hhaT7Ebxwry6YUZ)
 
 These are the [main storyboards](https://drive.google.com/open?id=1C4bb19MGyzyB4vTf6suh4R_tyJsUvPCO)
 
@@ -102,9 +102,12 @@ A simple [demo](https://drive.google.com/open?id=1K-ZEaC_r1J8gpsqspcZJKAD19v7pjH
 
 [Presentation - Final]()
 
-Survey []()
+Fifth survey: we asked some [questions]() about user experience. There are their answers [here]()
 
-Our new [lean canvas]()
+Our new [lean canvas](https://drive.google.com/open?id=1-YFVW34GKotdYSNgloh9w1yyDxxQF9Nl)
+
+Some users who have tested the app:
+- [Antonio](https://drive.google.com/open?id=1cE-sXsv1zZw4ag8Smd-_22jGz6Pp-rri)
 
 <a href="https://play.google.com/store/apps/details?id=com.pumpkinsoftware.android.travelmate">
-<img src="https://github.com/steverichey/google-play-badge-svg/blob/master/img/en_get.svg" height="30%" width="30%" data-canonical-src="https://github.com/steverichey/google-play-badge-svg/blob/master/img/en_get.svg" style="max-width:100%;"></a>
+<img src="https://github.com/steverichey/google-play-badge-svg/blob/master/img/en_get.svg" height="25%" width="25%" data-canonical-src="https://github.com/steverichey/google-play-badge-svg/blob/master/img/en_get.svg" style="max-width:100%;"></a>
