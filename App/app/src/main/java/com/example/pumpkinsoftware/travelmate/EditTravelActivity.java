@@ -239,27 +239,27 @@ public class EditTravelActivity extends AppCompatActivity {
                     //viaggio.put("userUid", userUid);
                     viaggio.put("_id", trip.getId());
 
-                    if (!nome_q.isEmpty() && !nome_q.equals(trip.getName())) {
+                    if (!nome_q.isEmpty() && !Utils.deleteSpaceAtStringEnd(nome_q).isEmpty() && !nome_q.equals(trip.getName())) {
                         viaggio.put("name", nome_q.substring(0,1).toUpperCase()+nome_q.substring(1));
                         trip.setName(nome_q.substring(0,1).toUpperCase()+nome_q.substring(1));
                     }
 
-                    if (!program_q.isEmpty() && !program_q.equals(trip.getDescr())) {
+                    if (!program_q.isEmpty() && !Utils.deleteSpaceAtStringEnd(program_q).isEmpty() && !program_q.equals(trip.getDescr())) {
                         viaggio.put("description", program_q.substring(0,1).toUpperCase()+program_q.substring(1));
                         trip.setDescr(program_q.substring(0,1).toUpperCase()+program_q.substring(1));
                     }
 
-                    if (!from_q.isEmpty() && !from_q.equals(trip.getDeparture())) {
+                    if (!from_q.isEmpty() && !Utils.deleteSpaceAtStringEnd(from_q).isEmpty() && !from_q.equals(trip.getDeparture())) {
                         viaggio.put("departure", Utils.deleteSpaceAtStringEnd(from_q));
                         trip.setDeparture(Utils.deleteSpaceAtStringEnd(from_q));
                     }
 
-                    if (!to_q.isEmpty() && !to_q.equals(trip.getDest())) {
+                    if (!to_q.isEmpty() && !Utils.deleteSpaceAtStringEnd(to_q).isEmpty() && !to_q.equals(trip.getDest())) {
                         viaggio.put("destination",Utils.deleteSpaceAtStringEnd(to_q));
                         trip.setDest(Utils.deleteSpaceAtStringEnd(to_q));
                     }
 
-                    if (!budget_t.isEmpty() && !budget_t.equals(trip.getBudget())) {
+                    if (!budget_t.isEmpty() && !Utils.deleteSpaceAtStringEnd(budget_t).isEmpty() && !budget_t.equals(trip.getBudget())) {
                         viaggio.put("budget", budget_q);
                         trip.setBudget(String.valueOf((int) budget_q));
                     }

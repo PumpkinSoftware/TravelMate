@@ -271,7 +271,7 @@ public class EditUserActivity extends AppCompatActivity {
         progressBar.setVisibility(View.VISIBLE);
         bio = String.valueOf(biot.getText());
 
-        if(bio.isEmpty()) {
+        if(bio.isEmpty() || Utils.deleteSpaceAtStringEnd(bio).isEmpty()) {
             progressBar.setVisibility(View.GONE);
             Toast.makeText(context, "La bio non può essere vuota", Toast.LENGTH_SHORT).show();
             confirm.setEnabled(true);

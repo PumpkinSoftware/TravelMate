@@ -148,7 +148,7 @@ public class AccountRegisterActivity extends AppCompatActivity {
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                confirmFlag=true;
+                confirmFlag = true;
                 mail = mailView.getText().toString();
                 PreparationAccount();
             }
@@ -161,11 +161,11 @@ public class AccountRegisterActivity extends AppCompatActivity {
         bio = String.valueOf(biot.getText());
         birthday = nascita.getSetMonth() + "/" + nascita.getSetDay() + "/" + nascita.getSetYear();
 
-        if (name.isEmpty()) {
+        if (name.isEmpty() ||  Utils.deleteSpaceAtStringEnd(name).isEmpty()) {
             msgErrore("nome");
-        } else if (surname.isEmpty()) {
+        } else if (surname.isEmpty() ||  Utils.deleteSpaceAtStringEnd(surname).isEmpty()) {
             msgErrore("cognome");
-        } else if (bio.isEmpty()) {
+        } else if (bio.isEmpty() ||  Utils.deleteSpaceAtStringEnd(bio).isEmpty()) {
             msgErrore("una breve biografia");
         } else if (birthday.equals("-1/-1/-1")) {
             msgErrore("la data di nascita");

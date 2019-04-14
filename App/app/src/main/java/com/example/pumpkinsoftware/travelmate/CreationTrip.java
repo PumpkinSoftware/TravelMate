@@ -148,16 +148,17 @@ public class CreationTrip extends AppCompatActivity {
                 // valori da passare
                 from_q = from.getText().toString().toLowerCase();
                 to_q = to.getText().toString().toLowerCase();
-
                 nome_q = nome.getText().toString().toLowerCase();
                 program_q = program.getText().toString().toLowerCase();
                 departure_q = departure.getSetMonth() + "/" + departure.getSetDay() + "/" + departure.getSetYear();
                 return_q = ret.getSetMonth() + "/" + ret.getSetDay() + "/" + ret.getSetYear();
+                String budget_t = budget.getText().toString();
+                String group_t = group.getText().toString();
 
 
-                if (from_q.isEmpty()) {
+                if (from_q.isEmpty() || Utils.deleteSpaceAtStringEnd(from_q).isEmpty()) {
                     msgErrore("la partenza");
-                } else if (to_q.isEmpty()) {
+                } else if (to_q.isEmpty() || Utils.deleteSpaceAtStringEnd(to_q).isEmpty()) {
                     msgErrore("la destinazione");
                 } else if (departure_q.equals("-1/-1/-1")) {
                     msgErrore("la data di partenza");
@@ -165,9 +166,9 @@ public class CreationTrip extends AppCompatActivity {
                     msgErrore("la data di arrivo");
                 } else if (vehicle.isEmpty()) {
                     msgErrore("il veicolo");
-                } else if (budget.getText().toString().isEmpty()) {
+                } else if (budget_t.isEmpty() || Utils.deleteSpaceAtStringEnd(budget_t).isEmpty()) {
                     msgErrore("il budget");
-                } else if (group.getText().toString().isEmpty()) {
+                } else if (group_t.isEmpty() || Utils.deleteSpaceAtStringEnd(group_t).isEmpty()) {
                     msgErrore("il numero del gruppo");
                 } else if (Integer.parseInt(group.getText().toString()) < 2 /*|| (Integer.parseInt(group.getText().toString()) > 15)*/) {
                     Toast.makeText(contesto, "Valore gruppo non valido", Toast.LENGTH_SHORT).show();
