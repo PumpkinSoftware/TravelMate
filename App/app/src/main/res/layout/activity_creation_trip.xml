@@ -299,7 +299,6 @@
                     android:id="@+id/plantext"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456879àèéùòì'()., "
                     android:hint="@string/plan_text"
                     android:maxLength="250"
                     android:layout_marginEnd="13dp"/>
@@ -331,7 +330,7 @@
                     android:id="@+id/nametext"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!àèéùòì' "
+                    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456879àèéùòì'().,;:!?+-@°%$ "
                     android:hint="@string/name_text"
                     android:maxLength="35"
                     android:layout_marginEnd="13dp"/>
