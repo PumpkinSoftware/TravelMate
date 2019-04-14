@@ -170,6 +170,9 @@
 
     <string name="infoApp">Info App</string>
 
+    <string name="notifications_admin_channel_name">Global channel</string>
+    <string name="notifications_admin_channel_description">Notifications sent from the app admin</string>
+
 
 
 
