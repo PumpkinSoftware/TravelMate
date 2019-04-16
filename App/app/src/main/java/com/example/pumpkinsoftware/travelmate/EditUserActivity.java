@@ -270,8 +270,9 @@ public class EditUserActivity extends AppCompatActivity {
         confirm.setEnabled(false);
         progressBar.setVisibility(View.VISIBLE);
         bio = String.valueOf(biot.getText());
+        bio = Utils.deleteSpaceAtStringEnd(bio);
 
-        if(bio.isEmpty() || Utils.deleteSpaceAtStringEnd(bio).isEmpty()) {
+        if(bio.isEmpty()) {
             progressBar.setVisibility(View.GONE);
             Toast.makeText(context, "La bio non può essere vuota", Toast.LENGTH_SHORT).show();
             confirm.setEnabled(true);
@@ -279,7 +280,7 @@ public class EditUserActivity extends AppCompatActivity {
         }
 
         else {
-            bio = bio.substring(0, 1).toUpperCase() + bio.substring(1).toLowerCase();
+            //bio = bio.substring(0, 1).toUpperCase() + bio.substring(1).toLowerCase();
             JSONObject utente = new JSONObject();
             try {
                 // Check if values have been modified

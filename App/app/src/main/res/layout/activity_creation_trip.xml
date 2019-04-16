@@ -332,9 +332,10 @@
                     android:layout_height="wrap_content"
                     android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456879àèéùòì'().,;:!?+-@°%$ "
                     android:hint="@string/name_text"
-                    android:maxLength="35"
                     android:layout_marginEnd="13dp"/>
             </android.support.design.widget.TextInputLayout>
+            <!--
+                android:maxLength="35"-->
 
 
             <!-- Tag -->
@@ -344,7 +345,6 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/name_text"
                 android:layout_alignStart="@+id/vehicle_text"
-                android:layout_marginStart="0dp"
                 android:layout_marginTop="28dp"
                 android:text="@string/tag_text2"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5" />

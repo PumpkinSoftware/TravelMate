@@ -34,6 +34,9 @@ public class Utils {
 
     // Delete space at the end of a string if present
     public static String deleteSpaceAtStringEnd(String s) {
+        if(s.isEmpty())
+            return s;
+
         int len = s.length();
         int i = 1;
 

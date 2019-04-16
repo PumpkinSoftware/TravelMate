@@ -146,19 +146,24 @@ public class CreationTrip extends AppCompatActivity {
                 progressBar.setVisibility(View.VISIBLE);
 
                 // valori da passare
-                from_q = from.getText().toString().toLowerCase();
-                to_q = to.getText().toString().toLowerCase();
-                nome_q = nome.getText().toString().toLowerCase();
-                program_q = program.getText().toString().toLowerCase();
+                from_q = from.getText().toString(); //.toLowerCase();
+                to_q = to.getText().toString(); //.toLowerCase();
+                nome_q = nome.getText().toString(); //.toLowerCase();
+                program_q = program.getText().toString(); //.toLowerCase();
                 departure_q = departure.getSetMonth() + "/" + departure.getSetDay() + "/" + departure.getSetYear();
                 return_q = ret.getSetMonth() + "/" + ret.getSetDay() + "/" + ret.getSetYear();
                 String budget_t = budget.getText().toString();
                 String group_t = group.getText().toString();
 
+                // Useful for cities searchs & to avoid blanks name
+                from_q = Utils.deleteSpaceAtStringEnd(from_q);
+                to_q = Utils.deleteSpaceAtStringEnd(to_q);
+                nome_q = Utils.deleteSpaceAtStringEnd(nome_q);
+                program_q = Utils.deleteSpaceAtStringEnd(program_q);
 
-                if (from_q.isEmpty() || Utils.deleteSpaceAtStringEnd(from_q).isEmpty()) {
+                if (from_q.isEmpty() || from_q.length()<2) {
                     msgErrore("la partenza");
-                } else if (to_q.isEmpty() || Utils.deleteSpaceAtStringEnd(to_q).isEmpty()) {
+                } else if (to_q.isEmpty() || to_q.length()<2) {
                     msgErrore("la destinazione");
                 } else if (departure_q.equals("-1/-1/-1")) {
                     msgErrore("la data di partenza");
@@ -185,10 +190,10 @@ public class CreationTrip extends AppCompatActivity {
 
                     JSONObject viaggio = new JSONObject();
                     try {
-                        viaggio.put("name", nome_q.substring(0, 1).toUpperCase() + nome_q.substring(1).toLowerCase());
-                        viaggio.put("description", program_q.substring(0, 1).toUpperCase() + program_q.substring(1).toLowerCase());
-                        viaggio.put("departure", Utils.deleteSpaceAtStringEnd(processingUpperLowerString(from_q)));
-                        viaggio.put("destination",Utils.deleteSpaceAtStringEnd( processingUpperLowerString(to_q)));
+                        viaggio.put("name", nome_q); //nome_q.substring(0, 1).toUpperCase() + nome_q.substring(1).toLowerCase());
+                        viaggio.put("description", program_q); //program_q.substring(0, 1).toUpperCase() + program_q.substring(1).toLowerCase());
+                        viaggio.put("departure", from_q.substring(0,1).toUpperCase() + from_q.substring(1).toLowerCase());
+                        viaggio.put("destination", to_q.substring(0,1).toUpperCase() + to_q.substring(1).toLowerCase());
                         viaggio.put("budget", budget_q);
                         viaggio.put("startDate", departure_q);
                         viaggio.put("endDate", return_q);

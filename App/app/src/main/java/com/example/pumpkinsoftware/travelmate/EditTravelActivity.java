@@ -182,10 +182,10 @@ public class EditTravelActivity extends AppCompatActivity {
                 progressBar.setVisibility(View.VISIBLE);
 
                 // valori da passare
-                String from_q = from.getText().toString().toLowerCase();
-                String to_q = to.getText().toString().toLowerCase();
-                String nome_q = name.getText().toString().toLowerCase();
-                String program_q = descr.getText().toString().toLowerCase();
+                String from_q = from.getText().toString(); //.toLowerCase();
+                String to_q = to.getText().toString(); //.toLowerCase();
+                String nome_q = name.getText().toString(); //.toLowerCase();
+                String program_q = descr.getText().toString(); //.toLowerCase();
                 String departure_q = departure.getSetMonth() + "/" + departure.getSetDay() + "/" + departure.getSetYear();
                 String return_q = ret.getSetMonth() + "/" + ret.getSetDay() + "/" + ret.getSetYear();
 
@@ -240,23 +240,29 @@ public class EditTravelActivity extends AppCompatActivity {
                     viaggio.put("_id", trip.getId());
 
                     if (!nome_q.isEmpty() && !Utils.deleteSpaceAtStringEnd(nome_q).isEmpty() && !nome_q.equals(trip.getName())) {
-                        viaggio.put("name", nome_q.substring(0,1).toUpperCase()+nome_q.substring(1));
-                        trip.setName(nome_q.substring(0,1).toUpperCase()+nome_q.substring(1));
+                        viaggio.put("name", nome_q); //nome_q.substring(0,1).toUpperCase()+nome_q.substring(1));
+                        trip.setName(nome_q); //nome_q.substring(0,1).toUpperCase()+nome_q.substring(1));
                     }
 
                     if (!program_q.isEmpty() && !Utils.deleteSpaceAtStringEnd(program_q).isEmpty() && !program_q.equals(trip.getDescr())) {
-                        viaggio.put("description", program_q.substring(0,1).toUpperCase()+program_q.substring(1));
-                        trip.setDescr(program_q.substring(0,1).toUpperCase()+program_q.substring(1));
+                        viaggio.put("description", program_q); //program_q.substring(0,1).toUpperCase()+program_q.substring(1));
+                        trip.setDescr(program_q); //program_q.substring(0,1).toUpperCase()+program_q.substring(1));
                     }
 
-                    if (!from_q.isEmpty() && !Utils.deleteSpaceAtStringEnd(from_q).isEmpty() && !from_q.equals(trip.getDeparture())) {
-                        viaggio.put("departure", Utils.deleteSpaceAtStringEnd(from_q));
-                        trip.setDeparture(Utils.deleteSpaceAtStringEnd(from_q));
+                    from_q = Utils.deleteSpaceAtStringEnd(from_q);
+                    // SOLUZIONE PROVVISORIA PER LE CITTA' (UTILE ANCHE PER LA SEARCH)
+                    if (!from_q.isEmpty() && from_q.length()>1 && !from_q.equals(trip.getDeparture())) {
+                        from_q = from_q.substring(0,1).toUpperCase() + from_q.substring(1).toLowerCase();
+                        viaggio.put("departure", from_q);
+                        trip.setDeparture(from_q);
                     }
 
-                    if (!to_q.isEmpty() && !Utils.deleteSpaceAtStringEnd(to_q).isEmpty() && !to_q.equals(trip.getDest())) {
-                        viaggio.put("destination",Utils.deleteSpaceAtStringEnd(to_q));
-                        trip.setDest(Utils.deleteSpaceAtStringEnd(to_q));
+                    to_q = Utils.deleteSpaceAtStringEnd(to_q);
+                    // SOLUZIONE PROVVISORIA PER LE CITTA' (UTILE ANCHE PER LA SEARCH)
+                    if (!to_q.isEmpty() && to_q.length()>1 && !to_q.equals(trip.getDest())) {
+                        to_q = to_q.substring(0,1).toUpperCase() + to_q.substring(1).toLowerCase();
+                        viaggio.put("destination", to_q);
+                        trip.setDest(to_q);
                     }
 
                     if (!budget_t.isEmpty() && !Utils.deleteSpaceAtStringEnd(budget_t).isEmpty() && !budget_t.equals(trip.getBudget())) {

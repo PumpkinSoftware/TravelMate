@@ -161,11 +161,15 @@ public class AccountRegisterActivity extends AppCompatActivity {
         bio = String.valueOf(biot.getText());
         birthday = nascita.getSetMonth() + "/" + nascita.getSetDay() + "/" + nascita.getSetYear();
 
-        if (name.isEmpty() ||  Utils.deleteSpaceAtStringEnd(name).isEmpty()) {
+        name = Utils.deleteSpaceAtStringEnd(name);
+        surname = Utils.deleteSpaceAtStringEnd(surname);
+        bio = Utils.deleteSpaceAtStringEnd(bio);
+
+        if (name.isEmpty() || name.length()<2) {
             msgErrore("nome");
-        } else if (surname.isEmpty() ||  Utils.deleteSpaceAtStringEnd(surname).isEmpty()) {
+        } else if (surname.isEmpty() || surname.length()<2) {
             msgErrore("cognome");
-        } else if (bio.isEmpty() ||  Utils.deleteSpaceAtStringEnd(bio).isEmpty()) {
+        } else if (bio.isEmpty()) {
             msgErrore("una breve biografia");
         } else if (birthday.equals("-1/-1/-1")) {
             msgErrore("la data di nascita");
@@ -289,9 +293,9 @@ public class AccountRegisterActivity extends AppCompatActivity {
     private void sendRegistration() {
         JSONObject utente = new JSONObject();
         try {
-            utente.put("name", processingUpperLowerString(name));
-            utente.put("surname", processingUpperLowerString(surname));
-            utente.put("description", bio.substring(0, 1).toUpperCase() + bio.substring(1).toLowerCase());
+            utente.put("name", name.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase());
+            utente.put("surname", surname.substring(0, 1).toUpperCase() + surname.substring(1).toLowerCase());
+            utente.put("description", bio); //bio.substring(0, 1).toUpperCase() + bio.substring(1).toLowerCase());
             utente.put("birthday", birthday);
             utente.put("gender", sex);
             if (!relationship.equals("Single")) {
