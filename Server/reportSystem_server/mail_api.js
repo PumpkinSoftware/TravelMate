@@ -1,7 +1,7 @@
 var express = require('express');
-//var mongoose = require('mongoose');
-//var MailSchema = require('./Schema_mongoose/mail_schema');
 var nodemailer = require("nodemailer");
+var fs = require('fs');
+var handlebars = require('handlebars');
 
 //var database = require('./database');
 //var firebase = require("./firebase");
@@ -27,6 +27,18 @@ var transporter = nodemailer.createTransport({
         pass: ''// // mettere la passw della mail
     }
 });
+
+var readHTMLFile = function(path, callback) {
+    fs.readFile(path, {encoding: 'utf-8'}, function (err, html) {
+        if (err) {
+            throw err;
+            callback(err);
+        }
+        else {
+            callback(null, html);
+        }
+    });
+};
 
 
 /******************************************
@@ -60,13 +72,13 @@ router.get('/', function (req, res) {
 
 
 router.get('/reportUser', function (req,res){
-	var input = req.query;
+	var input = req.body;
 	
 	
 	let message = {
 		to: 'pumpkin.software.italy@gmail.com',
 		subject: '[' + input.typeReport + ']',
-		text: 'Utente segnalatore:' + input.userUid + '\nUtente segnalato:' + input.reportedUid + '\nDescrizione segnalazione:' + input.text
+		text: 'Utente segnalatore: ' + input.userUid + '\nUtente segnalato: ' + input.reportedUid + '\nDescrizione segnalazione: ' + input.text
 	}
 	
 	transporter.sendMail(message, (err, info) => {
@@ -76,11 +88,11 @@ router.get('/reportUser', function (req,res){
 			res.send(JSON.stringify({ status: "error", type: "error in sendMail" }));
         }
 		else{
-        console.log('User reported successfully!');
-        console.log(nodemailer.getTestMessageUrl(info));
-		res.send(JSON.stringify({ status: "success", type: "User Reported" }));
-        // only needed when using pooled connections
-        transporter.close();
+			console.log('User reported successfully!');
+			console.log(nodemailer.getTestMessageUrl(info));
+			res.send(JSON.stringify({ status: "success", type: "User Reported" }));
+			// only needed when using pooled connections
+			transporter.close();
 		}	
 	});
 	
@@ -93,13 +105,13 @@ router.get('/reportUser', function (req,res){
 
 
 router.get('/reportTrip', function (req,res){
-	var input = req.query;
+	var input = req.body;
 	
 	
 	let message = {
 		to: 'pumpkin.software.italy@gmail.com',
 		subject: '[' + input.typeReport + ']',
-		text: 'Utente segnalatore:' + input.userUid + '\nViaggio segnalato:' + input.reportedTripId + '\nDescrizione segnalazione:' + input.text
+		text: 'Utente segnalatore: ' + input.userUid + '\nViaggio segnalato: ' + input.reportedTripId + '\nDescrizione segnalazione: ' + input.text
 	}
 	
 	transporter.sendMail(message, (err, info) => {
@@ -109,14 +121,53 @@ router.get('/reportTrip', function (req,res){
 			res.send(JSON.stringify({ status: "error", type: "error in sendMail" }));
         }
 		else{
-        console.log('Message sent successfully!');
-        console.log(nodemailer.getTestMessageUrl(info));
-		res.send(JSON.stringify({ status: "success", type: "Trip Reported" }));
-        // only needed when using pooled connections
-        transporter.close();
+			console.log('Message sent successfully!');
+			console.log(nodemailer.getTestMessageUrl(info));
+			res.send(JSON.stringify({ status: "success", type: "Trip Reported" }));
+			// only needed when using pooled connections
+			transporter.close();
 		}	
 	});
 	
+});
+
+/*****************************************/
+
+//Api per avvisare un utente che ha violato i termini delle condizioni o ha ricevuto un ban
+//example use /violationsTerms?name=Carlo&surname=Rossi&emailUser=example@gmail.com&typeReport=violazioneTerminiCondizioni
+
+
+router.get('/violationsTerms', function (req,res){
+	var input = req.body;
+	
+	readHTMLFile(__dirname + '/template_email_html/index.html', function(err, html) {
+		var template = handlebars.compile(html);
+		var replacements = {
+			username: input.name
+		};
+		var htmlToSend = template(replacements);	
+		let message = {
+			to: input.emailUser,
+			subject: '[' + input.typeReport + ']',
+			html: htmlToSend
+			//text: 'Utente segnalatore: ' + input.userUid + '\nViaggio segnalato: ' + input.reportedTripId + '\nDescrizione segnalazione: ' + input.text
+		}
+	
+		transporter.sendMail(message, (err, info) => {
+			if (err) {
+				console.log('Error occurred in sending reportTrip');
+				console.log(err.message); 
+				res.send(JSON.stringify({ status: "error", type: "error in sendMail" }));
+			}
+			else{
+				console.log('Message sent successfully!');
+				console.log(nodemailer.getTestMessageUrl(info));
+				res.send(JSON.stringify({ status: "success", type: "Violation sent" }));
+				// only needed when using pooled connections
+				transporter.close();
+			}	
+		});
+	});
 });
 
 

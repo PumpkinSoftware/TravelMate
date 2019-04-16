@@ -3,8 +3,6 @@ var bodyParser = require('body-parser');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var helmet = require('helmet');
-//var multer = require('multer');
-//var upload = multer();
 
 var mail_api = require('./mail_api');
 
