@@ -11,7 +11,6 @@ import com.bumptech.glide.request.transition.Transition;
 import com.google.firebase.messaging.RemoteMessage;
 
 public class MyTarget extends SimpleTarget<Bitmap> implements Runnable{
-
     private final Context context;
     private final RemoteMessage remoteMessage;
     private final NotificationManager notificationManager;

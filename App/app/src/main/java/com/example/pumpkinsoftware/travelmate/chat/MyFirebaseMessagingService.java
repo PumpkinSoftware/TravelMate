@@ -25,20 +25,30 @@ import android.graphics.Color;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
+import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.NotificationCompat;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.request.transition.Transition;
 import com.example.pumpkinsoftware.travelmate.R;
 import com.example.pumpkinsoftware.travelmate.TravelDetailsActivity;
+import com.example.pumpkinsoftware.travelmate.client_server_interaction.ServerCallback;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
+import org.json.JSONObject;
+
+import java.util.Map;
 import java.util.Random;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
+    private Bitmap mBitmap;
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
@@ -92,7 +102,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         * java.lang.IllegalArgumentException: You must call this method on the main thread
         * */
         
-        Glide.with(this)
+        /*Glide.with(this)
                 .asBitmap()
                 .load(remoteMessage.getData().get("image"))
                 .apply(myOptions)
@@ -112,7 +122,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                                         .setContentTitle(this.getRemoteMessage().getData().get("title"))
                                         .setStyle(new NotificationCompat.BigPictureStyle()
                                                 .setSummaryText(this.getRemoteMessage().getData().get("message"))
-                                                .bigPicture(resource))/*Notification with Image*/
+                                                .bigPicture(resource))//Notification with Image
                                         .setContentText(this.getRemoteMessage().getData().get("message"))
                                         .setAutoCancel(true)
                                         .setSound(defaultSoundUri)
@@ -121,20 +131,66 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                         this.getNotificationManager().notify(notificationId, notificationBuilder.build());
 
                     }
-                });
+                });*/
+
+
+        final MyTarget target = new MyTarget(this, remoteMessage, notificationManager, pendingIntent);
+
+        final ServerCallback callback = new ServerCallback() {
+            @Override
+            public void onSuccess(JSONObject result) {
+                //You should use an actual ID instead
+                int notificationId = new Random().nextInt(60000);
+
+                Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+
+                Map<String, String> data = target.getRemoteMessage().getData();
+
+                NotificationCompat.Builder notificationBuilder =
+                        new NotificationCompat.Builder(MyFirebaseMessagingService.this.getApplicationContext(), "chatChannel")
+                                .setLargeIcon(mBitmap)
+                                .setSmallIcon(R.mipmap.ic_launcher)
+                                .setContentTitle(data.get("title"))
+                                .setStyle(new NotificationCompat.BigPictureStyle()
+                                        .setSummaryText(data.get("message"))
+                                        .bigPicture(mBitmap))//Notification with Image
+                                .setContentText(data.get("message"))
+                                .setAutoCancel(true)
+                                .setSound(defaultSoundUri)
+                                .setContentIntent(target.getPendingIntent());
+
+                target.getNotificationManager().notify(notificationId, notificationBuilder.build());
+            }
+        };
+
+        Glide.with(this)
+                .asBitmap()
+                .load(remoteMessage.getData().get("image"))
+                .listener(new RequestListener<Bitmap>() {
+                              @Override
+                              public boolean onLoadFailed(@Nullable GlideException e, Object o, Target<Bitmap> target, boolean b) {
+                                  return false;
+                              }
+
+                              @Override
+                              public boolean onResourceReady(Bitmap bitmap, Object o, Target<Bitmap> target, DataSource dataSource,
+                                                             boolean b) {
+                                  mBitmap = bitmap;
+                                  callback.onSuccess(null);
+                                  return false;
+                              }
+                          }
+                ).submit();
 
     }
 
     public void notificationMessage(RemoteMessage remoteMessage){
-        return;
     }
 
     public void notificationTripInformation(RemoteMessage remoteMessage){
-        return;
     }
 
     public void notificationStandard(RemoteMessage remoteMessage){
-        return;
     }
 
 
