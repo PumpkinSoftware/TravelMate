@@ -160,12 +160,13 @@ public class TravelDetailsActivity extends AppCompatActivity {
         progress = findViewById(R.id.indeterminateBar);
         progress.setVisibility(View.VISIBLE);
 
-        isFirstLoading = true;
         final ImageView imgv = (ImageView) findViewById(R.id.header_cover_image);
 
-        // img is null if I'm opening this travel from a dynamic link
-        if(img != null)
+        // img is null if I'm opening this travel from a dynamic link or a notification
+        if(img != null) {
+            isFirstLoading = true;
             loadImg(img, imgv);
+        }
 
         // TODO substitute all calls in updateLayout() to findView in private variables initialized here
         /*edit = findViewById(R.id.edit_image);

@@ -48,7 +48,9 @@ import java.util.Map;
 import java.util.Random;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
-    private Bitmap mBitmap;
+    private Bitmap mBitmap, mBitmap2;
+    private Map<String, String> data;
+    private ServerCallback callback;
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
@@ -82,8 +84,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         //Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.default_trip);
 
+        data = remoteMessage.getData();
+
         Intent likeIntent = new Intent(this,TravelDetailsActivity.class);
-        likeIntent.putExtra(TravelDetailsActivity.EXTRA_ID,remoteMessage.getData().get("tripId"));
+        likeIntent.putExtra(TravelDetailsActivity.EXTRA_ID, data.get("tripId"));
         likeIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
         final PendingIntent pendingIntent = PendingIntent.getActivity(this,
@@ -136,7 +140,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         final MyTarget target = new MyTarget(this, remoteMessage, notificationManager, pendingIntent);
 
-        final ServerCallback callback = new ServerCallback() {
+        callback = new ServerCallback() {
             @Override
             public void onSuccess(JSONObject result) {
                 //You should use an actual ID instead
@@ -144,7 +148,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
                 Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
-                Map<String, String> data = target.getRemoteMessage().getData();
+                //Map<String, String> data = target.getRemoteMessage().getData();
 
                 NotificationCompat.Builder notificationBuilder =
                         new NotificationCompat.Builder(MyFirebaseMessagingService.this.getApplicationContext(), "chatChannel")
@@ -165,7 +169,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         Glide.with(this)
                 .asBitmap()
-                .load(remoteMessage.getData().get("image"))
+                .load(data.get("image"))
                 .listener(new RequestListener<Bitmap>() {
                               @Override
                               public boolean onLoadFailed(@Nullable GlideException e, Object o, Target<Bitmap> target, boolean b) {
@@ -176,12 +180,33 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                               public boolean onResourceReady(Bitmap bitmap, Object o, Target<Bitmap> target, DataSource dataSource,
                                                              boolean b) {
                                   mBitmap = bitmap;
-                                  callback.onSuccess(null);
+                                  createBitmap2();
                                   return false;
                               }
                           }
                 ).submit();
 
+    }
+
+    private void createBitmap2() {
+        Glide.with(this)
+                .asBitmap()
+                .load(data.get("image"))
+                .listener(new RequestListener<Bitmap>() {
+                              @Override
+                              public boolean onLoadFailed(@Nullable GlideException e, Object o, Target<Bitmap> target, boolean b) {
+                                  return false;
+                              }
+
+                              @Override
+                              public boolean onResourceReady(Bitmap bitmap, Object o, Target<Bitmap> target, DataSource dataSource,
+                                                             boolean b) {
+                                  mBitmap2 = bitmap;
+                                  callback.onSuccess(null);
+                                  return false;
+                              }
+                          }
+                ).submit();
     }
 
     public void notificationMessage(RemoteMessage remoteMessage){
