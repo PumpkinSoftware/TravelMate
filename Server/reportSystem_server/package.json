@@ -16,8 +16,9 @@
     "helmet": ">=3.15.0",
     "https": ">=1.0.0",
     "morgan": ">=1.9.0",
-    "multer": ">=1.4.1",
     "nodemailer": ">=6.1.0",
+    "fs":">=0.0.2",
+    "handlebars":">=4.1.2"
     "path": ">=0.12.7"
   },
   "devDependencies": {

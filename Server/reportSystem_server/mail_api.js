@@ -143,19 +143,46 @@ router.get('/violationsTerms', function (req,res){
 	readHTMLFile(__dirname + '/template_email_html/index.html', function(err, html) {
 		var template = handlebars.compile(html);
 		var replacements = {
-			username: input.name
+			name: input.name,
+			surname: input.surname
 		};
 		var htmlToSend = template(replacements);	
 		let message = {
 			to: input.emailUser,
 			subject: '[' + input.typeReport + ']',
-			html: htmlToSend
-			//text: 'Utente segnalatore: ' + input.userUid + '\nViaggio segnalato: ' + input.reportedTripId + '\nDescrizione segnalazione: ' + input.text
+			html: htmlToSend,
+			attachments:  [
+				{
+					filename: 'soc_1.png',
+					path: __dirname + '/template_email_html/imgs/soc_1.png',
+					cid: 'soc1'
+				},
+				{
+					filename: 'soc_2.png',
+					path: __dirname + '/template_email_html/imgs/soc_2.png',
+					cid: 'soc2'
+				},
+				{
+					filename: 'soc_3.png',
+					path: __dirname + '/template_email_html/imgs/soc_3.png',
+					cid: 'soc3'
+				},
+				{
+					filename: 'logo.png',
+					path: __dirname + '/template_email_html/imgs/logo.png',
+					cid: 'logo'
+				},
+				{
+					filename: 'rad.png',
+					path: __dirname + '/template_email_html/imgs/rad.png',
+					cid: 'rad'
+				},
+			]
 		}
 	
 		transporter.sendMail(message, (err, info) => {
 			if (err) {
-				console.log('Error occurred in sending reportTrip');
+				console.log('Error occurred in sending violationsTerms');
 				console.log(err.message); 
 				res.send(JSON.stringify({ status: "error", type: "error in sendMail" }));
 			}
