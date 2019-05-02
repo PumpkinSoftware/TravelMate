@@ -12,7 +12,7 @@
 
 1. Go to Server/
 2. ``` sudo docker-compose -f docker-compose-database.yml up -d ```
-3. Go to Server/Node/
+3. Go to Server/main_server/
 4. ``` npm start ```
 5. now you can test all api implemented (use http://localhost:8095 or go to Server/ and use ``` ./test_api.sh ```)
 6. (optional) use ```./populate_database_trip.js``` to populate database with trips example
