@@ -16,7 +16,7 @@
 4. ``` npm start ```
 5. now you can test all api implemented (use http://localhost:8095 or go to Server/ and use ``` ./test_api.sh ```)
 6. (optional) use ```./populate_database_trip.js``` to populate database with trips example
-7. (optional) if you want more trip for testing, you can use api ```http://localhost:8095/trip/loadExample``` for 15000 trips!
+7. (optional) use http://localhost:8081 to open mongo express to use the MongoDB GUI
 8. When you have finished, use ```sudo docker-compose -f docker-compose-database.yml stop``` to stop all containers or use ```sudo docker-compose -f docker-compose-database.yml down``` to stop and remove containers
 
 
@@ -31,7 +31,7 @@
 
 #### Api Documentation
 
-This is a simple list, for more information read the [documentation]()
+This is a simple list, for more information read the [documentation](https://github.com/PumpkinSoftware/TravelMate/wiki)
 
 ##### General
 - Test that components work
@@ -57,14 +57,107 @@ This is a simple list, for more information read the [documentation]()
      <td>Get</td>
      <td><code>http://localhost:8095/user/</code></td> 
   </tr>
-  <tr>
-    <td>15.000 trips for testing</td>
-     <td>Get</td>
-     <td><code>http://localhost:8095/trip/loadExample</code></td> 
-  </tr>
 </table>
 
 ##### User
+
+<table style="width:100%">
+  <tr>
+    <td></td>
+    <td>TYPE</td>
+    <td>API</td>
+  </tr>
+  <tr>
+    <td>add new user</td>
+    <td>Post</td>
+    <td><code>http://localhost:8095/user/newUser</code></td> 
+  </tr>
+  <tr>
+    <td>user by email</td>
+    <td>Get</td>
+    <td><code>http://localhost:8095/user/getUserByEmail</code></td> 
+  </tr>
+  <tr>
+    <td>user by uid</td>
+    <td>Get</td>
+    <td><code>http://localhost:8095/user/getUserByUid</code></td> 
+  </tr>
+  <tr>
+    <td>user by id</td>
+    <td>Get</td>
+    <td><code>http://localhost:8095/user/getUserById</code></td> 
+  </tr>
+  <tr>
+    <td>update user</td>
+    <td>Post</td>
+    <td><code>http://localhost:8095/user/updateUser</code></td> 
+  </tr>
+  <tr>
+    <td>users by trip</td>
+    <td>Get</td>
+    <td><code>http://localhost:8095/user/getUsersByTrip</code></td> 
+  </tr>
+  <tr>
+    <td>add trip to user</td>
+    <td>Post</td>
+    <td><code>http://localhost:8095/user/addTrip</code></td> 
+  </tr>
+  <tr>
+    <td>remove trip to user</td>
+    <td>Post</td>
+    <td><code>http://localhost:8095/user/removeTrip</code></td> 
+  </tr>
+  <tr>
+    <td>remove trip by owner</td>
+    <td>Post</td>
+    <td><code>http://localhost:8095/user/removeTripByOwner</code></td> 
+  </tr>
+  <tr>
+    <td>delete user</td>
+    <td>Get</td>
+    <td><code>http://localhost:8095/user/deleteUser</code></td> 
+  </tr>
+  <tr>
+    <td>trips by user</td>
+    <td>Get</td>
+    <td><code>http://localhost:8095/user/getTripsByUser</code></td> 
+  </tr>
+  <tr>
+    <td>trips by user with split</td>
+    <td>Get</td>
+    <td><code>http://localhost:8095/user/getTripsByUserSplit</code></td> 
+  </tr>
+  <tr>
+    <td>passed trips by user</td>
+    <td>Get</td>
+    <td><code>http://localhost:8095/user/getPassedTripsByUser</code></td> 
+  </tr>
+  <tr>
+    <td>progress trips by user</td>
+    <td>Get</td>
+    <td><code>http://localhost:8095/user/getProgressTripsByUser</code></td> 
+  </tr>
+  <tr>
+    <td>change owner and remove user</td>
+    <td>Post</td>
+    <td><code>http://localhost:8095/user/changeOwnerAndRemoveLast</code></td> 
+  </tr>
+  <tr>
+    <td>add review to user</td>
+    <td>Post</td>
+    <td><code>http://localhost:8095/user/addReview</code></td> 
+  </tr>
+  <tr>
+    <td>left reviews by user</td>
+    <td>Get</td>
+    <td><code>http://localhost:8095/user/leftReviews</code></td> 
+  </tr>
+  <tr>
+    <td>number of left reviews by user</td>
+    <td>Get</td>
+    <td><code>http://localhost:8095/user/leftReviewsNumbers</code></td> 
+  </tr>
+</table>
 
 ##### Trip
 
@@ -80,35 +173,29 @@ This is a simple list, for more information read the [documentation]()
     <td><code>http://localhost:8095/trip/newTrip</code></td> 
   </tr>
   <tr>
+    <td>last trip created</td>
+    <td>Get</td>
+    <td><code>http://localhost:8095/trip/lastTripsCreatedWithUser</code></td> 
+  </tr>
+  <tr>
+    <td>trips filter</td>
+    <td>Get</td>
+    <td><code>http://localhost:8095/trip/getTripsWithFilter</code></td> 
+  </tr>
+  <tr>
     <td>update trip</td>
     <td>Post</td>
     <td><code>http://localhost:8095/trip/updateTrip</code></td> 
   </tr>
   <tr>
     <td>delete trip</td>
-    <td>get</td>
+    <td>Get</td>
     <td><code>http://localhost:8095/trip/deleteTrip</code></td> 
   </tr>
   <tr>
-    <tr>
-    <td>add partecipant to trip</td>
-    <td>Post</td>
-    <td><code>http://localhost:8095/trip/addPartecipant</code></td> 
-  </tr>
-  <tr>
-    <td>remove partecipant to trip</td>
-    <td>Post</td>
-    <td><code>http://localhost:8095/trip/removePartecipant</code></td> 
-  </tr>
-  <tr>
-    <td>get all trips</td>
+    <td>trips with user</td>
     <td>Get</td>
-    <td><code>http://localhost:8095/trip/allTrips</code></td> 
-  </tr>
-  <tr>
-    <td>get trips with filter</td>
-    <td>Get</td>
-    <td><code>http://localhost:8095/trip/getTripsWithFilter</code></td> 
+    <td><code>http://localhost:8095/trip/getTripByIdWithUsers</code></td> 
   </tr>
   <tr>
     <td>get one trip by id</td>
