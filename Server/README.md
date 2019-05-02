@@ -34,7 +34,6 @@
 This is a simple list, for more information read the [documentation](https://github.com/PumpkinSoftware/TravelMate/wiki)
 
 ##### General
-- Test that components work
 
   <table style="width:100%">
   <tr>
