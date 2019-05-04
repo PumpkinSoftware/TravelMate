@@ -72,7 +72,8 @@
             android:ems="10"
             android:nextFocusForward="@+id/password"
             android:textColor="@color/white"
-            android:textSize="16dp" />
+            android:textSize="16dp"
+            android:maxLength="50"  />
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
@@ -99,7 +100,8 @@
             android:nextFocusForward="@+id/password"
             android:textColor="@color/white"
             android:textSize="16dp"
-            android:drawableStart="@drawable/ic_baseline_lock_24px" />
+            android:drawableStart="@drawable/ic_baseline_lock_24px"
+            android:maxLength="30"  />
     </android.support.design.widget.TextInputLayout>
 
     <Button

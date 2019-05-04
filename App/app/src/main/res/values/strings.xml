@@ -19,6 +19,9 @@
     <string name="or">Or</string>
     <string name="register">Registration</string>
     <string name="mail">Mail</string>
+    <string name="personName">Nome</string>
+    <string name="personSurname">Cognome</string>
+    <string name="personBio">Biografia</string>
 
     <!-- Facebook application ID and custom URL scheme (app ID prefixed by 'fb'). -->
     <!--<string name="facebook_application_id" translatable="false">YOUR_APP_ID</string>
@@ -41,7 +44,7 @@
     <!-- Travel page-->
     <string name="travel_title">I tuoi eventi</string>
 
-    <!-- Search and Creation -->
+    <!-- Search and Trip creation -->
     <string name="search_hint">Search</string>
     <string name="place">Luoghi</string>
     <string name="from">Partenza</string>

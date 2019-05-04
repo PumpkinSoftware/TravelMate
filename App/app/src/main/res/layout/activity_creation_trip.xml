@@ -70,7 +70,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZàèéùòì' "
-                    android:hint="@string/from" />
+                    android:hint="@string/from"
+                    android:maxLength="30"  />
             </android.support.design.widget.TextInputLayout>
 
             <ImageView
@@ -101,7 +102,8 @@
                     android:layout_height="match_parent"
                     android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZàèéùòì' "
                     android:hint="@string/to"
-                    android:inputType="textFilter" />
+                    android:inputType="textFilter"
+                    android:maxLength="30"  />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -301,7 +303,7 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/plan_text"
                     android:maxLength="250"
-                    android:layout_marginEnd="13dp"/>
+                    android:layout_marginEnd="13dp" />
             </android.support.design.widget.TextInputLayout>
 
 
@@ -332,10 +334,9 @@
                     android:layout_height="wrap_content"
                     android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456879àèéùòì'().,;:!?+-@°%$ "
                     android:hint="@string/name_text"
-                    android:layout_marginEnd="13dp"/>
+                    android:layout_marginEnd="13dp"
+                    android:maxLength="50" />
             </android.support.design.widget.TextInputLayout>
-            <!--
-                android:maxLength="35"-->
 
 
             <!-- Tag -->
