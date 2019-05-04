@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -51,7 +52,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class AccountRegisterActivity extends AppCompatActivity {
     private String mail, pass, name, surname, bio, birthday, sex = "", relationship = "";
-    private EditText namet, surnamet, biot;
+    private TextInputEditText namet, surnamet, biot;
     private CircleImageView profile;
     private ImageView cover;
     private Button confirm;
@@ -111,9 +112,9 @@ public class AccountRegisterActivity extends AppCompatActivity {
         final EditText mailView = findViewById(R.id.email2_r);
         mailView.setText(mail);
 
-        namet = (EditText) findViewById(R.id.name_r);
-        surnamet = (EditText) findViewById(R.id.surname_r);
-        biot = (EditText) findViewById(R.id.bio_r);
+        namet    = findViewById(R.id.name_r);
+        surnamet = findViewById(R.id.surname_r);
+        biot     = findViewById(R.id.bio_r);
 
         calendar = Calendar.getInstance();
         calendar.add(Calendar.YEAR, -18);
