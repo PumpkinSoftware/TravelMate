@@ -111,6 +111,7 @@ Our new [lean canvas](https://drive.google.com/open?id=1-YFVW34GKotdYSNgloh9w1yy
 
 Some users who have tested the app:
 - [Antonio](https://drive.google.com/open?id=1cE-sXsv1zZw4ag8Smd-_22jGz6Pp-rri)
+- [Massimiliano](https://drive.google.com/file/d/1qP72akZh4NJilSN3TPHvf2FUDnO1_EDq/view?usp=sharing)
 
 <a href="https://play.google.com/store/apps/details?id=com.pumpkinsoftware.android.travelmate">
 <img src="https://github.com/steverichey/google-play-badge-svg/blob/master/img/en_get.svg" height="25%" width="25%" data-canonical-src="https://github.com/steverichey/google-play-badge-svg/blob/master/img/en_get.svg" style="max-width:100%;"></a>
