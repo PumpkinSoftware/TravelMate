@@ -33,27 +33,27 @@ Google Workshop 2018/2019
 #
 
 ### Team
-- Appolloni Alessandro ( *The Connector* )
+- #### Appolloni Alessandro ( *The Connector* )
   - Server Development
   - Presentation Maker
   - Feature Analysis
   
-- Asta Andrea ( *The Doer* )
+- #### Asta Andrea ( *The Doer* )
   - Application Development
   - Competitors Analysis
   - Mockup Designer
   
-- Bertoldo Romeo ( *The Dreamer* )
+- #### Bertoldo Romeo ( *The Dreamer* )
   - Server Development
   - Designer
   - Project Manager
   
-- Fardin Ivan ( *The Visionary* )
+- #### Fardin Ivan ( *The Visionary* )
   - Application Development
   - Application Performance
   - User Experience Analysis
   
-- Fusco Stefano ( *The Architect* )
+- #### Fusco Stefano ( *The Architect* )
   - Server Development
   - Database Manager
   - Social Manager
@@ -114,6 +114,8 @@ Some users who have tested the app:
 
 <a href="https://play.google.com/store/apps/details?id=com.pumpkinsoftware.android.travelmate">
 <img src="https://github.com/steverichey/google-play-badge-svg/blob/master/img/en_get.svg" height="25%" width="25%" data-canonical-src="https://github.com/steverichey/google-play-badge-svg/blob/master/img/en_get.svg" style="max-width:100%;"></a>
+
+#
 
 ### Final submission
 [Documentation]() (live version, last update 08/05/2019)
