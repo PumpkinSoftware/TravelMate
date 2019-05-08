@@ -101,11 +101,11 @@ A simple [demo](https://drive.google.com/open?id=1K-ZEaC_r1J8gpsqspcZJKAD19v7pjH
 
 #
 
-### Milestone 3 -  April 2019
+### Milestone 3 -  May 2019
 
 [Presentation - Final]()
 
-Fifth survey: we asked some [questions]() about user experience. There are their answers [here]()
+Fifth survey: we asked some [questions](https://forms.gle/mAYfggVzWPzDuMgu5) about user experience. There are their answers [here]()
 
 Our new [lean canvas](https://drive.google.com/open?id=1-YFVW34GKotdYSNgloh9w1yyDxxQF9Nl)
 
@@ -115,5 +115,5 @@ Some users who have tested the app:
 <a href="https://play.google.com/store/apps/details?id=com.pumpkinsoftware.android.travelmate">
 <img src="https://github.com/steverichey/google-play-badge-svg/blob/master/img/en_get.svg" height="25%" width="25%" data-canonical-src="https://github.com/steverichey/google-play-badge-svg/blob/master/img/en_get.svg" style="max-width:100%;"></a>
 
-### Final submission - 
-[Documentation]() (live version, work in progress...)
+### Final submission
+[Documentation]() (live version, last update 08/05/2019)
