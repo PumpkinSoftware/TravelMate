@@ -103,7 +103,7 @@ A simple [demo](https://drive.google.com/open?id=1K-ZEaC_r1J8gpsqspcZJKAD19v7pjH
 
 ### Milestone 3 -  May 2019
 
-[Presentation - Final]()
+[Presentation - Final](https://docs.google.com/presentation/d/1uXIT60bPtvt3laxgjjbDZ8w6m7OmuGbwOJ5D7ost9oY/edit?usp=sharing)
 
 Fifth survey: we asked some [questions](https://forms.gle/mAYfggVzWPzDuMgu5) about user experience. There are their answers [here](https://drive.google.com/file/d/1SSl3unZy1YEb2g-QqWciekT7nk5OErfO/view?usp=sharing)
 
