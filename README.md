@@ -119,4 +119,4 @@ Some users who have tested the app:
 #
 
 ### Final submission
-[Documentation]() (live version, last update 08/05/2019)
+[Documentation](https://docs.google.com/document/d/1CPTtd12NKfd9NBkUGc7-MG7uZ4WFLXonliKg7Jp6yLk/edit?usp=sharing) (live version, last update 15/05/2019)
