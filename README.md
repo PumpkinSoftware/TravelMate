@@ -59,9 +59,15 @@ Google Workshop 2018/2019
   - Social Manager
 #
 
-### Previous Versions
+### Installation
+Our app is available on Google Play, so it's highly recommended to download it from the store
 
-Try our app on an Android device (required 4.4+)  
+<a href="https://play.google.com/store/apps/details?id=com.pumpkinsoftware.android.travelmate">
+<img src="https://github.com/steverichey/google-play-badge-svg/blob/master/img/en_get.svg" height="25%" width="25%" data-canonical-src="https://github.com/steverichey/google-play-badge-svg/blob/master/img/en_get.svg" style="max-width:100%;"></a>
+
+##### Previous Versions
+
+If you want to see our app development, here you can find apks for some of our previous versions for Android devices (required 4.4+):  
 
 - [nightly build 0.0.2 20-01-19](https://drive.google.com/open?id=1vp7uVcpmBNS2wkGoWhwFAd-crvXKsXCw)
 - [nightly build 0.0.9 02-02-19](https://drive.google.com/open?id=1VwBlZIPMTqY7LjXkmfBGhnZ29lPin_dd) 
@@ -119,4 +125,4 @@ Some users who have tested the app:
 #
 
 ### Final submission
-[Documentation](https://docs.google.com/document/d/1CPTtd12NKfd9NBkUGc7-MG7uZ4WFLXonliKg7Jp6yLk/edit?usp=sharing) (live version, last update 15/05/2019)
+[Documentation](https://docs.google.com/document/d/1CPTtd12NKfd9NBkUGc7-MG7uZ4WFLXonliKg7Jp6yLk/edit?usp=sharing) (live version, last update 19/09/2019)
